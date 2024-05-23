@@ -1,0 +1,86 @@
+/* **************Custom properties************** */
+:root{
+    --firts-color:rgb(197,54,120);
+    
+    --second-color:rgb(255,87,51);
+    --third-color:rgb(0,0,0);
+    
+
+    --link-color:rgb(80,158,227);
+    --link-alpha-color:rgb(80,158,227,0.75);
+
+    
+
+    
+}
+
+
+/* **************Resest Styles************** */
+body{
+    font-family:"Poppins", sans-serif;
+    
+}
+
+/* ************** Boostrap Styles ************** */
+.navbar-brand img{
+    height: 6rem;
+    width: auto;
+}
+
+.nav-link {
+    color: var(--firts-color);
+    padding-top: 1.3rem;
+    margin-right: 2rem;
+}
+
+.nav-link:hover {
+    color: var(--bs-black);
+}
+
+.bg-primary {
+    background-color: var(--firts-color) !important;
+}
+
+.btn-light {
+    background-color: var(--firts-color) ;
+    color: var(--bs-white);
+    padding-top: 1.3rem;
+    padding-bottom: 1.3rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+
+    
+}
+
+/* **************My Styles************** */
+
+@media (min-width: 576px){
+
+}
+
+@media (min-width: 768px){
+    
+}
+
+@media (min-width: 992px){
+    
+}
+
+@media (min-width: 1200px){
+    
+}
+
+@media (min-width: 1400px){
+    
+}
+
+.spacer {
+    aspect-ratio: 960/464;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+.layer1 {
+    background-image: url(../img/wave-haikei_16_9.svg);
+}
