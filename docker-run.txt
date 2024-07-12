@@ -1,0 +1,2 @@
+docker run --name Grupo4-korner --env=MYSQL_ROOT_PASSWORD=password --env=MYSQL_DATABASE=korner --env=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin --env=GOSU_VERSION=1.17 --env=MYSQL_MAJOR=innovation --env=MYSQL_VERSION=9.0.0-1.el9 --env=MYSQL_SHELL_VERSION=9.0.0-1.el9 --volume=/var/lib/mysql --network=bridge -p 3309:3306 -p 33090:33060 --restart=no --runtime=runc -d mysql:latest
+
