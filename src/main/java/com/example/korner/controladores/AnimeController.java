@@ -36,17 +36,17 @@ public class AnimeController {
     }
 
 
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     public String delete(Animes anime){
         animeService.deleteEntity(anime);
-        return "redirect:/peliculas";
+        return "redirect:/animes";
     }
 
 
-    @DeleteMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String deleteId(@PathVariable Integer id){
         animeService.deleteEntityById(id);
-        return "redirect:/peliculas";
+        return "redirect:/animes";
     }
 
 }
