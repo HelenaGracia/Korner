@@ -204,6 +204,11 @@ nav li a img{
     height: 154px;
     object-fit: cover;
 }
+.custom-section-image {
+    width: 380px;
+    height: 154px;
+    object-fit: cover;
+}
 /* Imagenes de Secciones - Libros*/
 .custom-section-books-image {
     width: 50%;
@@ -260,14 +265,16 @@ nav li a img{
 /* Boton de Secciones - Añadir */
 .btn-section-add {
     background-color: var(--second-color) ;
-    color: var(--bs-white); 
+    color: var(--bs-white);
     width: auto;
     border-radius: 7px;
     padding: 15px 70px;
     font-weight: bolder;
     display: inline-block;
     border: solid transparent;
-    margin-left: 30px; margin-right: 60px;    
+    margin-left: 30px;
+    margin-right: 60px;
+    margin-top: 5px;
 }
 .btn-section-add:hover {
     background-color: var(--bs-white) ;
@@ -286,7 +293,7 @@ nav li a img{
   font-weight: bolder;
   display: inline-block;
   border: solid transparent;    
-  margin-top: 5px;    
+  margin-top: 15px;
 }
 .btn-section-searchbar:hover {
   background-color: var(--bs-white) ;
@@ -302,15 +309,16 @@ nav li a img{
 
 /* Barra de Búsqueda de Secciones */
 .search-input {
-    border: 2px solid var(--firts-color); 
+    border: 2px solid var(--firts-color);
     padding: 10px 20px;
     font-size: 16px;
     background-color: #ffffff;
     color: #333;
     transition: border-color 0.3s, box-shadow 0.3s;
-    margin-top: 5px;
+    margin-top: 15px;
     margin-left: 5px;
-  }
+    border-radius: 2px;
+}
   
   .search-input:focus {
     border-color:rgb(255, 70, 156);
@@ -407,7 +415,197 @@ nav li a img{
     background-position: center;
     margin-left: 10px;
   }
-  
+
+/*********** Estilos Alvaro **********/
+
+
+/* botones perfil*/
+
+.nombre-perfil{
+    text-decoration: none;
+    color: black;
+    margin-left: 7.8rem;
+}
+
+.boton-perfil{
+    height: 4.375rem;
+    width: 90%;
+    outline: solid 1px;
+    text-align: center;
+    margin-top: 10%;
+    margin-left: 5%;
+    border-radius: 0.625rem;
+    padding: 1.5em;
+
+}
+.img-perfil{
+    height: 12rem;
+    width: auto;
+    clip-path: circle();
+    margin-left: 6rem;
+    margin-right: 6rem;
+}
+
+/* Seccion Amigos*/
+.caja1{
+    text-align: center;
+    outline: solid 1px var(--firts-color) ;
+    min-height: 6rem;
+    margin-bottom: 1rem;
+}
+.bordenombre:focus{
+    box-shadow:0 0 0 .25rem rgb(197,54,120, 25%) ;
+    border-color: var(--firts-color);
+
+
+}
+
+.caja-amigos{
+    outline: solid 1px var(--firts-color);
+    margin-bottom: 1rem;
+}
+
+.titulo-caja{
+    margin-top: 0.5rem;
+    text-align: center;
+}
+
+.glow-text:focus {
+    border-color: var(--firts-color);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(239, 104, 205, 0.6);
+    outline: 0 none;
+}
+
+.solicitud-amistad{
+    outline: solid 1px var(--firts-color);
+    height: 2.25rem;
+    border-radius: 0.625rem;
+    padding:2px;
+
+}
+.imgsolicitud{
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+}
+
+.btn-caja{
+    width: 3.5rem;
+    margin-top: 0.2rem;
+}
+
+.card-amigos{
+    --bs-card-border-color: var(--firts-color);
+    box-shadow: 0 0.3rem 0.6rem rgba(0,0,0,0.2);
+    border-radius: 1rem;
+    width: 9rem;
+}
+
+.icono-card-amigos{
+    position: absolute;
+    right: 0.4rem;
+    top: 0.5rem;
+
+}
+
+.img-card-amigos{
+    width: 4.5rem;
+    height: auto;
+    border-radius: 50%;
+    margin: 1rem 2.25rem;
+}
+
+.caja-conectados-chat {
+    text-decoration: none;
+    color: black;
+}
+
+.caja-estado{
+    outline: solid 1px var(--firts-color);
+    margin-bottom: 1rem;
+    margin-left:1rem;
+    margin-right:1rem;
+}
+
+.texto-estado{
+    font-size:0.7rem;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.conectado {
+    background-color: #5EA226;
+    border-radius: 50%;
+    display: inline-block;
+    width: 0.7rem;
+    height: 0.7rem;
+}
+
+.desconectado {
+    background-color: #898a87;
+    border-radius: 50%;
+    display: inline-block;
+    width: 0.7rem;
+    height: 0.7rem;
+}
+
+.ausente {
+    background-color: #cf741e;
+    border-radius: 50%;
+    display: inline-block;
+    width: 0.7rem;
+    height: 0.7rem;
+}
+
+.icono-chat{
+    position: fixed;
+    right:0.625rem;
+    bottom:0.625rem;
+
+}
+.desplegable-amigos{
+    min-width: 6rem;
+    width: 6.5rem;
+    height: 5rem;
+    text-align: center;
+}
+
+/* Seccion Chat desplegable*/
+.cajadrop-desplegable{
+    width: 15rem;
+    height: 28rem;
+    transform: translate(-20rem, -2rem);
+}
+.cajadrop-dentro{
+    outline: solid 1px var(--firts-color);
+    margin: auto;
+    margin-bottom: 0.5rem;
+
+}
+.cajadrop-chat{
+    outline: solid 1px var(--firts-color);
+    height: 40%;
+    margin-right: 0.5rem;
+    margin-top: 1.2rem;
+}
+.imgdrop-chat{
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    margin-left: 0.5rem;
+    margin-bottom: 0.2rem;
+}
+
+.clickchat:active{
+    background-color: white;
+    color: black;
+}
+
+.btn-bloq{
+    background-color: rgb(255,87,51);
+    border-color: pink;
+}
+
 
 
 
@@ -415,8 +613,17 @@ nav li a img{
 
 }
 
+@media (min-width: 768px) and (max-width: 992px){
+    .btn-caja{
+        width: 2.188rem;
+
+    }
+}
+
 @media (min-width: 768px){
-    
+    .caja-botones{
+        padding: 0;
+    }
 }
 
 @media (min-width: 992px){

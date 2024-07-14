@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Korner</title>
+  <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css}" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"/>
+  <link rel="preconnect" th:href="@{https://fonts.googleapis.com}"/>
+  <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css}"/>
+  <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin/>
+  <link th:href="@{https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap}" rel="stylesheet"/>
+  <link rel="stylesheet" th:href="@{/style.css}"/>
+  <link rel="icon" th:href="@{/img/favicon.ico}"/>
+</head>
+  <body>
+        <header>
+             <nav class="navbar sticky-top navbar-expand-lg bg-primary" >
+                <div class="container">
+                  <a class="navbar-brand" href="home.html">
+                    <img th:src="@{/img/Logo.png}" alt="logo Korner">
+                  </a>
+                  <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div class="collapse navbar-collapse  justify-content-evenly" id="navbarNav">
+                    <ul class="navbar-nav">
+                      <li class="nav-item mt-lg-3 me-lg-5 ">
+                        <a class="nav-link" href="peliculas.html">Peliculas</a>
+                      </li>
+                      <li class="nav-item mt-lg-3 me-lg-5">
+                        <a class="nav-link" href="videojuegos.html">Videojuegos</a>
+                      </li>
+                      <li class="nav-item mt-lg-3 me-lg-5">
+                        <a class="nav-link" href="series.html">Series</a>
+                      </li>
+                      <li class="nav-item mt-lg-3 me-lg-5">
+                        <a class="nav-link" href="libros.html">Libros</a>
+                      </li>
+                      <li class="nav-item mt-lg-3 me-lg-5 ">
+                        <a class="nav-link" href="animes.html">Animes</a>
+                      </li>
+                      <li class="nav-item ms-lg-5">
+                        <a class="" href="#" role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                            <img th:src="@{/img/Nevernight.jpg}" alt="imagen perfil" >
+                        </a>
+                      </li>
+                      <li class="nav-item mt-lg-4 ms-lg-4">
+                          <a href="#" role="button" class="position-relative" data-bs-toggle="modal" data-bs-target="#modal-noti">
+                            <span class="position-absolute top-0  start-100 translate-middle badge rounded-pill bg-danger">9</span>
+                            <i class="bi bi-bell fs-3 text-black"></i>
+                            <span class="visually-hidden">Notificaciones no leidas</span>
+                          </a>    
+                      </li>
+                    </ul>   
+                  </div>
+                </div>
+             </nav>
+        </header>
+        <!-- Modal Notificaciones -->
+        <div class="modal fade" id="modal-noti" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="staticBackdropLabel">Notificaciones</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  ...
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Understood</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- OffCanvas Perfil -->
+          <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasRightLabel">Perfil</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              <ul>
+                <img th:src="@{/img/Nevernight.jpg}" alt="imagen perfil" class="img-perfil" />
+                <a href="" class="nombre-perfil" >VictorMer</a>
+                <a href="ajustes.html" class="btn btn-primary boton-perfil" >Ajustes</a>
+                <a href="amigos.html" class="btn btn-primary boton-perfil" >Amigos</a>
+                <a href="" class="btn btn-primary boton-perfil" >Cerrar sesión</a>
+              </ul>
+            </div>
+          </div>
+        <!-------Main Cuerpo----------->
+        <main class="pt-5">
+          <div class="container">
+            <section class="row align-items-center">  
+        
+        <!-- Cuadro añadir amigos-->
+
+              <article class="caja1 col-12 col-sm-5">
+                <h6 class="titulo-caja">Añadir Amigos</h6>
+                <div class="row p-2">
+                  <div class="col-8 col-sm-12 col-md-8">
+                    <input type="text" class="form-control text-center mx-auto bordenombre" placeholder="Escribir Nombre" aria-label="Escribir Nombre">
+                  </div>
+                  <div class="col-4 col-sm-12 col-md-4">
+                    <input type="button" class="btn btn-primary btn-sm mx-auto" style="margin-top: 0.2rem;" value="Enviar" />
+                  </div>
+                </div>
+              </article>
+
+        <!-- cuadro Nueva solicitud de amistad-->
+
+              <article class="caja1 col-12 col-sm-5 offset-sm-2">
+                <h6 class="titulo-caja">Nueva solicitud de amistad</h6>
+                <div class="row p-2">
+                    <div class="col-8 col-sm-12 col-md-8">
+                      <div class="solicitud-amistad mx-auto">
+                        <img th:src="@{/img/op.png}" alt="imagen perfil" class="imgsolicitud" />
+                        <span class=" mx-auto">Carri1608</span>
+                      </div>
+                    </div>
+                    <div class="col-4 col-sm-12 col-md-4 caja-botones " >
+                      <button class="btn btn-primary btn-sm btn-caja mx-auto ">
+                        <i class="bi bi-check-lg"></i>
+                      </button>
+                      <button class="btn btn-primary btn-sm btn-caja mx-auto">
+                        <i class="bi bi-x-lg"></i>
+                      </button>
+                    </div>
+                </div>
+              </article>    
+              
+
+              <!---------Seccion Conectados----------->
+              <article class="caja-amigos">
+                <h6 class="titulo-caja">Conectados</h6>
+                <div class="row"> 
+
+                  <div class="col-6 col-sm-4 col-lg-2">
+                      <div class="card card-amigos mx-auto mb-3 ">
+                        <div class="icono-card-amigos">
+                          <a href="#" class="caja-conectados-chat" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-three-dots-vertical"></i>
+                          </a>
+                          <ul class="dropdown-menu desplegable-amigos" >
+                            <li><button class="dropdown-item clickchat" type="button" data-bs-toggle="modal" data-bs-target="#ModalEliminar" > 
+                              Eliminar</button>
+                              
+                            </li>
+                            <li><a class="dropdown-item clickchat" href="#"> <span class="">Bloquear</span></a>
+                              
+                            </li>
+                          </ul>
+                        </div>
+                        
+                        <a class= " caja-conectados-chat" href="#" >
+                          <img src="../static/img/lilo.jpg" class="card-img-top img-card-amigos" alt="imagenperfil">
+                          <div>
+                            <h6 class="card-title text-center">Juanma25</h6>
+                            <div class="caja-estado text-center">
+                              <span class="conectado"></span>
+                              <p class="text-center texto-estado" style="display: inline-block">Online</p>
+                              <p class="text-center texto-estado">Disponible</p>
+                            </div>
+                          </div>
+                        </a>
+                      </div>                   
+                  </div>
+                           
+                  <div class="col-6 col-sm-4 col-lg-2">
+                    <div class="card card-amigos mx-auto mb-3">
+                      <img src="../static/img/3.jpg" class="card-img-top img-card-amigos" alt="imagenperfil">
+                      <div>
+                        <h6 class="card-title text-center">Alvaro_37</h6>
+                        <div class="caja-estado text-center">
+                          <span class="conectado"></span>
+                          <p class="text-center texto-estado" style="display: inline-block">Online</p>
+                          <p class="text-center texto-estado">Disponible</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                           
+                                        
+                  <div class="col-6 col-sm-4 col-lg-2">
+                    <div class="card card-amigos mx-auto mb-3">
+                      <img src="../static/img/goku.jpg" class="card-img-top img-card-amigos" alt="imagenperfil">
+                      <div>
+                        <h6 class="card-title text-center">Natalia32</h6>
+                        <div class="caja-estado text-center">
+                          <span class="ausente"></span>
+                          <p class="text-center texto-estado" style="display: inline-block">Ausente</p>
+                          <p class="text-center texto-estado">Ahora vuelvo</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                         
+                  <div class="col-6 col-sm-4 col-lg-2">
+                    <div class="card card-amigos mx-auto mb-3">
+                      <img src="../static/img/levi.jpg" class="card-img-top img-card-amigos" alt="imagenperfil">
+                      <div>
+                        <h6 class="card-title text-center">Rafa_45</h6>
+                        <div class="caja-estado text-center">
+                          <span class="conectado"></span>
+                          <p class="text-center texto-estado" style="display: inline-block">Online</p>
+                          <p class="text-center texto-estado">Disponible</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                           
+                                        
+                  <div class="col-6 col-sm-4 col-lg-2">
+                    <div class="card card-amigos mx-auto mb-3">
+                      <img src="../static/img/4.jpg" class="card-img-top img-card-amigos" alt="imagenperfil">
+                      <div>
+                        <h6 class="card-title text-center">Mariia</h6>
+                        <div class="caja-estado text-center">
+                          <span class="ausente"></span>
+                          <p class="text-center texto-estado" style="display: inline-block">Ausente</p>
+                          <p class="text-center texto-estado">No Disponible</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                                    
+                  <div class="col-6 col-sm-4 col-lg-2">
+                    <div class="card card-amigos mx-auto mb-3">
+                    <img src="../static/img/aot.jpg" class="card-img-top img-card-amigos" alt="imagenperfil">
+                      <div>
+                        <h6 class="card-title text-center">Jose12</h6>
+                        <div class="caja-estado text-center">
+                          <span class="conectado"></span>
+                          <p class="text-center texto-estado" style="display: inline-block">Online</p>
+                          <p class="text-center texto-estado">Disponible</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>      
+                </div>
+              </article>
+            
+
+              <!---------Seccion Desconectados----------->
+              <article class="caja-amigos">
+                  <h6 class="titulo-caja">Desconectados</h6>
+                  <div class="row">
+                                        
+                    <div class="col-6 col-sm-4 col-lg-2">
+                      <div class="card card-amigos mx-auto mb-3">
+                        <img src="../static/img/opm.png" class="card-img-top img-card-amigos" alt="imagenperfil">
+                        <div>
+                          <h6 class="card-title text-center">Pedrito5</h6>
+                          <div class="caja-estado text-center">
+                            <span class="desconectado"></span>
+                            <p class="text-center texto-estado" style="display: inline-block">Desconectado</p>
+                            <p class="text-center texto-estado">Última conexión hace 2 horas</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                                        
+                    <div class="col-6 col-sm-4 col-lg-2">
+                      <div class="card card-amigos mx-auto mb-3">
+                        <img src="../static/img/galletas.png" class="card-img-top img-card-amigos" alt="imagenperfil">
+                        <div>
+                          <h6 class="card-title text-center">Alii_Aset</h6>
+                          <div class="caja-estado text-center">
+                            <span class="desconectado"></span>
+                            <p class="text-center texto-estado" style="display: inline-block">Desconectado</p>
+                            <p class="text-center texto-estado">Última conexión hace 3 horas</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                                        
+                    <div class="col-6 col-sm-4 col-lg-2">
+                      <div class="card card-amigos mx-auto mb-3">
+                        <img src="../static/img/coco-PNG.png" class="card-img-top img-card-amigos" alt="imagenperfil">
+                        <div>
+                          <h6 class="card-title text-center">Antonio12</h6>
+                          <div class="caja-estado text-center">
+                            <span class="desconectado"></span>
+                            <p class="text-center texto-estado" style="display: inline-block">Desconectado</p>
+                            <p class="text-center texto-estado">Última conexión hace 2 días</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="col-6 col-sm-4 col-lg-2">
+                      <div class="card card-amigos mx-auto mb-3">
+                        <img src="../static/img/cca.jpg" class="card-img-top img-card-amigos" alt="imagenperfil">
+                        <div>
+                          <h6 class="card-title text-center">ManuWada</h6>
+                          <div class="caja-estado text-center">
+                            <span class="desconectado"></span>
+                            <p class="text-center texto-estado" style="display: inline-block">Desconectado</p>
+                            <p class="text-center texto-estado">Última conexión hace 5 días</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="col-6 col-sm-4 col-lg-2">
+                      <div class="card card-amigos mx-auto mb-3">
+                        <img src="../static/img/shi.jpg" class="card-img-top img-card-amigos" alt="imagenperfil">
+                        <div>
+                          <h6 class="card-title text-center">NoeNayo</h6>
+                          <div class="caja-estado text-center">
+                            <span class="desconectado"></span>
+                            <p class="text-center texto-estado" style="display: inline-block">Desconectado</p>
+                            <p class="text-center texto-estado">Última conexión hace 12 días</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="col-6 col-sm-4 col-lg-2">
+                      <div class="card card-amigos mx-auto mb-3">
+                        <img src="../static/img/pacman.jpg" class="card-img-top img-card-amigos" alt="imagenperfil">
+                        <div>
+                          <h6 class="card-title text-center">Lucialuz</h6>
+                          <div class="caja-estado text-center">
+                            <span class="desconectado"></span>
+                            <p class="text-center texto-estado" style="display: inline-block">Desconectado</p>
+                            <p class="text-center texto-estado">Última conexión hace 20 días</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+  
+                  </div>
+              </article>
+
+              <!---------Seccion Bloqueados----------->
+              <article id="seccionbloq" class="caja-amigos" style="display: none;">
+                <h6 class="titulo-caja">Bloqueados</h6>
+                <div class="row">
+                                      
+                  <div class="col-6 col-sm-4 col-lg-2">
+                    <div class="card card-amigos mx-auto mb-3">
+                      <img src="../static/img/animal1.png" class="card-img-top img-card-amigos" alt="imagenperfil">
+                      <div>
+                        <h6 class="card-title text-center">Juan2</h6>
+                        <div class="caja-estado text-center">
+                          <span class="desconectado"></span>
+                          <p class="text-center texto-estado" style="display: inline-block">Desconectado</p>
+                          <p class="text-center texto-estado">Bloqueado hace 3 horas</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                                      
+                  <div class="col-6 col-sm-4 col-lg-2">
+                    <div class="card card-amigos mx-auto mb-3">
+                      <img src="../static/img/pig.jpg" class="card-img-top img-card-amigos" alt="imagenperfil">
+                      <div>
+                        <h6 class="card-title text-center">AlbertoBr</h6>
+                        <div class="caja-estado text-center">
+                          <span class="desconectado"></span>
+                          <p class="text-center texto-estado" style="display: inline-block">Desconectado</p>
+                          <p class="text-center texto-estado">Bloqueado hace 20 horas</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                                      
+                  <div class="col-6 col-sm-4 col-lg-2">
+                    <div class="card card-amigos mx-auto mb-3">
+                      <img src="../static/img/crash.png" class="card-img-top img-card-amigos" alt="imagenperfil">
+                      <div>
+                        <h6 class="card-title text-center">Rachel</h6>
+                        <div class="caja-estado text-center">
+                          <span class="desconectado"></span>
+                          <p class="text-center texto-estado" style="display: inline-block">Desconectado</p>
+                          <p class="text-center texto-estado">Bloqueado hace 2 días</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="col-6 col-sm-4 col-lg-2">
+                    <div class="card card-amigos mx-auto mb-3">
+                      <img src="../static/img/gojo.jpg" class="card-img-top img-card-amigos" alt="imagenperfil">
+                      <div>
+                        <h6 class="card-title text-center">Mermer</h6>
+                        <div class="caja-estado text-center">
+                          <span class="desconectado"></span>
+                          <p class="text-center texto-estado" style="display: inline-block">Desconectado</p>
+                          <p class="text-center texto-estado">Bloqueado hace 4 días</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="col-6 col-sm-4 col-lg-2">
+                    <div class="card card-amigos mx-auto mb-3">
+                      <img src="../static/img/pokemon.png" class="card-img-top img-card-amigos" alt="imagenperfil">
+                      <div>
+                        <h6 class="card-title text-center">DaviiidV</h6>
+                        <div class="caja-estado text-center">
+                          <span class="desconectado"></span>
+                          <p class="text-center texto-estado" style="display: inline-block">Desconectado</p>
+                          <p class="text-center texto-estado">Bloqueado hace 6 días</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="col-6 col-sm-4 col-lg-2">
+                    <div class="card card-amigos mx-auto mb-3">
+                      <img src="../static/img/mario.jpg" class="card-img-top img-card-amigos" alt="imagenperfil">
+                      <div>
+                        <h6 class="card-title text-center">Michael45</h6>
+                        <div class="caja-estado text-center">
+                          <span class="desconectado"></span>
+                          <p class="text-center texto-estado" style="display: inline-block">Desconectado</p>
+                          <p class="text-center texto-estado">Bloqueado hace 20 días</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                  
+              </article>
+            </section>            
+          </div>
+
+          <!---------Seccion Chat----------->
+          <div class="icono-chat">
+            <div class="dropup-center dropup container">
+              <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-chat"></i>
+              </a>
+              <ul class="dropdown-menu cajadrop-desplegable" >
+                <h6 class="text-center">Chats</h6>
+
+                <li><a class="dropdown-item clickchat" href="#" >
+                  <article class="row">
+
+                    <div class="row cajadrop-dentro p-0"  >
+                        <h6 class="text-center" style="margin-top: 0.2rem; margin-bottom: 0;">Juanma25</h6>
+                        <div class="col-4 p-0 ">
+                            <img src="../static/img/lilo.jpg" alt="imagen perfil" class="imgdrop-chat" />
+                        </div>
+                        <div class="col-8 p-0 ">
+                          <div class="cajadrop-chat text-center">
+                            <span style="font-size: 0.7rem;">sii esa serie es increible</span>
+                          </div>
+                        </div>
+                    </div>
+                    
+                  </article> 
+                </a></li>
+
+                <li><a class="dropdown-item clickchat" href="#" >
+                  <article class="row">
+                    
+                    <div class="row cajadrop-dentro p-0" >
+                        <h6 class="text-center" style="margin-top: 0.2rem; margin-bottom: 0;">ManuWada</h6>
+                        <div class="col-4 p-0 ">
+                            <img src="../static/img/cca.jpg" alt="imagen perfil" class="imgdrop-chat" />
+                        </div>
+                        <div class="col-8 p-0 ">
+                          <div class="cajadrop-chat text-center">
+                            <span style="font-size: 0.7rem;">y tienes que ver death...</span>
+                          </div>
+                        </div>
+                    </div>
+                    
+                  </article> 
+                </a></li>
+
+                <li><a class="dropdown-item clickchat" href="#" >
+                  <article class="row">
+                    
+                    <div class="row cajadrop-dentro p-0" >
+                        <h6 class="text-center" style="margin-top: 0.2rem; margin-bottom: 0;">Alvaro_37</h6>
+                        <div class="col-4 p-0 ">
+                            <img src="../static/img/3.jpg" alt="imagen perfil" class="imgdrop-chat" />
+                        </div>
+                        <div class="col-8 p-0 ">
+                          <div class="cajadrop-chat text-center">
+                            <span style="font-size: 0.7rem;">luego te comparto mi...</span>
+                          </div>
+                        </div>
+                    </div>
+                    
+                  </article> 
+                </a></li>
+
+                <li><a class="dropdown-item clickchat" href="#" >
+                  <article class="row">
+                    
+                    <div class="row cajadrop-dentro p-0" >
+                        <h6 class="text-center" style="margin-top: 0.2rem; margin-bottom: 0;">NoeNayo</h6>
+                        <div class="col-4 p-0 ">
+                            <img src="../static/img/shi.jpg" alt="imagen perfil" class="imgdrop-chat" />
+                        </div>
+                        <div class="col-8 p-0 ">
+                          <div class="cajadrop-chat text-center">
+                            <span style="font-size: 0.7rem;">Ya termine la serie!!!</span>
+                          </div>
+                        </div>
+                    </div>
+                    
+                  </article> 
+                </a></li>
+                
+              </ul>
+            </div>
+          </div>
+        </main>
+        <footer class="bg-primary p-5">
+          <div>
+            <button id="botonbloq" class="btn btn-primary btn-bloq" onclick="ocultarbloq()">Bloquedos</button>
+          </div>
+        </footer>
+        <script>
+        function ocultarbloq(){
+          var bloq = document.getElementById("seccionbloq");
+          var btn = document.getElementById("botonbloq");
+          if (bloq.style.display === "none"){
+            bloq.style.display = "block";
+         
+          } else {
+            bloq.style.display = "none"
+            
+          }
+
+        }
+        </script>
+        
+    <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js}" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+   </body>
+</html>
