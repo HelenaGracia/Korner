@@ -19,7 +19,7 @@ public class AnimeController {
     @Autowired
     private AnimeServiceImpl animeService;
 
-    private final Logger logger = LoggerFactory.getLogger(PeliculaController.class);
+    private final Logger logger = LoggerFactory.getLogger(AnimeController.class);
 
     @GetMapping
     public String showAnime(Model model) {
@@ -35,16 +35,17 @@ public class AnimeController {
         return "redirect:/animes";
     }
 
-    @PutMapping("/modif")
-    public String createNew(Animes animes){
-        animeService.saveEntity(animes);
 
+    @PostMapping("/delete")
+    public String delete(Animes anime){
+        animeService.deleteEntity(anime);
         return "redirect:/animes";
     }
 
-    @DeleteMapping("/delete")
-    public String borrarAnime(Animes anime){
-        animeService.deleteEntity(anime);
+
+    @PostMapping("/delete/{id}")
+    public String deleteId(@PathVariable Integer id){
+        animeService.deleteEntityById(id);
         return "redirect:/animes";
     }
 

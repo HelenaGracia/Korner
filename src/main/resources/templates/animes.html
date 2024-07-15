@@ -26,7 +26,7 @@
           <div class="collapse navbar-collapse  justify-content-evenly" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item mt-lg-3 me-lg-5 ">
-                <a class="nav-link active" th:href="@{/peliculas}">Peliculas</a>
+                <a class="nav-link" th:href="@{/peliculas}">Peliculas</a>
               </li>
               <li class="nav-item mt-lg-3 me-lg-5">
                 <a class="nav-link" th:href="@{videojuegos.html}">Videojuegos</a>
@@ -38,7 +38,7 @@
                 <a class="nav-link" th:href="@{libros.html}">Libros</a>
               </li>
               <li class="nav-item mt-lg-3 me-lg-5 ">
-                <a class="nav-link" th:href="@{animes.html}">Animes</a>
+                <a class="nav-link active" th:href="@{animes}">Animes</a>
               </li>
               <li class="nav-item ms-lg-5">
                 <a class="" href="#" role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
@@ -58,11 +58,11 @@
       </nav>
     </header>
     <!-- Modal Notificaciones -->
-    <div class="modal fade" id="modal-noti" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="modal-noti" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel1" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">Notificaciones</h1>
+            <h1 class="modal-title fs-5" id="staticBackdropLabel1">Notificaciones</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -221,11 +221,11 @@
 
       <!-- MODAL FORMULARIO AÑADIR ANIME -->
 
-    <div class="modal fade" id="modalAnime" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="modalAnime" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel2" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel">AÑADIR ANIME</h1>
+            <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel2">AÑADIR ANIME</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -278,7 +278,91 @@
       <div class="container">
         <!-- Responsive -->
         <div class="row justify-content-center">
-          <div class="col-12 col-md-6 mb-4" th:each = "anime : ${anime}" >
+          <div class="col-12 col-md-6 mb-4" th:each = "animes : ${anime}" >
+
+            <!-- MODAL FORMULARIO MODIFICAR ANIME -->
+
+            <div class="modal fade"  th:id="modalAnimeUpdate + ${animes.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel">MODIFICAR ANIME</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form th:action="@{animes/save}" method="post">
+                      <input type="hidden" name="id" th:value="${animes.id}">
+                      <div class="mb-3">
+                        <label for="titulo" class="form-label">Título</label>
+                        <input type="text" class="form-control" id="tituloAnimeUpdate"
+                               th:name="titulo" th:value="${animes.titulo}">
+                      </div>
+                      <div class="mb-3">
+                        <label for="imagen" class="form-label">Imagen</label>
+                        <input class="form-control" type="file" id="imagen" name="imagen">
+                      </div>
+                      <div class="mb-3">
+                        <label for="year" class="form-label">Año de visualización</label>
+                        <input type="number" class="form-control" id="yearAnimeUpdate" th:name="year" th:value="${animes.year}" min="1950" max="2024" step="1" >
+                      </div>
+                      <!-- <div class="mb-3">
+                        <label for="generoElementoCompartidoPelicula" class="form-label">Géneros</label>
+                        <input type="text" class="form-control" id="generoElementoCompartidoPelicula" name="generoElementoCompartidoPelicula">
+                      </div>-->
+                      <div class="mb-3">
+                        <label for="opinion" class="form-label">Reseña</label>
+                        <textarea class="form-control" id="opinionAnimeUpdate"
+                                  style="height: 100px" placeholder="Escribe tu reseña aquí" th:name="opinion"
+                                  th:text="${animes.opinion}"></textarea>
+                      </div>
+                      <!-- <div class="mb-3">
+                         <label for="plataformasPelicula" class="form-label">Plataforma</label>
+                         <textarea class="form-control" id="plataformasPelicula" name="plataformasPelicula" style="height: 100px" placeholder="Escribe tu reseña aquí"></textarea>
+                       </div>-->
+                      <div class="mb-3">
+                        <label for="puntuacion" class="form-label">Valoración</label>
+                        <input type="number" class="form-control" id="puntuacionAnimeUpdate" th:name="puntuacion" th:value="${animes.puntuacion}" min="1" max="5" step="1" >
+                      </div>
+                      <div class="mb-3">
+                        <label for="trailerRuta" class="form-label">Trailer</label>
+                        <input type="text" class="form-control" id="trailerRutaAnimeUpdate" >
+                      </div>
+                      <div class="d-flex justify-content-end ">
+                        <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary" >Guardar</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- MODAL FORMULARIO ELIMINAR ANIME -->
+
+            <div class="modal fade"  th:id="modalAnimeDelete + ${animes.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel3" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel3">ELIMINAR ANIME</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form th:action="@{animes/delete}" method="post">
+                      <input type="hidden" name="id" th:value="${animes.id}">
+                      <div class="mb-3">
+                        <label for="titulo" class="form-label">Eliminar el siguiente anime:</label>
+                        <h4 class="form-control" id="tituloAnimeDelete" th:text="${animes.titulo}"></h4>
+                      </div>
+                      <div class="d-flex justify-content-end ">
+                        <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary" >Borrar</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <!-- MODAL 1 -->
             <div class="modal-dialog modal-dialog-centered custom-modal" >
               <div class="modal-content" >
@@ -293,10 +377,10 @@
                 <!-- Título, Año, Géneros y Plataforma Anime -->
                 <div class="modal-body">
                   <div class="space-down">
-                    <h5 class="modal-title" th:text="${anime.getTitulo()}"><b></b></h5>
+                    <h5 class="modal-title" th:text="${animes.getTitulo()}"><b></b></h5>
                   </div>
                   <div class="space-down">
-                    <h6 th:text="${anime.getYear()}"></h6>
+                    <h6 th:text="${animes.getYear()}"></h6>
                   </div>
                   <div class="space-down">
                     <h6 >Géneros: Aventura, Comedia, Fantasía</h6>
@@ -308,10 +392,10 @@
                 <!-- Reseña y Puntuación -->
                 <div class="modal-body custom-review">
                   <div class="space-down">
-                    <div class="form-control" style="border-radius: 0; border-color: black; background-color: white; height: auto;" th:text="${anime.getOpinion()}"></div>
+                    <div class="form-control" style="border-radius: 0; border-color: black; background-color: white; height: auto;" th:text="${animes.getOpinion()}"></div>
                   </div>
                   <div class="modal-rating space-down d-flex align-items-center">
-                    <h6 style="font-weight:bold;" th:text="${anime.getPuntuacion()}"></h6>
+                    <h6 style="font-weight:bold;" th:text="${animes.getPuntuacion()}"></h6>
                     <h6 style="font-weight:bold;">/5</h6>
                   </div>
                 </div>
@@ -329,8 +413,10 @@
                 <!-- Botones de Modificar y Eliminar -->
                 <div class="modal-body text-center space-down" style="margin-top: 15px;">
                   <div class="button-container" style="display: flex; justify-content: center; gap: 10px;">
-                    <button type="button"  class="btn-section-primary">Modificar</button>
-                    <button type="button" class="btn-section-primary">Eliminar</button>
+                    <button type="button"  class="btn-section-primary" data-bs-toggle="modal"
+                            th:attr="data-bs-target='#modalAnimeUpdate' + *{animes.id}">Modificar</button>
+                    <button type="button"  class="btn-section-primary" data-bs-toggle="modal"
+                            th:attr="data-bs-target='#modalAnimeDelete' + *{animes.id}">Eliminar</button>
                   </div>
                 </div>
               </div>
