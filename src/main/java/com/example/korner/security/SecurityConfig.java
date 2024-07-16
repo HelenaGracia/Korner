@@ -3,10 +3,8 @@ package com.example.korner.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -45,8 +43,7 @@ public class SecurityConfig {
                 .requestMatchers("/img/**").permitAll()
                 .requestMatchers("/css/**").permitAll()
                 .requestMatchers("/fonts/**").permitAll()
-                .requestMatchers("/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/**").permitAll()
+                .requestMatchers("/").permitAll()
                 .anyRequest().authenticated();
         return http.build();
     }

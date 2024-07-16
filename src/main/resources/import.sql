@@ -1,0 +1,9 @@
+INSERT INTO animes (id,titulo, year, puntuacion, opinion) VALUES ("1000","prueba1","2020","2","opinion de prueba");
+INSERT INTO animes (id,titulo, year, puntuacion, opinion) VALUES ("1002","prueba2","2020","3","opinion de prueba2");
+INSERT INTO animes (id,titulo, year, puntuacion, opinion) VALUES ("1003","prueba3","2020","4","opinion de prueba4");
+INSERT INTO animes (id,titulo, year, puntuacion, opinion) VALUES ("1004","prueba4","2020","5","opinion de prueba3");
+INSERT INTO animes (id,titulo, year, puntuacion, opinion) VALUES ("1005","prueba5","2020","2","opinion de prueba5");
+
+INSERT INTO roles (id_rol,nombre_rol) VALUES ("102","USER");
+INSERT INTO usuarios (id_usuario,nombre,contrasena, id_roles) VALUES ("100","user","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","102");
+
