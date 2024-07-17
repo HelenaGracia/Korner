@@ -1,15 +1,22 @@
 package com.example.korner.security;
 
 
+import com.example.korner.config.CustomAccessDeniedHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
+
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -38,26 +45,33 @@ public class SecurityConfig {
         );
 
         // Autorización de Solicitudes
-        http.authorizeHttpRequests()
+        http.authorizeHttpRequests(request -> request
                 .requestMatchers("/js/**").permitAll()
                 .requestMatchers("/img/**").permitAll()
                 .requestMatchers("/css/**").permitAll()
                 .requestMatchers("/fonts/**").permitAll()
                 .requestMatchers("/").permitAll()
-                .anyRequest().authenticated();
+                .requestMatchers("/generos/**").hasAuthority("ADMIN")
+                .anyRequest().authenticated());
+
+        http.exceptionHandling().accessDeniedHandler(accessDeniedHandler());
+
         return http.build();
     }
 
 
-    //  para autenticar a los usuarios.
-    private AuthenticationProvider authenticationProvider() {
+    //  para autenticar a los usuarios
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(bCryptPasswordEncoder);
         return authProvider;
     }
 
-
-
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return new CustomAccessDeniedHandler();
+    }
 
 }

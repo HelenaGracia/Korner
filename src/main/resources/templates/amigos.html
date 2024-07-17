@@ -26,7 +26,7 @@
                   <div class="collapse navbar-collapse  justify-content-evenly" id="navbarNav">
                     <ul class="navbar-nav">
                       <li class="nav-item mt-lg-3 me-lg-5 ">
-                        <a class="nav-link" href="peliculas.html">Peliculas</a>
+                        <a class="nav-link" th:href="@{/peliculas}">Peliculas</a>
                       </li>
                       <li class="nav-item mt-lg-3 me-lg-5">
                         <a class="nav-link" href="videojuegos.html">Videojuegos</a>
@@ -38,7 +38,7 @@
                         <a class="nav-link" href="libros.html">Libros</a>
                       </li>
                       <li class="nav-item mt-lg-3 me-lg-5 ">
-                        <a class="nav-link" href="animes.html">Animes</a>
+                        <a class="nav-link" th:href="@{/animes}">Animes</a>
                       </li>
                       <li class="nav-item ms-lg-5">
                         <a class="" href="#" role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
@@ -86,14 +86,14 @@
                 <img th:src="@{/img/Nevernight.jpg}" alt="imagen perfil" class="img-perfil" />
                 <a href="" class="nombre-perfil" >VictorMer</a>
                 <a href="ajustes.html" class="btn btn-primary boton-perfil" >Ajustes</a>
-                <a href="amigos.html" class="btn btn-primary boton-perfil" >Amigos</a>
+                <a th:href="@{/amigos}" class="btn btn-primary boton-perfil" >Amigos</a>
                 <a href="" class="btn btn-primary boton-perfil" >Cerrar sesión</a>
               </ul>
             </div>
           </div>
         <!-------Main Cuerpo----------->
         <main class="pt-5">
-          <div class="container">
+          <div class="container" >
             <section class="row align-items-center">  
         
         <!-- Cuadro añadir amigos-->
@@ -134,19 +134,20 @@
               
 
               <!---------Seccion Conectados----------->
-              <article class="caja-amigos">
+              <article class="caja-amigos"  >
                 <h6 class="titulo-caja">Conectados</h6>
                 <div class="row"> 
 
-                  <div class="col-6 col-sm-4 col-lg-2">
-                      <div class="card card-amigos mx-auto mb-3 ">
-                        <div class="icono-card-amigos">
+                  <div class="col-6 col-sm-4 col-lg-2" th:each= "amigos : ${amigo}" >
+                      <div class="card card-amigos mx-auto mb-3 "  >
+                        <div class="icono-card-amigos" >
                           <a href="#" class="caja-conectados-chat" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-three-dots-vertical"></i>
                           </a>
                           <ul class="dropdown-menu desplegable-amigos" >
-                            <li><button class="dropdown-item clickchat" type="button" data-bs-toggle="modal" data-bs-target="#ModalEliminar" > 
-                              Eliminar</button>
+                            <li>
+                              <button type="button"  class="dropdown-item clickchat" data-bs-toggle="modal"
+                                      th:attr="data-bs-target='#modalAmigoDelete' + *{amigos.id}">Eliminar</button>
                               
                             </li>
                             <li><a class="dropdown-item clickchat" href="#"> <span class="">Bloquear</span></a>
@@ -156,9 +157,9 @@
                         </div>
                         
                         <a class= " caja-conectados-chat" href="#" >
-                          <img src="../static/img/lilo.jpg" class="card-img-top img-card-amigos" alt="imagenperfil">
+                          <img th:src="@{img/lilo.jpg}" class="card-img-top img-card-amigos" alt="imagenperfil">
                           <div>
-                            <h6 class="card-title text-center">Juanma25</h6>
+                            <h6 class="card-title text-center" th:text="${amigos.getUsuarioDestino().getNombre()}">Juanma25</h6>
                             <div class="caja-estado text-center">
                               <span class="conectado"></span>
                               <p class="text-center texto-estado" style="display: inline-block">Online</p>
@@ -166,82 +167,39 @@
                             </div>
                           </div>
                         </a>
-                      </div>                   
-                  </div>
-                           
-                  <div class="col-6 col-sm-4 col-lg-2">
-                    <div class="card card-amigos mx-auto mb-3">
-                      <img src="../static/img/3.jpg" class="card-img-top img-card-amigos" alt="imagenperfil">
-                      <div>
-                        <h6 class="card-title text-center">Alvaro_37</h6>
-                        <div class="caja-estado text-center">
-                          <span class="conectado"></span>
-                          <p class="text-center texto-estado" style="display: inline-block">Online</p>
-                          <p class="text-center texto-estado">Disponible</p>
+
+                        <!-- MODAL ELIMINAR AMIGO -->
+
+                        <div class="modal fade" th:id="modalAmigoDelete + ${amigos.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel3" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel3">ELIMINAR AMIGO</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                <form th:action="@{amigos/delete}" method="post">
+                                  <input type="hidden" name="id" th:value="${amigos.id}">
+                                  <div class="mb-3">
+                                    <label for="titulo" class="form-label">Eliminar el siguiente amigo:</label>
+                                    <h4 class="form-control" id="tituloAmigoDelete" th:text="${amigos.getUsuarioDestino().getNombre()}"></h4>
+                                  </div>
+                                  <div class="d-flex justify-content-end ">
+                                    <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary" >Borrar</button>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
                   </div>
-                           
-                                        
-                  <div class="col-6 col-sm-4 col-lg-2">
-                    <div class="card card-amigos mx-auto mb-3">
-                      <img src="../static/img/goku.jpg" class="card-img-top img-card-amigos" alt="imagenperfil">
-                      <div>
-                        <h6 class="card-title text-center">Natalia32</h6>
-                        <div class="caja-estado text-center">
-                          <span class="ausente"></span>
-                          <p class="text-center texto-estado" style="display: inline-block">Ausente</p>
-                          <p class="text-center texto-estado">Ahora vuelvo</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                         
-                  <div class="col-6 col-sm-4 col-lg-2">
-                    <div class="card card-amigos mx-auto mb-3">
-                      <img src="../static/img/levi.jpg" class="card-img-top img-card-amigos" alt="imagenperfil">
-                      <div>
-                        <h6 class="card-title text-center">Rafa_45</h6>
-                        <div class="caja-estado text-center">
-                          <span class="conectado"></span>
-                          <p class="text-center texto-estado" style="display: inline-block">Online</p>
-                          <p class="text-center texto-estado">Disponible</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                           
-                                        
-                  <div class="col-6 col-sm-4 col-lg-2">
-                    <div class="card card-amigos mx-auto mb-3">
-                      <img src="../static/img/4.jpg" class="card-img-top img-card-amigos" alt="imagenperfil">
-                      <div>
-                        <h6 class="card-title text-center">Mariia</h6>
-                        <div class="caja-estado text-center">
-                          <span class="ausente"></span>
-                          <p class="text-center texto-estado" style="display: inline-block">Ausente</p>
-                          <p class="text-center texto-estado">No Disponible</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                                    
-                  <div class="col-6 col-sm-4 col-lg-2">
-                    <div class="card card-amigos mx-auto mb-3">
-                    <img src="../static/img/aot.jpg" class="card-img-top img-card-amigos" alt="imagenperfil">
-                      <div>
-                        <h6 class="card-title text-center">Jose12</h6>
-                        <div class="caja-estado text-center">
-                          <span class="conectado"></span>
-                          <p class="text-center texto-estado" style="display: inline-block">Online</p>
-                          <p class="text-center texto-estado">Disponible</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>      
                 </div>
+
               </article>
+
+
             
 
               <!---------Seccion Desconectados----------->

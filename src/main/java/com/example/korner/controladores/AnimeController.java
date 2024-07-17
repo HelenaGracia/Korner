@@ -5,8 +5,6 @@ import com.example.korner.modelo.Animes;
 import com.example.korner.servicio.AnimeServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,13 +15,16 @@ import java.util.List;
 @RequestMapping("/animes")
 public class AnimeController {
 
-    @Autowired
-    private AnimeServiceImpl animeService;
+    //En vez de autowired, inyectamos las dependencias mediante el constructor https://platzi.com/discusiones/2317-spring-boot/168849-que-diferencia-hay-entre-crear-el-constructor-y-utilizar-la-anotacion-autowired/
+    private final AnimeServiceImpl animeService;
 
     private final Logger logger = LoggerFactory.getLogger(AnimeController.class);
 
+    public AnimeController(AnimeServiceImpl animeService) {
+        this.animeService = animeService;
+    }
+
     @GetMapping
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
     public String showAnime(Model model) {
         List<Animes> listaAnime = animeService.getAll();
         model.addAttribute("anime", listaAnime);

@@ -18,6 +18,11 @@ public class UsuarioSecurityService implements UserDetailsService {
     private final UsuarioRepository usuarioRepository;
     private final MessageSource messageSource;
 
+    public UsuarioSecurityService(UsuarioRepository usuarioRepository, MessageSource messageSource) {
+        this.usuarioRepository = usuarioRepository;
+        this.messageSource = messageSource;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -31,8 +36,5 @@ public class UsuarioSecurityService implements UserDetailsService {
 
     }
 
-    public UsuarioSecurityService(UsuarioRepository usuarioRepository, MessageSource messageSource) {
-        this.usuarioRepository = usuarioRepository;
-        this.messageSource = messageSource;
-    }
+
 }
