@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "generos_elementos_compartidos")
+@Table(name = "generos_elementos_compartidos", uniqueConstraints = @UniqueConstraint(columnNames = "nombre_genero"))
 
 public class GeneroElementoCompartido implements Serializable{
     @Id

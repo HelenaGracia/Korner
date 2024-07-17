@@ -1,8 +1,10 @@
 package com.example.korner.controladores;
 
+import com.example.korner.modelo.GeneroElementoCompartido;
 import com.example.korner.modelo.Pelicula;
 import com.example.korner.repositorios.PeliculaRepository;
 
+import com.example.korner.servicio.GeneroElementoServiceImpl;
 import com.example.korner.servicio.PeliculaServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,12 +13,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.List;
 
+@Controller
 @RequestMapping("/peliculas")
 public class PeliculaController {
-    @Autowired
+
     PeliculaServiceImpl peliculaService;
+    GeneroElementoServiceImpl generoElementoService;
+
+    public PeliculaController(PeliculaServiceImpl peliculaService, GeneroElementoServiceImpl generoElementoService) {
+        this.peliculaService = peliculaService;
+        this.generoElementoService = generoElementoService;
+    }
 
     private final Logger logger = LoggerFactory.getLogger(PeliculaController.class);
 
@@ -36,16 +45,16 @@ public class PeliculaController {
         return "redirect:/peliculas";
     }
 
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     public String delete(Pelicula pelicula){
         peliculaService.deleteEntity(pelicula);
         return "redirect:/peliculas";
     }
 
 
-    @DeleteMapping("/delete/{id}")
-    public String deleteId(@PathVariable Integer id){
-        peliculaService.deleteEntityById(id);
-        return "redirect:/peliculas";
-    }
+//    @DeleteMapping("/delete/{id}")
+//    public String deleteId(@PathVariable Integer id){
+//        peliculaService.deleteEntityById(id);
+//        return "redirect:/peliculas";
+//    }
 }

@@ -18,7 +18,7 @@
         <header>
              <nav class="navbar sticky-top navbar-expand-lg bg-primary" >
                 <div class="container">
-                  <a class="navbar-brand" href="home.html">
+                  <a class="navbar-brand" th:href="@{/home.html}">
                     <img th:src="@{/img/Logo.png}" alt="logo Korner">
                   </a>
                   <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,16 +30,16 @@
                         <a class="nav-link active" th:href="@{/peliculas}">Peliculas</a>
                       </li>
                       <li class="nav-item mt-lg-3 me-lg-5">
-                        <a class="nav-link" th:href="@{videojuegos.html}">Videojuegos</a>
+                        <a class="nav-link" th:href="@{/videojuegos.html}">Videojuegos</a>
                       </li>
                       <li class="nav-item mt-lg-3 me-lg-5">
-                        <a class="nav-link" th:href="@{series.html}">Series</a>
+                        <a class="nav-link" th:href="@{/series.html}">Series</a>
                       </li>
                       <li class="nav-item mt-lg-3 me-lg-5">
-                        <a class="nav-link" th:href="@{libros.html}">Libros</a>
+                        <a class="nav-link" th:href="@{/libros.html}">Libros</a>
                       </li>
                       <li class="nav-item mt-lg-3 me-lg-5 ">
-                        <a class="nav-link" th:href="@{animes.html}">Animes</a>
+                        <a class="nav-link" th:href="@{/animes.html}">Animes</a>
                       </li>
                       <li class="nav-item ms-lg-5">
                         <a class="" href="#" role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
@@ -300,27 +300,30 @@
                                 </div>
                                 <div class="mb-3">
                                   <label for="imagen" class="form-label">Imagen</label>
-                                  <input class="form-control" type="file" id="imagen" name="imagen">
+                                  <input class="form-control" type="file" id="imagenPeliculaUpdate" name="imagen">
                                 </div>
                                 <div class="mb-3">
                                   <label for="year" class="form-label">Año de visualización</label>
                                   <input type="text" class="form-control" id="yearPeliculaUpdate"
                                          th:name="year" th:value="${pelicula.year}">
                                 </div>
-                                <!-- <div class="mb-3">
-                                  <label for="generoElementoCompartidoPelicula" class="form-label">Géneros</label>
-                                  <input type="text" class="form-control" id="generoElementoCompartidoPelicula" name="generoElementoCompartidoPelicula">
-                                </div>-->
-                                <div class="mb-3">
-                                  <label for="opinion" class="form-label">Reseña</label>
-                                  <textarea class="form-control" id="opinionPeliculaUpdate"
-                                            style="height: 100px" placeholder="Escribe tu reseña aquí" th:name="opinion"
-                                            th:text="${pelicula.opinion}"></textarea>
-                                </div>
-                                <!-- <div class="mb-3">
-                                   <label for="plataformasPelicula" class="form-label">Plataforma</label>
-                                   <textarea class="form-control" id="plataformasPelicula" name="plataformasPelicula" style="height: 100px" placeholder="Escribe tu reseña aquí"></textarea>
-                                 </div>-->
+                                <!--<div class="mb-3">
+                                <label for="generoElementoCompartidoPelicula" class="form-label">Géneros</label>
+                                 <select id="generoElementoCompartidoPelicula" name="generoElementoCompartidoPelicula">
+                                   <option>-SELECT-</option>
+                                   <option th:each=""></option>
+                                 </select>
+                              </div>-->
+                              <div class="mb-3">
+                                <label for="opinion" class="form-label">Reseña</label>
+                                <textarea class="form-control" id="opinionPeliculaUpdate"
+                                          style="height: 100px" placeholder="Escribe tu reseña aquí" th:name="opinion"
+                                          th:text="${pelicula.opinion}"></textarea>
+                              </div>
+                              <!-- <div class="mb-3">
+                                 <label for="plataformasPelicula" class="form-label">Plataforma</label>
+                                 <textarea class="form-control" id="plataformasPelicula" name="plataformasPelicula" style="height: 100px" placeholder="Escribe tu reseña aquí"></textarea>
+                               </div>-->
                                 <div class="mb-3">
                                   <label for="puntuacion" class="form-label">Valoración</label>
                                   <input type="number" class="form-control" id="puntuacionPeliculaUpdate"
@@ -344,7 +347,31 @@
                         </div>
                       </div>
 
+                      <!-- MODAL FORMULARIO ELIMINAR PELICULA -->
 
+                      <div class="modal fade"  th:id="modalPeliculaDelete + ${pelicula.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel3" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel3">ELIMINAR PELICULA</h1>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <form th:action="@{peliculas/delete}" method="post">
+                                <input type="hidden" name="id" th:value="${pelicula.id}">
+                                <div class="mb-3">
+                                  <label for="titulo" class="form-label">Eliminar el siguiente anime:</label>
+                                  <h4 class="form-control" id="tituloAnimeDelete" th:text="${pelicula.titulo}"></h4>
+                                </div>
+                                <div class="d-flex justify-content-end ">
+                                  <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cerrar</button>
+                                  <button type="submit" class="btn btn-primary" >Borrar</button>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
 
                       <!-- MODAL 1 -->
                       <div class="modal-dialog modal-dialog-centered custom-modal">
@@ -397,8 +424,8 @@
                             <div class="button-container" style="display: flex; justify-content: center; gap: 10px;">
                               <button type="button" class="btn-section-primary"  data-bs-toggle="modal"
                                       th:attr="data-bs-target='#modalPeliculaUpdate' +*{pelicula.id}">Modificar</button>
-                              <button type="button" class="btn-section-primary" th:href="@{peliculas/delete}">Eliminar</button>
-                              <button type="button" class="btn-section-primary" th:href="@{peliculas/deleteId/{id} (id=${pelicula.id})}">Eliminar2</button>
+                              <button type="button"  class="btn-section-primary" data-bs-toggle="modal"
+                                      th:attr="data-bs-target='#modalPeliculaDelete' + *{pelicula.id}">Eliminar</button>
                             </div>
                           </div>
                         </div>
