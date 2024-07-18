@@ -27,11 +27,11 @@ public abstract class AbstractEntity implements Serializable {
 
     @Column (name = "year")
     @NonNull
-    private Integer year;
+    private Short year;
 
     @Column (name = "puntuacion")
     @NonNull
-    private Integer puntuacion;
+    private Short puntuacion;
 
     @Column (name = "opinion" , length = 4000)
     @NonNull
