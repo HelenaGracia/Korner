@@ -1,17 +1,15 @@
 package com.example.korner.controladores;
 
-
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("")
+@RequestMapping("/accessDenied")
+public class AccessDeniedController {
 
-public class IndexController {
-    @GetMapping("")
-    public String showIndex(){
-        return "index";
+    @GetMapping
+    public String showAccessDeniedPage() {
+        return "redirect:/home" ;
     }
 }

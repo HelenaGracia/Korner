@@ -52,9 +52,4 @@ public class PeliculaController {
     }
 
 
-//    @DeleteMapping("/delete/{id}")
-//    public String deleteId(@PathVariable Integer id){
-//        peliculaService.deleteEntityById(id);
-//        return "redirect:/peliculas";
-//    }
 }

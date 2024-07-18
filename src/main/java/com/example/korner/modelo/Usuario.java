@@ -5,8 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Set;
 
 @Entity
@@ -15,7 +20,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "usuarios")
-public class Usuario implements Serializable {
+public class Usuario implements Serializable, UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,7 +36,7 @@ public class Usuario implements Serializable {
     @Column (name = "pais" , length = 45)
     private String pais;
 
-    @Column (name = "contrasena" , length = 45)
+    @Column (name = "contrasena" , length = 100)
     private String contrasena;
 
     @Column (name = "correo" , length = 45)
@@ -71,4 +76,52 @@ public class Usuario implements Serializable {
     @OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn (name = "id_usuarios", foreignKey = @ForeignKey(name = "fk_usuarios_series"))
     private Set<Series> series;
+
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//       Set<GrantedAuthority> authorities = new HashSet<>();
+//       for (Rol roles : role) {
+//           GrantedAuthority authority = new SimpleGrantedAuthority(role.getNombre().toUpperCase());
+//           authorities.add(new SimpleGrantedAuthority(role.getNombre()));
+//       }
+//
+//        return authorities;
+//    }
+
+        @Override
+        public Collection<? extends GrantedAuthority> getAuthorities() {
+        Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        authorities.add(new SimpleGrantedAuthority(role.getNombre()));
+        return authorities;
+    }
+
+    @Override
+    public String getPassword() {
+        return contrasena;
+    }
+
+    @Override
+    public String getUsername() {
+        return nombre;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
