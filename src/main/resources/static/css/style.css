@@ -410,7 +410,7 @@ nav li a img{
     width: 40px; 
     height: 40px; 
     border-radius: 50%;
-    background-image: url('img/icono_enviar_msj.png'); 
+    background-image: url('../img/icono_enviar_msj.png');
     background-size: cover;
     background-position: center;
     margin-left: 10px;

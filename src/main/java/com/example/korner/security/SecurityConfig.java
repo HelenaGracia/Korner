@@ -35,7 +35,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.formLogin(form -> form
                 .loginPage("/login")
-                .defaultSuccessUrl("/")
+                .defaultSuccessUrl("/korner/home")
                 .permitAll()
         );
 
@@ -51,10 +51,13 @@ public class SecurityConfig {
                 .requestMatchers("/css/**").permitAll()
                 .requestMatchers("/fonts/**").permitAll()
                 .requestMatchers("/").permitAll()
+                .requestMatchers("/korner").permitAll()
                 .requestMatchers("/generos/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated());
 
         http.exceptionHandling().accessDeniedHandler(accessDeniedHandler());
+        // con el de abajo se hace lo mismo, pero sin el log de error editable con el de arriba
+        //http.exceptionHandling().accessDeniedPage("/accessDenied")
 
         return http.build();
     }
