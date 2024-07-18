@@ -10,6 +10,6 @@ public class AccessDeniedController {
 
     @GetMapping
     public String showAccessDeniedPage() {
-        return "redirect:/korner/home" ;
+        return "redirect:/home" ;
     }
 }

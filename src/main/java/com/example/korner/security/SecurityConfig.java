@@ -35,7 +35,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.formLogin(form -> form
                 .loginPage("/login")
-                .defaultSuccessUrl("/korner/home")
+                .defaultSuccessUrl("/home")
                 .permitAll()
         );
 
@@ -51,7 +51,6 @@ public class SecurityConfig {
                 .requestMatchers("/css/**").permitAll()
                 .requestMatchers("/fonts/**").permitAll()
                 .requestMatchers("/").permitAll()
-                .requestMatchers("/korner").permitAll()
                 .requestMatchers("/generos/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated());
 
