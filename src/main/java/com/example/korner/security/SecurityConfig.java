@@ -51,7 +51,6 @@ public class SecurityConfig {
                 .requestMatchers("/css/**").permitAll()
                 .requestMatchers("/fonts/**").permitAll()
                 .requestMatchers("/").permitAll()
-                .requestMatchers("/korner").permitAll()
                 .requestMatchers("/generos/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated());
 
