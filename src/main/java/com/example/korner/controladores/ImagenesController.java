@@ -1,19 +1,14 @@
 package com.example.korner.controladores;
 
-import com.example.korner.servicio.FileSystemStorageService;
-
-import org.apache.catalina.util.IOTools;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOUtils;
-import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+
 
 @RestController
 @RequestMapping("/imagenes")

@@ -31,5 +31,5 @@ public class GeneroElementoCompartido implements Serializable{
                 ", nombre='" + nombre + '\'' +
                 ", tipoElemento=" + tipoElemento +
                 '}';
-
+    }
 }
