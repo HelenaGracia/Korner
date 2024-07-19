@@ -1,0 +1,411 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="es">
+  <head>
+    <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Libros</title>
+    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css}" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="preconnect" th:href="@{https://fonts.googleapis.com}">
+    <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css}">
+    <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin>
+    <link th:href="@{https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{css/style.css}">
+    <link rel="icon" th:href="@{img/favicon.ico}">
+  </head>
+  <body>
+        <header>
+             <nav class="navbar sticky-top navbar-expand-lg bg-primary" >
+                <div class="container">
+                  <a class="navbar-brand" th:href="@{home.html}">
+                    <img th:src="@{img/Logo.png}" alt="logo Korner">
+                  </a>
+                  <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div class="collapse navbar-collapse  justify-content-evenly" id="navbarNav">
+                    <ul class="navbar-nav">
+                      <li class="nav-item mt-lg-3 me-lg-5 ">
+                        <a class="nav-link" th:href="@{peliculas.html}">Peliculas</a>
+                      </li>
+                      <li class="nav-item mt-lg-3 me-lg-5">
+                        <a class="nav-link" th:href="@{videojuegos.html}">Videojuegos</a>
+                      </li>
+                      <li class="nav-item mt-lg-3 me-lg-5">
+                        <a class="nav-link" th:href="@{series.html}">Series</a>
+                      </li>
+                      <li class="nav-item mt-lg-3 me-lg-5">
+                        <a class="nav-link active" th:href="@{libros.html}">Libros</a>
+                      </li>
+                      <li class="nav-item mt-lg-3 me-lg-5 ">
+                        <a class="nav-link" th:href="@{animes.html}">Animes</a>
+                      </li>
+                      <li class="nav-item ms-lg-5">
+                        <a class="" href="#" role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                            <img src="img/Nevernight.jpg" alt="imagen perfil" >
+                        </a>
+                      </li>
+                      <li class="nav-item mt-lg-4 ms-lg-4">
+                          <a href="#" role="button" class="position-relative" data-bs-toggle="modal" data-bs-target="#modal-noti">
+                            <span class="position-absolute top-0  start-100 translate-middle badge rounded-pill bg-danger">9</span>
+                            <i class="bi bi-bell fs-3 text-black"></i>
+                            <span class="visually-hidden">Notificaciones no leidas</span>
+                          </a>    
+                      </li>
+                    </ul>   
+                  </div>
+                </div>
+             </nav>
+        </header>
+        <!-- OffCanvas Perfil -->
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasRightLabel">Perfil</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <ul>
+              <img th:src="@{/img/Nevernight.jpg}" alt="imagen perfil" class="img-perfil" >
+              <a href="" class="nombre-perfil" >VictorMer</a>
+              <a th:href="@{ajustes.html}" class="btn btn-primary boton-perfil" >Ajustes</a>
+              <a th:href="@{/amigos}" class="btn btn-primary boton-perfil" >Amigos</a>
+              <a href="" class="btn btn-primary boton-perfil" >Cerrar sesión</a>
+            </ul>
+          </div>
+        </div>
+        <!-- ESTRUCTURA BARRA DE BUSQUEDA -->
+        <div class="search-bar-container" style="margin-top: 35px;">
+          <div class="row">
+            <!-- Botón "Añadir" -->
+            <div class="col-12 col-md-3 d-flex justify-content-center mb-5 mb-md-0">
+              <button type="button" class="btn-section-add" data-bs-toggle="modal" data-bs-target="#modalLibroAñadir">AÑADIR</button>
+            </div>
+
+            <!-- Barra de Búsqueda-->
+            <div class="col-8 col-md-6 mb-3">
+              <div class="input-group">
+                <input type="text" class="form-control search-input" placeholder="Buscar...">
+                <!-- Botón Buscar -->
+                <div class="input-group-append">
+                  <button class="btn-section-searchbar">BUSCAR</button>
+                </div>
+              </div>
+            </div>
+            <!-- Botón Filtros -->
+            <div class="col-4 col-md-3">
+              <div class="dropdown">
+                <button type="button" class="btn-section-searchbar dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  FILTROS
+                </button>
+                <div class="dropdown-menu p-4" aria-labelledby="dropdownMenuButton">
+                  <form>
+                    <!-- Filtro por Género -->
+                    <div class="form-group mb-3">
+                      <label><strong>Género</strong></label><br>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="genreAction" value="action">
+                        <label class="form-check-label" for="genreAction">Acción</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="genreAdventure" value="adventure">
+                        <label class="form-check-label" for="genreAdventure">Aventura</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="genreComedy" value="comedy">
+                        <label class="form-check-label" for="genreComedy">Comedia</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="genreDrama" value="drama">
+                        <label class="form-check-label" for="genreDrama">Drama</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="genreMystery" value="mystery">
+                        <label class="form-check-label" for="genreMystery">Misterio</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="genreFantasy" value="fantasy">
+                        <label class="form-check-label" for="genreFantasy">Fantasía</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="genreRomance" value="romance">
+                        <label class="form-check-label" for="genreRomance">Romance</label>
+                      </div>
+                    </div>
+
+                    <!-- Filtro por Año -->
+                    <div class="form-group mb-3">
+                      <label><strong>Año</strong></label><br>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="year2024" value="2024">
+                        <label class="form-check-label" for="year2024">2024</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="year2023" value="2023">
+                        <label class="form-check-label" for="year2023">2023</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="year2022" value="2022">
+                        <label class="form-check-label" for="year2022">2022</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="year2021" value="2021">
+                        <label class="form-check-label" for="year2021">2021</label>
+                      </div>
+
+                    </div>
+
+                    <!-- Filtro por Valoración -->
+                    <div class="form-group mb-3">
+                      <label><strong>Valoración</strong></label><br>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="rating5" value="5">
+                        <label class="form-check-label" for="rating5">5</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="rating4" value="4">
+                        <label class="form-check-label" for="rating4">4</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="rating3" value="3">
+                        <label class="form-check-label" for="rating3">3</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="rating2" value="2">
+                        <label class="form-check-label" for="rating2">2</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="rating1" value="1">
+                        <label class="form-check-label" for="rating1">1</label>
+                      </div>
+                    </div>
+
+                    <!-- Filtro por Plataforma -->
+                    <div class="form-group mb-3">
+                      <label><strong>Plataforma</strong></label><br>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="platformAudible" value="audible">
+                        <label class="form-check-label" for="platformAudible">Audible</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="platformBook" value="book">
+                        <label class="form-check-label" for="platformBook">Libro Físico</label>
+                      </div>
+                    </div>
+
+                    <button type="submit" class="btn-section-primary">Aplicar Filtros</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- MODAL FORMULARIO AÑADIR LIBRO -->
+
+        <div class="modal fade" id="modalLibroAñadir" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel">AÑADIR LIBRO</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form th:action="@{/libros/save}" method="post">
+                  <div class="mb-3">
+                    <label for="titulo" class="form-label">Título</label>
+                    <input type="text" class="form-control" id="tituloLibro" name="titulo">
+                  </div>
+                  <div class="mb-3">
+                    <label for="imagen" class="form-label">Imagen</label>
+                    <input class="form-control" type="file" id="imagenLibro" name="imagen">
+                  </div>
+                  <div class="mb-3">
+                    <label for="year" class="form-label">Año de visualización</label>
+                    <input type="text" class="form-control" id="yearLibro" name="year">
+                  </div>
+                  <!-- <div class="mb-3">
+                    <label for="generoElementoCompartidoLibro" class="form-label">Géneros</label>
+                    <input type="text" class="form-control" id="generoElementoCompartidoLibro" name="generoElementoCompartidoLibro">
+                  </div>-->
+                  <div class="mb-3">
+                    <label for="opinion" class="form-label">Reseña</label>
+                    <textarea class="form-control" id="opinionLibro" name="opinion" style="height: 100px" placeholder="Escribe tu reseña aquí"></textarea>
+                  </div>
+                  <!-- <div class="mb-3">
+                     <label for="plataformasLibro" class="form-label">Plataforma</label>
+                     <textarea class="form-control" id="plataformasLibro" name="plataformasLibro" style="height: 100px" placeholder="Escribe tu reseña aquí"></textarea>
+                   </div>-->
+                  <div class="mb-3">
+                    <label for="puntuacion" class="form-label">Valoración</label>
+                    <input type="number" class="form-control" id="puntuacionLibro" name="puntuacion" min="0" max="10" step="1">
+                  </div>
+                  <div class="d-flex justify-content-end ">
+                    <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Añadir libro</button>
+                  </div>
+
+
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ESTRUCTURA LIBROS -->
+
+        <main class="pt-5">
+          <div class="container">
+            <!-- Responsive -->
+            <div class="row justify-content-center">
+              <div class="col-12 col-md-6 mb-4" th:each = "libro : ${libros}" >
+
+                <!-- MODAL FORMULARIO MODIFICAR LIBRO -->
+
+                <div class="modal fade"  th:id="modalLibroUpdate + ${libro.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel">MODIFICAR LIBRO</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <form th:action="@{libros/save}" method="post">
+                          <input type="hidden" name="id" th:value="${libro.id}">
+                          <div class="mb-3">
+                            <label for="titulo" class="form-label">Título</label>
+                            <input type="text" class="form-control" id="tituloLibroUpdate"
+                                   th:name="titulo" th:value="${libro.titulo}">
+                          </div>
+                          <div class="mb-3">
+                            <label for="imagen" class="form-label">Imagen</label>
+                            <input class="form-control" type="file" id="imagen" name="imagen">
+                          </div>
+                          <div class="mb-3">
+                            <label for="year" class="form-label">Año de visualización</label>
+                            <input type="number" class="form-control" id="yearLibroUpdate" th:name="year" th:value="${libro.year}" min="1950" max="2024" step="1" >
+                          </div>
+                          <!-- <div class="mb-3">
+                            <label for="generoElementoCompartidoPelicula" class="form-label">Géneros</label>
+                            <input type="text" class="form-control" id="generoElementoCompartidoPelicula" name="generoElementoCompartidoPelicula">
+                          </div>-->
+                          <div class="mb-3">
+                            <label for="opinion" class="form-label">Reseña</label>
+                            <textarea class="form-control" id="opinionlibroUpdate"
+                                      style="height: 100px" placeholder="Escribe tu reseña aquí" th:name="opinion"
+                                      th:text="${libro.opinion}"></textarea>
+                          </div>
+                          <!-- <div class="mb-3">
+                             <label for="plataformasPelicula" class="form-label">Plataforma</label>
+                             <textarea class="form-control" id="plataformasPelicula" name="plataformasPelicula" style="height: 100px" placeholder="Escribe tu reseña aquí"></textarea>
+                           </div>-->
+                          <div class="mb-3">
+                            <label for="puntuacion" class="form-label">Valoración</label>
+                            <input type="number" class="form-control" id="puntuacionLibroUpdate" th:name="puntuacion" th:value="${animes.puntuacion}" min="1" max="5" step="1" >
+                          </div>
+                          <div class="mb-3">
+                            <label for="trailerRuta" class="form-label">Trailer</label>
+                            <input type="text" class="form-control" id="trailerRutaLibroUpdate" >
+                          </div>
+                          <div class="d-flex justify-content-end ">
+                            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary" >Guardar</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- MODAL FORMULARIO ELIMINAR LIBRO -->
+
+                <div class="modal fade"  th:id="modalLibroDelete + ${libro.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel3" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel3">ELIMINAR LIBRO</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <form th:action="@{libros/delete}" method="post">
+                          <input type="hidden" name="id" th:value="${libro.id}">
+                          <div class="mb-3">
+                            <label for="titulo" class="form-label">Eliminar el siguiente libro:</label>
+                            <h4 class="form-control" id="tituloLibroDelete" th:text="${libro.titulo}"></h4>
+                          </div>
+                          <div class="d-flex justify-content-end ">
+                            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary" >Borrar</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- MODAL 1 -->
+                <div class="modal-dialog modal-dialog-centered custom-modal" >
+                  <div class="modal-content" >
+                      <!-- Imagen Libro -->
+                    <div class="modal-header space-down">
+                      <img th:src="@{/img/libro1.jpg}" alt="Pequeñas Mujeres Rojas" class="custom-section-books-image">
+                    </div>
+                    <!-- Icono de compartir -->
+                    <button class="btn-share">
+                      <img th:src="@{/img/icono_compartir.png}" alt="Compartir" class="share-icon">
+                    </button>
+                    <!-- Título, Año, Géneros y Plataforma Libro -->
+                    <div class="modal-body">
+                      <div class="space-down">
+                        <h5 class="modal-title" th:text="${libro.getTitulo()}"><b></b></h5>
+                      </div>
+                      <div class="space-down">
+                        <h6 th:text="${libro.getYear()}"></h6>
+                      </div>
+                      <div class="space-down" >
+                        <!--
+                        <h6 th:text="${libros.getGeneroElementoCompartidoLibros().getNombre()}">Acción</h6>
+                        -->
+                        <h6>Géneros: Misterio, Suspenso</h6>
+                      </div>
+                      <div title="Audible" class="space-down">
+                        <img th:src="@{img/platf_audible.jpg}" alt="Audible" class="platf-logo-audible">
+                      </div>
+                    </div>
+                    <!-- Reseña y Puntuación -->
+                    <div class="modal-body custom-review">
+                      <div class="space-down">
+                        <div class="form-control" style="border-radius: 0; border-color: black; background-color: white; height: auto;" th:text="${libro.getOpinion()}"></div>
+                      </div>
+                      <div class="modal-rating space-down d-flex align-items-center">
+                        <h6 style="font-weight:bold;" th:text="${libro.getPuntuacion()}"></h6>
+                        <h6 style="font-weight:bold;">/5</h6>
+                      </div>
+                    </div>
+                    <!-- Botones de Modificar y Eliminar -->
+                    <div class="modal-body text-center space-down" style="margin-top: 15px;">
+                      <div class="button-container" style="display: flex; justify-content: center; gap: 10px;">
+                        <button type="button"  class="btn-section-primary" data-bs-toggle="modal"
+                                th:attr="data-bs-target='#modalLibroUpdate' + *{libro.id}">Modificar</button>
+                        <button type="button"  class="btn-section-primary" data-bs-toggle="modal"
+                                th:attr="data-bs-target='#modalLibroDelete' + *{libro.id}">Eliminar</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+
+        <div class="d-flex justify-content-end pb-5">
+          <a href="#">
+            <i class="bi bi-chat"></i>
+          </a>
+        </div>
+        <footer class="bg-primary p-5"></footer>
+        <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js}" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  </body>
+</html>
