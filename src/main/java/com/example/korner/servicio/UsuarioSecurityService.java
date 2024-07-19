@@ -12,13 +12,14 @@ import java.util.Locale;
 import java.util.Optional;
 
 @Service
-public class UsuarioSecurityService implements UserDetailsService {
+public class UsuarioSecurityService extends AbstractService<Usuario,Integer, UsuarioRepository> implements UserDetailsService  {
 
 
     private final UsuarioRepository usuarioRepository;
     private final MessageSource messageSource;
 
     public UsuarioSecurityService(UsuarioRepository usuarioRepository, MessageSource messageSource) {
+        super(usuarioRepository);
         this.usuarioRepository = usuarioRepository;
         this.messageSource = messageSource;
     }
