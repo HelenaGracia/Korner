@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileSystemStorageService implements StorageService{
     private final Path rootLocation;
 
-
     public FileSystemStorageService() {
         this.rootLocation = Paths.get("/ficheros");
         if (Files.notExists(this.rootLocation)) {

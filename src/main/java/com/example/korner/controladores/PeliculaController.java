@@ -24,7 +24,6 @@ public class PeliculaController {
 
     PeliculaServiceImpl peliculaService;
     GeneroElementoServiceImpl generoElementoService;
-
     FileSystemStorageService fileSystemStorageService;
 
     public PeliculaController(PeliculaServiceImpl peliculaService, GeneroElementoServiceImpl generoElementoService, FileSystemStorageService fileSystemStorageService) {
