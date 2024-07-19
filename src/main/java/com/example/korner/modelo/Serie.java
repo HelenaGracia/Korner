@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
-
 @Entity
 @Getter
 @Setter
@@ -17,7 +15,7 @@ import java.util.Date;
         indexes = {@Index(name = "indice1",columnList = "titulo"),
                 @Index(name = "indice2",columnList = "year"),
                 @Index(name = "indice3",columnList = "id_generos_elemt_comp")})
-public class Series extends AbstractEntity{
+public class Serie extends AbstractEntity{
 
 
     @Column (name = "trailer" , length = 1000)

@@ -73,7 +73,7 @@ public class Usuario implements Serializable, UserDetails {
 
     @OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn (name = "id_usuarios", foreignKey = @ForeignKey(name = "fk_usuarios_series"))
-    private Set<Series> series;
+    private Set<Serie> series;
 
 //    @Override
 //    public Collection<? extends GrantedAuthority> getAuthorities() {

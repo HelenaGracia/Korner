@@ -9,7 +9,6 @@ import com.example.korner.servicio.PeliculaServiceImpl;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,14 +35,15 @@ public class PeliculaController {
 
     //Mostrar Peliculas
 
-
     @GetMapping("")
     public String listAllPeliculas(Model model){
         model.addAttribute("peliculas", peliculaService.getAll());
         return "peliculas";
     }
 
+
     //Guardar Pelicula
+
     @PostMapping("/save")
     //Obtenemos del formulario el contenido del input imagen, que es un archivo de imagen y se lo pasamos al parametro multipartFile
     public String save(@RequestParam("imagen") MultipartFile multipartFile, Pelicula pelicula){
@@ -72,6 +72,5 @@ public class PeliculaController {
         peliculaService.deleteEntity(pelicula);
         return "redirect:/peliculas";
     }
-
 
 }
