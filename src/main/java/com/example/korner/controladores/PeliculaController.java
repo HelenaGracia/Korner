@@ -5,7 +5,6 @@ import com.example.korner.modelo.Pelicula;
 import com.example.korner.servicio.PeliculaServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,14 +22,11 @@ public class PeliculaController {
         this.peliculaService = peliculaService;
     }
 
-
     @GetMapping("")
     public String listAllPeliculas(Model model){
         model.addAttribute("peliculas", peliculaService.getAll());
         return "peliculas";
     }
-
-
 
     @PostMapping("/save")
     public String save(Pelicula pelicula){
@@ -44,7 +40,6 @@ public class PeliculaController {
         peliculaService.deleteEntity(pelicula);
         return "redirect:/peliculas";
     }
-
 
     @DeleteMapping("/delete/{id}")
     public String deleteId(@PathVariable Integer id){
