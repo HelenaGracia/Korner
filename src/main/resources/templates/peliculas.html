@@ -227,7 +227,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form th:action="@{/peliculas/save}" method="post">
+                    <form th:action="@{/peliculas/save}" method="post" enctype="multipart/form-data" >
                         <div class="mb-3">
                             <label for="titulo" class="form-label">Título</label>
                             <input type="text" class="form-control" id="tituloPelicula" name="titulo">
@@ -378,7 +378,8 @@
                         <div class="modal-content">
                             <!-- Imagen Película -->
                             <div class="modal-header space-down">
-                                <img th:src="@{/img/garfield.jpg}" alt="Garfield: La Película" class="custom-section-image"/>
+
+                                 <img th:src="${pelicula.imagenRuta}" alt="Garfield: La Película" class="custom-section-image"/>
                             </div>
                             <!-- Icono de compartir -->
                             <button class="btn-share">
