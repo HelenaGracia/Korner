@@ -33,12 +33,12 @@ public class ImagenesController {
             e.printStackTrace();
 
         }
-//        if(FilenameUtils.getExtension(id).equals("jpg")){
-//            return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image);
-//        }else {
-//            return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(image);
+        if(FilenameUtils.getExtension(id).equals("jpg")){
+            return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image);
+        }else {
+            return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(image);
+
+        }
 //
-//        }
-        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image);
     }
 }

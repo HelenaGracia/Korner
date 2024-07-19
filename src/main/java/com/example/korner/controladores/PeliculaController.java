@@ -57,6 +57,7 @@ public class PeliculaController {
     }
 
 
+
     @PostMapping("/delete")
     public String delete(Pelicula pelicula){
         logger.info("este es el objeto pelicula eliminado{}", pelicula);
