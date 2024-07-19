@@ -20,6 +20,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileSystemStorageService implements StorageService{
     private final Path rootLocation;
 
+    /*Creación de la carpeta ficheros en la cual se van a guardar las imagenes que los usuarios suben a la aplicación
+    de momento la carpeta se está generando en la raiz del disco D (en el ordenador de Helena), depende de que ubicacion
+    considera rootLocation en cada ordenador
+     */
     public FileSystemStorageService() {
         this.rootLocation = Paths.get("/ficheros");
         if (Files.notExists(this.rootLocation)) {
@@ -56,6 +60,7 @@ public class FileSystemStorageService implements StorageService{
         }
     }
 
+    //Metodo que utilizamos para guardar la imagen en la carpeta ficheros
     public void storeWithName(MultipartFile file, String nombreAchivo) {
         try {
             if (file.isEmpty()) {

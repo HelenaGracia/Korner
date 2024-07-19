@@ -17,10 +17,15 @@ import java.io.InputStream;
 
 @RestController
 @RequestMapping("/imagenes")
+
+//A través del controlador generamos la url para visualizar la imagen la cual es /imagenes/leerImagen/y el nombre de la imagen
+
 public class ImagenesController {
-
-
-    @GetMapping(value = "/leerImagen/{id}")
+    /*
+    Metodo por el cual obtenemos la ruta donde está almacenada la imagen y la transformamos a bytes para poder
+    visualizarla
+     */
+    @GetMapping(value = "/leerImagen/{id}") // id es el nombre que tiene la imagen
     public ResponseEntity <byte[]> leerImagen(@PathVariable("id") String id) {
         final String FILE_PATH_ROOT = "D:/ficheros";
         byte[] image = new byte[0];

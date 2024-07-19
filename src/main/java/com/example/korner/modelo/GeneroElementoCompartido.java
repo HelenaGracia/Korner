@@ -25,4 +25,12 @@ public class GeneroElementoCompartido implements Serializable{
     @JoinColumn(name = "id_tipo_elemento", foreignKey = @ForeignKey(name = "fk_tipo_elemento_genero_elem_comp"))
     private TipoElemento tipoElemento;
 
+    @Override
+    public String toString() {
+        return "GeneroElementoCompartido{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", tipoElemento=" + tipoElemento +
+                '}';
+    }
 }
