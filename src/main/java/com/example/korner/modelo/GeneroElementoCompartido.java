@@ -2,7 +2,6 @@ package com.example.korner.modelo;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.io.Serializable;
 
 @Getter
@@ -11,8 +10,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "generos_elementos_compartidos", uniqueConstraints = @UniqueConstraint(columnNames = "nombre_genero"))
-
 public class GeneroElementoCompartido implements Serializable{
+  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_genero_elemt_compart", nullable = false)
@@ -32,5 +31,5 @@ public class GeneroElementoCompartido implements Serializable{
                 ", nombre='" + nombre + '\'' +
                 ", tipoElemento=" + tipoElemento +
                 '}';
-    }
+
 }

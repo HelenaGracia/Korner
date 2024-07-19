@@ -3,7 +3,6 @@ package com.example.korner.controladores;
 import com.example.korner.modelo.GeneroElementoCompartido;
 import com.example.korner.modelo.Pelicula;
 import com.example.korner.repositorios.PeliculaRepository;
-
 import com.example.korner.servicio.FileSystemStorageService;
 import com.example.korner.servicio.GeneroElementoServiceImpl;
 import com.example.korner.servicio.PeliculaServiceImpl;
@@ -37,6 +36,7 @@ public class PeliculaController {
 
     //Mostrar Peliculas
 
+
     @GetMapping("")
     public String listAllPeliculas(Model model){
         model.addAttribute("peliculas", peliculaService.getAll());
@@ -44,7 +44,6 @@ public class PeliculaController {
     }
 
     //Guardar Pelicula
-
     @PostMapping("/save")
     //Obtenemos del formulario el contenido del input imagen, que es un archivo de imagen y se lo pasamos al parametro multipartFile
     public String save(@RequestParam("imagen") MultipartFile multipartFile, Pelicula pelicula){
@@ -59,16 +58,17 @@ public class PeliculaController {
         //Modificamos el nombre del atributo imagenRuta del objeto pelicula con la url que genera el controlador ImagenesController
         pelicula.setImagenRuta( "/imagenes/leerImagen/" + nombreArchivo);
         //Volvemos a guardar el objeto en la BBDD con los cambios
+
         peliculaService.saveEntity(pelicula);
         return "redirect:/peliculas";
     }
 
 
     //Eliminar Pelicula
-
     @PostMapping("/delete")
     public String delete(Pelicula pelicula){
         logger.info("este es el objeto pelicula eliminado{}", pelicula);
+
         peliculaService.deleteEntity(pelicula);
         return "redirect:/peliculas";
     }
