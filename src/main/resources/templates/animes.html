@@ -242,6 +242,7 @@
                 <label for="year" class="form-label">Año de visualización</label>
                 <input type="number" class="form-control" id="year" name="year" min="1950" max="2024" step="1">
               </div>
+
               <!--
               <div class="mb-3">
                 <label for="generoElementoCompartido" class="form-label">Géneros</label>
@@ -257,6 +258,7 @@
                 </select>
               </div>
               -->
+
               <div class="mb-3">
                 <label for="opinion" class="form-label">Reseña</label>
                 <textarea class="form-control" id="opinion" name="opinion" style="height: 100px" placeholder="Escribe tu reseña aquí"></textarea>
@@ -273,7 +275,6 @@
                 <label for="Opening" class="form-label">Opening</label>
                 <input type="text" class="form-control" id="Opening" name="Opening">
               </div>
-
               <div class="mb-3">
                 <label for="Ending" class="form-label">Ending</label>
                 <input type="text" class="form-control" id="Ending" name="Ending">
@@ -398,11 +399,13 @@
                   <div class="space-down">
                     <h6 th:text="${animes.getYear()}"></h6>
                   </div>
+
                   <div class="space-down" >
                     <!--
                     <h6 th:text="${animes.getGeneroElementoCompartidoAnimes().getNombre()}">Acción</h6>
                     -->
                     <h6>Géneros: Comedia, Aventura, Animación</h6>
+
                   </div>
                   <div class="space-down">
                     <img th:src="@{/img/platf_netflix.png}" alt="Netflix" class="netflix-logo" style="width: 40px; height: 30px">

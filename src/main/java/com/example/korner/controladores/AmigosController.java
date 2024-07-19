@@ -3,7 +3,6 @@ package com.example.korner.controladores;
 
 import com.example.korner.modelo.Amigo;
 import com.example.korner.servicio.AmigoServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

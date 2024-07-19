@@ -4,6 +4,7 @@ INSERT INTO animes (id,titulo, year, puntuacion, opinion) VALUES ("1003","prueba
 INSERT INTO animes (id,titulo, year, puntuacion, opinion) VALUES ("1004","prueba4","2020","5","opinion de prueba3");
 INSERT INTO animes (id,titulo, year, puntuacion, opinion) VALUES ("1005","prueba5","2020","2","opinion de prueba5");
 
+
 INSERT INTO roles (id_rol,nombre_rol) VALUES ("1","SUPERADMIN");
 INSERT INTO roles (id_rol,nombre_rol) VALUES ("2","ADMIN");
 INSERT INTO roles (id_rol,nombre_rol) VALUES ("3","USER");

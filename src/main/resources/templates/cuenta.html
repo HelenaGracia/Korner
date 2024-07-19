@@ -41,6 +41,7 @@
       <h2 class="text-center txt-naranja">CREAR CUENTA</h2>
       <article class="col-12 col-md-6 p-3 formAjustes">
         <form action="">
+
           <input type="hidden" name="id" value="3">
           <div class="mb-3">
             <label class="form-label" for="usernameAjustes">Nombre de usuario:</label>
@@ -53,10 +54,12 @@
           <div class="mb-3">
             <label class="form-label" for="correo">Email</label>
             <input class="form-control" id="correo" name="correo" placeholder="correo" type="email" >
+
           </div>
           <div class="mb-3">
             <label for="añoNacimiento">Año de nacimiento:</label>
             <div class="form-floating">
+
               <select class="form-select mb-3 order" id="añoNacimiento" aria-label="Floating label select example">
                 <option selected>Elige</option>
                 <option value="2024">2024</option>
@@ -104,6 +107,7 @@
                 <option value="1982">1982</option>
                 <option value="1981">1981</option>
                 <option value="1980">1980</option>
+
               </select>
             </div>
           </div>
@@ -111,6 +115,7 @@
             <label for="nombreUsuario" class="d-block">Género</label>
             <div class="contenedor2">
               <div class="form-check form-check-inline">
+
                 <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="Masculino">
                 <label class="form-check-label" for="inlineRadio1">Masculino</label>
               </div>
@@ -120,6 +125,7 @@
               </div>
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="otro">
+
                 <label class="form-check-label" for="inlineRadio3">Otro</label>
               </div>
               <div class="mb-3">
@@ -136,8 +142,6 @@
   </div>
 </main>
 <footer class="bg-primary p-5"></footer>
-
 <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js}" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
 </body>
 </html>

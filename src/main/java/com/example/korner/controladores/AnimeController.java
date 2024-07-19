@@ -11,11 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
 
 @Controller
 @RequestMapping("/animes")
 public class AnimeController {
+
 
     //En vez de autowired, inyectamos las dependencias mediante el constructor https://platzi.com/discusiones/2317-spring-boot/168849-que-diferencia-hay-entre-crear-el-constructor-y-utilizar-la-anotacion-autowired/
     private final AnimeServiceImpl animeService;
@@ -34,6 +36,7 @@ public class AnimeController {
         model.addAttribute("anime", listaAnime);
         return "animes";
     }
+
 
 //    @GetMapping
 //    public String showAnime(Model model) {

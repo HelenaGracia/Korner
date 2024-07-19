@@ -14,7 +14,6 @@ import java.util.Optional;
 @Service
 public class UsuarioSecurityService extends AbstractService<Usuario,Integer, UsuarioRepository> implements UserDetailsService  {
 
-
     private final UsuarioRepository usuarioRepository;
     private final MessageSource messageSource;
 

@@ -180,6 +180,7 @@ nav li a img{
 }
 
 /* **************My Styles Irene************** */
+
 /* Modales de Secciones */
 .custom-modal {
     background-color: #ededed;
@@ -204,11 +205,13 @@ nav li a img{
     height: 154px;
     object-fit: cover;
 }
+
 .custom-section-image {
     width: 380px;
     height: 154px;
     object-fit: cover;
 }
+
 /* Imagenes de Secciones - Libros*/
 .custom-section-books-image {
     width: 50%;
@@ -265,7 +268,7 @@ nav li a img{
 /* Boton de Secciones - Añadir */
 .btn-section-add {
     background-color: var(--second-color) ;
-    color: var(--bs-white);
+    color: var(--bs-white); 
     width: auto;
     border-radius: 7px;
     padding: 15px 70px;
@@ -309,7 +312,7 @@ nav li a img{
 
 /* Barra de Búsqueda de Secciones */
 .search-input {
-    border: 2px solid var(--firts-color);
+    border: 2px solid var(--firts-color); 
     padding: 10px 20px;
     font-size: 16px;
     background-color: #ffffff;
@@ -319,6 +322,7 @@ nav li a img{
     margin-left: 5px;
     border-radius: 2px;
 }
+
   
   .search-input:focus {
     border-color:rgb(255, 70, 156);
@@ -417,7 +421,6 @@ nav li a img{
   }
 
 /*********** Estilos Alvaro **********/
-
 
 /* botones perfil*/
 
@@ -608,10 +611,10 @@ nav li a img{
 
 
 
-
 @media (min-width: 576px){
 
 }
+
 
 @media (min-width: 768px) and (max-width: 992px){
     .btn-caja{
@@ -624,6 +627,7 @@ nav li a img{
     .caja-botones{
         padding: 0;
     }
+
 }
 
 @media (min-width: 992px){
