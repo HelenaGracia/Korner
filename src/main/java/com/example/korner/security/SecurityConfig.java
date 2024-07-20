@@ -4,13 +4,11 @@ package com.example.korner.security;
 import com.example.korner.config.CustomAccessDeniedHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -51,10 +49,11 @@ public class SecurityConfig {
                 .requestMatchers("/fonts/**").permitAll()
                 .requestMatchers("/").permitAll()
                 .requestMatchers("/creacion").permitAll()
+                .requestMatchers(HttpMethod.POST, "/creacion/**").permitAll()
                 .requestMatchers("/generos/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated());
 
-        http.exceptionHandling().accessDeniedHandler(accessDeniedHandler());
+        http.exceptionHandling((exceptions)->exceptions.accessDeniedHandler(accessDeniedHandler()));
         // con el de abajo se hace lo mismo, pero sin el log de error editable con el de arriba
         //http.exceptionHandling().accessDeniedPage("/accessDenied")
 
