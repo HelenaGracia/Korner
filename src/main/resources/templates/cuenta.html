@@ -47,11 +47,11 @@
               </div>
               <div class="mb-3">
                 <label class="form-label" for="contrasena">Password</label>
-                <input class="form-control" id="contrasena" name="contrasena" placeholder="password" type="password" >
+                <input class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña" type="password" >
               </div>
               <div class="mb-3">
                 <label class="form-label" for="correo">Email</label>
-                <input class="form-control" id="correo" name="correo" placeholder="correo" type="email" >
+                <input class="form-control" id="correo" name="correo" placeholder="Correo Electrónico" type="email" >
 
               </div>
               <div class="mb-3">
@@ -64,21 +64,11 @@
                 </div>
               </div>
               <div class="mb-3">
-                <label for="nombreUsuario" class="d-block">Género</label>
+                <div class="d-block">Género</div>
                 <div class="contenedor2">
-                  <div class="form-check form-check-inline">
-
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="Masculino">
-                    <label class="form-check-label" for="inlineRadio1">Masculino</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="Femenino">
-                    <label class="form-check-label" for="inlineRadio2">Femenino</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="otro">
-
-                    <label class="form-check-label" for="inlineRadio3">Otro</label>
+                  <div class="form-check form-check-inline"  th:each="generoUsuarios : ${generoUsuario}">
+                    <label class="form-check-label" for="generoUsuario" th:text="${generoUsuarios.getDescripcion()}" ></label>
+                    <input class="form-check-input" type="radio" name="generos"  th:value="${generoUsuarios.getId()}" id="generoUsuario" >
                   </div>
                   <!--
                   <div class="mb-3">
