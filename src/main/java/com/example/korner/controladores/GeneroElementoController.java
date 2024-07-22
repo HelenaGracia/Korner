@@ -18,7 +18,7 @@ import java.util.Optional;
 
 
 @Controller
-@RequestMapping("/generos")
+@RequestMapping("/generosElementos")
 public class GeneroElementoController {
 
 
@@ -61,7 +61,7 @@ public class GeneroElementoController {
             attributes.addFlashAttribute("failed", "Error");
         }
 
-        return "redirect:/generos";
+        return "redirect:/generosElementos";
     }
 
 
@@ -75,7 +75,7 @@ public class GeneroElementoController {
         }catch (Exception e){
             attributes.addFlashAttribute("failed", "Error al eliminar");
         }
-        return "redirect:/generos";
+        return "redirect:/generosElementos";
     }
 
 }

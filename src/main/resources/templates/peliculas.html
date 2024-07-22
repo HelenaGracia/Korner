@@ -1,7 +1,6 @@
-<!doctype html>
-<html lang="es" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -15,11 +14,12 @@
     <link rel="icon" th:href="@{/img/favicon.ico}"/>
 </head>
 <body>
+<div class="page-container">
 <header>
     <nav class="navbar sticky-top navbar-expand-lg bg-primary" >
         <div class="container">
-            <a class="navbar-brand" th:href="@{/home.html}">
-                <img th:src="@{/img/Logo.png}" alt="logo Korner">
+            <a class="navbar-brand" th:href="@{/home}">
+                <img th:src="@{/img/LogoSinFondo.svg}" alt="logo Korner">
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -30,40 +30,43 @@
                         <a class="nav-link active" th:href="@{/peliculas}">Peliculas</a>
                     </li>
                     <li class="nav-item mt-lg-3 me-lg-5">
-                        <a class="nav-link" th:href="@{/videojuegos.html}">Videojuegos</a>
+                        <a class="nav-link" th:href="@{/videojuegos}">Videojuegos</a>
                     </li>
                     <li class="nav-item mt-lg-3 me-lg-5">
-                        <a class="nav-link" th:href="@{/series.html}">Series</a>
+                        <a class="nav-link" th:href="@{/series}">Series</a>
                     </li>
                     <li class="nav-item mt-lg-3 me-lg-5">
-                        <a class="nav-link" th:href="@{/libros.html}">Libros</a>
+                        <a class="nav-link" th:href="@{/libros}">Libros</a>
                     </li>
                     <li class="nav-item mt-lg-3 me-lg-5 ">
-                        <a class="nav-link" th:href="@{/animes.html}">Animes</a>
+                        <a class="nav-link" th:href="@{/animes}">Animes</a>
                     </li>
-                    <li class="nav-item ms-lg-5">
-                        <a class="" href="#" role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                            <img th:src="@{/img/Nevernight.jpg}" alt="imagen perfil" >
-                        </a>
-                    </li>
-                    <li class="nav-item mt-lg-4 ms-lg-4">
-                        <a href="#" role="button" class="position-relative" data-bs-toggle="modal" data-bs-target="#modal-noti">
-                            <span class="position-absolute top-0  start-100 translate-middle badge rounded-pill bg-danger">9</span>
-                            <i class="bi bi-bell fs-3 text-black"></i>
-                            <span class="visually-hidden">Notificaciones no leidas</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</header>
-<!-- Modal Notificaciones -->
-<div class="modal fade" id="modal-noti" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <!-- <li  class="nav-item mt-lg-3 me-lg-5"  sec:authorize ="hasRole('ADMIN')">
+                        <a class="nav-link" th:href="@{/gestion}">Gestión</a>
+                    </li>-->
+                     <li class="nav-item ms-lg-5">
+                         <a class="" href="#" role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                             <img th:src="@{/img/Nevernight.jpg}" alt="imagen perfil" >
+                         </a>
+                     </li>
+                     <li class="nav-item mt-lg-4 ms-lg-4">
+                         <a href="#" role="button" class="position-relative" data-bs-toggle="modal" data-bs-target="#modal-noti">
+                             <span class="position-absolute top-0  start-100 translate-middle badge rounded-pill bg-danger">9</span>
+                             <i class="bi bi-bell fs-3 text-black"></i>
+                             <span class="visually-hidden">Notificaciones no leidas</span>
+                         </a>
+                     </li>
+                 </ul>
+             </div>
+         </div>
+     </nav>
+ </header>
+ <!-- Modal Notificaciones -->
+<div class="modal fade" id="modal-noti" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Notificaciones</h1>
+                <h1 class="modal-title fs-5" id="staticBackdropLabel1">Notificaciones</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -86,8 +89,8 @@
         <ul>
             <img th:src="@{/img/Nevernight.jpg}" alt="imagen perfil" class="img-perfil" >
             <a href="" class="nombre-perfil" >VictorMer</a>
-            <a href="" class="btn btn-primary boton-perfil" >Ajustes</a>
-            <a th:href="@{amigos.html}" class="btn btn-primary boton-perfil" >Amigos</a>
+            <a th:href="@{ajustes.html}" class="btn btn-primary boton-perfil" >Ajustes</a>
+            <a th:href="@{/amigos}" class="btn btn-primary boton-perfil" >Amigos</a>
             <a href="" class="btn btn-primary boton-perfil" >Cerrar sesión</a>
         </ul>
     </div>
@@ -110,7 +113,6 @@
                 </div>
             </div>
         </div>
-
         <!-- Botón Filtros -->
         <div class="col-4 col-md-3">
             <div class="dropdown">
@@ -120,331 +122,365 @@
                 <div class="dropdown-menu p-4" aria-labelledby="dropdownMenuButton">
                     <form>
                         <!-- Filtro por Género -->
-                        <div class="dropdown-menu p-4" aria-labelledby="dropdownMenuButton">
-                            <form>
-                                <!-- Filtro por Género -->
-                                <div class="form-group mb-3">
-                                    <label><strong>Género</strong></label><br>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="genreComedy" value="comedy">
-                                        <label class="form-check-label" for="genreComedy">Comedia</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="genreAnimation" value="animation">
-                                        <label class="form-check-label" for="genreAnimation">Animación</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="genreAdventure" value="adventure">
-                                        <label class="form-check-label" for="genreAdventure">Aventura</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="genreFantasy" value="fantasy">
-                                        <label class="form-check-label" for="genreFantasy">Fantasía</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="genreSatire" value="satire">
-                                        <label class="form-check-label" for="genreSatire">Sátira</label>
-                                    </div>
-                                </div>
-
-                                <!-- Filtro por Año -->
-                                <div class="form-group mb-3">
-                                    <label><strong>Año</strong></label><br>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="year2024" value="2024">
-                                        <label class="form-check-label" for="year2024">2024</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="year2023" value="2023">
-                                        <label class="form-check-label" for="year2023">2023</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="year2022" value="2022">
-                                        <label class="form-check-label" for="year2022">2022</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="year2021" value="2021">
-                                        <label class="form-check-label" for="year2021">2021</label>
-                                    </div>
-
-                                </div>
-
-
-                                <!-- Filtro por Valoración -->
-                                <div class="form-group mb-3">
-                                    <label><strong>Valoración</strong></label><br>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="rating5" value="5">
-                                        <label class="form-check-label" for="rating5">5</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="rating4" value="4">
-                                        <label class="form-check-label" for="rating4">4</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="rating3" value="3">
-                                        <label class="form-check-label" for="rating3">3</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="rating2" value="2">
-                                        <label class="form-check-label" for="rating2">2</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="rating1" value="1">
-                                        <label class="form-check-label" for="rating1">1</label>
-                                    </div>
-                                </div>
-
-                                <!-- Filtro por Plataforma -->
-                                <div class="form-group mb-3">
-                                    <label><strong>Plataforma</strong></label><br>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="platformNetflix" value="netflix">
-                                        <label class="form-check-label" for="platformNetflix">Netflix</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="platformAmazon" value="amazon">
-                                        <label class="form-check-label" for="platformAmazon">Amazon</label>
-                                    </div>
-                                </div>
-
-                                <button type="submit" class="btn-section-primary">Aplicar Filtros</button>
-                            </form>
-                        </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- MODAL FORMULARIO AÑADIR PELICULA -->
-
-    <div class="modal fade" id="modalPeliculaAñadir" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel">AÑADIR PELICULA</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form th:action="@{/peliculas/save}" method="post" enctype="multipart/form-data" >
-                        <div class="mb-3">
-                            <label for="titulo" class="form-label">Título</label>
-                            <input type="text" class="form-control" id="tituloPelicula" name="titulo">
-                        </div>
-                        <div class="mb-3">
-                            <label for="imagen" class="form-label">Imagen</label>
-                            <input class="form-control" type="file" id="imagenPelicula" name="imagen">
-                        </div>
-                        <div class="mb-3">
-                            <label for="year" class="form-label">Año de visualización</label>
-                            <input type="text" class="form-control" id="yearPelicula" name="year">
-                        </div>
-                        <!-- <div class="mb-3">
-                          <label for="generoElementoCompartidoPelicula" class="form-label">Géneros</label>
-                          <input type="text" class="form-control" id="generoElementoCompartidoPelicula" name="generoElementoCompartidoPelicula">
-                        </div>-->
-                        <div class="mb-3">
-                            <label for="opinion" class="form-label">Reseña</label>
-                            <textarea class="form-control" id="opinionPelicula" name="opinion" style="height: 100px" placeholder="Escribe tu reseña aquí"></textarea>
-                        </div>
-                        <!-- <div class="mb-3">
-                           <label for="plataformasPelicula" class="form-label">Plataforma</label>
-                           <textarea class="form-control" id="plataformasPelicula" name="plataformasPelicula" style="height: 100px" placeholder="Escribe tu reseña aquí"></textarea>
-                         </div>-->
-                        <div class="mb-3">
-                            <label for="puntuacion" class="form-label">Valoración</label>
-                            <input type="number" class="form-control" id="puntuacionPelicula" name="puntuacion" min="0" max="10" step="1">
-                        </div>
-                        <div class="mb-3">
-                            <label for="trailerRuta" class="form-label">Trailer</label>
-                            <input type="text" class="form-control" id="trailerRutaPelicula" name="trailerRuta">
-                        </div>
-                        <div class="d-flex justify-content-end ">
-                            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primary">Añadir película</button>
+                        <div class="form-group mb-3">
+                            <label><strong>Género</strong></label><br>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="genreAction" value="action">
+                                <label class="form-check-label" for="genreAction">Acción</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="genreAdventure" value="adventure">
+                                <label class="form-check-label" for="genreAdventure">Aventura</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="genreComedy" value="comedy">
+                                <label class="form-check-label" for="genreComedy">Comedia</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="genreDrama" value="drama">
+                                <label class="form-check-label" for="genreDrama">Drama</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="genreMystery" value="mystery">
+                                <label class="form-check-label" for="genreMystery">Misterio</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="genreFantasy" value="fantasy">
+                                <label class="form-check-label" for="genreFantasy">Fantasía</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="genreRomance" value="romance">
+                                <label class="form-check-label" for="genreRomance">Romance</label>
+                            </div>
                         </div>
 
+                        <!-- Filtro por Año -->
+                        <div class="form-group mb-3">
+                            <label><strong>Año</strong></label><br>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="year2024" value="2024">
+                                <label class="form-check-label" for="year2024">2024</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="year2023" value="2023">
+                                <label class="form-check-label" for="year2023">2023</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="year2022" value="2022">
+                                <label class="form-check-label" for="year2022">2022</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="year2021" value="2021">
+                                <label class="form-check-label" for="year2021">2021</label>
+                            </div>
 
+                        </div>
+
+                        <!-- Filtro por Valoración -->
+                        <div class="form-group mb-3">
+                            <label><strong>Valoración</strong></label><br>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="rating5" value="5">
+                                <label class="form-check-label" for="rating5">5</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="rating4" value="4">
+                                <label class="form-check-label" for="rating4">4</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="rating3" value="3">
+                                <label class="form-check-label" for="rating3">3</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="rating2" value="2">
+                                <label class="form-check-label" for="rating2">2</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="rating1" value="1">
+                                <label class="form-check-label" for="rating1">1</label>
+                            </div>
+                        </div>
+
+                        <!-- Filtro por Plataforma -->
+                        <div class="form-group mb-3">
+                            <label><strong>Plataforma</strong></label><br>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="platformNetflix" value="netflix">
+                                <label class="form-check-label" for="platformNetflix">Netflix</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="platformAmazon" value="amazon">
+                                <label class="form-check-label" for="platformAmazon">Amazon</label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-section-primary">Aplicar Filtros</button>
                     </form>
                 </div>
-
             </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- MODAL FORMULARIO AÑADIR PELICULA -->
+
+<div class="modal fade" id="modalPeliculaAñadir" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel">AÑADIR PELICULA</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/peliculas/savePelicula}" method="post" enctype="multipart/form-data" th:object="${datosPelicula}">
+                    <div class="mb-3">
+                        <label for="titulo" class="form-label">Título</label>
+                        <input type="text" class="form-control" id="tituloPelicula" name="titulo">
+                    </div>
+                    <div class="mb-3">
+                        <label for="imagen" class="form-label">Imagen</label>
+                        <input class="form-control" type="file" accept="image/png, image/jpeg" id="imagenPelicula" name="imagen">
+                    </div>
+                    <div class="mb-3">
+                        <label for="year" class="form-label">Año de visualización</label>
+                        <input type="text" class="form-control" id="yearPelicula" name="year">
+                    </div>
+                     <div class="mb-3">
+                      <label for="generoElementoCompartidoPelicula" class="form-label">Géneros</label>
+                         <select class="form-control" th:field="*{generoElementoCompartidoPelicula}" id="generoElementoCompartidoPelicula" >
+                             <option  value="" th:disabled="disabled" th:selected="selected">-Selecciona los géneros-</option>
+                             <th:block th:each="generosItem: ${listaGeneros}">
+                                 <option th:value="${generosItem.id}" th:text="${generosItem.nombre}"></option>
+                             </th:block>
+                         </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="opinion" class="form-label">Reseña</label>
+                        <textarea class="form-control" id="opinion" name="opinion" style="height: 100px" placeholder="Escribe tu reseña aquí"></textarea>
+                    </div>
+                    <!-- <div class="mb-3">
+                       <label for="plataformasPelicula" class="form-label">Plataforma</label>
+                       <textarea class="form-control" id="plataformasPelicula" name="plataformasPelicula" style="height: 100px" placeholder="Escribe tu reseña aquí"></textarea>
+                     </div>-->
+                    <div class="mb-3">
+                        <label for="puntuacion" class="form-label">Valoración</label>
+                        <input type="number" class="form-control" id="puntuacion" name="puntuacion" min="0" max="10" step="1">
+                    </div>
+                    <div class="mb-3">
+                        <label for="trailerRuta" class="form-label">Trailer</label>
+                        <input type="text" class="form-control" id="trailerRuta" name="trailerRuta">
+                    </div>
+                    <div class="d-flex justify-content-end ">
+                        <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Añadir película</button>
+                    </div>
+
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- FIN MODAL FORMULARIO AÑADIR PELICULA -->
+
+<!-- ESTRUCTURA PELICULAS -->
+
+<main class="content-wrap pt-5">
+    <div class="container">
+        <!-- Responsive -->
+        <div class="row pb-1">
+            <div class="col-12">
+                <div th:if = "${size == 0}" class="text-center">
+                    <p>No hay añadida ningúna película</p>
+                </div>
+                <div th:if="${success}" class="text-center alert alert-success">
+                    <p th:text="${success}"></p>
+                </div>
+                <div th:if="${failed}" class="text-center alert alert-danger">
+                    <p th:text="${failed}"></p>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6 mb-4" th:if = "${size > 0}" th:each = "pelicula : ${peliculas}"  >
+
+                <!-- MODAL FORMULARIO MODIFICAR PELICULA -->
+
+                <div class="modal fade"  th:id="modalPeliculaUpdate + ${pelicula.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel">MODIFICAR PELICULA</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form th:action="@{peliculas/savePelicula}" method="post" enctype="multipart/form-data" th:object="${datosPelicula}">
+                                    <input type="hidden" name="id" th:value="${pelicula.id}">
+                                    <div class="mb-3">
+                                        <label for="titulo" class="form-label">Título</label>
+                                        <input type="text" class="form-control" id="titulo"
+                                               th:name="titulo" th:value="${pelicula.titulo}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="imagen" class="form-label">Imagen</label>
+                                        <input class="form-control" type="file" accept="image/png, image/jpeg" id="imagen" name="imagen">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="year" class="form-label">Año de visualización</label>
+                                        <input type="text" class="form-control" id="year"
+                                               th:name="year" th:value="${pelicula.year}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="generoElementoCompartidoPelicula" class="form-label">Géneros</label>
+                                             <select class="form-control" th:field="*{generoElementoCompartidoPelicula}" id="generoElementoCompartidoPelicula" >
+                                                 <option  value="" th:disabled="disabled" th:selected="selected">-Selecciona los géneros-</option>
+                                                 <th:block th:each="generosItem: ${listaGeneros}">
+                                                     <option th:value="${generosItem.id}" th:text="${generosItem.nombre}"></option>
+                                                 </th:block>
+                                             </select>
+                                  </div>
+                                    <div class="mb-3">
+                                        <label for="opinion" class="form-label">Reseña</label>
+                                        <textarea class="form-control" id="opinionPeliculaUpdate"
+                                                  style="height: 100px" placeholder="Escribe tu reseña aquí" th:name="opinion"
+                                                  th:text="${pelicula.opinion}"></textarea>
+                                    </div>
+                                    <!-- <div class="mb-3">
+                                       <label for="plataformasPelicula" class="form-label">Plataforma</label>
+                                       <textarea class="form-control" id="plataformasPelicula" name="plataformasPelicula" style="height: 100px" placeholder="Escribe tu reseña aquí"></textarea>
+                                     </div>-->
+                                    <div class="mb-3">
+                                        <label for="puntuacion" class="form-label">Valoración</label>
+                                        <input type="number" class="form-control" id="puntuacionPeliculaUpdate"
+                                               min="0" max="10" step="1" th:name="puntuacion" th:value="${pelicula.puntuacion}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="trailerRuta" class="form-label">Trailer</label>
+                                        <input type="text" class="form-control" id="trailerRutaPeliculaUpdate" th:name="trailerRuta"
+                                               th:value="${pelicula.trailerRuta}">
+                                    </div>
+                                    <div class="d-flex justify-content-end ">
+                                        <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cerrar</button>
+                                        <button type="submit" class="btn btn-primary" >Guardar</button>
+                                    </div>
+
+
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FIN MODAL FORMULARIO MODIFICAR PELICULA -->
+
+                <!-- MODAL FORMULARIO ELIMINAR PELICULA -->
+
+                <div class="modal fade"  th:id="modalPeliculaDelete + ${pelicula.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel3" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel3">ELIMINAR PELICULA</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form th:action="@{peliculas/deletePelicula}" method="post">
+                                    <input type="hidden" name="id" th:value="${pelicula.id}">
+                                    <div class="mb-3">
+                                        <label for="titulo" class="form-label">Eliminar el siguiente anime:</label>
+                                        <h4 class="form-control" id="tituloAnimeDelete" th:text="${pelicula.titulo}"></h4>
+                                    </div>
+                                    <div class="d-flex justify-content-end ">
+                                        <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cerrar</button>
+                                        <button type="submit" class="btn btn-primary" >Borrar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--FIN MODAL FORMULARIO ELIMINAR PELICULA -->
+
+                <div class="modal-dialog modal-dialog-centered custom-modal">
+                    <div class="modal-content">
+                        <!-- Imagen Película -->
+                        <div class="modal-header space-down">
+                            <img th:src="${pelicula.imagenRuta}" alt="Garfield: La Película" class="custom-section-image"/>
+                        </div>
+                        <!-- Icono de compartir -->
+                        <button class="btn-share">
+                            <img th:src="@{/img/icono_compartir.png}" alt="Compartir" class="share-icon">
+                        </button>
+                        <!-- Título, Año, Géneros y Plataforma Película -->
+                        <div class="modal-body">
+                            <div class="space-down">
+                                <h5 class="modal-title"><b th:text="${pelicula.titulo}"></b></h5>
+                            </div>
+                            <div class="space-down">
+                                <h6>Año:</h6>
+                                <h6 th:text="${pelicula.year}"></h6>
+                            </div>
+                            <div class="space-down">
+                                <h6>Géneros:</h6>
+                                <h6 th:text="${pelicula.generoElementoCompartidoPelicula.nombre}"></h6>
+                            </div>
+                            <div title="Amazon" class="space-down">
+                                <img th:src="@{/img/platf_amazon.png}" alt="Amazon" class="platf-logo-amazon">
+                            </div>
+                        </div>
+                        <!-- Reseña y Puntuación -->
+                        <div class="modal-body custom-review">
+                            <div class="space-down">
+                                <h6>Opinión:</h6>
+                                <div class="form-control" style="border-radius: 0; border-color: black; background-color: white; height: auto;">
+                                    <p th:text="${pelicula.opinion}"></p>
+                                </div>
+                            </div>
+                            <h6>Puntuación:</h6>
+                            <div class="modal-rating space-down d-flex align-items-center">
+
+                                <h6 style="font-weight:bold;" th:text="${pelicula.puntuacion}"></h6>
+                            </div>
+                        </div>
+                        <!-- Tráiler -->
+                        <div class="yt-trailer">
+                            <iframe
+                                    th:src="${pelicula.trailerRuta}"
+                                    allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen>
+                            </iframe>
+                        </div>
+                        <!-- Botones de Modificar y Eliminar -->
+                        <div class="modal-body text-center space-down" style="margin-top: 15px;">
+                            <div class="button-container" style="display: flex; justify-content: center; gap: 10px;">
+                                <button type="button" class="btn-section-primary"  data-bs-toggle="modal"
+                                        th:attr="data-bs-target='#modalPeliculaUpdate' +*{pelicula.id}">Modificar</button>
+                                <button type="button"  class="btn-section-primary" data-bs-toggle="modal"
+                                        th:attr="data-bs-target='#modalPeliculaDelete' + *{pelicula.id}">Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Fin Modal 1 -->
+             </div>
+
+        </div>
+        <div class="d-flex justify-content-end pb-5">
+            <a href="#">
+                <i class="bi bi-chat"></i>
+            </a>
         </div>
     </div>
 
+</main>
 
 
-    <main class="pt-5">
-        <div class="container">
-            <!-- Responsive -->
-            <div class="row justify-content-center" >
-                <div class="col-12 col-md-6 mb-4" th:each="pelicula:${peliculas}">
-
-                    <!-- MODAL FORMULARIO MODIFICAR PELICULA -->
-
-                    <div class="modal fade"  th:id="modalPeliculaUpdate + ${pelicula.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel">MODIFICAR PELICULA</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form th:action="@{peliculas/save}" method="post">
-                                        <input type="hidden" name="id" th:value="${pelicula.id}">
-                                        <div class="mb-3">
-                                            <label for="titulo" class="form-label">Título</label>
-                                            <input type="text" class="form-control" id="tituloPeliculaUpdate"
-                                                   th:name="titulo" th:value="${pelicula.titulo}">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="imagen" class="form-label">Imagen</label>
-                                            <input class="form-control" type="file" id="imagenPeliculaUpdate" name="imagen">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="year" class="form-label">Año de visualización</label>
-                                            <input type="text" class="form-control" id="yearPeliculaUpdate"
-                                                   th:name="year" th:value="${pelicula.year}">
-                                        </div>
-                                        <!--<div class="mb-3">
-                                        <label for="generoElementoCompartidoPelicula" class="form-label">Géneros</label>
-                                         <select id="generoElementoCompartidoPelicula" name="generoElementoCompartidoPelicula">
-                                           <option>-SELECT-</option>
-                                           <option th:each=""></option>
-                                         </select>
-                                      </div>-->
-                                        <div class="mb-3">
-                                            <label for="opinion" class="form-label">Reseña</label>
-                                            <textarea class="form-control" id="opinionPeliculaUpdate"
-                                                      style="height: 100px" placeholder="Escribe tu reseña aquí" th:name="opinion"
-                                                      th:text="${pelicula.opinion}"></textarea>
-                                        </div>
-                                        <!-- <div class="mb-3">
-                                           <label for="plataformasPelicula" class="form-label">Plataforma</label>
-                                           <textarea class="form-control" id="plataformasPelicula" name="plataformasPelicula" style="height: 100px" placeholder="Escribe tu reseña aquí"></textarea>
-                                         </div>-->
-                                        <div class="mb-3">
-                                            <label for="puntuacion" class="form-label">Valoración</label>
-                                            <input type="number" class="form-control" id="puntuacionPeliculaUpdate"
-                                                   min="0" max="10" step="1" th:name="puntuacion" th:value="${pelicula.puntuacion}">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="trailerRuta" class="form-label">Trailer</label>
-                                            <input type="text" class="form-control" id="trailerRutaPeliculaUpdate" th:name="trailerRuta"
-                                                   th:value="${pelicula.trailerRuta}">
-                                        </div>
-                                        <div class="d-flex justify-content-end ">
-                                            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cerrar</button>
-                                            <button type="submit" class="btn btn-primary" >Guardar</button>
-                                        </div>
-
-
-                                    </form>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- MODAL FORMULARIO ELIMINAR PELICULA -->
-
-                    <div class="modal fade"  th:id="modalPeliculaDelete + ${pelicula.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel3" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel3">ELIMINAR PELICULA</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form th:action="@{peliculas/delete}" method="post">
-                                        <input type="hidden" name="id" th:value="${pelicula.id}">
-                                        <div class="mb-3">
-                                            <label for="titulo" class="form-label">Eliminar el siguiente anime:</label>
-                                            <h4 class="form-control" id="tituloAnimeDelete" th:text="${pelicula.titulo}"></h4>
-                                        </div>
-                                        <div class="d-flex justify-content-end ">
-                                            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cerrar</button>
-                                            <button type="submit" class="btn btn-primary" >Borrar</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- MODAL 1 -->
-                    <div class="modal-dialog modal-dialog-centered custom-modal">
-                        <div class="modal-content">
-                            <!-- Imagen Película -->
-                            <div class="modal-header space-down">
-                                 <img th:src="${pelicula.imagenRuta}" alt="Garfield: La Película" class="custom-section-image"/>
-                            </div>
-                            <!-- Icono de compartir -->
-                            <button class="btn-share">
-                                <img th:src="@{/img/icono_compartir.png}" alt="Compartir" class="share-icon">
-                            </button>
-                            <!-- Título, Año, Géneros y Plataforma Película -->
-                            <div class="modal-body">
-                                <div class="space-down">
-                                    <h5 class="modal-title"><b th:text="${pelicula.titulo}"></b></h5>
-                                </div>
-                                <div class="space-down">
-                                    <h6>Año:</h6>
-                                    <h6 th:text="${pelicula.year}"></h6>
-                                </div>
-                                <div class="space-down">
-                                    <h6>Géneros: Comedia, Aventura, Animación</h6>
-                                </div>
-                                <div title="Amazon" class="space-down">
-                                    <img th:src="@{/img/platf_amazon.png}" alt="Amazon" class="platf-logo-amazon">
-                                </div>
-                            </div>
-                            <!-- Reseña y Puntuación -->
-                            <div class="modal-body custom-review">
-                                <div class="space-down">
-                                    <div class="form-control" style="border-radius: 0; border-color: black; background-color: white; height: auto;">
-                                        <p th:text="${pelicula.opinion}"></p>
-                                    </div>
-                                </div>
-                                <div class="modal-rating space-down d-flex align-items-center">
-                                    <h6 style="font-weight:bold;" th:text="${pelicula.puntuacion}"></h6>
-                                </div>
-                            </div>
-                            <!-- Tráiler -->
-                            <div class="yt-trailer">
-                                <iframe
-                                        th:src="${pelicula.trailerRuta}"
-                                        allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
-                                        allowfullscreen>
-                                </iframe>
-                            </div>
-                            <!-- Botones de Modificar y Eliminar -->
-                            <div class="modal-body text-center space-down" style="margin-top: 15px;">
-                                <div class="button-container" style="display: flex; justify-content: center; gap: 10px;">
-                                    <button type="button" class="btn-section-primary"  data-bs-toggle="modal"
-                                            th:attr="data-bs-target='#modalPeliculaUpdate' +*{pelicula.id}">Modificar</button>
-                                    <button type="button"  class="btn-section-primary" data-bs-toggle="modal"
-                                            th:attr="data-bs-target='#modalPeliculaDelete' + *{pelicula.id}">Eliminar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Fin Modal 1 -->
-                </div>
-
-
-
-                <div class="d-flex justify-content-end pb-5">
-                    <a href="#">
-                        <i class="bi bi-chat"></i>
-                    </a>
-                </div>
-            </div>
-    </main>
-    <footer class="bg-primary p-5"></footer>
-    <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js}" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
-
+<footer class="bg-primary"></footer>
+<script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js}" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</div>
 </body>
 </html>
