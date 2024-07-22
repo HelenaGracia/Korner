@@ -13,81 +13,82 @@
     <link rel="icon" th:href="@{/img/favicon.ico}"/>
   </head>
   <body>
-    <header>
-      <nav class="navbar sticky-top navbar-expand-lg bg-white" >
-        <div class="container">
-          <a class="navbar-brand" th:href="@{/index}">
-            <img th:src="@{/img/LogoSinFondo.svg}" alt="logo Korner">
-          </a>
-          <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="hamburguesa"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-lg-auto">
-              <li class="nav-item me-lg-5">
-                <a class="index-link" role="button">Log in</a>
-              </li>
-              <li class="nav-item">
-                <a class="btn btn-light" th:href="@{/cuenta}" role="button">Empezar</a>
-              </li>
-            </ul>
+    <div class="page-container">
+      <header>
+        <nav class="navbar sticky-top navbar-expand-lg bg-white" >
+          <div class="container">
+            <a class="navbar-brand" th:href="@{/index}">
+              <img th:src="@{/img/LogoSinFondo.svg}" alt="logo Korner">
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="hamburguesa"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav ms-lg-auto">
+                <li class="nav-item me-lg-5">
+                  <a class="index-link" role="button">Log in</a>
+                </li>
+                <li class="nav-item">
+                  <a class="btn btn-light" th:href="@{/cuenta}" role="button">Empezar</a>
+                </li>
+              </ul>
+            </div>
           </div>
+        </nav>
+      </header>
+      <main class="content-wrap pt-2">
+        <div class="container">
+          <section class="row d-flex justify-content-center pb-5">
+            <h2 class="text-center txt-naranja">CREAR CUENTA</h2>
+            <article class="col-12 col-md-6 p-3 formAjustes">
+              <form th:action="@{creacion/save}" method="post">
+                <div class="mb-3">
+                  <label class="form-label" for="usernameAjustes">Nombre de usuario:</label>
+                  <input class="form-control" id="usernameAjustes" name="nombre" placeholder="Nombre Usuario" type="text" >
+                </div>
+                <div class="mb-3">
+                  <label class="form-label" for="contrasena">Password</label>
+                  <input class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña" type="password" >
+                </div>
+                <div class="mb-3">
+                  <label class="form-label" for="correo">Email</label>
+                  <input class="form-control" id="correo" name="correo" placeholder="Correo Electrónico" type="email" >
+
+                </div>
+                <div class="mb-3">
+                  <label for="anyoNacimiento">Año de nacimiento:</label>
+                  <div class="form-floating">
+                    <select class="form-select mb-3 order" id="anyoNacimiento" name="edad" aria-label="Floating label select example">
+                        <option value="0" disabled hidden selected>Selecciona Año de Nacimiento</option>
+                        <option th:each="option : ${options}" th:value="${option}" th:text="${option}" ></option>
+                    </select>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <div class="d-block">Género</div>
+                  <div class="contenedor2">
+                    <div class="form-check form-check-inline"  th:each="generoUsuarios : ${generoUsuario}">
+                      <label class="form-check-label" for="generoUsuario" th:text="${generoUsuarios.getDescripcion()}" ></label>
+                      <input class="form-check-input" type="radio" name="generos"  th:value="${generoUsuarios.getId()}" id="generoUsuario" >
+                    </div>
+                    <!--
+                    <div class="mb-3">
+                      <label class="form-label" for="usernameCrearCuenta">País:</label>
+                      <input class="form-control" id="usernameCrearCuenta" name="usernameCrearCuenta" placeholder="País" type="text" >
+                    </div>
+                    -->
+                    <div class="mb-3 d-flex justify-content-end">
+                      <button class="btn btn-primary" type="submit">Enviar</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </article>
+          </section>
         </div>
-      </nav>
-    </header>
-    <main class="pt-2">
-      <div class="container">
-        <section class="row d-flex justify-content-center pb-5">
-          <h2 class="text-center txt-naranja">CREAR CUENTA</h2>
-          <article class="col-12 col-md-6 p-3 formAjustes">
-            <form th:action="@{creacion/save}" method="post">
-              <div class="mb-3">
-                <label class="form-label" for="usernameAjustes">Nombre de usuario:</label>
-                <input class="form-control" id="usernameAjustes" name="nombre" placeholder="Nombre Usuario" type="text" >
-              </div>
-              <div class="mb-3">
-                <label class="form-label" for="contrasena">Password</label>
-                <input class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña" type="password" >
-              </div>
-              <div class="mb-3">
-                <label class="form-label" for="correo">Email</label>
-                <input class="form-control" id="correo" name="correo" placeholder="Correo Electrónico" type="email" >
-
-              </div>
-              <div class="mb-3">
-                <label for="anyoNacimiento">Año de nacimiento:</label>
-                <div class="form-floating">
-                  <select class="form-select mb-3 order" id="anyoNacimiento" name="edad" aria-label="Floating label select example">
-                      <option value="0" disabled hidden selected>Selecciona Año de Nacimiento</option>
-                      <option th:each="option : ${options}" th:value="${option}" th:text="${option}" ></option>
-                  </select>
-                </div>
-              </div>
-              <div class="mb-3">
-                <div class="d-block">Género</div>
-                <div class="contenedor2">
-                  <div class="form-check form-check-inline"  th:each="generoUsuarios : ${generoUsuario}">
-                    <label class="form-check-label" for="generoUsuario" th:text="${generoUsuarios.getDescripcion()}" ></label>
-                    <input class="form-check-input" type="radio" name="generos"  th:value="${generoUsuarios.getId()}" id="generoUsuario" >
-                  </div>
-                  <!--
-                  <div class="mb-3">
-                    <label class="form-label" for="usernameCrearCuenta">País:</label>
-                    <input class="form-control" id="usernameCrearCuenta" name="usernameCrearCuenta" placeholder="País" type="text" >
-                  </div>
-                  -->
-                  <div class="mb-3 d-flex justify-content-end">
-                    <button class="btn btn-primary" type="submit">Enviar</button>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </article>
-        </section>
-      </div>
-    </main>
-      <footer class="bg-primary p-5"></footer>
-
-    <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js}" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+      </main>
+      <footer class="bg-primary"></footer>
+      <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js}" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    </div>
   </body>
 </html>
