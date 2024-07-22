@@ -15,13 +15,20 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 import java.util.Optional;
 
+
+
 @Controller
-@RequestMapping("/generos")
+@RequestMapping("/generosElementos")
 public class GeneroElementoController {
-    @Autowired
-    private GeneroElementoServiceImpl generoElementoService;
+
+
+    private final GeneroElementoServiceImpl generoElementoService;
 
     private final Logger logger = LoggerFactory.getLogger(GeneroElementoController.class);
+
+    public GeneroElementoController(GeneroElementoServiceImpl generoElementoService) {
+        this.generoElementoService = generoElementoService;
+    }
 
 
     @GetMapping("")
@@ -37,7 +44,9 @@ public class GeneroElementoController {
     public String saveGenero(@ModelAttribute("newGenero") GeneroElementoCompartido generoElementoCompartido,
                              RedirectAttributes attributes){
         try {
-            logger.info("este es el objeto genero{}", generoElementoCompartido);
+
+            logger.info("este es el objeto genero guardado{}", generoElementoCompartido);
+
             generoElementoService.saveEntity(generoElementoCompartido);
             attributes.addFlashAttribute("success", "Elemento añadido correctamente");
 
@@ -52,20 +61,21 @@ public class GeneroElementoController {
             attributes.addFlashAttribute("failed", "Error");
         }
 
-        return "redirect:/generos";
+        return "redirect:/generosElementos";
     }
-
 
 
     @PostMapping("/deleteGenero")
     public String deleteGenero(GeneroElementoCompartido generoElementoCompartido, RedirectAttributes attributes){
         try {
+            logger.info("este es el objeto genero eliminado{}", generoElementoCompartido);
+
             generoElementoService.deleteEntity(generoElementoCompartido);
             attributes.addFlashAttribute("success", "Elemento borrado");
         }catch (Exception e){
             attributes.addFlashAttribute("failed", "Error al eliminar");
         }
-        return "redirect:/generos";
+        return "redirect:/generosElementos";
     }
 
 }

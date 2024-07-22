@@ -5,10 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.io.Serializable;
-import java.util.Date;
 
 
 @MappedSuperclass
@@ -29,11 +26,11 @@ public abstract class AbstractEntity implements Serializable {
 
     @Column (name = "year")
     @NonNull
-    private String year;
+    private Short year;
 
     @Column (name = "puntuacion")
     @NonNull
-    private Integer puntuacion;
+    private Short puntuacion;
 
     @Column (name = "opinion" , length = 4000)
     @NonNull

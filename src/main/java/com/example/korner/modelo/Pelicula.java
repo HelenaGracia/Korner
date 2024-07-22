@@ -12,7 +12,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "peliculas" ,
+@Table(name = "peliculas" ,uniqueConstraints = @UniqueConstraint(columnNames = "titulo"),
         indexes = {@Index(name = "indice1",columnList = "titulo"),
                 @Index(name = "indice2",columnList = "year"),
                 @Index(name = "indice3",columnList = "id_generos_elemt_comp")})
