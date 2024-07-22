@@ -16,6 +16,15 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+/*
+Para que funcione hay que añadir en el pom la sieguiente dependencia
+        <dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.16.1</version>
+		</dependency>
+ */
+
 @Service
 public class FileSystemStorageService implements StorageService{
     private final Path rootLocation;

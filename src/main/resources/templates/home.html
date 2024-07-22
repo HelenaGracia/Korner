@@ -13,12 +13,12 @@
   <link rel="icon" th:href="@{/img/favicon.ico}"/>
 </head>
   <body>
-    
+    <div class="page-container">
         <header>
              <nav class="navbar sticky-top navbar-expand-lg bg-primary" >
                 <div class="container">
-                  <a class="navbar-brand" href="home.html">
-                    <img th:src="@{/img/Logo.png}" alt="logo Korner">
+                  <a class="navbar-brand" th:href="@{/home}">
+                    <img th:src="@{/img/LogoSinFondo.svg}" alt="logo Korner">
                   </a>
                   <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -94,7 +94,7 @@
           </div>
         </div>
 
-        <main class="pt-5">
+        <main class="content-wrap pt-5">
           <div class="container">
             <section class="row align-items-center ">
               <article class="col-12 col-md-6">
@@ -155,8 +155,8 @@
             </div>
           </div> 
         </main>
-        <footer class="bg-primary p-5"></footer>
-    <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js}" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    
+        <footer class="bg-primary "></footer>
+      <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js}" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    </div>
   </body>
 </html>

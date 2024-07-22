@@ -9,10 +9,13 @@ import com.example.korner.servicio.PeliculaServiceImpl;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -32,45 +35,64 @@ public class PeliculaController {
 
     private final Logger logger = LoggerFactory.getLogger(PeliculaController.class);
 
-
     //Mostrar Peliculas
-
     @GetMapping("")
     public String listAllPeliculas(Model model){
-        model.addAttribute("peliculas", peliculaService.getAll());
+        List<Pelicula> listadoPeliculas = peliculaService.getAll();
+        Pelicula pelicula = new Pelicula();
+        List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
+        model.addAttribute("listaGeneros", generoElementoCompartidoList);
+        model.addAttribute("size", listadoPeliculas.size());
+        model.addAttribute("peliculas", listadoPeliculas);
+        model.addAttribute("datosPelicula", pelicula);
         return "peliculas";
     }
 
 
     //Guardar Pelicula
 
-    @PostMapping("/save")
+    @PostMapping("/savePelicula")
     //Obtenemos del formulario el contenido del input imagen, que es un archivo de imagen y se lo pasamos al parametro multipartFile
-    public String save(@RequestParam("imagen") MultipartFile multipartFile, Pelicula pelicula){
-        logger.info("este es el objeto pelicula guardado{}", pelicula);
-        //guardamos en la BBDD  el objeto pelicula con el resto de la información que hemos obtenido del formulario para que genere un id al guardarse
-        peliculaService.saveEntity(pelicula);
-        logger.info("este es el objeto pelicula guardado{}", pelicula);
-        //Creamos nuestros proprios nombres que van a llevar los archivos de imagenes, compuestos por el id del objeto pelicula y la extensión del archivo(jpg, png)
-        String nombreArchivo = pelicula.getId() + "." + FilenameUtils.getExtension(multipartFile.getOriginalFilename());
-        //Llamamos al metedos y le pasamos los siguientes argumentos(el archivo de imagen, nombre de la imagen)
-        fileSystemStorageService.storeWithName(multipartFile, nombreArchivo);
-        //Modificamos el nombre del atributo imagenRuta del objeto pelicula con la url que genera el controlador ImagenesController
-        pelicula.setImagenRuta( "/imagenes/leerImagen/" + nombreArchivo);
-        //Volvemos a guardar el objeto en la BBDD con los cambios
+    public String savePelicula(@RequestParam("imagen") MultipartFile multipartFile, Pelicula pelicula, RedirectAttributes attributes){
+        try {
+            logger.info("este es el objeto pelicula guardado{}", pelicula);
+            //guardamos en la BBDD  el objeto pelicula con el resto de la información que hemos obtenido del formulario para que genere un id al guardarse
+            peliculaService.saveEntity(pelicula);
+            logger.info("este es el objeto pelicula guardado{}", pelicula);
+            //Creamos nuestros proprios nombres que van a llevar los archivos de imagenes, compuestos por el id del objeto pelicula y la extensión del archivo(jpg, png)
+            String nombreArchivo = pelicula.getId() + "." + FilenameUtils.getExtension(multipartFile.getOriginalFilename());
+            //Llamamos al metedos y le pasamos los siguientes argumentos(el archivo de imagen, nombre de la imagen)
+            fileSystemStorageService.storeWithName(multipartFile, nombreArchivo);
+            //Modificamos el nombre del atributo imagenRuta del objeto pelicula con la url que genera el controlador ImagenesController
+            pelicula.setImagenRuta( "/imagenes/leerImagen/" + nombreArchivo);
+            //Volvemos a guardar el objeto en la BBDD con los cambios
+            peliculaService.saveEntity(pelicula);
+            attributes.addFlashAttribute("success", "Elemento añadido correctamente");
+        }catch (DataIntegrityViolationException e){
+            e.printStackTrace();
+            attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
+        } catch (Exception e){
+            e.printStackTrace();
+            attributes.addFlashAttribute("failed", "Error");
+        }
 
-        peliculaService.saveEntity(pelicula);
         return "redirect:/peliculas";
     }
 
 
     //Eliminar Pelicula
-    @PostMapping("/delete")
-    public String delete(Pelicula pelicula){
-        logger.info("este es el objeto pelicula eliminado{}", pelicula);
+    @PostMapping("/deletePelicula")
+    public String deletePelicula(Pelicula pelicula, RedirectAttributes attributes){
+        try {
+            logger.info("este es el objeto pelicula eliminado{}", pelicula);
+            peliculaService.deleteEntity(pelicula);
+            attributes.addFlashAttribute("success", "Elemento borrado");
+        }catch (Exception e){
+            attributes.addFlashAttribute("failed", "Error al eliminar");
+        }
 
-        peliculaService.deleteEntity(pelicula);
         return "redirect:/peliculas";
     }
+
 
 }
