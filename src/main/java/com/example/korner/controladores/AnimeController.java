@@ -41,15 +41,15 @@ public class AnimeController {
         List<GeneroElementoCompartido> listaGeneroElemento = generoElementoService.getAll();
         Animes anime = new Animes();
         model.addAttribute("datosAnime", anime);
-        model.addAttribute("listaGenerosAnime", listaGeneroElemento);
+        model.addAttribute("listaGeneros", listaGeneroElemento);
         model.addAttribute("size", listaAnime.size());
-        model.addAttribute("anime", listaAnime);
+        model.addAttribute("animes", listaAnime);
         return "animes";
     }
 
 
 
-    @PostMapping("/save")
+    @PostMapping("/saveAnime")
     //Obtenemos del formulario el contenido del input imagen, que es un archivo de imagen y se lo pasamos al parametro multipartFile
     public String save(@RequestParam("imagen") MultipartFile multipartFile, Animes anime, RedirectAttributes attributes){
 
@@ -77,7 +77,7 @@ public class AnimeController {
     }
 
 
-    @PostMapping("/delete")
+    @PostMapping("/deleteAnime")
     public String delete(Animes anime,RedirectAttributes attributes){
         try {
             animeService.deleteEntity(anime);

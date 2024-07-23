@@ -13,7 +13,7 @@ import java.util.Map;
 @Controller
 public class MiErrorController implements ErrorController {
 
-    private final ErrorAttributes errorAttributes;
+    /*private final ErrorAttributes errorAttributes;
 
     public MiErrorController(ErrorAttributes errorAttributes) {
         this.errorAttributes = errorAttributes;
@@ -24,6 +24,6 @@ public class MiErrorController implements ErrorController {
         Map<String,Object> errorMap = errorAttributes.getErrorAttributes(webRequest, ErrorAttributeOptions.of(ErrorAttributeOptions.Include.MESSAGE));
         model.addAttribute("msg", errorMap.get("error") + ": " + errorMap.get("message"));
         return "error";
-    }
+    }*/
 
 }
