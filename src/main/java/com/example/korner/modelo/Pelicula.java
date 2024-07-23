@@ -2,11 +2,7 @@ package com.example.korner.modelo;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.Serializable;
-import java.util.Date;
 import java.util.Set;
 
 @Getter
@@ -25,9 +21,10 @@ public class Pelicula  extends AbstractEntity{
     @JoinColumn(name = "id_plataformas", foreignKey = @ForeignKey(name = "fk_plataformas_peliculas"))
     private Plataforma plataformasPelicula;
 
-    @ManyToOne (fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_generos_elemt_comp", foreignKey = @ForeignKey(name = "fk_generos_elemt_comp_peliculas"))
-    private GeneroElementoCompartido generoElementoCompartidoPelicula;
+    @ManyToMany (fetch = FetchType.EAGER)
+    @JoinTable(name = "genero_pelicula", joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "id_generos_elemt_comp"))
+    private Set<GeneroElementoCompartido> generosElementoCompartidoPeliculas;
 
 
     @Override
@@ -35,7 +32,7 @@ public class Pelicula  extends AbstractEntity{
         return "Pelicula{" +
                 "trailerRuta='" + trailerRuta + '\'' +
                 ", plataformasPelicula=" + plataformasPelicula +
-                ", generoElementoCompartidoPelicula=" + generoElementoCompartidoPelicula +
+                ", generoElementoCompartidoPelicula=" + generosElementoCompartidoPeliculas +
                 '}'+ super.toString();
     }
 }
