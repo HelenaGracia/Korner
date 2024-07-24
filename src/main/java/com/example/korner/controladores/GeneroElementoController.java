@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -41,13 +43,19 @@ public class GeneroElementoController {
     }
 
     @PostMapping("/saveGenero")
-    public String saveGenero(@ModelAttribute("newGenero") GeneroElementoCompartido generoElementoCompartido,
-                             RedirectAttributes attributes){
+    public String saveGenero(@Validated @ModelAttribute("newGenero") GeneroElementoCompartido generoElementoCompartido,
+                             BindingResult bindingResult, RedirectAttributes attributes){
+        if (bindingResult.hasErrors()){
+            attributes.addFlashAttribute("failed", "Error, el campo no puede estar en blanco");
+            return "redirect:/generosElementos";
+        }
         try {
 
-            logger.info("este es el objeto genero guardado{}", generoElementoCompartido);
+            logger.info("este es el objeto genero recibido{}", generoElementoCompartido);
 
             generoElementoService.saveEntity(generoElementoCompartido);
+            logger.info("este es el objeto genero guardado{}", generoElementoCompartido);
+
             attributes.addFlashAttribute("success", "Elemento añadido correctamente");
 
 

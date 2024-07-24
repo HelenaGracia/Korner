@@ -72,7 +72,7 @@ public class PeliculaController {
 
         }else {
             try {
-                logger.info("este es el objeto pelicula guardado{}", pelicula);
+                logger.info("este es el objeto pelicula recibido{}", pelicula);
             /*guardamos en la BBDD  el objeto pelicula con el resto de la información que hemos obtenido
              del formulario para que genere un id al guardarse
              */

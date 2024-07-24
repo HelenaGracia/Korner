@@ -1,17 +1,16 @@
 package com.example.korner.modelo;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "plataformas")
+@ToString
+@Table(name = "plataformas", uniqueConstraints = @UniqueConstraint(columnNames = "nombre_plataforma"))
 public class Plataforma {
 
     @Id
@@ -19,7 +18,9 @@ public class Plataforma {
     @Column(name = "id_plataforma", nullable = false)
     private Integer id;
 
+
     @Column (name = "nombre_plataforma" , length = 45)
+    @NotBlank
     private String nombrePlataforma;
 
 //    @OneToMany (mappedBy = "plataformas_animes", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
