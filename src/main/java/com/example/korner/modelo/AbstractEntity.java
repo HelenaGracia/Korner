@@ -35,6 +35,7 @@ public abstract class AbstractEntity implements Serializable {
     @Column (name = "puntuacion")
     @Min(0)
     @Max(5)
+    @NotNull
     private Short puntuacion;
 
     @Column (name = "opinion" , length = 4000)
