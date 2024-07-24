@@ -8,6 +8,8 @@ import com.example.korner.servicio.FileSystemStorageService;
 import com.example.korner.servicio.GeneroElementoServiceImpl;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/animes")
@@ -36,7 +41,22 @@ public class AnimeController {
     }
 
     @GetMapping
-    public String showAnime(Model model) {
+    public String showAnime(Model model, @RequestParam("page") Optional<Integer> page,
+                            @RequestParam("size") Optional<Integer> size) {
+
+        //Paginacion
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(4);
+        PageRequest pageRequest = PageRequest.of(currentPage-1, pageSize);
+        Page<Animes> pagina = animeService.findAll(pageRequest);
+        model.addAttribute("pagina", pagina);
+        int totalPages = pagina.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
         List<Animes> listaAnime = animeService.getAll();
         List<GeneroElementoCompartido> listaGeneroElemento = generoElementoService.getAll();
         Animes anime = new Animes();
