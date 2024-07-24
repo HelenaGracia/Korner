@@ -1,6 +1,8 @@
 package com.example.korner.modelo;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 import java.util.Set;
@@ -14,14 +16,16 @@ import java.util.Set;
                 @Index(name = "indice3",columnList = "id_generos_elemt_comp")})
 public class Pelicula  extends AbstractEntity{
     @Column (name = "trailer" , length = 1000)
-    @NonNull
+    @NotBlank
     private String trailerRuta;
 
-    @ManyToOne (fetch = FetchType.EAGER)
+
+    @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "id_plataformas", foreignKey = @ForeignKey(name = "fk_plataformas_peliculas"))
     private Plataforma plataformasPelicula;
 
-    @ManyToMany (fetch = FetchType.EAGER)
+    @NotEmpty
+    @ManyToMany (fetch = FetchType.LAZY)
     @JoinTable(name = "genero_pelicula", joinColumns = @JoinColumn(name = "id"),
             inverseJoinColumns = @JoinColumn(name = "id_generos_elemt_comp"))
     private Set<GeneroElementoCompartido> generosElementoCompartidoPeliculas;
