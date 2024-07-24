@@ -66,9 +66,10 @@ public class PeliculaController {
                 ObjectError error = new ObjectError("imagenError", "Debes seleccionar una imagen");
                 bindingResult.addError(error);
                 attributes.addFlashAttribute("failed", "Error al introducir la imagen, debe seleccionar una");
-                return "redirect:/peliculas";
+                return "peliculas";
             }
             attributes.addFlashAttribute("failed", "Error al introducir los datos en el formulario");
+            return "peliculas";
 
         }else {
             try {

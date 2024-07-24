@@ -12,8 +12,7 @@ import java.util.Set;
 @Entity
 @Table(name = "peliculas" ,uniqueConstraints = @UniqueConstraint(columnNames = "titulo"),
         indexes = {@Index(name = "indice1",columnList = "titulo"),
-                @Index(name = "indice2",columnList = "year"),
-                @Index(name = "indice3",columnList = "id_generos_elemt_comp")})
+                @Index(name = "indice2",columnList = "year")})
 public class Pelicula  extends AbstractEntity{
     @Column (name = "trailer" , length = 1000)
     @NotBlank

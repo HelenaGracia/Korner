@@ -1,10 +1,7 @@
 package com.example.korner.modelo;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,6 +23,8 @@ public abstract class AbstractEntity implements Serializable {
 
     @Column (name = "titulo" , length = 256, nullable = false)
     @NotBlank
+    @Size(min = 2)
+    @Size(max = 2)
     private String titulo;
 
     @Column (name = "year")
