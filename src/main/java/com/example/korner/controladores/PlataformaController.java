@@ -33,20 +33,19 @@ public class PlataformaController {
     }
 
     @GetMapping("")
-    public String plataformas(Model model){
+    public String showPlataformas(Model model){
         List<Plataforma> plataformas = plataformaService.getAll();
         model.addAttribute("plataformas", plataformas);
         model.addAttribute("size", plataformas.size());
-        model.addAttribute("newPlataforma", new Plataforma());
         return "plataformas";
     }
 
     @PostMapping("/savePlataforma")
-    public String savePlataforma(@Validated @ModelAttribute("newPlataforma") Plataforma plataforma,
+    public String savePlataforma(@Validated  Plataforma plataforma,
                              BindingResult bindingResult, RedirectAttributes attributes){
         if (bindingResult.hasErrors()){
             attributes.addFlashAttribute("failed", "Error, el campo no puede estar en blanco");
-            return "redirect:/plataformasElementos";
+
         } else{
             try {
 
