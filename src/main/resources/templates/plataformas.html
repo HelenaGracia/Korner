@@ -109,6 +109,7 @@
     <!-- MODAL FORMULARIO AÑADIR PLATAFORMA -->
 
     <div class="modal fade" id="modalPlataformaAñadir" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
@@ -116,21 +117,23 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form th:action="@{/plataformasElementos/savePlataforma}" method="post" >
+            <form th:action="@{/plataformasElementos/savePlataforma}" method="post" enctype="multipart/form-data" th:object="${datosPlataforma}">
+              <script th:inline="javascript" th:if="${#fields.hasErrors('*')}">/*<![CDATA[*/ $(document).ready(function () { $('#modalPlataformaAñadir').modal('show');}); /*]]>*/</script>
               <div class="mb-3">
                 <label for="nombrePlataforma" class="form-label">Nombre</label>
-                <input type="text" class="form-control" id="nombrePlataforma" name="nombrePlataforma">
+                <input type="text" class="form-control" id="nombrePlataforma" name="nombrePlataforma" th:field="*{nombrePlataforma}" >
+                <p th:if="${#fields.hasErrors('nombrePlataforma')}" th:errorclass="error" th:errors="*{nombrePlataforma}"></p>
               </div>
-              <div class="d-flex justify-content-end mt-3">
-                <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-primary">Añadir </button>
+              <div class="d-flex justify-content-end ">
+                <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary">Añadir plataforma</button>
               </div>
             </form>
           </div>
-
         </div>
       </div>
     </div>
+
 
     <!--FIN MODAL FORMULARIO AÑADIR PLATAFORMA -->
 
@@ -172,80 +175,78 @@
               </table>
             </article>
           </section>
-
-
-
         </div>
       </main>
 
 
 
+    <!-- INICIO EACH MODALES FORMULARIOS ELIMINAR MODIFICAR -->
 
-      <!-- INICIO EACH MODALES FORMULARIOS ELIMINAR MODIFICAR -->
+    <div th:each="platafomaForm:${plataformas}">
 
-      <div th:each="plataformaForm:${plataformas}">
+      <!-- MODAL FORMULARIO ELIMINAR PLATAFORMA -->
 
-        <!-- MODAL FORMULARIO ELIMINAR PLATAFORMA -->
-
-        <div class="modal fade" th:id="modalPlataformaDelete + ${plataformaForm.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel3" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel3">ELIMINAR PLATAFORMA</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <form th:action="@{plataformasElementos/deletePlataforma}" method="post">
-                  <input type="hidden" name="id" th:value="${plataformaForm.id}">
-                  <div class="mb-3">
-                    <label for="nombrePlataforma" class="form-label">¿Está seguro de eliminar la siguiente plataforma?:</label>
-                    <h4 class="form-control"   th:text="${plataformaForm.nombrePlataforma}"></h4>
-                  </div>
-                  <div class="d-flex justify-content-end ">
-                    <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary" >Borrar</button>
-                  </div>
-                </form>
-              </div>
+      <div class="modal fade" th:id="modalPlataformaDelete + ${platafomaForm.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel3" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel3">ELIMINAR PLATAFORMA</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form th:action="@{plataformasElementos/deletePlataforma}" method="post">
+                <input type="hidden" name="id" th:value="${platafomaForm.id}">
+                <div class="mb-3">
+                  <label for="nombrePlataforma" class="form-label">¿Está seguro de eliminar la siguiente plataforma?:</label>
+                  <h4 class="form-control"   th:text="${platafomaForm.nombrePlataforma}"></h4>
+                </div>
+                <div class="d-flex justify-content-end ">
+                  <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cerrar</button>
+                  <button type="submit" class="btn btn-primary" >Borrar</button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
-        <!-- FIN MODAL FORMULARIO ELIMINAR PLATAFORMA -->
+      </div>
+      <!-- FIN MODAL FORMULARIO ELIMINAR PLATAFORMA -->
 
-        <!-- MODAL FORMULARIO MODIFICAR PLATAFORMA -->
+      <!-- MODAL FORMULARIO MODIFICAR PLATAFORMA -->
 
-        <div class="modal fade" th:id="modalPlataformaModificar + ${plataformaForm.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel3" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel3">MODIFICAR PLATAFORMA</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <form th:action="@{/plataformasElementos/savePlataforma}" method="post" >
-                  <input type="hidden" name="id" th:value="${plataformaForm.id}">
-                  <div class="mb-3">
-                    <label for="nombrePlataforma" class="form-label">Modificar nombre plataforma:</label>
-                    <input type="text" class="form-control" id="nombrePlataforma"  th:name="nombrePlataforma" th:value="${plataformaForm.nombrePlataforma}">
-                  </div>
-                  <div class="d-flex justify-content-end ">
-                    <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary" >Modificar</button>
-                  </div>
-                </form>
-              </div>
-
+      <div class="modal fade"  th:id="modalPlataformaModificar + ${platafomaForm.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel">MODIFICAR PLATAFORMA</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <div class="modal-body">
+              <form th:action="@{plataformasElementos/savePlataforma}" method="post"  th:object="${datosPlataforma}">
+                <script th:inline="javascript" th:if="${#fields.hasErrors('*')}">/*<![CDATA[*/ $(document).ready(function () { $('#modalPlataformaModificar').modal('show');}); /*]]>*/</script>
+                <input type="hidden" name="id" th:value="${platafomaForm.id}">
+                <div class="mb-3">
+                  <label for="nombrePlataforma" class="form-label">Nombre</label>
+                  <input type="text" class="form-control" id="nombrePlataforma" th:name="nombrePlataforma" th:value="${platafomaForm.nombrePlataforma}">
+                  <p th:if="${#fields.hasErrors('nombrePlataforma')}" th:errorclass="error" th:errors="*{nombrePlataforma}" th:field="*{nombrePlataforma}"></p>
+                </div>
+                <div class="d-flex justify-content-end ">
+                  <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cerrar</button>
+                  <button type="submit" class="btn btn-primary" >Guardar</button>
+                </div>
+              </form>
+            </div>
+
           </div>
         </div>
-
-        <!-- FIN MODAL FORMULARIO MODIFICAR PLATAFORMA -->
-
       </div>
 
-      <!-- FIN EACH MODALES FORMULARIOS ELIMINAR MODIFICAR -->
+      <!-- FIN MODAL FORMULARIO MODIFICAR PLATAFORMA -->
 
-      <footer class="bg-primary p-5"></footer>
+    </div>
+
+    <!-- FIN EACH MODALES FORMULARIOS ELIMINAR MODIFICAR -->
+
+      <footer class="bg-primary"></footer>
       <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js}" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   </div>
 </body>

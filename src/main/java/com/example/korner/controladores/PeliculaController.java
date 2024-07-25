@@ -2,10 +2,12 @@ package com.example.korner.controladores;
 
 import com.example.korner.modelo.GeneroElementoCompartido;
 import com.example.korner.modelo.Pelicula;
+import com.example.korner.modelo.Plataforma;
 import com.example.korner.repositorios.PeliculaRepository;
 import com.example.korner.servicio.FileSystemStorageService;
 import com.example.korner.servicio.GeneroElementoServiceImpl;
 import com.example.korner.servicio.PeliculaServiceImpl;
+import com.example.korner.servicio.PlataformaServiceImpl;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,12 +30,16 @@ public class PeliculaController {
 
     PeliculaServiceImpl peliculaService;
     GeneroElementoServiceImpl generoElementoService;
+
+    PlataformaServiceImpl plataformaService;
     FileSystemStorageService fileSystemStorageService;
 
-    public PeliculaController(PeliculaServiceImpl peliculaService, GeneroElementoServiceImpl generoElementoService, FileSystemStorageService fileSystemStorageService) {
+    public PeliculaController(PeliculaServiceImpl peliculaService, GeneroElementoServiceImpl generoElementoService,
+                              FileSystemStorageService fileSystemStorageService,PlataformaServiceImpl plataformaService) {
         this.peliculaService = peliculaService;
         this.generoElementoService = generoElementoService;
         this.fileSystemStorageService = fileSystemStorageService;
+        this.plataformaService = plataformaService;
     }
 
     private final Logger logger = LoggerFactory.getLogger(PeliculaController.class);
@@ -44,7 +50,9 @@ public class PeliculaController {
         List<Pelicula> listadoPeliculas = peliculaService.getAll();
         Pelicula pelicula = new Pelicula();
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
+        List<Plataforma> plataformasList = plataformaService.getAll();
         model.addAttribute("listaGeneros", generoElementoCompartidoList);
+        model.addAttribute("listaPlataformas", plataformasList);
         model.addAttribute("size", listadoPeliculas.size());
         model.addAttribute("peliculas", listadoPeliculas);
         model.addAttribute("datosPelicula", pelicula);
@@ -83,7 +91,7 @@ public class PeliculaController {
              del objeto pelicula y la extensión del archivo(jpg, png)
              */
                 String nombreArchivo = pelicula.getId() + pelicula.getTitulo() + "." + FilenameUtils.getExtension(multipartFile.getOriginalFilename());
-                //Llamamos al metedos y le pasamos los siguientes argumentos(el archivo de imagen, nombre de la imagen)
+                //Llamamos al metodo y le pasamos los siguientes argumentos(el archivo de imagen, nombre de la imagen)
                 fileSystemStorageService.storeWithName(multipartFile, nombreArchivo);
                 //Modificamos el nombre del atributo imagenRuta del objeto pelicula con la url que genera el controlador ImagenesController
                 pelicula.setImagenRuta( "/imagenes/leerImagen/" + nombreArchivo);
@@ -97,9 +105,9 @@ public class PeliculaController {
                 e.printStackTrace();
                 attributes.addFlashAttribute("failed", "Error");
             }
+            return "redirect:/peliculas";
         }
 
-        return "redirect:/peliculas";
     }
 
 

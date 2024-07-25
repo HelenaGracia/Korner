@@ -22,7 +22,6 @@ public abstract class AbstractEntity implements Serializable {
     private Integer id;
 
     @Column (name = "titulo" , length = 60, nullable = false)
-    @NotBlank
     @Size(min = 1, message = "Debe tener como mínimo 1 caracter")
     @Size(max = 60,  message = "Debe tener como máximo 60 caracteres")
     private String titulo;
@@ -38,7 +37,6 @@ public abstract class AbstractEntity implements Serializable {
     private Short puntuacion;
 
     @Column (name = "opinion" , length = 4000)
-    @NotBlank
     @Size(min = 2, message = "Debe tener como mínimo 2 caracteres")
     @Size(max = 4000, message = "Debe tener como máximo 4000 caracteres" )
     private String opinion;
