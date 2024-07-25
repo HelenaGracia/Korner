@@ -240,7 +240,7 @@
                     <div class="mb-3">
                         <label for="titulo" class="form-label">Título</label>
                         <input type="text" class="form-control" id="titulo" name="titulo" th:field="*{titulo}" >
-                        <p th:if="${#fields.hasErrors('titulo')}" th:errorclass="error" th:errors="*{titulo}"   ></p>
+                        <p th:if="${#fields.hasErrors('titulo')}" th:errorclass="error" th:errors="*{titulo}"></p>
                     </div>
                     <div class="mb-3">
                         <label for="imagen" class="form-label">Imagen</label>
@@ -331,20 +331,25 @@
                             </div>
                             <div class="modal-body">
                                 <form th:action="@{peliculas/savePelicula}" method="post" enctype="multipart/form-data" th:object="${datosPelicula}">
+                                    <script th:inline="javascript" th:if="${#fields.hasErrors('*')}">/*<![CDATA[*/ $(document).ready(function () { $('#modalPeliculaModificar').modal('show');}); /*]]>*/</script>
                                     <input type="hidden" name="id" th:value="${pelicula.id}">
                                     <div class="mb-3">
                                         <label for="titulo" class="form-label">Título</label>
-                                        <input type="text" class="form-control" id="titulo"
-                                               th:name="titulo" th:value="${pelicula.titulo}">
+                                        <input type="text" class="form-control" id="titulo" th:name="titulo" th:value="${pelicula.titulo}">
+                                        <p th:if="${#fields.hasErrors('titulo')}" th:errorclass="error" th:errors="*{titulo}" th:field="*{titulo}"></p>
                                     </div>
                                     <div class="mb-3">
                                         <label for="imagen" class="form-label">Imagen</label>
                                         <input class="form-control" type="file" accept="image/png, image/jpeg" id="imagen" name="imagen">
+                                        <div th:if="${#fields.hasErrors('global')}">
+                                            <p th:each="err: ${#fields.errors('global')}" class="error" th:text="${err}"></p>
+                                        </div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="year" class="form-label">Año de visualización</label>
                                         <input type="text" class="form-control" id="year"
                                                th:name="year" th:value="${pelicula.year}">
+                                        <p th:if="${#fields.hasErrors('year')}" th:errorclass="error" th:errors="*{year}" th:field="*{year}"></p>
                                     </div>
                                     <div class="mb-3">
                                         <label for="generosElementoCompartidoPeliculas" class="form-label">Géneros</label>
@@ -359,7 +364,8 @@
                                         <label for="opinion" class="form-label">Reseña</label>
                                         <textarea class="form-control" id="opinionPeliculaUpdate"
                                                   style="height: 100px" placeholder="Escribe tu reseña aquí" th:name="opinion"
-                                                  th:text="${pelicula.opinion}"></textarea>
+                                                  th:text="${pelicula.opinion}" ></textarea>
+                                        <p th:if="${#fields.hasErrors('opinion')}" th:errorclass="error" th:errors="*{opinion}" th:field="*{opinion}"></p>
                                     </div>
                                     <!-- <div class="mb-3">
                                        <label for="plataformasPelicula" class="form-label">Plataforma</label>
@@ -369,11 +375,13 @@
                                         <label for="puntuacion" class="form-label">Valoración</label>
                                         <input type="number" class="form-control" id="puntuacionPeliculaUpdate"
                                                min="0" max="5" step="1" th:name="puntuacion" th:value="${pelicula.puntuacion}">
+                                        <p th:if="${#fields.hasErrors('puntuacion')}" th:errorclass="error" th:errors="*{puntuacion}" th:field="*{puntuacion}"></p>
                                     </div>
                                     <div class="mb-3">
                                         <label for="trailerRuta" class="form-label">Trailer</label>
                                         <input type="text" class="form-control" id="trailerRutaPeliculaUpdate" th:name="trailerRuta"
                                                th:value="${pelicula.trailerRuta}">
+                                        <p  th:if="${#fields.hasErrors('trailerRuta')}" th:errorclass="error" th:errors="*{trailerRuta}" th:field="*{trailerRuta}"></p>
                                     </div>
                                     <div class="d-flex justify-content-end ">
                                         <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cerrar</button>

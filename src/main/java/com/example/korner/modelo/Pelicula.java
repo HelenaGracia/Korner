@@ -23,7 +23,7 @@ public class Pelicula  extends AbstractEntity{
     @JoinColumn(name = "id_plataformas", foreignKey = @ForeignKey(name = "fk_plataformas_peliculas"))
     private Plataforma plataformasPelicula;
 
-    @NotEmpty
+//    @NotEmpty
     @ManyToMany (fetch = FetchType.LAZY)
     @JoinTable(name = "genero_pelicula", joinColumns = @JoinColumn(name = "id"),
             inverseJoinColumns = @JoinColumn(name = "id_generos_elemt_comp"))
