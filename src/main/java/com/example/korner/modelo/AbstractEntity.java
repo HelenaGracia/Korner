@@ -24,7 +24,7 @@ public abstract class AbstractEntity implements Serializable {
     @Column (name = "titulo" , length = 256, nullable = false)
     @NotBlank
     @Size(min = 1)
-    @Size(max = 40)
+    @Size(max = 60)
     private String titulo;
 
     @Column (name = "year")

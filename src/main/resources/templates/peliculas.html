@@ -239,8 +239,8 @@
                     <script th:inline="javascript" th:if="${#fields.hasErrors('*')}">/*<![CDATA[*/ $(document).ready(function () { $('#modalPeliculaAñadir').modal('show');}); /*]]>*/</script>
                     <div class="mb-3">
                         <label for="titulo" class="form-label">Título</label>
-                        <input type="text" class="form-control" id="titulo" name="titulo" >
-                        <p th:if="${#fields.hasErrors('titulo')}" th:errorclass="error" th:errors="*{titulo}" th:field="*{titulo}"></p>
+                        <input type="text" class="form-control" id="titulo" name="titulo" th:field="*{titulo}" >
+                        <p th:if="${#fields.hasErrors('titulo')}" th:errorclass="error" th:errors="*{titulo}"   ></p>
                     </div>
                     <div class="mb-3">
                         <label for="imagen" class="form-label">Imagen</label>
@@ -252,8 +252,8 @@
                     </div>
                     <div class="mb-3">
                         <label for="year" class="form-label">Año de visualización</label>
-                        <input type="text" class="form-control" id="year"  name="year">
-                        <p th:if="${#fields.hasErrors('year')}" th:errorclass="error" th:errors="*{year}" th:field="*{year}"></p>
+                        <input type="text" class="form-control" id="year"  name="year" th:field="*{year}">
+                        <p th:if="${#fields.hasErrors('year')}" th:errorclass="error" th:errors="*{year}" ></p>
                     </div>
                      <div class="mb-3">
                       <label for="generosElementoCompartidoPeliculas" class="form-label">Géneros</label>
@@ -262,27 +262,27 @@
                              <th:block th:each="generosItem: ${listaGeneros}">
                                  <option th:value="${generosItem.id}" th:text="${generosItem.nombre}"></option>
                              </th:block>
-                             <!--<p th:errorclass="invalid-feedback" th:if="${#fields.hasErrors('generosElementosCompartidPelicula')}" th:errors="*{generosElementoCompartidoPeliculas}"></p>-->
                         </select>
-                   </div>
-                   <div class="mb-3">
-                       <label for="opinion" class="form-label">Reseña</label>
-                       <textarea class="form-control" id="opinion" name="opinion" style="height: 100px" placeholder="Escribe tu reseña aquí"></textarea>
-                       <p th:if="${#fields.hasErrors('opinion')}" th:errorclass="error" th:errors="*{opinion}" th:field="*{opinion}"></p>
-                   </div>
-                   <!-- <div class="mb-3">
-                      <label for="plataformasPelicula" class="form-label">Plataforma</label>
-                      <textarea class="form-control" id="plataformasPelicula" name="plataformasPelicula" style="height: 100px" placeholder="Escribe tu reseña aquí"></textarea>
-                    </div>-->
+                         <!-- <p  th:if="${#fields.hasErrors('generosElementosCompartidPelicula')}" th:errorclass="error" th:errors="*{generosElementoCompartidoPeliculas}" ></p>-->
+                    </div>
+                    <div class="mb-3">
+                        <label for="opinion" class="form-label">Reseña</label>
+                        <textarea class="form-control" id="opinion" name="opinion" th:field="*{opinion}" style="height: 100px" placeholder="Escribe tu reseña aquí"></textarea>
+                        <p th:if="${#fields.hasErrors('opinion')}" th:errorclass="error" th:errors="*{opinion}" ></p>
+                    </div>
+                    <!-- <div class="mb-3">
+                       <label for="plataformasPelicula" class="form-label">Plataforma</label>
+                       <textarea class="form-control" id="plataformasPelicula" name="plataformasPelicula" style="height: 100px" placeholder="Escribe tu reseña aquí"></textarea>
+                     </div>-->
                     <div class="mb-3">
                         <label for="puntuacion" class="form-label">Valoración</label>
-                        <input type="number" class="form-control" id="puntuacion" name="puntuacion" min="0" max="5" step="1">
-                        <p th:if="${#fields.hasErrors('puntuacion')}" th:errorclass="error" th:errors="*{puntuacion}" th:field="*{puntuacion}"></p>
+                        <input type="number" class="form-control" id="puntuacion" name="puntuacion" th:field="*{puntuacion}" min="0" max="5" step="1">
+                        <p th:if="${#fields.hasErrors('puntuacion')}" th:errorclass="error" th:errors="*{puntuacion}" ></p>
                     </div>
                     <div class="mb-3">
                         <label for="trailerRuta" class="form-label">Trailer</label>
-                        <input type="text" class="form-control" id="trailerRuta" name="trailerRuta">
-                        <p  th:if="${#fields.hasErrors('trailerRuta')}" th:errorclass="error" th:errors="*{trailerRuta}" th:field="*{trailerRuta}"></p>
+                        <input type="text" class="form-control" id="trailerRuta" name="trailerRuta" th:field="*{trailerRuta}">
+                        <p  th:if="${#fields.hasErrors('trailerRuta')}" th:errorclass="error" th:errors="*{trailerRuta}" ></p>
                     </div>
                     <div class="d-flex justify-content-end ">
                         <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cerrar</button>
