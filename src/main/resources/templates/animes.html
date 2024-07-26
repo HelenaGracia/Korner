@@ -326,7 +326,7 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <form th:action="@{animes/saveAnime}" method="post" enctype="multipart/form-data" th:object="${datosAnime}">
+                  <form th:action="@{animes/saveModificar}" method="post" enctype="multipart/form-data" th:object="${datosAnime}">
                     <input type="hidden" name="id" th:value="${anime.id}">
                     <div class="mb-3">
                       <label for="titulo" class="form-label">Título</label>
