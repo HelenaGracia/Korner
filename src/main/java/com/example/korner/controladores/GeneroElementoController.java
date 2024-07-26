@@ -36,42 +36,37 @@ public class GeneroElementoController {
 
     @GetMapping("")
     public String showGenerosElementos(Model model){
-        List<GeneroElementoCompartido> generos = generoElementoService.getAll();
-        model.addAttribute("generos", generos);
-        model.addAttribute("size", generos.size());
+        List<GeneroElementoCompartido> listadoGeneros = generoElementoService.getAll();
+        GeneroElementoCompartido genero = new GeneroElementoCompartido();
+        model.addAttribute("size", listadoGeneros.size());
+        model.addAttribute("generos", listadoGeneros);
+        model.addAttribute("datosGenero", genero);
         return "generosElementos";
     }
 
-    @PostMapping("/saveGenero")
-    public String saveGenero(@Validated  GeneroElementoCompartido generoElementoCompartido,
+    @PostMapping("/saveGeneroElemento")
+    public String saveGeneroElemento(@Validated @ModelAttribute(name = "datosGenero") GeneroElementoCompartido generoElementoCompartido,
                                  BindingResult bindingResult, RedirectAttributes attributes){
         if (bindingResult.hasErrors()){
-            attributes.addFlashAttribute("failed", "Error, el campo no puede estar en blanco");
+            attributes.addFlashAttribute("failed", "Error al introducir los datos en el formulario");
+            return "generosElementos";
 
-        } else{
+        }else {
             try {
-
                 logger.info("este es el objeto genero recibido{}", generoElementoCompartido);
-
                 generoElementoService.saveEntity(generoElementoCompartido);
                 logger.info("este es el objeto genero guardado{}", generoElementoCompartido);
-
                 attributes.addFlashAttribute("success", "Elemento añadido correctamente");
-
-
             }catch (DataIntegrityViolationException e){
                 e.printStackTrace();
                 attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
-            }
-
-            catch (Exception e){
+            } catch (Exception e){
                 e.printStackTrace();
                 attributes.addFlashAttribute("failed", "Error");
             }
-
+            return "redirect:/generosElementos";
         }
 
-        return "redirect:/generosElementos";
     }
 
 
