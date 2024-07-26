@@ -115,7 +115,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel">AÑADIR PLATAFORMA</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <a th:href="@{/plataformasElementos}" class="btn btn-close"></a>
           </div>
           <div class="modal-body">
             <form th:action="@{/plataformasElementos/savePlataforma}" method="post" enctype="multipart/form-data" th:object="${datosPlataforma}">
@@ -126,7 +126,7 @@
                 <p th:if="${#fields.hasErrors('nombrePlataforma')}" th:errorclass="error" th:errors="*{nombrePlataforma}"></p>
               </div>
               <div class="d-flex justify-content-end ">
-                <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cerrar</button>
+                <a th:href="@{/plataformasElementos}" class="btn btn-secondary me-2">Cerrar</a>
                 <button type="submit" class="btn btn-primary">Añadir plataforma</button>
               </div>
             </form>
@@ -192,7 +192,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel3">ELIMINAR PLATAFORMA</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <a th:href="@{/plataformasElementos}" class="btn btn-close"></a>
             </div>
             <div class="modal-body">
               <form th:action="@{plataformasElementos/deletePlataforma}" method="post">
@@ -202,7 +202,7 @@
                   <h4 class="form-control"   th:text="${platafomaForm.nombrePlataforma}"></h4>
                 </div>
                 <div class="d-flex justify-content-end ">
-                  <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cerrar</button>
+                  <a th:href="@{/plataformasElementos}" class="btn btn-secondary me-2">Cerrar</a>
                   <button type="submit" class="btn btn-primary" >Borrar</button>
                 </div>
               </form>
