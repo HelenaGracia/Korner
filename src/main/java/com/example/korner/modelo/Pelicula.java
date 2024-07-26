@@ -30,8 +30,8 @@ public class Pelicula  extends AbstractEntity{
     @ManyToMany (fetch = FetchType.LAZY)
     @JoinTable(name = "pelicula_genero", joinColumns = @JoinColumn(name = "id"),
             inverseJoinColumns = @JoinColumn(name = "id_generos_elemt_comp"))
-    //    @NotEmpty
-    private Set<GeneroElementoCompartido> generosElementoCompartidoPeliculas;
+    @NotEmpty
+    private Set<GeneroElementoCompartido> generosPelicula;
 
 
     @Override
@@ -39,7 +39,7 @@ public class Pelicula  extends AbstractEntity{
         return "Pelicula{" +
                 "trailerRuta='" + trailerRuta + '\'' +
                 ", plataformasPelicula=" + plataformasPelicula +
-                ", generoElementoCompartidoPelicula=" + generosElementoCompartidoPeliculas +
+                ", generoElementoCompartidoPelicula=" + generosPelicula +
                 '}'+ super.toString();
     }
 }

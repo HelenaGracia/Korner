@@ -68,12 +68,14 @@ public class PeliculaController {
      */
     public String savePelicula(@RequestParam("imagen") MultipartFile multipartFile,
                                @Validated @ModelAttribute(name = "datosPelicula") Pelicula pelicula,
-                               BindingResult bindingResult, RedirectAttributes attributes){
+                               BindingResult bindingResult, RedirectAttributes attributes,Model model){
         if (bindingResult.hasErrors() || multipartFile.isEmpty()){
             if (multipartFile.isEmpty()){
                 ObjectError error = new ObjectError("imagenError", "Debes seleccionar una imagen");
                 bindingResult.addError(error);
                 attributes.addFlashAttribute("failed", "Error al introducir la imagen, debe seleccionar una");
+                List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
+                model.addAttribute("listaGeneros", generoElementoCompartidoList);
                 return "peliculas";
             }
             attributes.addFlashAttribute("failed", "Error al introducir los datos en el formulario");

@@ -240,7 +240,7 @@
                         <div class="mb-3">
                             <label for="titulo" class="form-label">Título</label>
                             <input type="text" class="form-control" id="titulo" name="titulo" th:field="*{titulo}" >
-                            <p th:if="${#fields.hasErrors('titulo')}" th:errorclass="error" th:errors="*{titulo}"></p>
+                            <p th:if="${#fields.hasErrors('titulo')}" th:errorclass="error" th:errors="*{titulo}" th:text="${err}"></p>
                         </div>
                         <div class="mb-3">
                             <label for="imagen" class="form-label">Imagen</label>
@@ -256,14 +256,18 @@
                             <p th:if="${#fields.hasErrors('year')}" th:errorclass="error" th:errors="*{year}" ></p>
                         </div>
                         <div class="mb-3">
-                            <label for="generosElementoCompartidoPeliculas" class="form-label">Géneros</label>
-                            <select class="form-control" th:field="*{generosElementoCompartidoPeliculas}" multiple id="generosElementoCompartidoPeliculas" >
+                            <div  class="form-label">Géneros</div><br>
+                            <!--<select class="form-control" th:field="*{generosPelicula}" multiple id="generosPelicula" >
                                 <option  value="" th:disabled="disabled" th:selected="selected">-Selecciona los géneros-</option>
-                                <th:block th:each="generosItem: ${listaGeneros}">
-                                    <option th:value="${generosItem.id}" th:text="${generosItem.nombre}"></option>
+                                <th:block th:each="generosItem: ${listaGeneros}" th:field="*{generosPelicula}">
+                                    <option th:value="${generosItem.id}" th:text="${generosItem.nombre}" ></option>
                                 </th:block>
-                            </select>
-                            <!-- <p  th:if="${#fields.hasErrors('generosElementosCompartidPelicula')}" th:errorclass="error" th:errors="*{generosElementoCompartidoPeliculas}" ></p>-->
+                            </select> -->
+                            <div class="form-check form-check-inline"  th:each="generosItem: ${listaGeneros}">
+                                <label class="form-check-label" for="generosPelicula" th:text="${generosItem.nombre}" ></label>
+                                <input class="form-check-input" type="checkbox" th:field="*{generosPelicula}" th:value="${generosItem.id}" id="generosPelicula" >
+                            </div>
+                            <p  th:if="${#fields.hasErrors('generosPelicula')}" th:errorclass="error" th:errors="*{generosPelicula}"  ></p>
                         </div>
                         <div class="mb-3">
                             <label for="opinion" class="form-label">Reseña</label>
@@ -357,8 +361,8 @@
                                             <p th:if="${#fields.hasErrors('year')}" th:errorclass="error" th:errors="*{year}" th:field="*{year}"></p>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="generosElementoCompartidoPeliculas" class="form-label">Géneros</label>
-                                            <select class="form-control" th:field="*{generosElementoCompartidoPeliculas}" multiple id="generosElementoCompartidoPeliculas" >
+                                            <label for="generosPelicula" class="form-label">Géneros</label>
+                                            <select class="form-control" th:field="*{generosPelicula}" multiple id="generosPelicula" >
                                                 <option  value="" th:disabled="disabled" th:selected="selected">-Selecciona los géneros-</option>
                                                 <th:block th:each="generosItem: ${listaGeneros}">
                                                     <option th:value="${generosItem.id}" th:text="${generosItem.nombre}"></option>
