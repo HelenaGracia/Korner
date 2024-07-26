@@ -22,7 +22,7 @@ public class Pelicula  extends AbstractEntity{
     @ManyToMany (fetch = FetchType.LAZY)
     @JoinTable(name = "pelicula_plataforma", joinColumns = @JoinColumn(name = "id"),
             inverseJoinColumns = @JoinColumn(name = "id_plataforma"))
-    //    @NotEmpty
+    @NotEmpty
     private Set<Plataforma> plataformasPelicula;
 
 
