@@ -1,14 +1,13 @@
 package com.example.korner.servicio;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import javax.swing.text.html.parser.Entity;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
-public class AbstractService <E,ID, REPO extends JpaRepository<E, ID>>{
+public class AbstractService <E,ID, REPO extends JpaRepository<E, ID>> {
     private final REPO repo;
 
     public AbstractService(REPO repo) {
@@ -45,4 +44,14 @@ public class AbstractService <E,ID, REPO extends JpaRepository<E, ID>>{
         repo.deleteById(id);
    }
 
+
+
+    public Iterable<E> findAll(Sort sort) {
+        return repo.findAll(sort);
+    }
+
+
+    public Page<E> findAll(Pageable pageable) {
+        return repo.findAll(pageable);
+    }
 }

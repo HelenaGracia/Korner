@@ -22,7 +22,7 @@ public class ImagenesController {
      */
     @GetMapping(value = "/leerImagen/{id}") // id es el nombre que tiene la imagen
     public ResponseEntity <byte[]> leerImagen(@PathVariable("id") String id) {
-        final String FILE_PATH_ROOT = "D:/ficheros";
+        final String FILE_PATH_ROOT = "C:/ficheros";
         byte[] image = new byte[0];
         try {
             image = FileUtils.readFileToByteArray(new File(FILE_PATH_ROOT+ "/"+ id));
@@ -40,4 +40,6 @@ public class ImagenesController {
         }
 //
     }
+
+
 }

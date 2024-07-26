@@ -27,6 +27,7 @@ public class LoginController {
         return "login";
     }
 
+    // Este postMapping no esta haciendo nada, la comprobacion se hace en el UsuarioSecurityService
     @PostMapping("/login")
     public String processLogin(@RequestParam String email, @RequestParam String password, Model model) {
         Optional<Usuario> optionalUsuario = usuarioRepository.findBynombre(email);

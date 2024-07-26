@@ -1,6 +1,7 @@
 package com.example.korner.modelo;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import java.io.Serializable;
 
@@ -18,6 +19,7 @@ public class GeneroElementoCompartido implements Serializable{
     private Integer id;
 
     @Column (name = "nombre_genero" , length = 45)
+    @NotBlank
     private String nombre;
 
     @ManyToOne (fetch = FetchType.LAZY)

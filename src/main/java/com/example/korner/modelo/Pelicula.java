@@ -12,22 +12,25 @@ import java.util.Set;
 @Entity
 @Table(name = "peliculas" ,uniqueConstraints = @UniqueConstraint(columnNames = "titulo"),
         indexes = {@Index(name = "indice1",columnList = "titulo"),
-                @Index(name = "indice2",columnList = "year"),
-                @Index(name = "indice3",columnList = "id_generos_elemt_comp")})
+                @Index(name = "indice2",columnList = "year")})
 public class Pelicula  extends AbstractEntity{
     @Column (name = "trailer" , length = 1000)
     @NotBlank
     private String trailerRuta;
 
 
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_plataformas", foreignKey = @ForeignKey(name = "fk_plataformas_peliculas"))
-    private Plataforma plataformasPelicula;
-
-    @NotEmpty
     @ManyToMany (fetch = FetchType.LAZY)
-    @JoinTable(name = "genero_pelicula", joinColumns = @JoinColumn(name = "id"),
+    @JoinTable(name = "pelicula_plataforma", joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "id_plataforma"))
+    //    @NotEmpty
+    private Set<Plataforma> plataformasPelicula;
+
+
+
+    @ManyToMany (fetch = FetchType.LAZY)
+    @JoinTable(name = "pelicula_genero", joinColumns = @JoinColumn(name = "id"),
             inverseJoinColumns = @JoinColumn(name = "id_generos_elemt_comp"))
+    //    @NotEmpty
     private Set<GeneroElementoCompartido> generosElementoCompartidoPeliculas;
 
 

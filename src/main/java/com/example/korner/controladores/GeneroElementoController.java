@@ -2,6 +2,7 @@ package com.example.korner.controladores;
 
 import com.example.korner.modelo.GeneroElementoCompartido;
 import com.example.korner.modelo.Pelicula;
+import com.example.korner.modelo.Plataforma;
 import com.example.korner.servicio.GeneroElementoServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -32,33 +35,40 @@ public class GeneroElementoController {
 
 
     @GetMapping("")
-    public String generos(Model model){
+    public String showGenerosElementos(Model model){
         List<GeneroElementoCompartido> generos = generoElementoService.getAll();
         model.addAttribute("generos", generos);
         model.addAttribute("size", generos.size());
-        model.addAttribute("newGenero", new GeneroElementoCompartido());
         return "generosElementos";
     }
 
     @PostMapping("/saveGenero")
-    public String saveGenero(@ModelAttribute("newGenero") GeneroElementoCompartido generoElementoCompartido,
-                             RedirectAttributes attributes){
-        try {
+    public String saveGenero(@Validated  GeneroElementoCompartido generoElementoCompartido,
+                                 BindingResult bindingResult, RedirectAttributes attributes){
+        if (bindingResult.hasErrors()){
+            attributes.addFlashAttribute("failed", "Error, el campo no puede estar en blanco");
 
-            logger.info("este es el objeto genero guardado{}", generoElementoCompartido);
+        } else{
+            try {
 
-            generoElementoService.saveEntity(generoElementoCompartido);
-            attributes.addFlashAttribute("success", "Elemento añadido correctamente");
+                logger.info("este es el objeto genero recibido{}", generoElementoCompartido);
+
+                generoElementoService.saveEntity(generoElementoCompartido);
+                logger.info("este es el objeto genero guardado{}", generoElementoCompartido);
+
+                attributes.addFlashAttribute("success", "Elemento añadido correctamente");
 
 
-        }catch (DataIntegrityViolationException e){
-            e.printStackTrace();
-            attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
-        }
+            }catch (DataIntegrityViolationException e){
+                e.printStackTrace();
+                attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
+            }
 
-        catch (Exception e){
-            e.printStackTrace();
-            attributes.addFlashAttribute("failed", "Error");
+            catch (Exception e){
+                e.printStackTrace();
+                attributes.addFlashAttribute("failed", "Error");
+            }
+
         }
 
         return "redirect:/generosElementos";
