@@ -1,10 +1,7 @@
 package com.example.korner.modelo;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,8 +21,9 @@ public abstract class AbstractEntity implements Serializable {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column (name = "titulo" , length = 256, nullable = false)
-    @NotBlank
+    @Column (name = "titulo" , length = 60, nullable = false)
+    @Size(min = 1, message = "Debe tener como mínimo 1 caracter")
+    @Size(max = 60,  message = "Debe tener como máximo 60 caracteres")
     private String titulo;
 
     @Column (name = "year")
@@ -39,11 +37,11 @@ public abstract class AbstractEntity implements Serializable {
     private Short puntuacion;
 
     @Column (name = "opinion" , length = 4000)
-    @NotBlank
+    @Size(min = 2, message = "Debe tener como mínimo 2 caracteres")
+    @Size(max = 4000, message = "Debe tener como máximo 4000 caracteres" )
     private String opinion;
 
     @Column (name = "imagen" , length = 4000)
-
     private String imagenRuta;
 
 

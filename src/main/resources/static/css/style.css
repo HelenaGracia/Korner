@@ -191,6 +191,10 @@ nav li a img{
     border-color: var(--firts-color);
     border-radius: 2rem;
 }
+.error{
+    color: red;
+    display: block;
+}
 
 /* **************My Styles Irene************** */
 
