@@ -318,24 +318,25 @@
                 </div>
             </div>
             <div class="row justify-content-center">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
-                            <a th:href="@{/peliculas(page=${currentPage - 1})}" class="page-link" href="#">Previous</a>
-                        </li>
-                        <li th:each="pageNumber : ${pageNumbers}" class="page-item">
-                            <a th:href="@{/peliculas(page=${pageNumber})}"
-                               th:text="${pageNumber}"
-                               th:classappend="${pageNumber==pagina.number + 1} ? active"
-                               class="page-link" href="#"></a>
-                        </li>
-                        <li th:if="${currentPage + 1 ==pagina.totalPages}" class="page-item">
-                            <a th:href="@{/peliculas(page=${currentPage + 1})}" class="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
-                    <span th:text="${currentPage}"></span>
-                    <span th:text="${pagina.totalPages}"></span>
-                </nav>
+                <div class="col-12">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
+                                <a th:href="@{/peliculas(page=${currentPage - 1})}" class="page-link" href="#">Previous</a>
+                            </li>
+                            <li th:each="pageNumber : ${pageNumbers}" class="page-item">
+                                <a th:href="@{/peliculas(page=${pageNumber})}"
+                                   th:text="${pageNumber}"
+                                   th:classappend="${pageNumber==pagina.number + 1} ? active"
+                                   class="page-link" href="#"></a>
+                            </li>
+                            <li th:if="${currentPage + 1 ==pagina.totalPages}" class="page-item">
+                                <a th:href="@{/peliculas(page=${currentPage + 1})}" class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
                 <div class="col-12 col-md-6 mb-4" th:if = "${size > 0}" th:each = "pelicula : ${peliculas}"  >
 
                     <!-- MODAL FORMULARIO MODIFICAR PELICULA -->

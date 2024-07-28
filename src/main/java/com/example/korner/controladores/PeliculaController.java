@@ -58,45 +58,19 @@ public class PeliculaController {
     @GetMapping("")
     public String listAllPeliculas(Model model, @RequestParam("page") Optional<Integer> page){
 
-        //Recibe la pagina en la que estoy si no recibe nada asigna la pagina 1
-        int currentPage = page.orElse(1);
-        //Guarda la pagina en la que estoy (Si es la pagina 1, la 2...) y la cantidad de elementos que quiero mostrar en ella
-        PageRequest pageRequest = PageRequest.of(currentPage-1, 2);
-        /*
-         se crea un objeto page que es el encargado de rellenar en la pagina que le has indicado con la cantidad
-         que le has dicho todos los objetos pelicula almacenados, es decir, crea la pagina que visualizas con el contenido
-         */
-        Page<Pelicula> pagina = peliculaService.findAll(pageRequest);
-        //Envio la pagina creada a la vista para poder verla
-        model.addAttribute("pagina", pagina);
-        //Obtengo la cantidad de paginas creadas, por ejemplo: 8
-        int totalPages = pagina.getTotalPages();
 
-        /*
-         Si la cantidad total de paginas es superior a 0 obtiene una lista con los numeros de pagina, es decir
-         si tengo un total de 8 paginas va a crear una lista de Integer almacenando los valores 1,2,3,4,5,6,7,8
-         de esta forma obtego todos los numeros de pagina y los envio a la vista
-         */
-        if (totalPages > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                    .boxed()
-                    .collect(Collectors.toList());
-            model.addAttribute("pageNumbers", pageNumbers);
-        }
-        //Envio a la vista la pagina en la que estoy
-        model.addAttribute("currentPage", currentPage);
+        paginacion(model, page);
 
-
-        List<Pelicula> listadoPeliculas = peliculaService.getAll();
+        //List<Pelicula> listadoPeliculas = peliculaService.getAll();
         Pelicula pelicula = new Pelicula();
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
         List<Plataforma> plataformasList = plataformaService.getAll();
         model.addAttribute("listaGeneros", generoElementoCompartidoList);
         model.addAttribute("listaPlataformas", plataformasList);
         //model.addAttribute("size", listadoPeliculas.size());
-        model.addAttribute("size", pagina.getContent().size());
+
         //model.addAttribute("peliculas", listadoPeliculas);
-        model.addAttribute("peliculas", pagina.getContent());
+
         model.addAttribute("datosPelicula", pelicula);
         return "peliculas";
     }
@@ -110,7 +84,10 @@ public class PeliculaController {
      */
     public String savePelicula(@RequestParam("imagen") MultipartFile multipartFile,
                                @Validated @ModelAttribute(name = "datosPelicula") Pelicula pelicula,
-                               BindingResult bindingResult, RedirectAttributes attributes,Model model){
+                               BindingResult bindingResult, RedirectAttributes attributes,Model model,
+                               @RequestParam("page") Optional<Integer> page){
+
+        paginacion(model, page);
 
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
         List<Plataforma> plataformasList = plataformaService.getAll();
@@ -164,7 +141,10 @@ public class PeliculaController {
     public String savePeliculaModificar(@RequestParam("imagen") MultipartFile multipartFile,
                                         @Validated @ModelAttribute(name = "datosPelicula") Pelicula pelicula,
                                         BindingResult bindingResult,
-                                        RedirectAttributes attributes, Model model){
+                                        RedirectAttributes attributes, Model model,
+                                        @RequestParam("page") Optional<Integer> page){
+
+        paginacion(model, page);
 
         final String FILE_PATH_ROOT = "D:/ficheros";
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
@@ -235,7 +215,41 @@ public class PeliculaController {
         return "redirect:/peliculas";
     }
 
+    private void paginacion(Model model, Optional<Integer> page){
+        //Recibe la pagina en la que estoy si no recibe nada asigna la pagina 1
+        int currentPage = page.orElse(1);
+        //Guarda la pagina en la que estoy (Si es la pagina 1, la 2...) y la cantidad de elementos que quiero mostrar en ella
+        PageRequest pageRequest = PageRequest.of(currentPage-1, 2);
+        /*
+         se crea un objeto page que es el encargado de rellenar en la pagina que le has indicado con la cantidad
+         que le has dicho todos los objetos pelicula almacenados, es decir, crea la pagina que visualizas con el contenido
+         */
+        Page<Pelicula> pagina = peliculaService.findAll(pageRequest);
+        //Envio la pagina creada a la vista para poder verla
+        model.addAttribute("pagina", pagina);
+        //Obtengo la cantidad de paginas creadas, por ejemplo: 8
+        int totalPages = pagina.getTotalPages();
 
+        /*
+         Si la cantidad total de paginas es superior a 0 obtiene una lista con los numeros de pagina, es decir
+         si tengo un total de 8 paginas va a crear una lista de Integer almacenando los valores 1,2,3,4,5,6,7,8
+         de esta forma obtego todos los numeros de pagina y los envio a la vista
+         */
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+        //Envio a la vista la pagina en la que estoy
+        model.addAttribute("currentPage", currentPage);
+
+        //getContent() returns just that single page's data
+
+        model.addAttribute("size", pagina.getContent().size());
+
+        model.addAttribute("peliculas", pagina.getContent());
+    }
 
 
 }
