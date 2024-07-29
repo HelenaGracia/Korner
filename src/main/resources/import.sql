@@ -5,6 +5,13 @@ INSERT INTO animes (id,titulo, year, puntuacion, opinion) VALUES ("1004","prueba
 INSERT INTO animes (id,titulo, year, puntuacion, opinion) VALUES ("1005","prueba5","2020","2","opinion de prueba5");
 
 
+INSERT INTO generos_elementos_compartidos (id_genero_elemt_compart,nombre_genero) VALUES ("1","Romance");
+INSERT INTO generos_elementos_compartidos (id_genero_elemt_compart,nombre_genero) VALUES ("2","Acción");
+
+INSERT INTO plataformas ("id_plataforma", "nombre_plataforma") VALUES ("1","Amazon");
+INSERT INTO plataformas ("id_plataforma", "nombre_plataforma") VALUES ("2","Netflix");
+
+
 INSERT INTO roles (id_rol,nombre_rol) VALUES ("1","ROLE_SUPERADMIN");
 INSERT INTO roles (id_rol,nombre_rol) VALUES ("2","ROLE_ADMIN");
 INSERT INTO roles (id_rol,nombre_rol) VALUES ("3","ROLE_USER");
