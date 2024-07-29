@@ -5,9 +5,9 @@ INSERT INTO animes (id,titulo, year, puntuacion, opinion) VALUES ("1004","prueba
 INSERT INTO animes (id,titulo, year, puntuacion, opinion) VALUES ("1005","prueba5","2020","2","opinion de prueba5");
 
 
-INSERT INTO roles (id_rol,nombre_rol) VALUES ("1","SUPERADMIN");
-INSERT INTO roles (id_rol,nombre_rol) VALUES ("2","ADMIN");
-INSERT INTO roles (id_rol,nombre_rol) VALUES ("3","USER");
+INSERT INTO roles (id_rol,nombre_rol) VALUES ("1","ROLE_SUPERADMIN");
+INSERT INTO roles (id_rol,nombre_rol) VALUES ("2","ROLE_ADMIN");
+INSERT INTO roles (id_rol,nombre_rol) VALUES ("3","ROLE_USER");
 
 INSERT INTO usuarios (id_usuario,nombre,contrasena, id_roles) VALUES ("99","user","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","3");
 INSERT INTO usuarios (id_usuario,nombre,contrasena, id_roles) VALUES ("98","useradmin","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","2");
