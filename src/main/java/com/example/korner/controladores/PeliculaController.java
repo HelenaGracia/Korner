@@ -241,7 +241,7 @@ public class PeliculaController {
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam("tituloPeliculaBusqueda") String tituloPeliculaBusqueda,
+    public String search(@RequestParam(value = "tituloPeliculaBusqueda", required = false) String tituloPeliculaBusqueda,
                          Model model, @RequestParam("page") Optional<Integer> page,
                          HttpSession session,
                          RedirectAttributes attributes) {
