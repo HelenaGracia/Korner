@@ -1,22 +1,21 @@
 package com.example.korner.controladores;
 
-import com.example.korner.modelo.Animes;
 import com.example.korner.modelo.GeneroElementoCompartido;
 import com.example.korner.modelo.Pelicula;
 import com.example.korner.modelo.Plataforma;
+import com.example.korner.modelo.Usuario;
 import com.example.korner.repositorios.PeliculaRepository;
-import com.example.korner.servicio.FileSystemStorageService;
-import com.example.korner.servicio.GeneroElementoServiceImpl;
-import com.example.korner.servicio.PeliculaServiceImpl;
-import com.example.korner.servicio.PlataformaServiceImpl;
+import com.example.korner.servicio.*;
+import jakarta.servlet.http.HttpSession;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.core.parameters.P;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -39,27 +38,39 @@ import java.util.stream.IntStream;
 public class PeliculaController {
 
     private final PeliculaServiceImpl peliculaService;
+
+    private final PeliculaRepository peliculaRepository;
     private final GeneroElementoServiceImpl generoElementoService;
 
     private final PlataformaServiceImpl plataformaService;
     private final FileSystemStorageService fileSystemStorageService;
 
-    public PeliculaController(PeliculaServiceImpl peliculaService, GeneroElementoServiceImpl generoElementoService,
-                              FileSystemStorageService fileSystemStorageService,PlataformaServiceImpl plataformaService) {
+    private final UsuarioSecurityService usuarioSecurityService;
+
+
+
+    public PeliculaController(PeliculaServiceImpl peliculaService, PeliculaRepository peliculaRepository,
+                              GeneroElementoServiceImpl generoElementoService,
+                              FileSystemStorageService fileSystemStorageService,
+                              PlataformaServiceImpl plataformaService, UsuarioSecurityService usuarioSecurityService) {
         this.peliculaService = peliculaService;
+        this.peliculaRepository = peliculaRepository;
         this.generoElementoService = generoElementoService;
         this.fileSystemStorageService = fileSystemStorageService;
         this.plataformaService = plataformaService;
+        this.usuarioSecurityService = usuarioSecurityService;
     }
 
     private final Logger logger = LoggerFactory.getLogger(PeliculaController.class);
 
     //Mostrar Peliculas
     @GetMapping("")
-    public String listAllPeliculas(Model model, @RequestParam("page") Optional<Integer> page){
+    public String listAllPeliculas(Model model, @RequestParam("page") Optional<Integer> page, HttpSession session){
 
 
-        paginacion(model, page);
+
+
+        paginacion(model, page, session);
 
         //List<Pelicula> listadoPeliculas = peliculaService.getAll();
         Pelicula pelicula = new Pelicula();
@@ -72,6 +83,7 @@ public class PeliculaController {
         //model.addAttribute("peliculas", listadoPeliculas);
 
         model.addAttribute("datosPelicula", pelicula);
+
         return "peliculas";
     }
 
@@ -85,9 +97,9 @@ public class PeliculaController {
     public String savePelicula(@RequestParam("imagen") MultipartFile multipartFile,
                                @Validated @ModelAttribute(name = "datosPelicula") Pelicula pelicula,
                                BindingResult bindingResult, RedirectAttributes attributes,Model model,
-                               @RequestParam("page") Optional<Integer> page){
+                               @RequestParam("page") Optional<Integer> page, HttpSession session){
 
-        paginacion(model, page);
+        paginacion(model, page, session);
 
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
         List<Plataforma> plataformasList = plataformaService.getAll();
@@ -99,13 +111,18 @@ public class PeliculaController {
                 ObjectError error = new ObjectError("imagenError", "Debes seleccionar una imagen");
                 bindingResult.addError(error);
                 attributes.addFlashAttribute("failed", "Error al introducir la imagen, debe seleccionar una");
+                model.addAttribute("peliculaActual", -1);
                 return "peliculas";
             }
             attributes.addFlashAttribute("failed", "Error al introducir los datos en el formulario");
+            model.addAttribute("peliculaActual", -1);
             return "peliculas";
 
         }else {
             try {
+                Optional<Usuario> user = usuarioSecurityService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
+
+                pelicula.setUsuarioPelicula(user.get());
                 logger.info("este es el objeto pelicula recibido{}", pelicula);
             /*guardamos en la BBDD  el objeto pelicula con el resto de la información que hemos obtenido
              del formulario para que genere un id al guardarse
@@ -115,7 +132,7 @@ public class PeliculaController {
             /*Creamos nuestros proprios nombres que van a llevar los archivos de imagenes, compuestos por el id
              del objeto pelicula y la extensión del archivo(jpg, png)
              */
-                String nombreArchivo = "Pelicula" + pelicula.getId() + pelicula.getTitulo() + "." + FilenameUtils.getExtension(multipartFile.getOriginalFilename());
+                String nombreArchivo = "Pelicula" + pelicula.getId() + "Usuario" + pelicula.getUsuarioPelicula().getId() + "." + FilenameUtils.getExtension(multipartFile.getOriginalFilename());
                 //Llamamos al metodo y le pasamos los siguientes argumentos(el archivo de imagen, nombre de la imagen)
                 fileSystemStorageService.storeWithName(multipartFile, nombreArchivo);
                 //Modificamos el nombre del atributo imagenRuta del objeto pelicula con la url que genera el controlador ImagenesController
@@ -142,9 +159,12 @@ public class PeliculaController {
                                         @Validated @ModelAttribute(name = "datosPelicula") Pelicula pelicula,
                                         BindingResult bindingResult,
                                         RedirectAttributes attributes, Model model,
-                                        @RequestParam("page") Optional<Integer> page){
+                                        @RequestParam("page") Optional<Integer> page, HttpSession session){
 
-        paginacion(model, page);
+        paginacion(model, page, session);
+
+
+
 
         final String FILE_PATH_ROOT = "D:/ficheros";
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
@@ -153,29 +173,30 @@ public class PeliculaController {
         model.addAttribute("listaGeneros", generoElementoCompartidoList);
 
         if (bindingResult.hasErrors()){
+            model.addAttribute("peliculaActual", pelicula.getId());
             return "peliculas";
         }else {
             try {
                 if (multipartFile.isEmpty()){
 
 
-                    Boolean archivo = Files.exists(Path.of(FILE_PATH_ROOT+"/" + ( "Pelicula"+ pelicula.getId() + pelicula.getTitulo()  + ".jpg")));
+                    Boolean archivo = Files.exists(Path.of(FILE_PATH_ROOT+"/" + ( "Pelicula" + pelicula.getId() + "Usuario" + pelicula.getUsuarioPelicula().getId()  + ".jpg")));
 
                     if (archivo.equals(true)){
-                        pelicula.setImagenRuta("/imagenes/leerImagen/" + "Pelicula"+ pelicula.getId() + pelicula.getTitulo()  + ".jpg");
+                        pelicula.setImagenRuta("/imagenes/leerImagen/" + "Pelicula" + pelicula.getId() + "Usuario" + pelicula.getUsuarioPelicula().getId()  + ".jpg");
                     }else {
-                        pelicula.setImagenRuta("/imagenes/leerImagen/" + "Pelicula"+ pelicula.getId() + pelicula.getTitulo()  + ".png");
+                        pelicula.setImagenRuta("/imagenes/leerImagen/" + "Pelicula" + pelicula.getId() + "Usuario" + pelicula.getUsuarioPelicula().getId()  + ".png");
                     }
 
                 } else{
                     //Creamos nuestros proprios nombres que van a llevar los archivos de imagenes, compuestos por String Pelicula el id del objeto pelicula el titulo del objeto pelicula y la extensión del archivo(jpg, png)
-                    String nombreArchivo = "Pelicula" + pelicula.getId() + pelicula.getTitulo() + "." + FilenameUtils.getExtension(multipartFile.getOriginalFilename());
+                    String nombreArchivo = "Pelicula" + pelicula.getId() + "Usuario" + pelicula.getUsuarioPelicula().getId() + "." + FilenameUtils.getExtension(multipartFile.getOriginalFilename());
                     //Llamamos al metedos y le pasamos los siguientes argumentos(el archivo de imagen, nombre de la imagen)
 
-                    if(Files.exists(Path.of(FILE_PATH_ROOT+"/" + ("Pelicula" + pelicula.getId() + pelicula.getTitulo() + ".jpg")))) {
-                        FileUtils.delete(new File(FILE_PATH_ROOT+ "/"+ "Pelicula" + pelicula.getId() + pelicula.getTitulo() +".jpg"));
+                    if(Files.exists(Path.of(FILE_PATH_ROOT+"/" + ("Pelicula" + pelicula.getId() + "Usuario" + pelicula.getUsuarioPelicula().getId() + ".jpg")))) {
+                        FileUtils.delete(new File(FILE_PATH_ROOT+ "/"+ "Pelicula" + pelicula.getId() + "Usuario" + pelicula.getUsuarioPelicula().getId() +".jpg"));
                     } else{
-                        FileUtils.delete(new File(FILE_PATH_ROOT+ "/"+ "Pelicula" + pelicula.getId() + pelicula.getTitulo() +".png"));
+                        FileUtils.delete(new File(FILE_PATH_ROOT+ "/"+ "Pelicula" + pelicula.getId() + "Usuario" + pelicula.getUsuarioPelicula().getId() +".png"));
 
                     }
                     fileSystemStorageService.storeWithName(multipartFile, nombreArchivo);
@@ -184,7 +205,9 @@ public class PeliculaController {
                     pelicula.setImagenRuta("/imagenes/leerImagen/" + nombreArchivo);
 
                 }
+                Optional<Usuario> user = usuarioSecurityService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
 
+                pelicula.setUsuarioPelicula(user.get());
                 //Volvemos a guardar el objeto en la BBDD con los cambios
                 peliculaService.saveEntity(pelicula);
                 attributes.addFlashAttribute("success","Elemento añadido correctamente");
@@ -215,7 +238,62 @@ public class PeliculaController {
         return "redirect:/peliculas";
     }
 
-    private void paginacion(Model model, Optional<Integer> page){
+    @GetMapping("/search")
+    public String search(@RequestParam("tituloPeliculaBusqueda") String titulo,
+                         Model model, @RequestParam("page") Optional<Integer> page,
+                         RedirectAttributes attributes) {
+        logger.info("Titulo de la pelicula: {}", titulo);
+        Pelicula pelicula = new Pelicula();
+        model.addAttribute("datosPelicula", pelicula);
+        List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
+        List<Plataforma> plataformasList = plataformaService.getAll();
+        model.addAttribute("listaPlataformas", plataformasList);
+        model.addAttribute("listaGeneros", generoElementoCompartidoList);
+
+
+
+        try {
+            // Determinar la página actual y configurar la paginación
+            int currentPage = page.orElse(1);
+            Pageable pageRequest = PageRequest.of(currentPage - 1, 2);
+
+            // Determinar si se debe buscar por título o no
+            Page<Pelicula> pagina;
+            if (titulo == null) {
+                pagina = peliculaService.findAll(pageRequest);
+            } else {
+                pagina = peliculaRepository.findAllByTituloContainingIgnoreCase(titulo,pageRequest);
+
+                model.addAttribute("titulo", titulo);
+            }
+
+            // Agregar resultados al modelo
+            model.addAttribute("pagina", pagina);
+            int totalPages = pagina.getTotalPages();
+            if (totalPages > 0) {
+                List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                        .boxed()
+                        .collect(Collectors.toList());
+                model.addAttribute("pageNumbers", pageNumbers);
+            }
+            model.addAttribute("currentPage", currentPage);
+            model.addAttribute("size", pagina.getContent().size());
+            model.addAttribute("peliculas", pagina.getContent());
+
+        } catch (Exception e) {
+            logger.error("Error en la busqueda", e);  // Loguear el error
+            attributes.addFlashAttribute("failed", "Error al realizar la busqueda");
+
+        }
+
+        return "peliculas";
+    }
+
+    private void paginacion(Model model, Optional<Integer> page, HttpSession session){
+        Optional<Usuario> user = usuarioSecurityService.getById(Integer.valueOf((session.getAttribute("idusuario").toString())));
+
+
+
         //Recibe la pagina en la que estoy si no recibe nada asigna la pagina 1
         int currentPage = page.orElse(1);
         //Guarda la pagina en la que estoy (Si es la pagina 1, la 2...) y la cantidad de elementos que quiero mostrar en ella
@@ -224,7 +302,9 @@ public class PeliculaController {
          se crea un objeto page que es el encargado de rellenar en la pagina que le has indicado con la cantidad
          que le has dicho todos los objetos pelicula almacenados, es decir, crea la pagina que visualizas con el contenido
          */
-        Page<Pelicula> pagina = peliculaService.findAll(pageRequest);
+       // Page<Pelicula> pagina = peliculaService.findAll(pageRequest);
+        Page<Pelicula> pagina = peliculaService.getAllPeliculas(user.get(), pageRequest);
+
         //Envio la pagina creada a la vista para poder verla
         model.addAttribute("pagina", pagina);
         //Obtengo la cantidad de paginas creadas, por ejemplo: 8
@@ -249,7 +329,11 @@ public class PeliculaController {
         model.addAttribute("size", pagina.getContent().size());
 
         model.addAttribute("peliculas", pagina.getContent());
+
+
     }
+
+
 
 
 }

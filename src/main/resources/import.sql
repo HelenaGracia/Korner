@@ -32,3 +32,14 @@ INSERT INTO amigos (id_amigos,id_amigo_origen,id_amigo_destino) VALUES ("102","1
 INSERT INTO amigos (id_amigos,id_amigo_origen,id_amigo_destino) VALUES ("103","101","105");
 INSERT INTO amigos (id_amigos,id_amigo_origen,id_amigo_destino) VALUES ("104","101","106");
 
+
+INSERT INTO peliculas (id,id_pelicula_usuarios,titulo, year, puntuacion, opinion, trailer) VALUES ("1000","99","prueba1","2020","2","opinion de prueba","wwww.youtube");
+
+INSERT INTO peliculas (id,id_pelicula_usuarios,titulo, year, puntuacion, opinion, trailer) VALUES ("1002","99","prueba2","2020","3","opinion de prueba2","wwww.youtube");
+
+INSERT INTO peliculas (id,id_pelicula_usuarios,titulo, year, puntuacion, opinion, trailer) VALUES ("1003","98","prueba3","2020","4","opinion de prueba4", "wwww.youtube");
+
+INSERT INTO peliculas (id,id_pelicula_usuarios,titulo, year, puntuacion, opinion, trailer) VALUES ("1004","98","prueba4","2020","5","opinion de prueba3","wwww.youtube");
+
+INSERT INTO peliculas (id,id_pelicula_usuarios,titulo, year, puntuacion, opinion, trailer) VALUES ("1005","98","prueba5","2020","2","opinion de prueba5","wwww.youtube");
+

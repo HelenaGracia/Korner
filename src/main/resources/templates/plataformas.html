@@ -223,7 +223,9 @@
             </div>
             <div class="modal-body">
               <form th:action="@{plataformasElementos/savePlataforma}" method="post"  th:object="${datosPlataforma}">
-                <script th:inline="javascript" th:if="${#fields.hasErrors('*')}">/*<![CDATA[*/ $(document).ready(function () { $('#modalPlataformaModificar').modal('show');}); /*]]>*/</script>
+                  <script th:inline="javascript" th:if="${#fields.hasErrors('*')}">/*<![CDATA[*/ $(document).ready(function () {
+                    let modalIdPlataforma = 'modalPlataformaModificar' + /*[[${platafomaForm.id}]]*/'';
+                    $('#' + modalIdPlataforma).modal('show');}); /*]]>*/</script>
                 <input type="hidden" name="id" th:value="${platafomaForm.id}">
                 <div class="mb-3">
                   <label for="nombrePlataforma" class="form-label">Nombre</label>
