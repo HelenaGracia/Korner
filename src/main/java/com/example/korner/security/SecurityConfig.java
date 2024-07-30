@@ -43,17 +43,6 @@ public class SecurityConfig {
         );
 
         // Autorización de Solicitudes
-//        http.authorizeHttpRequests(request -> request
-//                .requestMatchers("/js/**").permitAll()
-//                .requestMatchers("/img/**").permitAll()
-//                .requestMatchers("/css/**").permitAll()
-//                .requestMatchers("/fonts/**").permitAll()
-//                .requestMatchers("/").permitAll()
-//                .requestMatchers("/creacion").permitAll()
-//                .requestMatchers(HttpMethod.POST, "/creacion/**").permitAll()
-//                .requestMatchers("/generos/**").hasAuthority("ADMIN")
-//                .anyRequest().authenticated());
-
         http.authorizeHttpRequests(customizer->{
             customizer
                     .requestMatchers("/js/**").permitAll()
