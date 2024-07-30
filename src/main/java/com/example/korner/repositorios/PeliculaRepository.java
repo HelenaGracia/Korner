@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PeliculaRepository extends JpaRepository<Pelicula, Integer> {
-    Page<Pelicula> findAllByTituloContainingIgnoreCase(String titulo, Pageable pageable);
+    Page<Pelicula> findAllByTituloContainingIgnoreCaseAndUsuarioPeliculaId(String titulo, Integer id, Pageable pageable);
 
     Page<Pelicula>findAllByUsuarioPelicula(Usuario user, Pageable pageable);
 

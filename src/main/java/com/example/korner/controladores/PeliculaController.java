@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -65,7 +64,10 @@ public class PeliculaController {
 
     //Mostrar Peliculas
     @GetMapping("")
-    public String listAllPeliculas(Model model, @RequestParam("page") Optional<Integer> page, HttpSession session){
+    public String listAllPeliculas(Model model,
+                                   @RequestParam("page") Optional<Integer> page,
+
+                                   HttpSession session){
 
 
 
@@ -239,10 +241,11 @@ public class PeliculaController {
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam("tituloPeliculaBusqueda") String titulo,
+    public String search(@RequestParam("tituloPeliculaBusqueda") String tituloPeliculaBusqueda,
                          Model model, @RequestParam("page") Optional<Integer> page,
+                         HttpSession session,
                          RedirectAttributes attributes) {
-        logger.info("Titulo de la pelicula: {}", titulo);
+        logger.info("Titulo de la pelicula: {}", tituloPeliculaBusqueda);
         Pelicula pelicula = new Pelicula();
         model.addAttribute("datosPelicula", pelicula);
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
@@ -250,7 +253,9 @@ public class PeliculaController {
         model.addAttribute("listaPlataformas", plataformasList);
         model.addAttribute("listaGeneros", generoElementoCompartidoList);
 
+        Optional<Usuario> user = usuarioSecurityService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
 
+        pelicula.setUsuarioPelicula(user.get());
 
         try {
             // Determinar la página actual y configurar la paginación
@@ -259,12 +264,12 @@ public class PeliculaController {
 
             // Determinar si se debe buscar por título o no
             Page<Pelicula> pagina;
-            if (titulo == null) {
+            if (tituloPeliculaBusqueda == null) {
                 pagina = peliculaService.findAll(pageRequest);
             } else {
-                pagina = peliculaRepository.findAllByTituloContainingIgnoreCase(titulo,pageRequest);
+                pagina = peliculaRepository.findAllByTituloContainingIgnoreCaseAndUsuarioPeliculaId(tituloPeliculaBusqueda,user.get().getId(),pageRequest);
 
-                model.addAttribute("titulo", titulo);
+                model.addAttribute("titulo", tituloPeliculaBusqueda);
             }
 
             // Agregar resultados al modelo
