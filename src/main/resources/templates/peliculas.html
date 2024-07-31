@@ -202,7 +202,80 @@
     </div>
 
     <!-- MODAL FORMULARIO AÑADIR PELICULA -->
+    <div class="modal fade" id="modalPeliculaAñadir" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"  aria-hidden="true">
 
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel">AÑADIR PELICULA</h1>
+                    <a th:href="@{/peliculas}" class="btn btn-close"></a>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/peliculas/savePelicula}" method="post" enctype="multipart/form-data" th:object="${datosPelicula}">
+                        <script th:inline="javascript" th:if="${#fields.hasErrors('*')  and  peliculaActual == -1 }">/*<![CDATA[*/ $(document).ready(function () { $('#modalPeliculaAñadir').modal('show');}); /*]]>*/</script>
+                        <div class="mb-3">
+                            <label for="titulo" class="form-label">Título</label>
+                            <input type="text" class="form-control" id="titulo" name="titulo" th:field="*{titulo}" >
+                            <p th:if="${#fields.hasErrors('titulo')}" th:errorclass="error" th:errors="*{titulo}" ></p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="imagen" class="form-label">Imagen</label>
+                            <input class="form-control" type="file" accept="image/png, image/jpeg" id="imagen" name="imagen">
+                            <div th:if="${#fields.hasErrors('global')}">
+                                <p th:each="err: ${#fields.errors('global')}" class="error" th:text="${err}"></p>
+                            </div>
+
+                        </div>
+                        <div class="mb-3">
+                            <label for="year" class="form-label">Año de visualización</label>
+                            <input type="text" class="form-control" id="year"  name="year" th:field="*{year}">
+                            <p th:if="${#fields.hasErrors('year')}" th:errorclass="error" th:errors="*{year}" ></p>
+                        </div>
+                        <div class="mb-3">
+                            <div  class="form-label">Géneros</div><br>
+                            <div class="form-check form-check-inline"  th:each="generosItem: ${listaGeneros}">
+                                <label class="form-check-label" for="generosPelicula" th:text="${generosItem.nombre}" ></label>
+                                <input class="form-check-input" type="checkbox" th:field="*{generosPelicula}"  th:value="${generosItem.id}" id="generosPelicula" >
+                            </div>
+                            <p  th:if="${#fields.hasErrors('generosPelicula')}" th:errorclass="error" th:errors="*{generosPelicula}"  ></p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="opinion" class="form-label">Reseña</label>
+                            <textarea class="form-control" id="opinion" name="opinion" th:field="*{opinion}" style="height: 100px" placeholder="Escribe tu reseña aquí"></textarea>
+                            <p th:if="${#fields.hasErrors('opinion')}" th:errorclass="error" th:errors="*{opinion}" ></p>
+                        </div>
+                        <div class="mb-3">
+                            <div  class="form-label">Plataformas</div><br>
+                            <div class="form-check form-check-inline"  th:each="plataformasItem: ${listaPlataformas}">
+                                <label class="form-check-label" for="plataformasPelicula" th:text="${plataformasItem.nombrePlataforma}" ></label>
+                                <input class="form-check-input" type="checkbox" th:field="*{plataformasPelicula}" th:value="${plataformasItem.id}" id="plataformasPelicula" >
+                            </div>
+                            <p  th:if="${#fields.hasErrors('plataformasPelicula')}" th:errorclass="error" th:errors="*{plataformasPelicula}"  ></p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="puntuacion" class="form-label">Valoración</label>
+                            <input type="number" class="form-control" id="puntuacion" name="puntuacion" th:field="*{puntuacion}" min="0" max="5" step="1">
+                            <p th:if="${#fields.hasErrors('puntuacion')}" th:errorclass="error" th:errors="*{puntuacion}" ></p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="trailerRuta" class="form-label">Trailer</label>
+                            <input type="text" class="form-control" id="trailerRuta" name="trailerRuta" th:field="*{trailerRuta}">
+                            <p  th:if="${#fields.hasErrors('trailerRuta')}" th:errorclass="error" th:errors="*{trailerRuta}" ></p>
+                        </div>
+                        <div class="d-flex justify-content-end ">
+                            <a th:href="@{/peliculas}" class="btn btn-secondary me-2">Cerrar</a>
+                            <button type="submit" class="btn btn-primary">Añadir película</button>
+                        </div>
+
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- FIN MODAL FORMULARIO AÑADIR PELICULA -->
 
     <!-- ESTRUCTURA PELICULAS -->
 
@@ -269,80 +342,7 @@
 
                 <div class="col-12 col-md-6 mb-4" th:if = "${size > 0}" th:each = "pelicula : ${peliculas}"  >
 
-                    <div class="modal fade" id="modalPeliculaAñadir" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"  aria-hidden="true">
 
-                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel">AÑADIR PELICULA</h1>
-                                    <a th:href="@{/peliculas}" class="btn btn-close"></a>
-                                </div>
-                                <div class="modal-body">
-                                    <form th:action="@{/peliculas/savePelicula}" method="post" enctype="multipart/form-data" th:object="${datosPelicula}">
-                                        <script th:inline="javascript" th:if="${#fields.hasErrors('*')  and  peliculaActual == -1 }">/*<![CDATA[*/ $(document).ready(function () { $('#modalPeliculaAñadir').modal('show');}); /*]]>*/</script>
-                                        <div class="mb-3">
-                                            <label for="titulo" class="form-label">Título</label>
-                                            <input type="text" class="form-control" id="titulo" name="titulo" th:field="*{titulo}" >
-                                            <p th:if="${#fields.hasErrors('titulo')}" th:errorclass="error" th:errors="*{titulo}" ></p>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="imagen" class="form-label">Imagen</label>
-                                            <input class="form-control" type="file" accept="image/png, image/jpeg" id="imagen" name="imagen">
-                                            <div th:if="${#fields.hasErrors('global')}">
-                                                <p th:each="err: ${#fields.errors('global')}" class="error" th:text="${err}"></p>
-                                            </div>
-
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="year" class="form-label">Año de visualización</label>
-                                            <input type="text" class="form-control" id="year"  name="year" th:field="*{year}">
-                                            <p th:if="${#fields.hasErrors('year')}" th:errorclass="error" th:errors="*{year}" ></p>
-                                        </div>
-                                        <div class="mb-3">
-                                            <div  class="form-label">Géneros</div><br>
-                                            <div class="form-check form-check-inline"  th:each="generosItem: ${listaGeneros}">
-                                                <label class="form-check-label" for="generosPelicula" th:text="${generosItem.nombre}" ></label>
-                                                <input class="form-check-input" type="checkbox" th:field="*{generosPelicula}"  th:value="${generosItem.id}" id="generosPelicula" >
-                                            </div>
-                                            <p  th:if="${#fields.hasErrors('generosPelicula')}" th:errorclass="error" th:errors="*{generosPelicula}"  ></p>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="opinion" class="form-label">Reseña</label>
-                                            <textarea class="form-control" id="opinion" name="opinion" th:field="*{opinion}" style="height: 100px" placeholder="Escribe tu reseña aquí"></textarea>
-                                            <p th:if="${#fields.hasErrors('opinion')}" th:errorclass="error" th:errors="*{opinion}" ></p>
-                                        </div>
-                                        <div class="mb-3">
-                                            <div  class="form-label">Plataformas</div><br>
-                                            <div class="form-check form-check-inline"  th:each="plataformasItem: ${listaPlataformas}">
-                                                <label class="form-check-label" for="plataformasPelicula" th:text="${plataformasItem.nombrePlataforma}" ></label>
-                                                <input class="form-check-input" type="checkbox" th:field="*{plataformasPelicula}" th:value="${plataformasItem.id}" id="plataformasPelicula" >
-                                            </div>
-                                            <p  th:if="${#fields.hasErrors('plataformasPelicula')}" th:errorclass="error" th:errors="*{plataformasPelicula}"  ></p>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="puntuacion" class="form-label">Valoración</label>
-                                            <input type="number" class="form-control" id="puntuacion" name="puntuacion" th:field="*{puntuacion}" min="0" max="5" step="1">
-                                            <p th:if="${#fields.hasErrors('puntuacion')}" th:errorclass="error" th:errors="*{puntuacion}" ></p>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="trailerRuta" class="form-label">Trailer</label>
-                                            <input type="text" class="form-control" id="trailerRuta" name="trailerRuta" th:field="*{trailerRuta}">
-                                            <p  th:if="${#fields.hasErrors('trailerRuta')}" th:errorclass="error" th:errors="*{trailerRuta}" ></p>
-                                        </div>
-                                        <div class="d-flex justify-content-end ">
-                                            <a th:href="@{/peliculas}" class="btn btn-secondary me-2">Cerrar</a>
-                                            <button type="submit" class="btn btn-primary">Añadir película</button>
-                                        </div>
-
-
-                                    </form>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- FIN MODAL FORMULARIO AÑADIR PELICULA -->
 
 
                     <!-- MODAL FORMULARIO MODIFICAR PELICULA -->
