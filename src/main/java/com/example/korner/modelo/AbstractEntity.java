@@ -5,8 +5,8 @@ import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import java.io.Serializable;
+
 
 
 @MappedSuperclass
@@ -16,6 +16,8 @@ import java.io.Serializable;
 
 
 public abstract class AbstractEntity implements Serializable {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)

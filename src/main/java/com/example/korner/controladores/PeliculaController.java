@@ -27,8 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -74,6 +73,8 @@ public class PeliculaController {
 
         paginacion(model, page, session);
 
+
+
         //List<Pelicula> listadoPeliculas = peliculaService.getAll();
         Pelicula pelicula = new Pelicula();
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
@@ -103,10 +104,15 @@ public class PeliculaController {
 
         paginacion(model, page, session);
 
+
+
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
+        Set<GeneroElementoCompartido> listadoGeneros = pelicula.getGenerosPelicula();
+        logger.info("listado de generos:{}", listadoGeneros);
         List<Plataforma> plataformasList = plataformaService.getAll();
         model.addAttribute("listaPlataformas", plataformasList);
         model.addAttribute("listaGeneros", generoElementoCompartidoList);
+
 
         if (bindingResult.hasErrors() || multipartFile.isEmpty()){
             if (multipartFile.isEmpty()){
@@ -174,6 +180,11 @@ public class PeliculaController {
         model.addAttribute("listaPlataformas", plataformasList);
         model.addAttribute("listaGeneros", generoElementoCompartidoList);
 
+
+        Optional<Usuario> user = usuarioSecurityService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
+
+        pelicula.setUsuarioPelicula(user.get());
+
         if (bindingResult.hasErrors()){
             model.addAttribute("peliculaActual", pelicula.getId());
             return "peliculas";
@@ -207,9 +218,7 @@ public class PeliculaController {
                     pelicula.setImagenRuta("/imagenes/leerImagen/" + nombreArchivo);
 
                 }
-                Optional<Usuario> user = usuarioSecurityService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
 
-                pelicula.setUsuarioPelicula(user.get());
                 //Volvemos a guardar el objeto en la BBDD con los cambios
                 peliculaService.saveEntity(pelicula);
                 attributes.addFlashAttribute("success","Elemento añadido correctamente");
@@ -252,6 +261,7 @@ public class PeliculaController {
         List<Plataforma> plataformasList = plataformaService.getAll();
         model.addAttribute("listaPlataformas", plataformasList);
         model.addAttribute("listaGeneros", generoElementoCompartidoList);
+
 
         Optional<Usuario> user = usuarioSecurityService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
 
@@ -334,6 +344,10 @@ public class PeliculaController {
         model.addAttribute("size", pagina.getContent().size());
 
         model.addAttribute("peliculas", pagina.getContent());
+
+
+
+
 
 
     }

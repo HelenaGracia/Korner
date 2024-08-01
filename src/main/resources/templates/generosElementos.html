@@ -119,7 +119,7 @@
         </div>
         <div class="modal-body">
           <form th:action="@{/generosElementos/saveGeneroElemento}" method="post" enctype="multipart/form-data" th:object="${datosGenero}">
-            <script th:inline="javascript" th:if="${#fields.hasErrors('*')}">/*<![CDATA[*/ $(document).ready(function () { $('#modalGeneroAñadir').modal('show');}); /*]]>*/</script>
+            <script th:inline="javascript" th:if="${#fields.hasErrors('*') and generoElementoActual == -1}">/*<![CDATA[*/ $(document).ready(function () { $('#modalGeneroAñadir').modal('show');}); /*]]>*/</script>
             <div class="mb-3">
               <label for="nombre" class="form-label">Nombre</label>
               <input type="text" class="form-control" id="nombre" name="nombre" th:field="*{nombre}" >
@@ -156,6 +156,25 @@
           <div th:if="${failed}" class="text-center alert alert-danger">
             <p th:text="${failed}"></p>
           </div>
+
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
+                <a th:href="@{/generosElementos(page=${currentPage - 1})}" class="page-link" href="#">Previous</a>
+              </li>
+              <li th:each="pageNumber : ${pageNumbers}" class="page-item">
+                <a th:href="@{/generosElementos(page=${pageNumber})}"
+                   th:text="${pageNumber}"
+                   th:classappend="${pageNumber==pagina.number + 1} ? active"
+                   class="page-link" href="#"></a>
+              </li>
+              <li th:if="${currentPage + 1 ==pagina.totalPages}" class="page-item">
+                <a th:href="@{/generosElementos(page=${currentPage + 1})}" class="page-link" href="#">Next</a>
+              </li>
+            </ul>
+          </nav>
+
+
           <table class="table" th:if = "${size > 0}">
             <thead class="table-light">
             <tr>
@@ -222,8 +241,10 @@
             <a th:href="@{/generosElementos}" class="btn btn-close"></a>
           </div>
           <div class="modal-body">
-            <form th:action="@{generosElementos/saveGeneroElemento}" method="post"  th:object="${datosGenero}">
-              <script th:inline="javascript" th:if="${#fields.hasErrors('*')}">/*<![CDATA[*/ $(document).ready(function () { $('#modalGeneroModificar').modal('show');}); /*]]>*/</script>
+            <form th:action="@{generosElementos/saveGeneroElementoModificar}" method="post"  th:object="${datosGenero}">
+              <script th:inline="javascript" th:if="${#fields.hasErrors('*')and generoElementoActual == generoForm.id}">/*<![CDATA[*/ $(document).ready(function () {
+                let modalIdGeneroElemento = 'modalGeneroModificar' + /*[[${generoForm.id}]]*/'';
+                $('#' + modalIdGeneroElemento).modal('show');}); /*]]>*/</script>
               <input type="hidden" name="id" th:value="${generoForm.id}">
               <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre</label>

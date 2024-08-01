@@ -319,7 +319,7 @@
 
                 <div th:unless="${titulo == null}">
                     <div class="col-12">
-                        <p>WWWWWWWWWWWWWWWWWWWWWWWW</p>
+                        <a class="btn btn-primary" th:href="@{/peliculas}">Enlace Parea elimiar la busqueda</a>
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
@@ -419,6 +419,8 @@
                                         </div>
 
 
+
+
                                     </form>
                                 </div>
 
@@ -477,11 +479,11 @@
                                 </div>
                                 <div class="space-down">
                                     <h6>Géneros:</h6>
-                                    <h6 th:each="genero: ${listaGeneros}" th:text="${genero.nombre}"></h6>
+                                    <h6 th:each="genero: ${pelicula.getGenerosPelicula()}" th:text="${genero.nombre}"></h6>
                                 </div>
                                 <div class="space-down">
                                     <h6>Plataformas:</h6>
-                                    <h6 th:each="plataforma: ${listaPlataformas}" th:text="${plataforma.nombrePlataforma}"></h6>
+                                    <h6 th:each="plataforma: ${pelicula.getPlataformasPelicula()}" th:text="${plataforma.nombrePlataforma}"></h6>
                                 </div>
                             </div>
                             <!-- Reseña y Puntuación -->
