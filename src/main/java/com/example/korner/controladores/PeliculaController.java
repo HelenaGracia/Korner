@@ -231,7 +231,7 @@ public class PeliculaController {
             }
             return "redirect:/peliculas";
         }
-        
+
     }
 
 
@@ -251,10 +251,12 @@ public class PeliculaController {
 
     @GetMapping("/search")
     public String search(@RequestParam(value = "tituloPeliculaBusqueda", required = false) String tituloPeliculaBusqueda,
+                         @RequestParam(value = "filtroPuntuacion", required = false) Integer filtroPuntuacion,
                          Model model, @RequestParam("page") Optional<Integer> page,
                          HttpSession session,
                          RedirectAttributes attributes) {
         logger.info("Titulo de la pelicula: {}", tituloPeliculaBusqueda);
+        logger.info("puntuacion recibida del filtro: {}", filtroPuntuacion);
         Pelicula pelicula = new Pelicula();
         model.addAttribute("datosPelicula", pelicula);
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
@@ -273,13 +275,26 @@ public class PeliculaController {
             Pageable pageRequest = PageRequest.of(currentPage - 1, 2);
 
             // Determinar si se debe buscar por título o no
-            Page<Pelicula> pagina;
-            if (tituloPeliculaBusqueda == null) {
-                pagina = peliculaService.findAll(pageRequest);
-            } else {
-                pagina = peliculaRepository.findAllByTituloContainingIgnoreCaseAndUsuarioPeliculaId(tituloPeliculaBusqueda,user.get().getId(),pageRequest);
+            Page<Pelicula> pagina = null;
+            switch (tituloPeliculaBusqueda){
+                case "":
+                    if (filtroPuntuacion!=null){
+                        pagina = peliculaService.getAllPeliculasByPuntuacion(filtroPuntuacion, user.get(), pageRequest);
+                        model.addAttribute("puntuacionFiltro", filtroPuntuacion);
+                    }else {
+                        pagina = peliculaService.getAllPeliculas(user.get(), pageRequest);
+                    }
 
-                model.addAttribute("titulo", tituloPeliculaBusqueda);
+                    break;
+                case null:
+                    if (filtroPuntuacion != null){
+                        pagina = peliculaService.getAllPeliculasByPuntuacion(filtroPuntuacion, user.get(), pageRequest);
+                        model.addAttribute("puntuacionFiltro", filtroPuntuacion);
+                    }
+                    break;
+                default:
+                    pagina = peliculaService.getAllPeliculasByTitulo(tituloPeliculaBusqueda, user.get(), pageRequest);
+                    model.addAttribute("titulo", tituloPeliculaBusqueda);
             }
 
             // Agregar resultados al modelo
@@ -317,7 +332,7 @@ public class PeliculaController {
          se crea un objeto page que es el encargado de rellenar en la pagina que le has indicado con la cantidad
          que le has dicho todos los objetos pelicula almacenados, es decir, crea la pagina que visualizas con el contenido
          */
-       // Page<Pelicula> pagina = peliculaService.findAll(pageRequest);
+        // Page<Pelicula> pagina = peliculaService.findAll(pageRequest);
         Page<Pelicula> pagina = peliculaService.getAllPeliculas(user.get(), pageRequest);
 
         //Envio la pagina creada a la vista para poder verla

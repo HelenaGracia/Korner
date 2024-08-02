@@ -42,6 +42,12 @@ INSERT INTO amigos (id_amigos,id_amigo_origen,id_amigo_destino) VALUES ("103","1
 INSERT INTO amigos (id_amigos,id_amigo_origen,id_amigo_destino) VALUES ("104","101","106");
 
 
+INSERT INTO peliculas (id,id_pelicula_usuarios,titulo, year, puntuacion, opinion,imagen, trailer) VALUES ("1","99","Shoujo Kageki Revue Starlight the movie","2020","5","opinion de prueba","/imagenes/leerImagen/Pelicula1Usuario99.jpg","https://www.youtube.com/embed/AAabX4HO8xA?si=7bd5QYheVkxFF8aO");
+
+INSERT INTO peliculas (id,id_pelicula_usuarios,titulo, year, puntuacion, opinion,imagen, trailer) VALUES ("2","99","revue","2010","5","opinion de prueba","/imagenes/leerImagen/Pelicula2Usuario99.png","https://www.youtube.com/embed/AAabX4HO8xA?si=7bd5QYheVkxFF8aO");
+
+INSERT INTO peliculas (id,id_pelicula_usuarios,titulo, year, puntuacion, opinion,imagen, trailer) VALUES ("3","99","prueba6","2011","5","opinion de prueba","/imagenes/leerImagen/Pelicula3Usuario99.jpg","https://www.youtube.com/embed/AAabX4HO8xA?si=7bd5QYheVkxFF8aO");
+
 INSERT INTO peliculas (id,id_pelicula_usuarios,titulo, year, puntuacion, opinion, trailer) VALUES ("1000","99","prueba1","2020","2","opinion de prueba","wwww.youtube");
 
 INSERT INTO peliculas (id,id_pelicula_usuarios,titulo, year, puntuacion, opinion, trailer) VALUES ("1002","99","prueba2","2020","3","opinion de prueba2","wwww.youtube");
@@ -55,6 +61,12 @@ INSERT INTO peliculas (id,id_pelicula_usuarios,titulo, year, puntuacion, opinion
 
 INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1000", "1");
 INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1000", "2");
+INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1", "8");
+INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1", "9");
+INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1", "10");
+INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("2", "10");
+INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("3", "5");
+INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("3", "4");
 INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1002", "3");
 INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1003", "4");
 INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1003", "7");
@@ -65,6 +77,10 @@ INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1005", "6");
 
 INSERT INTO pelicula_plataforma(id,id_plataforma) VALUES ("1000", "1");
 INSERT INTO pelicula_plataforma(id,id_plataforma) VALUES ("1000", "2");
+INSERT INTO pelicula_plataforma(id,id_plataforma) VALUES ("1", "2");
+INSERT INTO pelicula_plataforma(id,id_plataforma) VALUES ("2", "2");
+INSERT INTO pelicula_plataforma(id,id_plataforma) VALUES ("3", "1");
+INSERT INTO pelicula_plataforma(id,id_plataforma) VALUES ("3", "2");
 INSERT INTO pelicula_plataforma(id,id_plataforma) VALUES ("1002", "2");
 INSERT INTO pelicula_plataforma(id,id_plataforma) VALUES ("1003", "1");
 INSERT INTO pelicula_plataforma(id,id_plataforma) VALUES ("1004", "2");

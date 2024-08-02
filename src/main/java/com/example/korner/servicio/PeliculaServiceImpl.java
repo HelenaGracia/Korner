@@ -1,5 +1,6 @@
 package com.example.korner.servicio;
 
+import com.example.korner.modelo.GeneroElementoCompartido;
 import com.example.korner.modelo.Pelicula;
 import com.example.korner.modelo.Usuario;
 import com.example.korner.repositorios.PeliculaRepository;
@@ -20,4 +21,14 @@ public class PeliculaServiceImpl extends AbstractService<Pelicula,Integer, Pelic
     public Page<Pelicula> getAllPeliculas(Usuario usuario, Pageable pageable){
         return peliculaRepository.findAllByUsuarioPelicula(usuario,pageable);
     }
+
+    public Page<Pelicula> getAllPeliculasByTitulo(String titulo, Usuario usuario, Pageable pageable){
+        return peliculaRepository.findAllByTituloContainingIgnoreCaseAndUsuarioPelicula(titulo, usuario, pageable);
+    }
+
+    public Page<Pelicula> getAllPeliculasByPuntuacion(Integer puntuacion, Usuario usuario, Pageable pageable){
+        return peliculaRepository.findAllByPuntuacionAndUsuarioPelicula(puntuacion, usuario, pageable);
+    }
+
+
 }

@@ -36,7 +36,7 @@ public abstract class AbstractEntity implements Serializable {
     @Min(0)
     @Max(5)
     @NotNull
-    private Short puntuacion;
+    private Integer puntuacion;
 
     @Column (name = "opinion" , length = 4000)
     @Size(max = 4000, message = "Debe tener como máximo 4000 caracteres" )
