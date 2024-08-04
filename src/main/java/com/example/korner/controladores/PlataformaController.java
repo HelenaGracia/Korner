@@ -3,18 +3,22 @@ package com.example.korner.controladores;
 import com.example.korner.modelo.GeneroElementoCompartido;
 import com.example.korner.modelo.Pelicula;
 import com.example.korner.modelo.Plataforma;
-import com.example.korner.servicio.GeneroElementoServiceImpl;
+import com.example.korner.modelo.Usuario;
+import com.example.korner.servicio.PlataformaServiceImpl;
+import jakarta.servlet.http.HttpSession;
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -24,49 +28,79 @@ import java.util.stream.IntStream;
 
 
 @Controller
-@RequestMapping("/generosElementos")
-public class GeneroElementoController {
+@RequestMapping("/plataformasElementos")
+public class PlataformaController {
 
 
-    private final GeneroElementoServiceImpl generoElementoService;
+    private final PlataformaServiceImpl plataformaService;
 
-    private final Logger logger = LoggerFactory.getLogger(GeneroElementoController.class);
+    private final Logger logger = LoggerFactory.getLogger(PlataformaController.class);
 
-    public GeneroElementoController(GeneroElementoServiceImpl generoElementoService) {
-        this.generoElementoService = generoElementoService;
+    public PlataformaController(PlataformaServiceImpl plataformaService) {
+        this.plataformaService = plataformaService;
     }
-
 
     @GetMapping("")
-    public String showGenerosElementos(Model model, @RequestParam("page") Optional<Integer> page){
+    public String showPlataformas(Model model, @RequestParam("page") Optional<Integer> page){
 
         paginacion(model,page);
 
-        //List<GeneroElementoCompartido> listadoGeneros = generoElementoService.getAll();
-        GeneroElementoCompartido genero = new GeneroElementoCompartido();
-        //model.addAttribute("size", listadoGeneros.size());
-        //model.addAttribute("generos", listadoGeneros);
-        model.addAttribute("datosGenero", genero);
-        return "generosElementos";
+        //List<Plataforma> listadoPlataformas = plataformaService.getAll();
+        Plataforma plataforma = new Plataforma();
+        //model.addAttribute("size", listadoPlataformas.size());
+       // model.addAttribute("plataformas", listadoPlataformas);
+        model.addAttribute("datosPlataforma", plataforma);
+        return "plataformas";
     }
 
-    @PostMapping("/saveGeneroElemento")
-    public String saveGeneroElemento(@Validated @ModelAttribute(name = "datosGenero") GeneroElementoCompartido generoElementoCompartido,
+    @PostMapping("/savePlataforma")
+    public String savePlataforma(@Validated @ModelAttribute(name = "datosPlataforma") Plataforma plataforma,
+                               BindingResult bindingResult, RedirectAttributes attributes,
+                                 @RequestParam("page") Optional<Integer> page,
+                                 Model model){
+        paginacion(model,page);
+
+        if (bindingResult.hasErrors()){
+            model.addAttribute("plataformaActual", -1);
+            attributes.addFlashAttribute("failed", "Error al introducir los datos en el formulario");
+            return "plataformas";
+
+        }else {
+            try {
+                logger.info("este es el objeto plataforma recibido{}", plataforma);
+                plataformaService.saveEntity(plataforma);
+                logger.info("este es el objeto plataforma guardado{}", plataforma);
+                attributes.addFlashAttribute("success", "Elemento añadido correctamente");
+            }catch (DataIntegrityViolationException e){
+                e.printStackTrace();
+                attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
+            } catch (Exception e){
+                e.printStackTrace();
+                attributes.addFlashAttribute("failed", "Error");
+            }
+            return "redirect:/plataformasElementos";
+        }
+
+    }
+
+
+    @PostMapping("/savePlataformaModificar")
+    public String savePlataformaModificar(@Validated @ModelAttribute(name = "datosPlataforma") Plataforma plataforma,
                                  BindingResult bindingResult, RedirectAttributes attributes,
-                                     @RequestParam("page") Optional<Integer> page,
-                                     Model model){
-        paginacion(model,page);
+                                          @RequestParam("page") Optional<Integer> page,
+                                          Model model){
+        paginacion(model, page);
 
         if (bindingResult.hasErrors()){
-            model.addAttribute("generoElementoActual", -1);
+            model.addAttribute("plataformaActual", plataforma.getId());
             attributes.addFlashAttribute("failed", "Error al introducir los datos en el formulario");
-            return "generosElementos";
+            return "plataformas";
 
         }else {
             try {
-                logger.info("este es el objeto genero recibido{}", generoElementoCompartido);
-                generoElementoService.saveEntity(generoElementoCompartido);
-                logger.info("este es el objeto genero guardado{}", generoElementoCompartido);
+                logger.info("este es el objeto plataforma recibido{}", plataforma);
+                plataformaService.saveEntity(plataforma);
+                logger.info("este es el objeto plataforma guardado{}", plataforma);
                 attributes.addFlashAttribute("success", "Elemento añadido correctamente");
             }catch (DataIntegrityViolationException e){
                 e.printStackTrace();
@@ -75,53 +109,23 @@ public class GeneroElementoController {
                 e.printStackTrace();
                 attributes.addFlashAttribute("failed", "Error");
             }
-            return "redirect:/generosElementos";
-        }
-
-    }
-
-    @PostMapping("/saveGeneroElementoModificar")
-    public String saveGeneroElementoModificar(@Validated @ModelAttribute(name = "datosGenero") GeneroElementoCompartido generoElementoCompartido,
-                                     BindingResult bindingResult, RedirectAttributes attributes,
-                                     @RequestParam("page") Optional<Integer> page,
-                                     Model model){
-        paginacion(model,page);
-
-        if (bindingResult.hasErrors()){
-            model.addAttribute("generoElementoActual", generoElementoCompartido.getId());
-            attributes.addFlashAttribute("failed", "Error al introducir los datos en el formulario");
-            return "generosElementos";
-
-        }else {
-            try {
-                logger.info("este es el objeto genero recibido{}", generoElementoCompartido);
-                generoElementoService.saveEntity(generoElementoCompartido);
-                logger.info("este es el objeto genero guardado{}", generoElementoCompartido);
-                attributes.addFlashAttribute("success", "Elemento añadido correctamente");
-            }catch (DataIntegrityViolationException e){
-                e.printStackTrace();
-                attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
-            } catch (Exception e){
-                e.printStackTrace();
-                attributes.addFlashAttribute("failed", "Error");
-            }
-            return "redirect:/generosElementos";
+            return "redirect:/plataformasElementos";
         }
 
     }
 
 
-    @PostMapping("/deleteGenero")
-    public String deleteGenero(GeneroElementoCompartido generoElementoCompartido, RedirectAttributes attributes){
+    @PostMapping("/deletePlataforma")
+    public String deletePlataforma(Plataforma plataforma, RedirectAttributes attributes){
         try {
-            logger.info("este es el objeto genero eliminado{}", generoElementoCompartido);
+            logger.info("este es el objeto plataforma eliminado{}", plataforma);
 
-            generoElementoService.deleteEntity(generoElementoCompartido);
+            plataformaService.deleteEntity(plataforma);
             attributes.addFlashAttribute("success", "Elemento borrado");
         }catch (Exception e){
             attributes.addFlashAttribute("failed", "Error al eliminar");
         }
-        return "redirect:/generosElementos";
+        return "redirect:/plataformasElementos";
     }
 
     private void paginacion(Model model, Optional<Integer> page){
@@ -134,7 +138,7 @@ public class GeneroElementoController {
          que le has dicho todos los objetos pelicula almacenados, es decir, crea la pagina que visualizas con el contenido
          */
         // Page<Pelicula> pagina = peliculaService.findAll(pageRequest);
-        Page<GeneroElementoCompartido> pagina = generoElementoService.findAll(pageRequest);
+        Page<Plataforma> pagina = plataformaService.findAll(pageRequest);
 
         //Envio la pagina creada a la vista para poder verla
         model.addAttribute("pagina", pagina);
@@ -159,7 +163,7 @@ public class GeneroElementoController {
 
         model.addAttribute("size", pagina.getContent().size());
 
-        model.addAttribute("generos", pagina.getContent());
+        model.addAttribute("plataformas", pagina.getContent());
 
     }
 

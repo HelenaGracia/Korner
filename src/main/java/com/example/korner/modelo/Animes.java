@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 
 @Entity
 @Getter
@@ -26,9 +28,11 @@ public class Animes extends AbstractEntity{
     private String ending;
 
 
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_generos_elemt_comp", foreignKey = @ForeignKey(name = "fk_generos_elemt_comp_animes"))
-    private GeneroElementoCompartido generoElementoCompartidoAnimes;
+    @ManyToMany (fetch = FetchType.LAZY)
+    @JoinTable(name = "genero_anime", joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "id_generos_elemt_comp"))
+    private Set<GeneroElementoCompartido> generosElementoCompartidoAnimes;
+
 
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "id_plataformas", foreignKey = @ForeignKey(name = "fk_plataformas_animes"))

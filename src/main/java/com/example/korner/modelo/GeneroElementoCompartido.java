@@ -1,6 +1,8 @@
 package com.example.korner.modelo;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import java.io.Serializable;
 
@@ -18,6 +20,8 @@ public class GeneroElementoCompartido implements Serializable{
     private Integer id;
 
     @Column (name = "nombre_genero" , length = 45)
+    @Size(min = 2, message = "Debe tener como mínimo 2 caracter")
+    @Size(max = 30,  message = "Debe tener como máximo 30 caracteres")
     private String nombre;
 
     @ManyToOne (fetch = FetchType.LAZY)

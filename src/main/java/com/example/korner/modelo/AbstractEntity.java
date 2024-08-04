@@ -1,11 +1,12 @@
 package com.example.korner.modelo;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import java.io.Serializable;
+
 
 
 @MappedSuperclass
@@ -15,29 +16,33 @@ import java.io.Serializable;
 
 
 public abstract class AbstractEntity implements Serializable {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column (name = "titulo" , length = 256, nullable = false)
-    @NonNull
+    @Column (name = "titulo" , length = 60, nullable = false)
+    @Size(min = 1, message = "Debe tener como mínimo 1 caracter")
+    @Size(max = 60,  message = "Debe tener como máximo 60 caracteres")
     private String titulo;
 
     @Column (name = "year")
-    @NonNull
-    private Short year;
+    @NotNull
+    private Integer year;
 
     @Column (name = "puntuacion")
-    @NonNull
-    private Short puntuacion;
+    @Min(0)
+    @Max(5)
+    @NotNull
+    private Integer puntuacion;
 
     @Column (name = "opinion" , length = 4000)
-    @NonNull
+    @Size(max = 4000, message = "Debe tener como máximo 4000 caracteres" )
     private String opinion;
 
     @Column (name = "imagen" , length = 4000)
-    @NonNull
     private String imagenRuta;
 
 

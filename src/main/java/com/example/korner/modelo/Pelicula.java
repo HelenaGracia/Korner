@@ -1,12 +1,10 @@
 package com.example.korner.modelo;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.Serializable;
-import java.util.Date;
 import java.util.Set;
 
 @Getter
@@ -15,19 +13,31 @@ import java.util.Set;
 @Table(name = "peliculas" ,uniqueConstraints = @UniqueConstraint(columnNames = "titulo"),
         indexes = {@Index(name = "indice1",columnList = "titulo"),
                 @Index(name = "indice2",columnList = "year"),
-                @Index(name = "indice3",columnList = "id_generos_elemt_comp")})
+                @Index(name = "indice3",columnList = "puntuacion")})
 public class Pelicula  extends AbstractEntity{
     @Column (name = "trailer" , length = 1000)
-    @NonNull
+    @NotBlank
     private String trailerRuta;
 
-    @ManyToOne (fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_plataformas", foreignKey = @ForeignKey(name = "fk_plataformas_peliculas"))
-    private Plataforma plataformasPelicula;
 
-    @ManyToOne (fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_generos_elemt_comp", foreignKey = @ForeignKey(name = "fk_generos_elemt_comp_peliculas"))
-    private GeneroElementoCompartido generoElementoCompartidoPelicula;
+    @ManyToMany (fetch = FetchType.LAZY)
+    @JoinTable(name = "pelicula_plataforma", joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "id_plataforma"))
+    @NotEmpty
+    private Set<Plataforma> plataformasPelicula;
+
+
+
+    @ManyToMany (fetch = FetchType.LAZY)
+    @JoinTable(name = "pelicula_genero", joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "id_generos_elemt_comp"))
+    @NotEmpty
+    private Set<GeneroElementoCompartido> generosPelicula;
+
+    @ManyToOne (fetch = FetchType.LAZY)
+    @JoinColumn (name = "id_pelicula_usuarios")
+
+    private Usuario usuarioPelicula;
 
 
     @Override
@@ -35,7 +45,7 @@ public class Pelicula  extends AbstractEntity{
         return "Pelicula{" +
                 "trailerRuta='" + trailerRuta + '\'' +
                 ", plataformasPelicula=" + plataformasPelicula +
-                ", generoElementoCompartidoPelicula=" + generoElementoCompartidoPelicula +
+                ", generoElementoCompartidoPelicula=" + generosPelicula +
                 '}'+ super.toString();
     }
 }
