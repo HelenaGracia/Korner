@@ -113,6 +113,12 @@ nav li a img{
     border-color: var(--firts-color);
 }
 
+.pagination{
+    --bs-pagination-color: var(--firts-color);
+    --bs-pagination-active-bg: var(--firts-color);
+    --bs-pagination-active-border-color:  var(--firts-color);
+}
+
 
 
 
