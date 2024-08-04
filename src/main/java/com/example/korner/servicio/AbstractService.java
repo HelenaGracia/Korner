@@ -54,4 +54,5 @@ public class AbstractService <E,ID, REPO extends JpaRepository<E, ID>> {
     public Page<E> findAll(Pageable pageable) {
         return repo.findAll(pageable);
     }
+
 }

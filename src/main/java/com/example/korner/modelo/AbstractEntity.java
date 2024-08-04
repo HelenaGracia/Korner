@@ -5,8 +5,8 @@ import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import java.io.Serializable;
+
 
 
 @MappedSuperclass
@@ -16,6 +16,8 @@ import java.io.Serializable;
 
 
 public abstract class AbstractEntity implements Serializable {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -28,16 +30,15 @@ public abstract class AbstractEntity implements Serializable {
 
     @Column (name = "year")
     @NotNull
-    private Short year;
+    private Integer year;
 
     @Column (name = "puntuacion")
     @Min(0)
     @Max(5)
     @NotNull
-    private Short puntuacion;
+    private Integer puntuacion;
 
     @Column (name = "opinion" , length = 4000)
-    @Size(min = 2, message = "Debe tener como mínimo 2 caracteres")
     @Size(max = 4000, message = "Debe tener como máximo 4000 caracteres" )
     private String opinion;
 

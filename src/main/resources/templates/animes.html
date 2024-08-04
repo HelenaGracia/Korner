@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" lang="es">
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="es">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -12,6 +12,7 @@
   <link th:href="@{https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap}" rel="stylesheet"/>
   <link rel="stylesheet" th:href="@{/css/style.css}"/>
   <link rel="icon" th:href="@{/img/favicon.ico}"/>
+  <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js}" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
 <div class="page-container">
@@ -40,6 +41,9 @@
             </li>
             <li class="nav-item mt-lg-3 me-lg-5 ">
               <a class="nav-link active" th:href="@{/animes}">Animes</a>
+            </li>
+            <li  class="nav-item mt-lg-3 me-lg-5"  >
+              <a sec:authorize="hasRole('ADMIN')" class="nav-link" th:href="@{/gestion}" >Gestión</a>
             </li>
             <li class="nav-item ms-lg-5">
               <a class="" href="#" role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
@@ -83,13 +87,11 @@
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-      <ul>
         <img th:src="@{/img/Nevernight.jpg}" alt="imagen perfil" class="img-perfil" >
         <a href="" class="nombre-perfil" >VictorMer</a>
         <a th:href="@{ajustes.html}" class="btn btn-primary boton-perfil" >Ajustes</a>
         <a th:href="@{/amigos}" class="btn btn-primary boton-perfil" >Amigos</a>
         <a href="" class="btn btn-primary boton-perfil" >Cerrar sesión</a>
-      </ul>
     </div>
   </div>
   <!-- ESTRUCTURA BARRA DE BUSQUEDA -->

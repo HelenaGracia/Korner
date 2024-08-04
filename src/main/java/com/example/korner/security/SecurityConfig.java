@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -42,16 +43,18 @@ public class SecurityConfig {
         );
 
         // Autorización de Solicitudes
-        http.authorizeHttpRequests(request -> request
-                .requestMatchers("/js/**").permitAll()
-                .requestMatchers("/img/**").permitAll()
-                .requestMatchers("/css/**").permitAll()
-                .requestMatchers("/fonts/**").permitAll()
-                .requestMatchers("/").permitAll()
-                .requestMatchers("/creacion").permitAll()
-                .requestMatchers(HttpMethod.POST, "/creacion/**").permitAll()
-                .requestMatchers("/generos/**").hasAuthority("ADMIN")
-                .anyRequest().authenticated());
+        http.authorizeHttpRequests(customizer->{
+            customizer
+                    .requestMatchers("/js/**").permitAll()
+                    .requestMatchers("/img/**").permitAll()
+                    .requestMatchers("/css/**").permitAll()
+                    .requestMatchers("/fonts/**").permitAll()
+                    .requestMatchers("/").permitAll()
+                    .requestMatchers("/creacion").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/creacion/**").permitAll()
+                    .requestMatchers("/generos/**").hasAuthority("ADMIN");
+            customizer.anyRequest().authenticated();
+        });
 
         http.exceptionHandling((exceptions)->exceptions.accessDeniedHandler(accessDeniedHandler()));
         // con el de abajo se hace lo mismo, pero sin el log de error editable con el de arriba
@@ -73,6 +76,14 @@ public class SecurityConfig {
     @Bean
     public AccessDeniedHandler accessDeniedHandler() {
         return new CustomAccessDeniedHandler();
+    }
+
+    @Bean
+
+    static GrantedAuthorityDefaults grantedAuthorityDefaults() {
+
+        return new GrantedAuthorityDefaults("ROLE_");
+
     }
 
 }

@@ -1,10 +1,7 @@
 package com.example.korner.modelo;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +14,7 @@ import java.util.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Table(name = "usuarios")
 public class Usuario implements Serializable, UserDetails {
 
@@ -28,8 +26,8 @@ public class Usuario implements Serializable, UserDetails {
     @Column (name = "nombre" , length = 45)
     private String nombre;
 
-    @Column (name = "edad")
-    private Integer edad;
+    @Column (name = "anio_nacimiento")
+    private Integer anioNacimiento;
 
     @Column (name = "pais" , length = 45)
     private String pais;
@@ -67,8 +65,7 @@ public class Usuario implements Serializable, UserDetails {
     @JoinColumn (name = "id_usuarios", foreignKey = @ForeignKey(name = "fk_usuarios_videojuegos"))
     private Set<Videojuego> videojuegos;
 
-    @OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn (name = "id_usuarios", foreignKey = @ForeignKey(name = "fk_usuarios_peliculas"))
+    @OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "usuarioPelicula")
     private Set<Pelicula> peliculas;
 
     @OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -123,3 +120,5 @@ public class Usuario implements Serializable, UserDetails {
         return true;
     }
 }
+
+
