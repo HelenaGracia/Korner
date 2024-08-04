@@ -2,6 +2,7 @@ package com.example.korner.servicio;
 
 import com.example.korner.modelo.GeneroElementoCompartido;
 import com.example.korner.modelo.Pelicula;
+import com.example.korner.modelo.Plataforma;
 import com.example.korner.modelo.Usuario;
 import com.example.korner.repositorios.PeliculaRepository;
 import org.springframework.data.domain.Page;
@@ -30,5 +31,22 @@ public class PeliculaServiceImpl extends AbstractService<Pelicula,Integer, Pelic
         return peliculaRepository.findAllByPuntuacionAndUsuarioPelicula(puntuacion, usuario, pageable);
     }
 
+    public  Page<Pelicula> getAllPeliculasByGenero(GeneroElementoCompartido genero, Usuario usuario, Pageable pageable){
+        return peliculaRepository.findAllByGenerosPeliculaAndAndUsuarioPelicula(genero,usuario,pageable);
+    }
 
+    public  Page<Pelicula> getAllPeliculasByYear(Integer year, Usuario usuario, Pageable pageable){
+        return  peliculaRepository.findAllByYearAndUsuarioPelicula(year, usuario, pageable);
+    }
+
+    public  Page<Pelicula> getAllPeliculasByPlataforma(Plataforma plataforma, Usuario usuario, Pageable pageable){
+        return peliculaRepository.findAllByPlataformasPeliculaAndUsuarioPelicula(plataforma, usuario, pageable);
+    }
+
+    public Page<Pelicula>getAllPeliculasByAllFiltros(
+            Integer puntuacion, GeneroElementoCompartido genero, Integer year,
+            Plataforma plataforma, Usuario usuario, Pageable pageable){
+        return peliculaRepository.findAllByPuntuacionAndGenerosPeliculaAndYearAndPlataformasPeliculaAndUsuarioPelicula(
+                puntuacion,genero,year,plataforma, usuario, pageable);
+    }
 }

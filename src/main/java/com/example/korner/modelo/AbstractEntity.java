@@ -30,7 +30,7 @@ public abstract class AbstractEntity implements Serializable {
 
     @Column (name = "year")
     @NotNull
-    private Short year;
+    private Integer year;
 
     @Column (name = "puntuacion")
     @Min(0)

@@ -27,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Year;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -37,7 +38,6 @@ public class PeliculaController {
 
     private final PeliculaServiceImpl peliculaService;
 
-    private final PeliculaRepository peliculaRepository;
     private final GeneroElementoServiceImpl generoElementoService;
 
     private final PlataformaServiceImpl plataformaService;
@@ -47,12 +47,11 @@ public class PeliculaController {
 
 
 
-    public PeliculaController(PeliculaServiceImpl peliculaService, PeliculaRepository peliculaRepository,
+    public PeliculaController(PeliculaServiceImpl peliculaService,
                               GeneroElementoServiceImpl generoElementoService,
                               FileSystemStorageService fileSystemStorageService,
                               PlataformaServiceImpl plataformaService, UsuarioSecurityService usuarioSecurityService) {
         this.peliculaService = peliculaService;
-        this.peliculaRepository = peliculaRepository;
         this.generoElementoService = generoElementoService;
         this.fileSystemStorageService = fileSystemStorageService;
         this.plataformaService = plataformaService;
@@ -63,12 +62,8 @@ public class PeliculaController {
 
     //Mostrar Peliculas
     @GetMapping("")
-    public String listAllPeliculas(Model model,
-                                   @RequestParam("page") Optional<Integer> page,
-
+    public String listAllPeliculas(Model model, @RequestParam("page") Optional<Integer> page,
                                    HttpSession session){
-
-
 
 
         paginacion(model, page, session);
@@ -252,11 +247,14 @@ public class PeliculaController {
     @GetMapping("/search")
     public String search(@RequestParam(value = "tituloPeliculaBusqueda", required = false) String tituloPeliculaBusqueda,
                          @RequestParam(value = "filtroPuntuacion", required = false) Integer filtroPuntuacion,
+                         @RequestParam(value = "filtroGenero", required = false) Integer generoId,
+                         @RequestParam(value = "filtroYear", required = false) Integer filtroYear,
+                         @RequestParam(value = "filtroPlataforma", required = false) Integer plataformaId,
                          Model model, @RequestParam("page") Optional<Integer> page,
-                         HttpSession session,
-                         RedirectAttributes attributes) {
+                         HttpSession session, RedirectAttributes attributes) {
         logger.info("Titulo de la pelicula: {}", tituloPeliculaBusqueda);
         logger.info("puntuacion recibida del filtro: {}", filtroPuntuacion);
+        logger.info("genero recibido del filtro:{}", generoId);
         Pelicula pelicula = new Pelicula();
         model.addAttribute("datosPelicula", pelicula);
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
@@ -274,28 +272,92 @@ public class PeliculaController {
             int currentPage = page.orElse(1);
             Pageable pageRequest = PageRequest.of(currentPage - 1, 2);
 
-            // Determinar si se debe buscar por título o no
+            // Empiezan los filtros de búsqueda
             Page<Pelicula> pagina = null;
-            switch (tituloPeliculaBusqueda){
-                case "":
-                    if (filtroPuntuacion!=null){
-                        pagina = peliculaService.getAllPeliculasByPuntuacion(filtroPuntuacion, user.get(), pageRequest);
-                        model.addAttribute("puntuacionFiltro", filtroPuntuacion);
-                    }else {
-                        pagina = peliculaService.getAllPeliculas(user.get(), pageRequest);
+            Optional<Plataforma> plataformaFiltro;
+            Optional<GeneroElementoCompartido> generoFiltro;
+
+            if(tituloPeliculaBusqueda == null || tituloPeliculaBusqueda.isBlank()){
+                if (filtroPuntuacion!=null && generoId == null && filtroYear == null){
+                    pagina = peliculaService.getAllPeliculasByPuntuacion(filtroPuntuacion, user.get(), pageRequest);
+                    model.addAttribute("puntuacionFiltro", filtroPuntuacion);
+                    if (pagina.getContent().isEmpty()){
+                        //pagina = peliculaService.getAllPeliculas(user.get(), pageRequest);
+                        //model.addAttribute("busquedaFallida", "No existe ninguna pelicula con esa puntuacion");
+                        attributes.addFlashAttribute("failed", "No existe ninguna pelicula con esa puntuacion");
+                        return "redirect:/peliculas";
                     }
 
-                    break;
-                case null:
-                    if (filtroPuntuacion != null){
-                        pagina = peliculaService.getAllPeliculasByPuntuacion(filtroPuntuacion, user.get(), pageRequest);
-                        model.addAttribute("puntuacionFiltro", filtroPuntuacion);
+                } else if (filtroPuntuacion == null && generoId != null && filtroYear == null) {
+                    generoFiltro = generoElementoService.getById(generoId);
+                    if (generoFiltro.isPresent()){
+                        pagina = peliculaService.getAllPeliculasByGenero(generoFiltro.get(), user.get(), pageRequest);
+                        model.addAttribute("generoFiltro", generoId);
+                        if (pagina.getContent().isEmpty()){
+                           // pagina = peliculaService.getAllPeliculas(user.get(), pageRequest);
+                            //model.addAttribute("busquedaFallida", "No existe ninguna pelicula con ese género");
+                            attributes.addFlashAttribute("failed", "No existe ninguna pelicula con ese género");
+                            return "redirect:/peliculas";
+                        }
+                    }else {
+                        //model.addAttribute("busquedaFallida", "El genero no existe");
+                        attributes.addFlashAttribute("failed", "El genero no existe");
+                        return "redirect:/peliculas";
                     }
-                    break;
-                default:
-                    pagina = peliculaService.getAllPeliculasByTitulo(tituloPeliculaBusqueda, user.get(), pageRequest);
-                    model.addAttribute("titulo", tituloPeliculaBusqueda);
+
+                } else if (filtroPuntuacion == null && generoId == null && filtroYear != null) {
+                    pagina = peliculaService.getAllPeliculasByYear(filtroYear, user.get(), pageRequest);
+                    model.addAttribute("yearFiltro", filtroYear);
+                    if (pagina.getContent().isEmpty()){
+                       // pagina = peliculaService.getAllPeliculas(user.get(), pageRequest);
+                       // model.addAttribute("busquedaFallida", "No existe ninguna pelicula con ese año");
+                        attributes.addFlashAttribute("failed", "No existe ninguna pelicula con ese año");
+                        return "redirect:/peliculas";
+                    }
+                } else if (filtroPuntuacion == null && generoId == null && filtroYear == null && plataformaId != null) {
+                    plataformaFiltro = plataformaService.getById(plataformaId);
+                    if (plataformaFiltro.isPresent()){
+                        pagina = peliculaService.getAllPeliculasByPlataforma(plataformaFiltro.get(), user.get(), pageRequest);
+                        model.addAttribute("plataformaFiltro", plataformaId);
+                        if (pagina.getContent().isEmpty()){
+                            //pagina = peliculaService.getAllPeliculas(user.get(), pageRequest);
+                            //model.addAttribute("busquedaFallida", "No existe ninguna pelicula con esa plataforma");
+                            attributes.addFlashAttribute("failed", "No existe ninguna pelicula con esa plataforma");
+                            return "redirect:/peliculas";
+                        }
+                    }else {
+                        //model.addAttribute("busquedaFallida", "La plataforma no existe");
+                        attributes.addFlashAttribute("failed", "La plataforma no existe");
+                        return "redirect:/peliculas";
+                    }
+                } else if (filtroPuntuacion != null && generoId != null && filtroYear != null && plataformaId != null) {
+                    plataformaFiltro = plataformaService.getById(plataformaId);
+                    generoFiltro = generoElementoService.getById(generoId);
+                    if (plataformaFiltro.isPresent() && generoFiltro.isPresent()){
+                        pagina = peliculaService.getAllPeliculasByAllFiltros(filtroPuntuacion, generoFiltro.get(),
+                                filtroYear, plataformaFiltro.get(), user.get(), pageRequest);
+                        model.addAttribute("puntuacionFiltro", filtroPuntuacion);
+                        model.addAttribute("generoFiltro", generoId);
+                        model.addAttribute("yearFiltro", filtroYear);
+                        model.addAttribute("plataformaFiltro", plataformaId);
+                        if (pagina.getContent().isEmpty()){
+                            //pagina = peliculaService.getAllPeliculas(user.get(), pageRequest);
+                           // model.addAttribute("busquedaFallida", "No existe ninguna pelicula con esos filtros");
+                            attributes.addFlashAttribute("failed", "No existe ninguna pelicula con esos filtros");
+                            return "redirect:/peliculas";
+                        }
+                    }
+
+                }else {
+                    attributes.addFlashAttribute("failed", "Sólo se puede filtrar por título, género, año, valoración " +
+                            "plataforma de forma idividual o por género, año, valoración y plataforma juntos");
+                    return "redirect:/peliculas";
+                }
+            }else {
+                pagina = peliculaService.getAllPeliculasByTitulo(tituloPeliculaBusqueda, user.get(), pageRequest);
+                model.addAttribute("titulo", tituloPeliculaBusqueda);
             }
+
 
             // Agregar resultados al modelo
             model.addAttribute("pagina", pagina);
@@ -309,19 +371,27 @@ public class PeliculaController {
             model.addAttribute("currentPage", currentPage);
             model.addAttribute("size", pagina.getContent().size());
             model.addAttribute("peliculas", pagina.getContent());
-
-        } catch (Exception e) {
-            logger.error("Error en la busqueda", e);  // Loguear el error
-            attributes.addFlashAttribute("failed", "Error al realizar la busqueda");
-
+        }catch (Exception e){
+            logger.error("Error en la busqueda",e);
+            model.addAttribute("busquedaFallida", "Error al realizar la búsqueda");
         }
-
         return "peliculas";
     }
 
     private void paginacion(Model model, Optional<Integer> page, HttpSession session){
         Optional<Usuario> user = usuarioSecurityService.getById(Integer.valueOf((session.getAttribute("idusuario").toString())));
 
+        //Obneter Listado con los años desde que el usuario nació hasta el año actual
+        Integer edadUsuario = user.get().getEdad();
+        Integer actualYear = Year.now().getValue();
+        Integer yearNacimiento = actualYear-edadUsuario;
+        List<Integer> yearsDeVida = new ArrayList<>();
+        for (Integer i = yearNacimiento; i<= actualYear; i++){
+            yearsDeVida.add(i);
+        }
+
+        //Pasar el listado a la vista para que en las opciones del filtro por año de visualizacion aparezcan estos años
+        model.addAttribute("listadoYears", yearsDeVida);
 
 
         //Recibe la pagina en la que estoy si no recibe nada asigna la pagina 1

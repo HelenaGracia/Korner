@@ -127,31 +127,22 @@
                             <div class="form-group mb-3">
                                 <label><strong>Género</strong></label><br>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="genreAction" value="action">
-                                    <label class="form-check-label" for="genreAction">Acción</label>
+                                    <select class="form-control" th:name="filtroGenero">
+                                        <option th:selected="selected" th:disabled="disabled">--Selecione Género--</option>
+                                        <option th:each="generoFiltroForm:${listaGeneros}" th:value="${generoFiltroForm.id}" th:text="${generoFiltroForm.nombre}"></option>
+                                    </select>
                                 </div>
                             </div>
 
                             <!-- Filtro por Año -->
                             <div class="form-group mb-3">
                                 <label><strong>Año</strong></label><br>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="year2024" value="2024">
-                                    <label class="form-check-label" for="year2024">2024</label>
+                                <div class="form-check" >
+                                    <select class="form-control" th:name="filtroYear">
+                                        <option th:selected="selected" th:disabled="disabled">--Seleccione Año--</option>
+                                        <option th:each="year:${listadoYears}"  th:value="${year}" th:text="${year}"></option>
+                                    </select>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="year2023" value="2023">
-                                    <label class="form-check-label" for="year2023">2023</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="year2022" value="2022">
-                                    <label class="form-check-label" for="year2022">2022</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="year2021" value="2021">
-                                    <label class="form-check-label" for="year2021">2021</label>
-                                </div>
-
                             </div>
 
                             <!-- Filtro por Valoración -->
@@ -189,12 +180,10 @@
                             <div class="form-group mb-3">
                                 <label><strong>Plataforma</strong></label><br>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="platformNetflix" value="netflix">
-                                    <label class="form-check-label" for="platformNetflix">Netflix</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="platformAmazon" value="amazon">
-                                    <label class="form-check-label" for="platformAmazon">Amazon</label>
+                                    <select class="form-control" th:name="filtroPlataforma">
+                                        <option th:selected="selected" th:disabled="disabled">--Selecione Plataforma--</option>
+                                        <option th:each="plataformaFiltroForm:${listaPlataformas}" th:value="${plataformaFiltroForm.id}" th:text="${plataformaFiltroForm.nombrePlataforma}"></option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -302,7 +291,7 @@
                 </div>
             </div>
             <div class="row justify-content-center">
-                <div th:if="${titulo == null && puntuacionFiltro == null}">
+                <div th:if="${titulo == null && puntuacionFiltro == null && generoFiltro == null && yearFiltro == null && plataformaFiltro == null}">
                     <div class="col-12">
                         <p>wwwwwwwwwwwwwwwwwwwwwwwwwwww</p>
                         <nav aria-label="Page navigation example">
@@ -324,22 +313,34 @@
                     </div>
                 </div>
 
-                <div th:if="${titulo != null || puntuacionFiltro != null}">
+                <div th:if="${titulo != null || puntuacionFiltro != null || generoFiltro !=null || yearFiltro != null || plataformaFiltro != null}">
                     <div class="col-12">
+                        <div th:if="${busquedaFallida != null}" class="text-center alert alert-danger">
+                            <p th:text="${busquedaFallida}"></p>
+                        </div>
                         <a class="btn btn-primary" th:href="@{/peliculas}">Enlace Parea elimiar la busqueda</a>
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
-                                    <a th:href="@{/peliculas/search(page=${currentPage - 1}, tituloPeliculaBusqueda=${titulo}, filtroPuntuacion=${puntuacionFiltro})}" class="page-link" href="#">Previous</a>
+                                    <a th:href="@{/peliculas/search(page=${currentPage - 1}, tituloPeliculaBusqueda=${titulo},
+                                    filtroPuntuacion=${puntuacionFiltro},
+                                    filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
+                                    filtroPlataforma=${plataformaFiltro})}" class="page-link" href="#">Previous</a>
                                 </li>
                                 <li th:each="pageNumber : ${pageNumbers}" class="page-item">
-                                    <a th:href="@{/peliculas/search(page=${pageNumber}, tituloPeliculaBusqueda=${titulo}, filtroPuntuacion=${puntuacionFiltro})}"
+                                    <a th:href="@{/peliculas/search(page=${pageNumber}, tituloPeliculaBusqueda=${titulo},
+                                    filtroPuntuacion=${puntuacionFiltro},
+                                    filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
+                                     filtroPlataforma=${plataformaFiltro})}"
                                        th:text="${pageNumber}"
                                        th:classappend="${pageNumber==pagina.number + 1} ? active"
                                        class="page-link" href="#"></a>
                                 </li>
                                 <li th:if="${currentPage + 1 ==pagina.totalPages}" class="page-item">
-                                    <a th:href="@{/peliculas/search(page=${currentPage + 1}, tituloPeliculaBusqueda=${titulo}, filtroPuntuacion=${puntuacionFiltro})}" class="page-link" href="#">Next</a>
+                                    <a th:href="@{/peliculas/search(page=${currentPage + 1}, tituloPeliculaBusqueda=${titulo},
+                                    filtroPuntuacion=${puntuacionFiltro},
+                                    filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
+                                     filtroPlataforma=${plataformaFiltro})}" class="page-link" href="#">Next</a>
                                 </li>
                             </ul>
                         </nav>

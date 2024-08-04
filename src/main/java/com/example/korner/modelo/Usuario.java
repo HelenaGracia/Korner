@@ -1,10 +1,7 @@
 package com.example.korner.modelo;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +14,7 @@ import java.util.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Table(name = "usuarios")
 public class Usuario implements Serializable, UserDetails {
 
@@ -122,3 +120,5 @@ public class Usuario implements Serializable, UserDetails {
         return true;
     }
 }
+
+
