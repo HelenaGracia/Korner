@@ -127,7 +127,7 @@
                             <div class="form-group mb-3">
                                 <label><strong>Género</strong></label><br>
                                 <div class="form-check">
-                                    <select class="form-control" th:name="filtroGenero">
+                                    <select class="form-select" th:name="filtroGenero">
                                         <option th:selected="selected" th:disabled="disabled">--Selecione Género--</option>
                                         <option th:each="generoFiltroForm:${listaGeneros}" th:value="${generoFiltroForm.id}" th:text="${generoFiltroForm.nombre}"></option>
                                     </select>
@@ -138,7 +138,7 @@
                             <div class="form-group mb-3">
                                 <label><strong>Año</strong></label><br>
                                 <div class="form-check" >
-                                    <select class="form-control" th:name="filtroYear">
+                                    <select class="form-select" th:name="filtroYear">
                                         <option th:selected="selected" th:disabled="disabled">--Seleccione Año--</option>
                                         <option th:each="year:${listadoYears}"  th:value="${year}" th:text="${year}"></option>
                                     </select>
@@ -180,14 +180,31 @@
                             <div class="form-group mb-3">
                                 <label><strong>Plataforma</strong></label><br>
                                 <div class="form-check">
-                                    <select class="form-control" th:name="filtroPlataforma">
+                                    <select class="form-select" th:name="filtroPlataforma">
                                         <option th:selected="selected" th:disabled="disabled">--Selecione Plataforma--</option>
                                         <option th:each="plataformaFiltroForm:${listaPlataformas}" th:value="${plataformaFiltroForm.id}" th:text="${plataformaFiltroForm.nombrePlataforma}"></option>
                                     </select>
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn-section-primary">Aplicar Filtros</button>
+                            <!-- Ordenacion -->
+                            <div class="form-group mb-3">
+                                <label><strong>Ordenar por:</strong></label><br>
+                                <div class="form-check">
+                                    <select class="form-select" th:name="filtroOrden">
+                                        <option th:selected="selected" th:disabled="disabled">--Ordenar por--</option>
+                                        <option value="ordenFiltroTituloAsc">Título asc</option>
+                                        <option value="ordenFiltroTituloDesc">Título desc</option>
+                                        <option value="ordenFiltroIdAsc">Creación asc</option>
+                                        <option value="ordenFiltroIdDesc">Creación desc</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-center mt-3">
+                                <button type="submit" class="btn-section-primary">Aplicar Filtros</button>
+                            </div>
+
                         </form>
                     </div>
                 </div>
@@ -291,23 +308,48 @@
                 </div>
             </div>
 
-            <!-- INICIO PAGINACION -->
             <div class="row">
+                <div class="col-12 d-flex justify-content-start">
+                    <div class="col-3" th:if="${titulo == null && puntuacionFiltro == null && generoFiltro == null && yearFiltro == null && plataformaFiltro == null}">
+                        <form th:action="@{/peliculas}" method="get" class="row row-cols-lg-auto g-3 align-items-center" >
+                            <div class="col-12">
+                                <select class="form-select" th:name="orden" >
+                                    <option th:selected="selected" th:disabled="disabled">--Ordenar por--</option>
+                                    <option value="ordenTituloAsc">Título asc</option>
+                                    <option value="ordenTituloDesc">Título desc</option>
+                                    <option value="ordenIdAsc">Creación asc</option>
+                                    <option value="ordenIdDesc">Creación desc</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary" type="submit">Aplicar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <!-- INICIO PAGINACION -->
+            <div class="row ">
                 <div th:if="${titulo == null && puntuacionFiltro == null && generoFiltro == null && yearFiltro == null && plataformaFiltro == null}">
                     <div class="col-12 d-flex justify-content-center mb-3">
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
-                                    <a th:href="@{/peliculas(page=${currentPage - 1})}" class="page-link" href="#">Previous</a>
+                                    <a th:href="@{/peliculas(page=${currentPage - 1}, orden=${orden})}" class="page-link" href="#">Previous</a>
                                 </li>
                                 <li th:each="pageNumber : ${pageNumbers}" class="page-item">
-                                    <a th:href="@{/peliculas(page=${pageNumber})}"
+                                    <a th:href="@{/peliculas(page=${pageNumber}, orden=${orden})}"
                                        th:text="${pageNumber}"
                                        th:classappend="${pageNumber==pagina.number + 1} ? active"
                                        class="page-link" href="#"></a>
                                 </li>
                                 <li th:if="${currentPage + 1 ==pagina.totalPages}" class="page-item">
-                                    <a th:href="@{/peliculas(page=${currentPage + 1})}" class="page-link" href="#">Next</a>
+                                    <a th:href="@{/peliculas(page=${currentPage + 1}, orden=${orden})}" class="page-link" href="#">Next</a>
                                 </li>
                             </ul>
                         </nav>
@@ -325,13 +367,13 @@
                                     <a th:href="@{/peliculas/search(page=${currentPage - 1}, tituloPeliculaBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
-                                    filtroPlataforma=${plataformaFiltro})}" class="page-link" href="#">Previous</a>
+                                    filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" href="#">Previous</a>
                                 </li>
                                 <li th:each="pageNumber : ${pageNumbers}" class="page-item">
                                     <a th:href="@{/peliculas/search(page=${pageNumber}, tituloPeliculaBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
-                                     filtroPlataforma=${plataformaFiltro})}"
+                                     filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}"
                                        th:text="${pageNumber}"
                                        th:classappend="${pageNumber==pagina.number + 1} ? active"
                                        class="page-link" href="#"></a>
@@ -340,7 +382,7 @@
                                     <a th:href="@{/peliculas/search(page=${currentPage + 1}, tituloPeliculaBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
-                                     filtroPlataforma=${plataformaFiltro})}" class="page-link" href="#">Next</a>
+                                     filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" href="#">Next</a>
                                 </li>
                             </ul>
                         </nav>
@@ -544,16 +586,16 @@
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
-                                    <a th:href="@{/peliculas(page=${currentPage - 1})}" class="page-link" href="#">Previous</a>
+                                    <a th:href="@{/peliculas(page=${currentPage - 1}, orden=${orden})}" class="page-link" href="#">Previous</a>
                                 </li>
                                 <li th:each="pageNumber : ${pageNumbers}" class="page-item">
-                                    <a th:href="@{/peliculas(page=${pageNumber})}"
+                                    <a th:href="@{/peliculas(page=${pageNumber}, orden=${orden})}"
                                        th:text="${pageNumber}"
                                        th:classappend="${pageNumber==pagina.number + 1} ? active"
                                        class="page-link" href="#"></a>
                                 </li>
                                 <li th:if="${currentPage + 1 ==pagina.totalPages}" class="page-item">
-                                    <a th:href="@{/peliculas(page=${currentPage + 1})}" class="page-link" href="#">Next</a>
+                                    <a th:href="@{/peliculas(page=${currentPage + 1}, orden=${orden})}" class="page-link" href="#">Next</a>
                                 </li>
                             </ul>
                         </nav>
@@ -568,13 +610,13 @@
                                     <a th:href="@{/peliculas/search(page=${currentPage - 1}, tituloPeliculaBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
-                                    filtroPlataforma=${plataformaFiltro})}" class="page-link" href="#">Previous</a>
+                                    filtroPlataforma=${plataformaFiltro},filtroOrden=${ordenFiltro})}" class="page-link" href="#">Previous</a>
                                 </li>
                                 <li th:each="pageNumber : ${pageNumbers}" class="page-item">
                                     <a th:href="@{/peliculas/search(page=${pageNumber}, tituloPeliculaBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
-                                     filtroPlataforma=${plataformaFiltro})}"
+                                     filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}"
                                        th:text="${pageNumber}"
                                        th:classappend="${pageNumber==pagina.number + 1} ? active"
                                        class="page-link" href="#"></a>
@@ -583,7 +625,7 @@
                                     <a th:href="@{/peliculas/search(page=${currentPage + 1}, tituloPeliculaBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
-                                     filtroPlataforma=${plataformaFiltro})}" class="page-link" href="#">Next</a>
+                                     filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" href="#">Next</a>
                                 </li>
                             </ul>
                         </nav>

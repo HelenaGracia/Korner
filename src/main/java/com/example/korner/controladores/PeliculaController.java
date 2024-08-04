@@ -15,6 +15,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -63,10 +64,10 @@ public class PeliculaController {
     //Mostrar Peliculas
     @GetMapping("")
     public String listAllPeliculas(Model model, @RequestParam("page") Optional<Integer> page,
-                                   HttpSession session){
+                                   HttpSession session, @RequestParam(value = "orden", required = false) String orden){
 
 
-        paginacion(model, page, session);
+        paginacion(model, page, session, orden);
 
 
 
@@ -95,9 +96,10 @@ public class PeliculaController {
     public String savePelicula(@RequestParam("imagen") MultipartFile multipartFile,
                                @Validated @ModelAttribute(name = "datosPelicula") Pelicula pelicula,
                                BindingResult bindingResult, RedirectAttributes attributes,Model model,
-                               @RequestParam("page") Optional<Integer> page, HttpSession session){
+                               @RequestParam("page") Optional<Integer> page, HttpSession session,
+                               @RequestParam(value = "orden", required = false) String orden){
 
-        paginacion(model, page, session);
+        paginacion(model, page, session, orden);
 
 
 
@@ -162,9 +164,10 @@ public class PeliculaController {
                                         @Validated @ModelAttribute(name = "datosPelicula") Pelicula pelicula,
                                         BindingResult bindingResult,
                                         RedirectAttributes attributes, Model model,
-                                        @RequestParam("page") Optional<Integer> page, HttpSession session){
+                                        @RequestParam("page") Optional<Integer> page, HttpSession session,
+                                        @RequestParam(value = "orden", required = false) String orden){
 
-        paginacion(model, page, session);
+        paginacion(model, page, session, orden);
 
 
 
@@ -250,6 +253,7 @@ public class PeliculaController {
                          @RequestParam(value = "filtroGenero", required = false) Integer generoId,
                          @RequestParam(value = "filtroYear", required = false) Integer filtroYear,
                          @RequestParam(value = "filtroPlataforma", required = false) Integer plataformaId,
+                         @RequestParam(value = "filtroOrden",required = false) String filtrOrden,
                          Model model, @RequestParam("page") Optional<Integer> page,
                          HttpSession session, RedirectAttributes attributes) {
         logger.info("Titulo de la pelicula: {}", tituloPeliculaBusqueda);
@@ -270,7 +274,28 @@ public class PeliculaController {
         try {
             // Determinar la página actual y configurar la paginación
             int currentPage = page.orElse(1);
-            Pageable pageRequest = PageRequest.of(currentPage - 1, 2);
+            Pageable pageRequest = null;
+
+            if (filtrOrden == null || filtrOrden.isBlank()){
+                pageRequest = PageRequest.of(currentPage - 1, 2);
+            }else {
+                switch (filtrOrden){
+                    case "ordenFiltroTituloAsc":
+                        pageRequest = PageRequest.of(currentPage-1,2, Sort.by("titulo").ascending());
+                        break;
+                    case "ordenFiltroTituloDesc":
+                        pageRequest = PageRequest.of(currentPage-1,2, Sort.by("titulo").descending());
+                        break;
+                    case "ordenFiltroIdAsc":
+                        pageRequest = PageRequest.of(currentPage-1,2, Sort.by("id").ascending());
+                        break;
+                    case "ordenFiltroIdDesc":
+                        pageRequest = PageRequest.of(currentPage-1,2, Sort.by("id").descending());
+                }
+                model.addAttribute("ordenFiltro", filtrOrden);
+            }
+
+
 
             // Empiezan los filtros de búsqueda
             Page<Pelicula> pagina = null;
@@ -378,7 +403,7 @@ public class PeliculaController {
         return "peliculas";
     }
 
-    private void paginacion(Model model, Optional<Integer> page, HttpSession session){
+    private void paginacion(Model model, Optional<Integer> page, HttpSession session, String orden){
         Optional<Usuario> user = usuarioSecurityService.getById(Integer.valueOf((session.getAttribute("idusuario").toString())));
 
         //Obneter Listado con los años desde que el usuario nació hasta el año actual
@@ -400,7 +425,28 @@ public class PeliculaController {
         //Recibe la pagina en la que estoy si no recibe nada asigna la pagina 1
         int currentPage = page.orElse(1);
         //Guarda la pagina en la que estoy (Si es la pagina 1, la 2...) y la cantidad de elementos que quiero mostrar en ella
-        PageRequest pageRequest = PageRequest.of(currentPage-1, 2);
+        PageRequest pageRequest = null;
+
+        //Ordenacion
+        if (orden == null || orden.isBlank()){
+            pageRequest = PageRequest.of(currentPage - 1, 2);
+        }else {
+            switch (orden){
+                case "ordenTituloAsc":
+                    pageRequest = PageRequest.of(currentPage-1,2, Sort.by("titulo").ascending());
+                    break;
+                case "ordenTituloDesc":
+                    pageRequest = PageRequest.of(currentPage-1,2, Sort.by("titulo").descending());
+                    break;
+                case "ordenIdAsc":
+                    pageRequest = PageRequest.of(currentPage-1,2, Sort.by("id").ascending());
+                    break;
+                case "ordenIdDesc":
+                    pageRequest = PageRequest.of(currentPage-1,2, Sort.by("id").descending());
+            }
+            model.addAttribute("orden", orden);
+        }
+
         /*
          se crea un objeto page que es el encargado de rellenar en la pagina que le has indicado con la cantidad
          que le has dicho todos los objetos pelicula almacenados, es decir, crea la pagina que visualizas con el contenido

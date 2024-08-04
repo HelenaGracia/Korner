@@ -109,6 +109,10 @@ nav li a img{
     border-color: var(--firts-color);
 }
 
+.form-select{
+    border-color: var(--firts-color);
+}
+
 
 
 
