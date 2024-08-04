@@ -392,6 +392,9 @@ public class PeliculaController {
 
         //Pasar el listado a la vista para que en las opciones del filtro por año de visualizacion aparezcan estos años
         model.addAttribute("listadoYears", yearsDeVida);
+        //Pasar a la vista el año de nacimiento y el año actual para la validación del campo año de visualización
+        model.addAttribute("anioActual", actualYear);
+        model.addAttribute("anioNacimiento", yearNacimiento);
 
 
         //Recibe la pagina en la que estoy si no recibe nada asigna la pagina 1

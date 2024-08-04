@@ -223,7 +223,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="year" class="form-label">Año de visualización</label>
-                            <input type="text" class="form-control" id="year"  name="year" th:field="*{year}">
+                            <input type="number" class="form-control" id="year"  name="year" th:field="*{year}" th:min="${anioNacimiento}" th:max="${anioActual}" step="1">
                             <p th:if="${#fields.hasErrors('year')}" th:errorclass="error" th:errors="*{year}" ></p>
                         </div>
                         <div class="mb-3">
@@ -293,7 +293,6 @@
             <div class="row justify-content-center">
                 <div th:if="${titulo == null && puntuacionFiltro == null && generoFiltro == null && yearFiltro == null && plataformaFiltro == null}">
                     <div class="col-12">
-                        <p>wwwwwwwwwwwwwwwwwwwwwwwwwwww</p>
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
@@ -315,9 +314,6 @@
 
                 <div th:if="${titulo != null || puntuacionFiltro != null || generoFiltro !=null || yearFiltro != null || plataformaFiltro != null}">
                     <div class="col-12">
-                        <div th:if="${busquedaFallida != null}" class="text-center alert alert-danger">
-                            <p th:text="${busquedaFallida}"></p>
-                        </div>
                         <a class="btn btn-primary" th:href="@{/peliculas}">Enlace Parea elimiar la busqueda</a>
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
@@ -382,8 +378,8 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="year" class="form-label">Año de visualización</label>
-                                            <input type="text" class="form-control" id="year"
-                                                   th:name="year" th:value="${pelicula.year}">
+                                            <input type="number" class="form-control" id="year"
+                                                   th:name="year" th:value="${pelicula.year}" th:min="${anioNacimiento}" th:max="${anioActual}" step="1">
                                             <p th:if="${#fields.hasErrors('year')}" th:errorclass="error" th:errors="*{year}" th:field="*{year}"></p>
                                         </div>
                                         <div class="mb-3">
