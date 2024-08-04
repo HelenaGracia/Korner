@@ -115,18 +115,18 @@
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel">AÑADIR PLATAFORMA</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <a th:href="@{/plataformasElementos}" class="btn btn-close"></a>
           </div>
           <div class="modal-body">
             <form th:action="@{/plataformasElementos/savePlataforma}" method="post" enctype="multipart/form-data" th:object="${datosPlataforma}">
-              <script th:inline="javascript" th:if="${#fields.hasErrors('*')}">/*<![CDATA[*/ $(document).ready(function () { $('#modalPlataformaAñadir').modal('show');}); /*]]>*/</script>
+              <script th:inline="javascript" th:if="${#fields.hasErrors('*') and  plataformaActual == -1}">/*<![CDATA[*/ $(document).ready(function () { $('#modalPlataformaAñadir').modal('show');}); /*]]>*/</script>
               <div class="mb-3">
                 <label for="nombrePlataforma" class="form-label">Nombre</label>
                 <input type="text" class="form-control" id="nombrePlataforma" name="nombrePlataforma" th:field="*{nombrePlataforma}" >
                 <p th:if="${#fields.hasErrors('nombrePlataforma')}" th:errorclass="error" th:errors="*{nombrePlataforma}"></p>
               </div>
               <div class="d-flex justify-content-end ">
-                <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cerrar</button>
+                <a th:href="@{/plataformasElementos}" class="btn btn-secondary me-2">Cerrar</a>
                 <button type="submit" class="btn btn-primary">Añadir plataforma</button>
               </div>
             </form>
@@ -156,6 +156,27 @@
               <div th:if="${failed}" class="text-center alert alert-danger">
                 <p th:text="${failed}"></p>
               </div>
+
+
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination">
+                    <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
+                      <a th:href="@{/plataformasElementos(page=${currentPage - 1})}" class="page-link" href="#">Previous</a>
+                    </li>
+                    <li th:each="pageNumber : ${pageNumbers}" class="page-item">
+                      <a th:href="@{/plataformasElementos(page=${pageNumber})}"
+                         th:text="${pageNumber}"
+                         th:classappend="${pageNumber==pagina.number + 1} ? active"
+                         class="page-link" href="#"></a>
+                    </li>
+                    <li th:if="${currentPage + 1 ==pagina.totalPages}" class="page-item">
+                      <a th:href="@{/plataformasElementos(page=${currentPage + 1})}" class="page-link" href="#">Next</a>
+                    </li>
+                  </ul>
+                </nav>
+
+
+
               <table class="table" th:if = "${size > 0}">
                 <thead class="table-light">
                 <tr>
@@ -219,11 +240,13 @@
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel">MODIFICAR PLATAFORMA</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <a th:href="@{/plataformasElementos}" class="btn btn-close"></a>
             </div>
             <div class="modal-body">
-              <form th:action="@{plataformasElementos/savePlataforma}" method="post"  th:object="${datosPlataforma}">
-                <script th:inline="javascript" th:if="${#fields.hasErrors('*')}">/*<![CDATA[*/ $(document).ready(function () { $('#modalPlataformaModificar').modal('show');}); /*]]>*/</script>
+              <form th:action="@{plataformasElementos/savePlataformaModificar}" method="post"  th:object="${datosPlataforma}">
+                  <script th:inline="javascript" th:if="${#fields.hasErrors('*')and plataformaActual == platafomaForm.id}">/*<![CDATA[*/ $(document).ready(function () {
+                    let modalIdPlataforma = 'modalPlataformaModificar' + /*[[${platafomaForm.id}]]*/'';
+                    $('#' + modalIdPlataforma).modal('show');}); /*]]>*/</script>
                 <input type="hidden" name="id" th:value="${platafomaForm.id}">
                 <div class="mb-3">
                   <label for="nombrePlataforma" class="form-label">Nombre</label>
@@ -231,7 +254,7 @@
                   <p th:if="${#fields.hasErrors('nombrePlataforma')}" th:errorclass="error" th:errors="*{nombrePlataforma}" th:field="*{nombrePlataforma}"></p>
                 </div>
                 <div class="d-flex justify-content-end ">
-                  <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cerrar</button>
+                  <a th:href="@{/plataformasElementos}" class="btn btn-secondary me-2">Cerrar</a>
                   <button type="submit" class="btn btn-primary" >Guardar</button>
                 </div>
               </form>
@@ -242,6 +265,8 @@
       </div>
 
       <!-- FIN MODAL FORMULARIO MODIFICAR PLATAFORMA -->
+
+
 
     </div>
 

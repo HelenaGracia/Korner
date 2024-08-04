@@ -44,14 +44,17 @@
                 <li class="nav-item mt-lg-3 me-lg-5 ">
                   <a class="nav-link" th:href="@{/animes}">Animes</a>
                 </li>
-                <li class="nav-item mt-lg-3 me-lg-5 ">
-                  <a class="nav-link" th:href="@{/usuarios}">Usuarios</a>
-                </li>
-                <li class="nav-item mt-lg-3 me-lg-5 ">
-                  <a class="nav-link" th:href="@{/generosElementos}">Géneros</a>
-                </li>
-                <li class="nav-item mt-lg-3 me-lg-5 ">
-                  <a class="nav-link" th:href="@{/generosUsuarios}">Gén.Usuarios</a>
+                <li class="nav-item  dropdown mt-lg-3 me-lg-5 ">
+                  <a class="nav-link dropdown-toggle" href="#"  role="button" data-bs-toggle="dropdown" aria-expanded="false">Admin gestión</a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" th:href="@{/usuarios}">Usuarios</a></li>
+                    <li><a class="dropdown-item" th:href="@{/generosElementos}">Géneros Elementos</a></li>
+                    <li><a class="dropdown-item" th:href="@{/plataformasElementos}">Plataformas Elementos</a></li>
+                    <li><a class="dropdown-item" href="#">Formatos Libros</a></li>
+                    <li><a class="dropdown-item" href="#">Plataformas Videojuegos</a></li>
+                    <li><a class="dropdown-item" th:href="@{/generosUsuarios}">Géneros Usuarios</a></li>
+
+                  </ul>
                 </li>
                 <li class="nav-item ms-lg-5">
                   <a class="" href="#" role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">

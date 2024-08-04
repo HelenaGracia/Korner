@@ -12,7 +12,8 @@ import java.util.Set;
 @Entity
 @Table(name = "peliculas" ,uniqueConstraints = @UniqueConstraint(columnNames = "titulo"),
         indexes = {@Index(name = "indice1",columnList = "titulo"),
-                @Index(name = "indice2",columnList = "year")})
+                @Index(name = "indice2",columnList = "year"),
+                @Index(name = "indice3",columnList = "puntuacion")})
 public class Pelicula  extends AbstractEntity{
     @Column (name = "trailer" , length = 1000)
     @NotBlank
@@ -22,7 +23,7 @@ public class Pelicula  extends AbstractEntity{
     @ManyToMany (fetch = FetchType.LAZY)
     @JoinTable(name = "pelicula_plataforma", joinColumns = @JoinColumn(name = "id"),
             inverseJoinColumns = @JoinColumn(name = "id_plataforma"))
-    //    @NotEmpty
+    @NotEmpty
     private Set<Plataforma> plataformasPelicula;
 
 
@@ -32,6 +33,11 @@ public class Pelicula  extends AbstractEntity{
             inverseJoinColumns = @JoinColumn(name = "id_generos_elemt_comp"))
     @NotEmpty
     private Set<GeneroElementoCompartido> generosPelicula;
+
+    @ManyToOne (fetch = FetchType.LAZY)
+    @JoinColumn (name = "id_pelicula_usuarios")
+
+    private Usuario usuarioPelicula;
 
 
     @Override

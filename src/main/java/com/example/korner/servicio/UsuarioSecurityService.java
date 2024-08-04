@@ -2,6 +2,7 @@ package com.example.korner.servicio;
 
 import com.example.korner.modelo.Usuario;
 import com.example.korner.repositorios.UsuarioRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,10 +18,13 @@ public class UsuarioSecurityService extends AbstractService<Usuario,Integer, Usu
     private final UsuarioRepository usuarioRepository;
     private final MessageSource messageSource;
 
-    public UsuarioSecurityService(UsuarioRepository usuarioRepository, MessageSource messageSource) {
+    private final HttpSession session;
+
+    public UsuarioSecurityService(UsuarioRepository usuarioRepository, MessageSource messageSource, HttpSession session) {
         super(usuarioRepository);
         this.usuarioRepository = usuarioRepository;
         this.messageSource = messageSource;
+        this.session = session;
     }
 
     @Override
@@ -28,6 +32,7 @@ public class UsuarioSecurityService extends AbstractService<Usuario,Integer, Usu
 
         Optional<Usuario> user = usuarioRepository.findBynombre(username);
         if (user.isPresent()) {
+            session.setAttribute("idusuario", user.get().getId());
             return user.get();
         } else {
             String errorMessage = messageSource.getMessage("user.not.found",null, Locale.getDefault());
