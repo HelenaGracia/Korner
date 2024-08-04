@@ -290,9 +290,11 @@
                     </div>
                 </div>
             </div>
-            <div class="row justify-content-center">
+
+            <!-- INICIO PAGINACION -->
+            <div class="row">
                 <div th:if="${titulo == null && puntuacionFiltro == null && generoFiltro == null && yearFiltro == null && plataformaFiltro == null}">
-                    <div class="col-12">
+                    <div class="col-12 d-flex justify-content-center mb-3">
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
@@ -313,8 +315,10 @@
                 </div>
 
                 <div th:if="${titulo != null || puntuacionFiltro != null || generoFiltro !=null || yearFiltro != null || plataformaFiltro != null}">
-                    <div class="col-12">
-                        <a class="btn btn-primary" th:href="@{/peliculas}">Enlace Parea elimiar la busqueda</a>
+                    <div class="col-12 d-flex justify-content-end mb-3">
+                        <a class="btn btn-primary" th:href="@{/peliculas}">Cancelar búsqueda y filtrado</a>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center">
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
@@ -342,11 +346,10 @@
                         </nav>
                     </div>
                 </div>
+                <!-- FIN PAGINACION -->
 
 
                 <div class="col-12 col-md-6 mb-4" th:if = "${size > 0}" th:each = "pelicula : ${peliculas}"  >
-
-
 
 
                     <!-- MODAL FORMULARIO MODIFICAR PELICULA -->
@@ -533,6 +536,62 @@
                     <i class="bi bi-chat"></i>
                 </a>
             </div>
+
+            <!-- INICIO PAGINACION -->
+            <div class="row">
+                <div th:if="${titulo == null && puntuacionFiltro == null && generoFiltro == null && yearFiltro == null && plataformaFiltro == null}">
+                    <div class="col-12 d-flex justify-content-center mb-5">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
+                                    <a th:href="@{/peliculas(page=${currentPage - 1})}" class="page-link" href="#">Previous</a>
+                                </li>
+                                <li th:each="pageNumber : ${pageNumbers}" class="page-item">
+                                    <a th:href="@{/peliculas(page=${pageNumber})}"
+                                       th:text="${pageNumber}"
+                                       th:classappend="${pageNumber==pagina.number + 1} ? active"
+                                       class="page-link" href="#"></a>
+                                </li>
+                                <li th:if="${currentPage + 1 ==pagina.totalPages}" class="page-item">
+                                    <a th:href="@{/peliculas(page=${currentPage + 1})}" class="page-link" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+                <div th:if="${titulo != null || puntuacionFiltro != null || generoFiltro !=null || yearFiltro != null || plataformaFiltro != null}">
+                    <div class="col-12 d-flex justify-content-center mb-5">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
+                                    <a th:href="@{/peliculas/search(page=${currentPage - 1}, tituloPeliculaBusqueda=${titulo},
+                                    filtroPuntuacion=${puntuacionFiltro},
+                                    filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
+                                    filtroPlataforma=${plataformaFiltro})}" class="page-link" href="#">Previous</a>
+                                </li>
+                                <li th:each="pageNumber : ${pageNumbers}" class="page-item">
+                                    <a th:href="@{/peliculas/search(page=${pageNumber}, tituloPeliculaBusqueda=${titulo},
+                                    filtroPuntuacion=${puntuacionFiltro},
+                                    filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
+                                     filtroPlataforma=${plataformaFiltro})}"
+                                       th:text="${pageNumber}"
+                                       th:classappend="${pageNumber==pagina.number + 1} ? active"
+                                       class="page-link" href="#"></a>
+                                </li>
+                                <li th:if="${currentPage + 1 ==pagina.totalPages}" class="page-item">
+                                    <a th:href="@{/peliculas/search(page=${currentPage + 1}, tituloPeliculaBusqueda=${titulo},
+                                    filtroPuntuacion=${puntuacionFiltro},
+                                    filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
+                                     filtroPlataforma=${plataformaFiltro})}" class="page-link" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <!-- FIN PAGINACION -->
+
+
         </div>
 
     </main>
