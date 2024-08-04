@@ -26,8 +26,8 @@ public class Usuario implements Serializable, UserDetails {
     @Column (name = "nombre" , length = 45)
     private String nombre;
 
-    @Column (name = "edad")
-    private Integer edad;
+    @Column (name = "anio_nacimiento")
+    private Integer anioNacimiento;
 
     @Column (name = "pais" , length = 45)
     private String pais;

@@ -25,8 +25,8 @@ INSERT INTO roles (id_rol,nombre_rol) VALUES ("1","ROLE_SUPERADMIN");
 INSERT INTO roles (id_rol,nombre_rol) VALUES ("2","ROLE_ADMIN");
 INSERT INTO roles (id_rol,nombre_rol) VALUES ("3","ROLE_USER");
 
-INSERT INTO usuarios (id_usuario,nombre,edad,contrasena, id_roles) VALUES ("99","user","26","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","3");
-INSERT INTO usuarios (id_usuario,nombre,contrasena, id_roles) VALUES ("98","useradmin","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","2");
+INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena,id_roles) VALUES ("99","user","1998","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","3");
+INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena, id_roles) VALUES ("98","useradmin","1990","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","2");
 INSERT INTO usuarios (id_usuario,nombre,contrasena, id_roles) VALUES ("100","user1","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","3");
 INSERT INTO usuarios (id_usuario,nombre,contrasena, id_roles) VALUES ("101","user2","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","3");
 INSERT INTO usuarios (id_usuario,nombre,contrasena, id_roles) VALUES ("102","user3","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","3");
@@ -42,11 +42,11 @@ INSERT INTO amigos (id_amigos,id_amigo_origen,id_amigo_destino) VALUES ("103","1
 INSERT INTO amigos (id_amigos,id_amigo_origen,id_amigo_destino) VALUES ("104","101","106");
 
 
-INSERT INTO peliculas (id,id_pelicula_usuarios,titulo, year, puntuacion, opinion,imagen, trailer) VALUES ("1006","99","Shoujo Kageki Revue Starlight the movie","2020","5","opinion de prueba","/imagenes/leerImagen/Pelicula1Usuario99.jpg","https://www.youtube.com/embed/AAabX4HO8xA?si=7bd5QYheVkxFF8aO");
+INSERT INTO peliculas (id,id_pelicula_usuarios,titulo, year, puntuacion, opinion, trailer) VALUES ("1006","99","Shoujo Kageki Revue Starlight the movie","2020","5","opinion de prueba","https://www.youtube.com/embed/AAabX4HO8xA?si=7bd5QYheVkxFF8aO");
 
-INSERT INTO peliculas (id,id_pelicula_usuarios,titulo, year, puntuacion, opinion,imagen, trailer) VALUES ("1007","99","revue","2010","5","opinion de prueba","/imagenes/leerImagen/Pelicula2Usuario99.png","https://www.youtube.com/embed/AAabX4HO8xA?si=7bd5QYheVkxFF8aO");
+INSERT INTO peliculas (id,id_pelicula_usuarios,titulo, year, puntuacion, opinion, trailer) VALUES ("1007","99","revue","2010","5","opinion de prueba","https://www.youtube.com/embed/AAabX4HO8xA?si=7bd5QYheVkxFF8aO");
 
-INSERT INTO peliculas (id,id_pelicula_usuarios,titulo, year, puntuacion, opinion,imagen, trailer) VALUES ("1008","99","prueba6","2011","5","opinion de prueba","/imagenes/leerImagen/Pelicula3Usuario99.jpg","https://www.youtube.com/embed/AAabX4HO8xA?si=7bd5QYheVkxFF8aO");
+INSERT INTO peliculas (id,id_pelicula_usuarios,titulo, year, puntuacion, opinion, trailer) VALUES ("1008","99","prueba6","2011","5","opinion de prueba","https://www.youtube.com/embed/AAabX4HO8xA?si=7bd5QYheVkxFF8aO");
 
 INSERT INTO peliculas (id,id_pelicula_usuarios,titulo, year, puntuacion, opinion, trailer) VALUES ("1000","99","prueba1","2020","2","opinion de prueba","wwww.youtube");
 

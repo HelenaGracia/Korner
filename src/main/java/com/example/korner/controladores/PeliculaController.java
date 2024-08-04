@@ -4,7 +4,6 @@ import com.example.korner.modelo.GeneroElementoCompartido;
 import com.example.korner.modelo.Pelicula;
 import com.example.korner.modelo.Plataforma;
 import com.example.korner.modelo.Usuario;
-import com.example.korner.repositorios.PeliculaRepository;
 import com.example.korner.servicio.*;
 import jakarta.servlet.http.HttpSession;
 import org.apache.commons.io.FileUtils;
@@ -271,6 +270,8 @@ public class PeliculaController {
 
         pelicula.setUsuarioPelicula(user.get());
 
+        calcularAniosUsuario(model, user);
+
         try {
             // Determinar la página actual y configurar la paginación
             int currentPage = page.orElse(1);
@@ -303,39 +304,32 @@ public class PeliculaController {
             Optional<GeneroElementoCompartido> generoFiltro;
 
             if(tituloPeliculaBusqueda == null || tituloPeliculaBusqueda.isBlank()){
-                if (filtroPuntuacion!=null && generoId == null && filtroYear == null){
+                if (filtroPuntuacion!=null && generoId == null && filtroYear == null && plataformaId == null){
                     pagina = peliculaService.getAllPeliculasByPuntuacion(filtroPuntuacion, user.get(), pageRequest);
                     model.addAttribute("puntuacionFiltro", filtroPuntuacion);
                     if (pagina.getContent().isEmpty()){
-                        //pagina = peliculaService.getAllPeliculas(user.get(), pageRequest);
-                        //model.addAttribute("busquedaFallida", "No existe ninguna pelicula con esa puntuacion");
                         attributes.addFlashAttribute("failed", "No existe ninguna pelicula con esa puntuacion");
                         return "redirect:/peliculas";
                     }
 
-                } else if (filtroPuntuacion == null && generoId != null && filtroYear == null) {
+                } else if (filtroPuntuacion == null && generoId != null && filtroYear == null && plataformaId == null) {
                     generoFiltro = generoElementoService.getById(generoId);
                     if (generoFiltro.isPresent()){
                         pagina = peliculaService.getAllPeliculasByGenero(generoFiltro.get(), user.get(), pageRequest);
                         model.addAttribute("generoFiltro", generoId);
                         if (pagina.getContent().isEmpty()){
-                           // pagina = peliculaService.getAllPeliculas(user.get(), pageRequest);
-                            //model.addAttribute("busquedaFallida", "No existe ninguna pelicula con ese género");
                             attributes.addFlashAttribute("failed", "No existe ninguna pelicula con ese género");
                             return "redirect:/peliculas";
                         }
                     }else {
-                        //model.addAttribute("busquedaFallida", "El genero no existe");
                         attributes.addFlashAttribute("failed", "El genero no existe");
                         return "redirect:/peliculas";
                     }
 
-                } else if (filtroPuntuacion == null && generoId == null && filtroYear != null) {
+                } else if (filtroPuntuacion == null && generoId == null && filtroYear != null && plataformaId == null) {
                     pagina = peliculaService.getAllPeliculasByYear(filtroYear, user.get(), pageRequest);
                     model.addAttribute("yearFiltro", filtroYear);
                     if (pagina.getContent().isEmpty()){
-                       // pagina = peliculaService.getAllPeliculas(user.get(), pageRequest);
-                       // model.addAttribute("busquedaFallida", "No existe ninguna pelicula con ese año");
                         attributes.addFlashAttribute("failed", "No existe ninguna pelicula con ese año");
                         return "redirect:/peliculas";
                     }
@@ -345,13 +339,10 @@ public class PeliculaController {
                         pagina = peliculaService.getAllPeliculasByPlataforma(plataformaFiltro.get(), user.get(), pageRequest);
                         model.addAttribute("plataformaFiltro", plataformaId);
                         if (pagina.getContent().isEmpty()){
-                            //pagina = peliculaService.getAllPeliculas(user.get(), pageRequest);
-                            //model.addAttribute("busquedaFallida", "No existe ninguna pelicula con esa plataforma");
                             attributes.addFlashAttribute("failed", "No existe ninguna pelicula con esa plataforma");
                             return "redirect:/peliculas";
                         }
                     }else {
-                        //model.addAttribute("busquedaFallida", "La plataforma no existe");
                         attributes.addFlashAttribute("failed", "La plataforma no existe");
                         return "redirect:/peliculas";
                     }
@@ -366,8 +357,6 @@ public class PeliculaController {
                         model.addAttribute("yearFiltro", filtroYear);
                         model.addAttribute("plataformaFiltro", plataformaId);
                         if (pagina.getContent().isEmpty()){
-                            //pagina = peliculaService.getAllPeliculas(user.get(), pageRequest);
-                           // model.addAttribute("busquedaFallida", "No existe ninguna pelicula con esos filtros");
                             attributes.addFlashAttribute("failed", "No existe ninguna pelicula con esos filtros");
                             return "redirect:/peliculas";
                         }
@@ -406,20 +395,7 @@ public class PeliculaController {
     private void paginacion(Model model, Optional<Integer> page, HttpSession session, String orden){
         Optional<Usuario> user = usuarioSecurityService.getById(Integer.valueOf((session.getAttribute("idusuario").toString())));
 
-        //Obneter Listado con los años desde que el usuario nació hasta el año actual
-        Integer edadUsuario = user.get().getEdad();
-        Integer actualYear = Year.now().getValue();
-        Integer yearNacimiento = actualYear-edadUsuario;
-        List<Integer> yearsDeVida = new ArrayList<>();
-        for (Integer i = yearNacimiento; i<= actualYear; i++){
-            yearsDeVida.add(i);
-        }
-
-        //Pasar el listado a la vista para que en las opciones del filtro por año de visualizacion aparezcan estos años
-        model.addAttribute("listadoYears", yearsDeVida);
-        //Pasar a la vista el año de nacimiento y el año actual para la validación del campo año de visualización
-        model.addAttribute("anioActual", actualYear);
-        model.addAttribute("anioNacimiento", yearNacimiento);
+        calcularAniosUsuario(model, user);
 
 
         //Recibe la pagina en la que estoy si no recibe nada asigna la pagina 1
@@ -486,7 +462,21 @@ public class PeliculaController {
 
     }
 
+    public void calcularAniosUsuario(Model model, Optional<Usuario> user) {
+        //Obneter Listado con los años desde que el usuario nació hasta el año actual
+        Integer actualYear = Year.now().getValue();
+        Integer yearNacimiento = user.get().getAnioNacimiento();
+        List<Integer> yearsDeVida = new ArrayList<>();
+        for (Integer i = yearNacimiento; i<= actualYear; i++){
+            yearsDeVida.add(i);
+        }
 
+        //Pasar el listado a la vista para que en las opciones del filtro por año de visualizacion aparezcan estos años
+        model.addAttribute("listadoYears", yearsDeVida);
+        //Pasar a la vista el año de nacimiento y el año actual para la validación del campo año de visualización
+        model.addAttribute("anioActual", actualYear);
+        model.addAttribute("anioNacimiento", yearNacimiento);
+    }
 
 
 }
