@@ -25,18 +25,7 @@ public class Plataforma {
     @Size(max = 30,  message = "Debe tener como máximo 30 caracteres")
     private String nombrePlataforma;
 
-//    @OneToMany (mappedBy = "plataformas_animes", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    private Set<Animes> anime;
-//
-//    @OneToMany (mappedBy = "plataformas_libro", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    private Set<Libro> libro;
-//
-//
-//    @OneToMany (mappedBy = "plataformas_series", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    private Set<Series> series;
-//
-//    @OneToMany (mappedBy = "plataformas_videojuegos", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    private Set<Videojuego> videojuegos;
+
 
     @ManyToOne (fetch = FetchType.EAGER)
     @JoinColumn(name = "id_tipos_elementos", foreignKey = @ForeignKey(name = "fk_tipos_elementos_plataforma"))

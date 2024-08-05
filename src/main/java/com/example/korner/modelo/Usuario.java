@@ -61,8 +61,7 @@ public class Usuario implements Serializable, UserDetails {
     @JoinColumn (name = "id_usuarios", foreignKey = @ForeignKey(name = "fk_usuarios_libros"))
     private Set<Libro> libros;
 
-    @OneToMany( fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn (name = "id_usuarios", foreignKey = @ForeignKey(name = "fk_usuarios_videojuegos"))
+    @OneToMany( fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "usuarioVideojuego")
     private Set<Videojuego> videojuegos;
 
     @OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "usuarioPelicula")

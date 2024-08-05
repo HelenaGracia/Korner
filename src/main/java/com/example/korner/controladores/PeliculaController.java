@@ -462,7 +462,7 @@ public class PeliculaController {
 
     }
 
-    public void calcularAniosUsuario(Model model, Optional<Usuario> user) {
+    public static void calcularAniosUsuario(Model model, Optional<Usuario> user) {
         //Obneter Listado con los años desde que el usuario nació hasta el año actual
         Integer actualYear = Year.now().getValue();
         Integer yearNacimiento = user.get().getAnioNacimiento();
