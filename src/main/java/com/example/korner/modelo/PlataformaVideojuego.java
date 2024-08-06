@@ -24,7 +24,6 @@ public class PlataformaVideojuego {
     @Size(max = 30,  message = "Debe tener como máximo 30 caracteres")
     private String nombre;
 
-    @OneToMany (mappedBy = "plataformaVideojuego", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<Videojuego> videojuegos;
+
 
 }

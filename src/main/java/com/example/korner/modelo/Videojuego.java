@@ -1,7 +1,9 @@
 package com.example.korner.modelo;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,10 +30,11 @@ public class Videojuego extends AbstractEntity{
     @NotEmpty
     private Set<GeneroElementoCompartido> generosVideojuegos;
 
-
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_plataforma_videojuego", foreignKey = @ForeignKey(name = "fk_plataformas_videojuegos"))
-    private PlataformaVideojuego plataformaVideojuego;
+    @ManyToMany (fetch = FetchType.LAZY)
+    @JoinTable(name = "videojuego_plataforma", joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "id_plataforma_videojuego"))
+    @NotEmpty
+    private Set<PlataformaVideojuego> plataformasVideojuego;
 
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn (name = "id_videojuego_usuarios")
@@ -41,7 +44,7 @@ public class Videojuego extends AbstractEntity{
     public String toString() {
         return "Videojuego{" +
                 "generosVideojuegos=" + generosVideojuegos +
-                ", plataformaVideojuego=" + plataformaVideojuego +
+                ", plataformasVideojuego=" + plataformasVideojuego +
                 ", usuarioVideojuego=" + usuarioVideojuego +
                 '}' + super.toString();
     }
