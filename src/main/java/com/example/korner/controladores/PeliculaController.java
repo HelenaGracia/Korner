@@ -363,12 +363,17 @@ public class PeliculaController {
                 }
             }else {
                 pagina = peliculaService.getAllPeliculasByTitulo(tituloPeliculaBusqueda, user.get(), pageRequest);
+                if(pagina.getContent().isEmpty()){
+                    attributes.addFlashAttribute("failed", "No hay películas con ese título");
+                    return "redirect:/peliculas";
+                }
                 model.addAttribute("titulo", tituloPeliculaBusqueda);
             }
 
 
             // Agregar resultados al modelo
             model.addAttribute("pagina", pagina);
+            assert pagina != null;
             int totalPages = pagina.getTotalPages();
             if (totalPages > 0) {
                 List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
