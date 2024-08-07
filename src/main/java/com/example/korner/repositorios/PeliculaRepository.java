@@ -19,7 +19,7 @@ public interface PeliculaRepository extends JpaRepository<Pelicula, Integer> {
 
     Page<Pelicula> findAllByPuntuacionAndUsuarioPelicula(Integer puntuacion, Usuario usuario, Pageable pageable);
 
-    Page<Pelicula> findAllByGenerosPeliculaAndAndUsuarioPelicula(GeneroElementoCompartido genero, Usuario usuario, Pageable pageable);
+    Page<Pelicula> findAllByGenerosPeliculaAndUsuarioPelicula(GeneroElementoCompartido genero, Usuario usuario, Pageable pageable);
 
     Page<Pelicula> findAllByYearAndUsuarioPelicula(Integer year, Usuario usuario, Pageable pageable);
 

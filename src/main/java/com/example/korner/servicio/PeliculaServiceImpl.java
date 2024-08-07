@@ -32,7 +32,7 @@ public class PeliculaServiceImpl extends AbstractService<Pelicula,Integer, Pelic
     }
 
     public  Page<Pelicula> getAllPeliculasByGenero(GeneroElementoCompartido genero, Usuario usuario, Pageable pageable){
-        return peliculaRepository.findAllByGenerosPeliculaAndAndUsuarioPelicula(genero,usuario,pageable);
+        return peliculaRepository.findAllByGenerosPeliculaAndUsuarioPelicula(genero,usuario,pageable);
     }
 
     public  Page<Pelicula> getAllPeliculasByYear(Integer year, Usuario usuario, Pageable pageable){
