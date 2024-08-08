@@ -89,7 +89,7 @@
         <div class="offcanvas-body">
           <img th:src="@{/img/Nevernight.jpg}" alt="imagen perfil" class="img-perfil" >
           <a href="" class="nombre-perfil" >VictorMer</a>
-          <a th:href="@{ajustes}" class="btn btn-primary boton-perfil" >Ajustes</a>
+          <a th:href="@{/ajustes}" class="btn btn-primary boton-perfil" >Ajustes</a>
           <a th:href="@{/amigos}" class="btn btn-primary boton-perfil" >Amigos</a>
           <a th:href="@{/logout}" class="btn btn-primary boton-perfil" >Cerrar sesión</a>
         </div>
@@ -289,7 +289,7 @@
 
           <!-- INICIO ORDENACION -->
 
-          <div class="row">
+          <div th:if="${size>0}" class="row">
             <div class="col-12 d-flex justify-content-start">
               <div class="col-3" th:if="${titulo == null && puntuacionFiltro == null && generoFiltro == null && yearFiltro == null && plataformaFiltro == null}">
                 <form th:action="@{/animes}" method="get" class="row row-cols-lg-auto g-3 align-items-center" >
@@ -329,7 +329,7 @@
                          th:classappend="${pageNumber==pagina.number + 1} ? active"
                          class="page-link" href="#"></a>
                     </li>
-                    <li th:unless="${currentPage ==pagina.totalPages}" class="page-item">
+                    <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
                       <a th:href="@{/animes(page=${currentPage + 1}, orden=${orden})}" class="page-link" href="#">Next</a>
                     </li>
                   </ul>
@@ -359,7 +359,7 @@
                          th:classappend="${pageNumber==pagina.number + 1} ? active"
                          class="page-link" href="#"></a>
                     </li>
-                    <li th:if="${currentPage + 1 ==pagina.totalPages}" class="page-item">
+                    <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
                       <a th:href="@{/animes/search(page=${currentPage + 1}, tituloAnimeBusqueda=${titulo},
                                         filtroPuntuacion=${puntuacionFiltro},
                                         filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
@@ -556,7 +556,7 @@
                          th:classappend="${pageNumber==pagina.number + 1} ? active"
                          class="page-link" href="#"></a>
                     </li>
-                    <li th:unless="${currentPage ==pagina.totalPages}" class="page-item">
+                    <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
                       <a th:href="@{/animes(page=${currentPage + 1}, orden=${orden})}" class="page-link" href="#">Next</a>
                     </li>
                   </ul>
@@ -583,7 +583,7 @@
                          th:classappend="${pageNumber==pagina.number + 1} ? active"
                          class="page-link" href="#"></a>
                     </li>
-                    <li th:if="${currentPage + 1 ==pagina.totalPages}" class="page-item">
+                    <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
                       <a th:href="@{/animes/search(page=${currentPage + 1}, tituloAnimeBusqueda=${titulo},
                                         filtroPuntuacion=${puntuacionFiltro},
                                         filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},

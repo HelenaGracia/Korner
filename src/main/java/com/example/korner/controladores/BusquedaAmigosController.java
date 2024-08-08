@@ -48,7 +48,7 @@ public class BusquedaAmigosController {
             listIdAmigos.add(user.get().getId());
 
             int currentPage = page.orElse(1);
-            Pageable pageRequest = PageRequest.of(currentPage - 1, 2);
+            Pageable pageRequest = PageRequest.of(currentPage - 1, 10);
             Page<Usuario> pagina = null;
             if(nombreUser == null || nombreUser.isEmpty()){
                 model.addAttribute("busquedaFallida","Debe introducir un nombre de usuario");

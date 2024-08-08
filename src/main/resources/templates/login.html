@@ -20,7 +20,7 @@
     <header>
         <nav class="navbar sticky-top navbar-expand-lg bg-white">
             <div class="container">
-                <a class="navbar-brand" href="index.html">
+                <a class="navbar-brand" th:href="@{/}">
                     <img th:src="@{/img/Logo.png}" alt="logo Korner"/>
                 </a>
                 <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,7 +32,7 @@
                             <a class="index-link" href="#" role="button" data-bs-toggle="modal" data-bs-target="#modal-login">Log in</a>
                         </li>
                         <li class="nav-item">
-                            <a class="btn btn-light" th:href="@{cuenta.html}" role="button">Empezar</a>
+                            <a class="btn btn-light" th:href="@{/creacion}" role="button">Empezar</a>
                         </li>
                     </ul>
                 </div>

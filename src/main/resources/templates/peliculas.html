@@ -89,9 +89,9 @@
         <div class="offcanvas-body">
             <img th:src="@{/img/Nevernight.jpg}" alt="imagen perfil" class="img-perfil" >
             <a href="" class="nombre-perfil" >VictorMer</a>
-            <a th:href="@{ajustes.html}" class="btn btn-primary boton-perfil" >Ajustes</a>
+            <a th:href="@{/ajustes}" class="btn btn-primary boton-perfil" >Ajustes</a>
             <a th:href="@{/amigos}" class="btn btn-primary boton-perfil" >Amigos</a>
-            <a href="" class="btn btn-primary boton-perfil" >Cerrar sesión</a>
+            <a th:href="@{/logout}"  class="btn btn-primary boton-perfil" >Cerrar sesión</a>
         </div>
     </div>
     <!-- ESTRUCTURA BARRA DE BUSQUEDA -->
@@ -350,7 +350,7 @@
                                        th:classappend="${pageNumber==pagina.number + 1} ? active"
                                        class="page-link" href="#"></a>
                                 </li>
-                                <li th:unless="${currentPage ==pagina.totalPages}" class="page-item">
+                                <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
                                     <a th:href="@{/peliculas(page=${currentPage + 1}, orden=${orden})}" class="page-link" href="#">Next</a>
                                 </li>
                             </ul>
@@ -380,7 +380,7 @@
                                        th:classappend="${pageNumber==pagina.number + 1} ? active"
                                        class="page-link" href="#"></a>
                                 </li>
-                                <li th:unless="${currentPage ==pagina.totalPages}" class="page-item">
+                                <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
                                     <a th:href="@{/peliculas/search(page=${currentPage + 1}, tituloPeliculaBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
@@ -596,7 +596,7 @@
                                        th:classappend="${pageNumber==pagina.number + 1} ? active"
                                        class="page-link" href="#"></a>
                                 </li>
-                                <li th:unless="${currentPage == pagina.totalPages}" class="page-item">
+                                <li th:unless="${currentPage == pagina.totalPages || pagina.totalPages == 0}" class="page-item">
                                     <a th:href="@{/peliculas(page=${currentPage + 1}, orden=${orden})}" class="page-link" href="#">Next</a>
                                 </li>
                             </ul>
@@ -623,7 +623,7 @@
                                        th:classappend="${pageNumber==pagina.number + 1} ? active"
                                        class="page-link" href="#"></a>
                                 </li>
-                                <li th:unless="${currentPage == pagina.totalPages}" class="page-item">
+                                <li th:unless="${currentPage == pagina.totalPages || pagina.totalPages == 0}" class="page-item">
                                     <a th:href="@{/peliculas/search(page=${currentPage + 1}, tituloPeliculaBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},

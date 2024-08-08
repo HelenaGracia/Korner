@@ -32,7 +32,7 @@ import org.springframework.stereotype.Service;
         }
 
         public  Page<Libro> getAllLibrosByGenero(GeneroElementoCompartido genero, Usuario usuario, Pageable pageable){
-            return libroRepository.findAllByGenerosLibroAndAndUsuarioLibro(genero,usuario,pageable);
+            return libroRepository.findAllByGenerosLibroAndUsuarioLibro(genero,usuario,pageable);
         }
 
         public  Page<Libro> getAllLibrosByYear(Integer year, Usuario usuario, Pageable pageable){
