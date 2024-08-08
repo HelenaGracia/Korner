@@ -172,7 +172,7 @@
                            th:classappend="${pageNumber==pagina.number + 1} ? active"
                            class="page-link" href="#"></a>
                       </li>
-                      <li th:if="${currentPage + 1 ==pagina.totalPages}" class="page-item">
+                      <li th:unless="${currentPage ==pagina.totalPages}" class="page-item">
                         <a th:href="@{/plataformasVideojuegos(page=${currentPage + 1})}" class="page-link" href="#">Next</a>
                       </li>
                     </ul>
@@ -220,7 +220,7 @@
                        th:classappend="${pageNumber==pagina.number + 1} ? active"
                        class="page-link" href="#"></a>
                   </li>
-                  <li th:if="${currentPage + 1 ==pagina.totalPages}" class="page-item">
+                  <li th:unless="${currentPage ==pagina.totalPages}" class="page-item">
                     <a th:href="@{/plataformasVideojuegos(page=${currentPage + 1})}" class="page-link" href="#">Next</a>
                   </li>
                 </ul>

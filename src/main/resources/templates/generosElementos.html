@@ -51,7 +51,7 @@
                 <li><a class="dropdown-item" th:href="@{/generosElementos}">Géneros Elementos</a></li>
                 <li><a class="dropdown-item" th:href="@{/plataformas}">Plataformas Elementos</a></li>
                 <li><a class="dropdown-item" href="#">Formatos Libros</a></li>
-                <li><a class="dropdown-item" href="#">Plataformas Videojuegos</a></li>
+                <li><a class="dropdown-item" th:href="@{/plataformasVideojuegos}">Plataformas Videojuegos</a></li>
                 <li><a class="dropdown-item" href="#">Géneros Usuarios</a></li>
               </ul>
             </li>
@@ -172,7 +172,7 @@
                        th:classappend="${pageNumber==pagina.number + 1} ? active"
                        class="page-link" href="#"></a>
                   </li>
-                  <li th:if="${currentPage + 1 ==pagina.totalPages}" class="page-item">
+                  <li th:unless="${currentPage ==pagina.totalPages}" class="page-item">
                     <a th:href="@{/generosElementos(page=${currentPage + 1})}" class="page-link" href="#">Next</a>
                   </li>
                 </ul>
@@ -219,7 +219,7 @@
                    th:classappend="${pageNumber==pagina.number + 1} ? active"
                    class="page-link" href="#"></a>
               </li>
-              <li th:if="${currentPage + 1 ==pagina.totalPages}" class="page-item">
+              <li th:unless="${currentPage ==pagina.totalPages}" class="page-item">
                 <a th:href="@{/generosElementos(page=${currentPage + 1})}" class="page-link" href="#">Next</a>
               </li>
             </ul>
