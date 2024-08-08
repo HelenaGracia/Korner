@@ -1,25 +1,20 @@
 package com.example.korner.controladores;
 
 import com.example.korner.modelo.Usuario;
-import com.example.korner.repositorios.UsuarioRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import com.example.korner.servicio.UsuarioSecurityService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
 @Controller
 public class LoginController {
 
+    private final UsuarioSecurityService usuarioService;
 
-    UsuarioRepository usuarioRepository;
-    BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    public LoginController(UsuarioRepository usuarioRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
-
+    public LoginController(UsuarioSecurityService usuarioService) {
+        this.usuarioService = usuarioService;
     }
 
     @GetMapping("/login")
@@ -27,19 +22,27 @@ public class LoginController {
         return "login";
     }
 
-    // Este postMapping no esta haciendo nada, la comprobacion se hace en el UsuarioSecurityService
-    @PostMapping("/login")
-    public String processLogin(@RequestParam String email, @RequestParam String password, Model model) {
-        Optional<Usuario> optionalUsuario = usuarioRepository.findBynombre(email);
-        if (optionalUsuario.isPresent() && optionalUsuario.get().getPassword().equals(bCryptPasswordEncoder.encode(password))) {
-            Usuario usuario = optionalUsuario.get();
-            model.addAttribute("usuario", usuario);
-            model.addAttribute("msg", "Usuario encontrado");
-            return "/login";
-        }else{
-            model.addAttribute("msg", "Usuario no encontrado");
-        }
-        return "redirect:/login?error=true";
+    @GetMapping("/loginSuccess")
+    String loginSuccess(HttpSession session) {
+        Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString())));
+        String ajustesUsuario = user.get().getAjustes();
+
+        return switch (ajustesUsuario) {
+            case "home" -> "redirect:/home";
+            case "peliculas" -> "redirect:/peliculas";
+            case "series" -> "redirect:/series";
+            case "videojuegos" -> "redirect:/videojuegos";
+            case "animes" -> "redirect:/animes";
+            case "libros" -> "redirect:/libros";
+            default -> "redirect:/home";
+        };
+
+    }
+
+    @GetMapping("/logout")
+    String cerrarSesion(HttpSession session) {
+        session.removeAttribute("idusuario");
+        return "redirect:";
     }
 
 }

@@ -33,7 +33,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.formLogin(form -> form
                 .loginPage("/login")
-                .defaultSuccessUrl("/home")
+                .defaultSuccessUrl("/loginSuccess")
                 .permitAll()
         );
 
@@ -43,8 +43,9 @@ public class SecurityConfig {
         );
 
         // Autorización de Solicitudes
-        http.authorizeHttpRequests(customizer->{
-            customizer
+        http.csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(customizer->{
+                customizer
                     .requestMatchers("/js/**").permitAll()
                     .requestMatchers("/img/**").permitAll()
                     .requestMatchers("/css/**").permitAll()
@@ -52,8 +53,8 @@ public class SecurityConfig {
                     .requestMatchers("/").permitAll()
                     .requestMatchers("/creacion").permitAll()
                     .requestMatchers(HttpMethod.POST, "/creacion/**").permitAll()
-                    .requestMatchers("/generos/**").hasAuthority("ADMIN");
-            customizer.anyRequest().authenticated();
+                    .requestMatchers("/gestion/**").hasAuthority("ADMIN");
+                customizer.anyRequest().authenticated();
         });
 
         http.exceptionHandling((exceptions)->exceptions.accessDeniedHandler(accessDeniedHandler()));
@@ -79,11 +80,8 @@ public class SecurityConfig {
     }
 
     @Bean
-
     static GrantedAuthorityDefaults grantedAuthorityDefaults() {
-
         return new GrantedAuthorityDefaults("ROLE_");
-
     }
 
 }
