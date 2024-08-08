@@ -600,6 +600,11 @@ nav li a img{
     text-align: center;
 }
 
+.desplegable-amigos-desbloquear{
+    height: 3rem;
+    text-align: center;
+}
+
 /* Seccion Chat desplegable*/
 .cajadrop-desplegable{
     width: 15rem;
