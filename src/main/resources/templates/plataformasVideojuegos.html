@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Plataformas Elementos</title>
+  <title>Plataformas Videojuegos</title>
   <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css}" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"/>
   <link rel="preconnect" th:href="@{https://fonts.googleapis.com}"/>
   <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css}"/>
@@ -51,8 +51,8 @@
                     <li><a class="dropdown-item" th:href="@{/generosElementos}">Géneros Elementos</a></li>
                     <li><a class="dropdown-item" th:href="@{/plataformas}">Plataformas Elementos</a></li>
                     <li><a class="dropdown-item" href="#">Formatos Libros</a></li>
-                    <li><a class="dropdown-item" href="#">Plataformas Videojuegos</a></li>
-                    <li><a class="dropdown-item" href="#">Géneros Usuarios</a></li>
+                    <li><a class="dropdown-item" th:href="@{/plataformasVideojuegos}">Plataformas Videojuegos</a></li>
+                    <li><a class="dropdown-item" th:href="@{/generosUsuarios}">Géneros Usuarios</a></li>
                   </ul>
                 </li>
                 <li class="nav-item ms-lg-5">
@@ -105,26 +105,26 @@
         </div>
       </div>
 
-    <!-- MODAL FORMULARIO AÑADIR PLATAFORMA -->
+    <!-- MODAL FORMULARIO AÑADIR PLATAFORMA VIDEOJUEGO -->
 
     <div class="modal fade" id="modalPlataformaAñadir" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel">AÑADIR PLATAFORMA</h1>
-            <a th:href="@{/plataformasElementos}" class="btn btn-close"></a>
+            <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel">AÑADIR PLATAFORMA VIDEOJUEGO</h1>
+            <a th:href="@{/plataformasVideojuegos}" class="btn btn-close"></a>
           </div>
           <div class="modal-body">
-            <form th:action="@{/plataformasElementos/savePlataforma}" method="post" enctype="multipart/form-data" th:object="${datosPlataforma}">
+            <form th:action="@{/plataformasVideojuegos/savePlataforma}" method="post" enctype="multipart/form-data" th:object="${datosPlataforma}">
               <script th:inline="javascript" th:if="${#fields.hasErrors('*') and  plataformaActual == -1}">/*<![CDATA[*/ $(document).ready(function () { $('#modalPlataformaAñadir').modal('show');}); /*]]>*/</script>
               <div class="mb-3">
-                <label for="nombrePlataforma" class="form-label">Nombre</label>
-                <input type="text" class="form-control" id="nombrePlataforma" name="nombrePlataforma" th:field="*{nombrePlataforma}" >
-                <p th:if="${#fields.hasErrors('nombrePlataforma')}" th:errorclass="error" th:errors="*{nombrePlataforma}"></p>
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" th:field="*{nombre}" >
+                <p th:if="${#fields.hasErrors('nombre')}" th:errorclass="error" th:errors="*{nombre}"></p>
               </div>
               <div class="d-flex justify-content-end ">
-                <a th:href="@{/plataformasElementos}" class="btn btn-secondary me-2">Cerrar</a>
+                <a th:href="@{/plataformasVideojuegos}" class="btn btn-secondary me-2">Cerrar</a>
                 <button type="submit" class="btn btn-primary">Añadir plataforma</button>
               </div>
             </form>
@@ -134,7 +134,7 @@
     </div>
 
 
-    <!--FIN MODAL FORMULARIO AÑADIR PLATAFORMA -->
+    <!--FIN MODAL FORMULARIO AÑADIR PLATAFORMA VIDEOJUEGO -->
 
     <!-- ESTRUCTURA PLATAFORMAS -->
 
@@ -143,7 +143,7 @@
         <div class="container">
           <section class="row pb-5">
             <article class="col-12">
-              <h1>Plataformas de los Elementos</h1>
+              <h1>Plataformas de los Videojuegos</h1>
               <div th:if = "${size == 0}">
                 <p>No hay añadida ninguna plataforma</p>
               </div>
@@ -155,7 +155,6 @@
                 <p th:text="${failed}"></p>
               </div>
 
-
               <!-- INICIO PAGINACION -->
 
               <div class="row">
@@ -163,24 +162,24 @@
                   <nav aria-label="Page navigation example">
                     <ul class="pagination">
                       <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
-                        <a th:href="@{/plataformasElementos(page=${currentPage - 1})}" class="page-link" href="#">Previous</a>
+                        <a th:href="@{/plataformasVideojuegos(page=${currentPage - 1})}" class="page-link" href="#">Previous</a>
                       </li>
                       <li th:each="pageNumber : ${pageNumbers}" class="page-item">
-                        <a th:href="@{/plataformasElementos(page=${pageNumber})}"
+                        <a th:href="@{/plataformasVideojuegos(page=${pageNumber})}"
                            th:text="${pageNumber}"
                            th:classappend="${pageNumber==pagina.number + 1} ? active"
                            class="page-link" href="#"></a>
                       </li>
                       <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
-                        <a th:href="@{/plataformasElementos(page=${currentPage + 1})}" class="page-link" href="#">Next</a>
+                        <a th:href="@{/plataformasVideojuegos(page=${currentPage + 1})}" class="page-link" href="#">Next</a>
                       </li>
                     </ul>
                   </nav>
                 </div>
               </div>
 
-              <!-- FIN PAGINACION -->
 
+              <!-- FIN PAGINACION -->
 
 
               <table class="table" th:if = "${size > 0}">
@@ -195,7 +194,7 @@
                 <tbody>
                 <tr th:each="plataforma:${plataformas}">
                   <th scope="row" th:text="${plataforma.id}"></th>
-                  <td th:text="${plataforma.nombrePlataforma}"></td>
+                  <td th:text="${plataforma.nombre}"></td>
                   <td ><a role="button" data-bs-toggle="modal" th:attr="data-bs-target='#modalPlataformaModificar' +*{plataforma.id}"><i class="bi bi-pencil fs-4 ps-4"></i></a></td>
                   <td ><a role="button" data-bs-toggle="modal" th:attr="data-bs-target='#modalPlataformaDelete' +*{plataforma.id}"><i class="bi bi-trash3 fs-4 ps-4"></i></a></td>
                 </tr>
@@ -211,21 +210,22 @@
               <nav aria-label="Page navigation example">
                 <ul class="pagination">
                   <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
-                    <a th:href="@{/plataformasElementos(page=${currentPage - 1})}" class="page-link" href="#">Previous</a>
+                    <a th:href="@{/plataformasVideojuegos(page=${currentPage - 1})}" class="page-link" href="#">Previous</a>
                   </li>
                   <li th:each="pageNumber : ${pageNumbers}" class="page-item">
-                    <a th:href="@{/plataformasElementos(page=${pageNumber})}"
+                    <a th:href="@{/plataformasVideojuegos(page=${pageNumber})}"
                        th:text="${pageNumber}"
                        th:classappend="${pageNumber==pagina.number + 1} ? active"
                        class="page-link" href="#"></a>
                   </li>
                   <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
-                    <a th:href="@{/plataformasElementos(page=${currentPage + 1})}" class="page-link" href="#">Next</a>
+                    <a th:href="@{/plataformasVideojuegos(page=${currentPage + 1})}" class="page-link" href="#">Next</a>
                   </li>
                 </ul>
               </nav>
             </div>
           </div>
+
 
           <!-- FIN PAGINACION -->
 
@@ -238,21 +238,21 @@
 
     <div th:each="platafomaForm:${plataformas}">
 
-      <!-- MODAL FORMULARIO ELIMINAR PLATAFORMA -->
+      <!-- MODAL FORMULARIO ELIMINAR PLATAFORMA VIDEOJUEGO -->
 
       <div class="modal fade" th:id="modalPlataformaDelete + ${platafomaForm.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel3" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel3">ELIMINAR PLATAFORMA</h1>
+              <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel3">ELIMINAR PLATAFORMA VIDEOJUEGO</h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form th:action="@{plataformasElementos/deletePlataforma}" method="post">
+              <form th:action="@{/plataformasVideojuegos/deletePlataforma}" method="post">
                 <input type="hidden" name="id" th:value="${platafomaForm.id}">
                 <div class="mb-3">
-                  <label for="nombrePlataforma" class="form-label">¿Está seguro de eliminar la siguiente plataforma?:</label>
-                  <h4 class="form-control"   th:text="${platafomaForm.nombrePlataforma}"></h4>
+                  <label for="nombre" class="form-label">¿Está seguro de eliminar la siguiente plataforma?:</label>
+                  <h4 class="form-control"   th:text="${platafomaForm.nombre}"></h4>
                 </div>
                 <div class="d-flex justify-content-end ">
                   <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cerrar</button>
@@ -263,30 +263,30 @@
           </div>
         </div>
       </div>
-      <!-- FIN MODAL FORMULARIO ELIMINAR PLATAFORMA -->
+      <!-- FIN MODAL FORMULARIO ELIMINAR PLATAFORMA VIDEOJUEGO -->
 
-      <!-- MODAL FORMULARIO MODIFICAR PLATAFORMA -->
+      <!-- MODAL FORMULARIO MODIFICAR PLATAFORMA VIDEOJUEGO -->
 
       <div class="modal fade"  th:id="modalPlataformaModificar + ${platafomaForm.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel">MODIFICAR PLATAFORMA</h1>
-              <a th:href="@{/plataformasElementos}" class="btn btn-close"></a>
+              <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel">MODIFICAR PLATAFORMA VIDEOJUEGO</h1>
+              <a th:href="@{/plataformasVideojuegos}" class="btn btn-close"></a>
             </div>
             <div class="modal-body">
-              <form th:action="@{plataformasElementos/savePlataformaModificar}" method="post"  th:object="${datosPlataforma}">
+              <form th:action="@{/plataformasVideojuegos/savePlataformaModificar}" method="post"  th:object="${datosPlataforma}">
                   <script th:inline="javascript" th:if="${#fields.hasErrors('*')and plataformaActual == platafomaForm.id}">/*<![CDATA[*/ $(document).ready(function () {
                     let modalIdPlataforma = 'modalPlataformaModificar' + /*[[${platafomaForm.id}]]*/'';
                     $('#' + modalIdPlataforma).modal('show');}); /*]]>*/</script>
                 <input type="hidden" name="id" th:value="${platafomaForm.id}">
                 <div class="mb-3">
-                  <label for="nombrePlataforma" class="form-label">Nombre</label>
-                  <input type="text" class="form-control" id="nombrePlataforma" th:name="nombrePlataforma" th:value="${platafomaForm.nombrePlataforma}">
-                  <p th:if="${#fields.hasErrors('nombrePlataforma')}" th:errorclass="error" th:errors="*{nombrePlataforma}" th:field="*{nombrePlataforma}"></p>
+                  <label for="nombre" class="form-label">Nombre</label>
+                  <input type="text" class="form-control" id="nombre" th:name="nombre" th:value="${platafomaForm.nombre}">
+                  <p th:if="${#fields.hasErrors('nombre')}" th:errorclass="error" th:errors="*{nombre}" th:field="*{nombre}"></p>
                 </div>
                 <div class="d-flex justify-content-end ">
-                  <a th:href="@{/plataformasElementos}" class="btn btn-secondary me-2">Cerrar</a>
+                  <a th:href="@{/plataformasVideojuegos}" class="btn btn-secondary me-2">Cerrar</a>
                   <button type="submit" class="btn btn-primary" >Guardar</button>
                 </div>
               </form>
@@ -296,12 +296,9 @@
         </div>
       </div>
 
-      <!-- FIN MODAL FORMULARIO MODIFICAR PLATAFORMA -->
-
-
+      <!-- FIN MODAL FORMULARIO MODIFICAR PLATAFORMA VIDEOJUEGO -->
 
     </div>
-
     <!-- FIN EACH MODALES FORMULARIOS ELIMINAR MODIFICAR -->
 
       <footer class="bg-primary"></footer>

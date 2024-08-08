@@ -39,7 +39,10 @@ public class Usuario implements Serializable, UserDetails {
     private String correo;
 
     @Column (name = "imagen")
-    private String imagen;
+    private String rutaImagen;
+
+    @Column (name = "ajustes")
+    private String ajustes;
 
     @ManyToOne (fetch = FetchType.EAGER)
     @JoinColumn(name = "id_roles", foreignKey = @ForeignKey(name = "fk_rol_usuario"))
@@ -53,16 +56,13 @@ public class Usuario implements Serializable, UserDetails {
     @JoinColumn (name = "id_usuarios", foreignKey = @ForeignKey(name = "fk_usuarios_notificaciones"))
     private Set<Notificaciones> notificacion;
 
-    @OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn (name = "id_usuarios", foreignKey = @ForeignKey(name = "fk_usuarios_anime"))
-    private Set<Animes> anime;
+    @OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "usuarioAnime")
+    private Set<Anime> animes;
 
-    @OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn (name = "id_usuarios", foreignKey = @ForeignKey(name = "fk_usuarios_libros"))
+    @OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "usuarioLibro")
     private Set<Libro> libros;
 
-    @OneToMany( fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn (name = "id_usuarios", foreignKey = @ForeignKey(name = "fk_usuarios_videojuegos"))
+    @OneToMany( fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "usuarioVideojuego")
     private Set<Videojuego> videojuegos;
 
     @OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "usuarioPelicula")
@@ -72,22 +72,11 @@ public class Usuario implements Serializable, UserDetails {
     @JoinColumn (name = "id_usuarios", foreignKey = @ForeignKey(name = "fk_usuarios_series"))
     private Set<Serie> series;
 
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//       Set<GrantedAuthority> authorities = new HashSet<>();
-//       for (Rol roles : role) {
-//           GrantedAuthority authority = new SimpleGrantedAuthority(role.getNombre().toUpperCase());
-//           authorities.add(new SimpleGrantedAuthority(role.getNombre()));
-//       }
-//
-//        return authorities;
-//    }
-
-        @Override
-        public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        authorities.add(new SimpleGrantedAuthority(role.getNombre()));
-        return authorities;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+    Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+    authorities.add(new SimpleGrantedAuthority(role.getNombre()));
+    return authorities;
     }
 
     @Override
