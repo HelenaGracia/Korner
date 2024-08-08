@@ -19,7 +19,7 @@ public interface LibroRepository extends JpaRepository<Libro, Integer> {
 
     Page<Libro> findAllByPuntuacionAndUsuarioLibro(Integer puntuacion, Usuario usuario, Pageable pageable);
 
-    Page<Libro> findAllByGenerosLibroAndAndUsuarioLibro(GeneroElementoCompartido genero, Usuario usuario, Pageable pageable);
+    Page<Libro> findAllByGenerosLibroAndUsuarioLibro(GeneroElementoCompartido genero, Usuario usuario, Pageable pageable);
 
     Page<Libro> findAllByYearAndUsuarioLibro(Integer year, Usuario usuario, Pageable pageable);
 

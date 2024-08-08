@@ -72,22 +72,11 @@ public class Usuario implements Serializable, UserDetails {
     @JoinColumn (name = "id_usuarios", foreignKey = @ForeignKey(name = "fk_usuarios_series"))
     private Set<Serie> series;
 
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//       Set<GrantedAuthority> authorities = new HashSet<>();
-//       for (Rol roles : role) {
-//           GrantedAuthority authority = new SimpleGrantedAuthority(role.getNombre().toUpperCase());
-//           authorities.add(new SimpleGrantedAuthority(role.getNombre()));
-//       }
-//
-//        return authorities;
-//    }
-
-        @Override
-        public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        authorities.add(new SimpleGrantedAuthority(role.getNombre()));
-        return authorities;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+    Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+    authorities.add(new SimpleGrantedAuthority(role.getNombre()));
+    return authorities;
     }
 
     @Override

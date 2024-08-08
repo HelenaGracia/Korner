@@ -353,7 +353,7 @@
                      th:classappend="${pageNumber==pagina.number + 1} ? active"
                      class="page-link" href="#"></a>
                 </li>
-                <li th:if="${currentPage + 1 ==pagina.totalPages}" class="page-item">
+                <li th:unless="${currentPage ==pagina.totalPages}" class="page-item">
                   <a th:href="@{/libros(page=${currentPage + 1}, orden=${orden})}" class="page-link" href="#">Next</a>
                 </li>
               </ul>
@@ -383,7 +383,7 @@
                      th:classappend="${pageNumber==pagina.number + 1} ? active"
                      class="page-link" href="#"></a>
                 </li>
-                <li th:if="${currentPage + 1 ==pagina.totalPages}" class="page-item">
+                <li th:unless="${currentPage ==pagina.totalPages}" class="page-item">
                   <a th:href="@{/libros/search(page=${currentPage + 1}, tituloLibroBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
@@ -597,7 +597,7 @@
                      th:classappend="${pageNumber==pagina.number + 1} ? active"
                      class="page-link" href="#"></a>
                 </li>
-                <li th:if="${currentPage + 1 ==pagina.totalPages}" class="page-item">
+                <li th:unless="${currentPage ==pagina.totalPages}" class="page-item">
                   <a th:href="@{/libros(page=${currentPage + 1}, orden=${orden})}" class="page-link" href="#">Next</a>
                 </li>
               </ul>
@@ -624,7 +624,7 @@
                      th:classappend="${pageNumber==pagina.number + 1} ? active"
                      class="page-link" href="#"></a>
                 </li>
-                <li th:if="${currentPage + 1 ==pagina.totalPages}" class="page-item">
+                <li th:unless="${currentPage ==pagina.totalPages}" class="page-item">
                   <a th:href="@{/libros/search(page=${currentPage + 1}, tituloLibroBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},

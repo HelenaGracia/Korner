@@ -272,20 +272,20 @@ public class PeliculaController {
             Pageable pageRequest = null;
 
             if (filtrOrden == null || filtrOrden.isBlank()){
-                pageRequest = PageRequest.of(currentPage - 1, 2);
+                pageRequest = PageRequest.of(currentPage - 1, 4);
             }else {
                 switch (filtrOrden){
                     case "ordenFiltroTituloAsc":
-                        pageRequest = PageRequest.of(currentPage-1,2, Sort.by("titulo").ascending());
+                        pageRequest = PageRequest.of(currentPage-1,4, Sort.by("titulo").ascending());
                         break;
                     case "ordenFiltroTituloDesc":
-                        pageRequest = PageRequest.of(currentPage-1,2, Sort.by("titulo").descending());
+                        pageRequest = PageRequest.of(currentPage-1,4, Sort.by("titulo").descending());
                         break;
                     case "ordenFiltroIdAsc":
-                        pageRequest = PageRequest.of(currentPage-1,2, Sort.by("id").ascending());
+                        pageRequest = PageRequest.of(currentPage-1,4, Sort.by("id").ascending());
                         break;
                     case "ordenFiltroIdDesc":
-                        pageRequest = PageRequest.of(currentPage-1,2, Sort.by("id").descending());
+                        pageRequest = PageRequest.of(currentPage-1,4, Sort.by("id").descending());
                 }
                 model.addAttribute("ordenFiltro", filtrOrden);
             }
@@ -404,20 +404,20 @@ public class PeliculaController {
 
         //Ordenacion
         if (orden == null || orden.isBlank()){
-            pageRequest = PageRequest.of(currentPage - 1, 2);
+            pageRequest = PageRequest.of(currentPage - 1, 4);
         }else {
             switch (orden){
                 case "ordenTituloAsc":
-                    pageRequest = PageRequest.of(currentPage-1,2, Sort.by("titulo").ascending());
+                    pageRequest = PageRequest.of(currentPage-1,4, Sort.by("titulo").ascending());
                     break;
                 case "ordenTituloDesc":
-                    pageRequest = PageRequest.of(currentPage-1,2, Sort.by("titulo").descending());
+                    pageRequest = PageRequest.of(currentPage-1,4, Sort.by("titulo").descending());
                     break;
                 case "ordenIdAsc":
-                    pageRequest = PageRequest.of(currentPage-1,2, Sort.by("id").ascending());
+                    pageRequest = PageRequest.of(currentPage-1,4, Sort.by("id").ascending());
                     break;
                 case "ordenIdDesc":
-                    pageRequest = PageRequest.of(currentPage-1,2, Sort.by("id").descending());
+                    pageRequest = PageRequest.of(currentPage-1,4, Sort.by("id").descending());
             }
             model.addAttribute("orden", orden);
         }
