@@ -1,9 +1,6 @@
 package com.example.korner.controladores;
 
-import com.example.korner.modelo.GeneroElementoCompartido;
-import com.example.korner.modelo.Pelicula;
-import com.example.korner.modelo.Plataforma;
-import com.example.korner.modelo.Usuario;
+import com.example.korner.modelo.*;
 import com.example.korner.servicio.*;
 import jakarta.servlet.http.HttpSession;
 import org.apache.commons.io.FileUtils;
@@ -28,66 +25,71 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Year;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Controller
-@RequestMapping("/peliculas")
-public class PeliculaController {
+@RequestMapping("/videojuegos")
+public class VideojuegoController {
 
-    private final PeliculaServiceImpl peliculaService;
+    private final VideojuegoServiceImpl videojuegoService;
 
     private final GeneroElementoServiceImpl generoElementoService;
 
-    private final PlataformaServiceImpl plataformaService;
+    private final PlataformaVideojuegoServiceImpl plataformaVideojuegoService;
     private final FileSystemStorageService fileSystemStorageService;
 
     private final UsuarioSecurityService usuarioSecurityService;
 
 
 
-    public PeliculaController(PeliculaServiceImpl peliculaService,
-                              GeneroElementoServiceImpl generoElementoService,
-                              FileSystemStorageService fileSystemStorageService,
-                              PlataformaServiceImpl plataformaService, UsuarioSecurityService usuarioSecurityService) {
-        this.peliculaService = peliculaService;
+    public VideojuegoController(VideojuegoServiceImpl videojuegoService,
+                                GeneroElementoServiceImpl generoElementoService,
+                                FileSystemStorageService fileSystemStorageService,
+                                PlataformaVideojuegoServiceImpl plataformaVideojuegoService, UsuarioSecurityService usuarioSecurityService) {
+        this.videojuegoService = videojuegoService;
         this.generoElementoService = generoElementoService;
         this.fileSystemStorageService = fileSystemStorageService;
-        this.plataformaService = plataformaService;
+        this.plataformaVideojuegoService = plataformaVideojuegoService;
         this.usuarioSecurityService = usuarioSecurityService;
     }
 
-    private final Logger logger = LoggerFactory.getLogger(PeliculaController.class);
+    private final Logger logger = LoggerFactory.getLogger(VideojuegoController.class);
 
     //Mostrar Peliculas
     @GetMapping("")
-    public String listAllPeliculas(Model model, @RequestParam("page") Optional<Integer> page,
-                                   HttpSession session, @RequestParam(value = "orden", required = false) String orden){
+    public String listAllVideojuegos(Model model, @RequestParam("page") Optional<Integer> page,
+                                     HttpSession session, @RequestParam(value = "orden", required = false) String orden){
 
 
         paginacion(model, page, session, orden);
 
 
-        Pelicula pelicula = new Pelicula();
+
+        //List<Pelicula> listadoPeliculas = peliculaService.getAll();
+        Videojuego videojuego = new Videojuego();
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
-        List<Plataforma> plataformasList = plataformaService.getAll();
+        List<PlataformaVideojuego> plataformasList = plataformaVideojuegoService.getAll();
         model.addAttribute("listaGeneros", generoElementoCompartidoList);
         model.addAttribute("listaPlataformas", plataformasList);
-        model.addAttribute("datosPelicula", pelicula);
+        model.addAttribute("datosVideojuego", videojuego);
 
-        return "peliculas";
+        return "videojuegos";
     }
 
 
     //Guardar Pelicula
 
-    @PostMapping("/savePelicula")
+    @PostMapping("/saveVideojuego")
     /*Obtenemos del formulario el contenido del input imagen, que es un archivo de imagen y
       se lo pasamos al parametro multipartFile
      */
-    public String savePelicula(@RequestParam("imagen") MultipartFile multipartFile,
-                               @Validated @ModelAttribute(name = "datosPelicula") Pelicula pelicula,
+    public String saveVideojuego(@RequestParam("imagen") MultipartFile multipartFile,
+                               @Validated @ModelAttribute(name = "datosVideojuego") Videojuego videojuego,
                                BindingResult bindingResult, RedirectAttributes attributes,Model model,
                                @RequestParam("page") Optional<Integer> page, HttpSession session,
                                @RequestParam(value = "orden", required = false) String orden){
@@ -97,9 +99,9 @@ public class PeliculaController {
 
 
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
-        Set<GeneroElementoCompartido> listadoGeneros = pelicula.getGenerosPelicula();
+        Set<GeneroElementoCompartido> listadoGeneros = videojuego.getGenerosVideojuegos();
         logger.info("listado de generos:{}", listadoGeneros);
-        List<Plataforma> plataformasList = plataformaService.getAll();
+        List<PlataformaVideojuego> plataformasList = plataformaVideojuegoService.getAll();
         model.addAttribute("listaPlataformas", plataformasList);
         model.addAttribute("listaGeneros", generoElementoCompartidoList);
 
@@ -109,52 +111,53 @@ public class PeliculaController {
                 ObjectError error = new ObjectError("imagenError", "Debes seleccionar una imagen");
                 bindingResult.addError(error);
                 attributes.addFlashAttribute("failed", "Error al introducir la imagen, debe seleccionar una");
-                model.addAttribute("peliculaActual", -1);
-                return "peliculas";
+                model.addAttribute("videojuegoActual", -1);
+                return "videojuegos";
             }
             attributes.addFlashAttribute("failed", "Error al introducir los datos en el formulario");
-            model.addAttribute("peliculaActual", -1);
-            return "peliculas";
+            model.addAttribute("videojuegoActual", -1);
+            return "videojuegos";
 
         }else {
             try {
                 Optional<Usuario> user = usuarioSecurityService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
 
-                pelicula.setUsuarioPelicula(user.get());
-                logger.info("este es el objeto pelicula recibido{}", pelicula);
+                videojuego.setUsuarioVideojuego(user.get());
+                logger.info("este es el objeto videojuego recibido{}", videojuego);
             /*guardamos en la BBDD  el objeto pelicula con el resto de la información que hemos obtenido
              del formulario para que genere un id al guardarse
              */
-                peliculaService.saveEntity(pelicula);
-                logger.info("este es el objeto pelicula guardado{}", pelicula);
+                videojuegoService.saveEntity(videojuego);
+
+                logger.info("este es el objeto videojuego guardado{}", videojuego);
             /*Creamos nuestros proprios nombres que van a llevar los archivos de imagenes, compuestos por el id
              del objeto pelicula y la extensión del archivo(jpg, png)
              */
-                String nombreArchivo = "Pelicula" + pelicula.getId() + "Usuario" + pelicula.getUsuarioPelicula().getId() + "." + FilenameUtils.getExtension(multipartFile.getOriginalFilename());
+                String nombreArchivo = "Videojuego" + videojuego.getId() + "Usuario" + videojuego.getUsuarioVideojuego().getId() + "." + FilenameUtils.getExtension(multipartFile.getOriginalFilename());
                 //Llamamos al metodo y le pasamos los siguientes argumentos(el archivo de imagen, nombre de la imagen)
                 fileSystemStorageService.storeWithName(multipartFile, nombreArchivo);
                 //Modificamos el nombre del atributo imagenRuta del objeto pelicula con la url que genera el controlador ImagenesController
-                pelicula.setImagenRuta( "/imagenes/leerImagen/" + nombreArchivo);
+                videojuego.setImagenRuta( "/imagenes/leerImagen/" + nombreArchivo);
                 //Volvemos a guardar el objeto en la BBDD con los cambios
-                peliculaService.saveEntity(pelicula);
+                videojuegoService.saveEntity(videojuego);
                 attributes.addFlashAttribute("success", "Elemento añadido correctamente");
             }catch (DataIntegrityViolationException e){
-                logger.error("Error al guardar la pelicula creada");
+                logger.error("Error al guardar el videojuego creado", e);
                 attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
             } catch (Exception e){
-                logger.error("Error al guardar la pelicula creada");
+                logger.error("Error al guardar el videojuego creado", e);
                 attributes.addFlashAttribute("failed", "Error");
             }
-            return "redirect:/peliculas";
+            return "redirect:/videojuegos";
         }
 
     }
 
 
-    @PostMapping("/savePeliculaModificar")
+    @PostMapping("/saveVideojuegoModificar")
     //Obtenemos del formulario el contenido del input imagen, que es un archivo de imagen y se lo pasamos al parametro multipartFile
-    public String savePeliculaModificar(@RequestParam("imagen") MultipartFile multipartFile,
-                                        @Validated @ModelAttribute(name = "datosPelicula") Pelicula pelicula,
+    public String saveVideojuegoModificar(@RequestParam("imagen") MultipartFile multipartFile,
+                                        @Validated @ModelAttribute(name = "datosVideojuego") Videojuego videojuego,
                                         BindingResult bindingResult,
                                         RedirectAttributes attributes, Model model,
                                         @RequestParam("page") Optional<Integer> page, HttpSession session,
@@ -167,81 +170,82 @@ public class PeliculaController {
 
         final String FILE_PATH_ROOT = "D:/ficheros";
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
-        List<Plataforma> plataformasList = plataformaService.getAll();
+        List<PlataformaVideojuego> plataformasList = plataformaVideojuegoService.getAll();
         model.addAttribute("listaPlataformas", plataformasList);
         model.addAttribute("listaGeneros", generoElementoCompartidoList);
 
 
         Optional<Usuario> user = usuarioSecurityService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
 
-        pelicula.setUsuarioPelicula(user.get());
+        videojuego.setUsuarioVideojuego(user.get());
 
         if (bindingResult.hasErrors()){
-            model.addAttribute("peliculaActual", pelicula.getId());
-            return "peliculas";
+            model.addAttribute("videojuegoActual", videojuego.getId());
+            return "videojuegos";
         }else {
             try {
                 if (multipartFile.isEmpty()){
 
 
-                    Boolean archivo = Files.exists(Path.of(FILE_PATH_ROOT+"/" + ( "Pelicula" + pelicula.getId() + "Usuario" + pelicula.getUsuarioPelicula().getId()  + ".jpg")));
+                    Boolean archivo = Files.exists(Path.of(FILE_PATH_ROOT+"/" + ( "Videojuego" + videojuego.getId() + "Usuario" + videojuego.getUsuarioVideojuego().getId()  + ".jpg")));
 
                     if (archivo.equals(true)){
-                        pelicula.setImagenRuta("/imagenes/leerImagen/" + "Pelicula" + pelicula.getId() + "Usuario" + pelicula.getUsuarioPelicula().getId()  + ".jpg");
+                        videojuego.setImagenRuta("/imagenes/leerImagen/" + "Videojuego" + videojuego.getId() + "Usuario" + videojuego.getUsuarioVideojuego().getId()  + ".jpg");
                     }else {
-                        pelicula.setImagenRuta("/imagenes/leerImagen/" + "Pelicula" + pelicula.getId() + "Usuario" + pelicula.getUsuarioPelicula().getId()  + ".png");
+                        videojuego.setImagenRuta("/imagenes/leerImagen/" + "Videojuego" + videojuego.getId() + "Usuario" + videojuego.getUsuarioVideojuego().getId()  + ".png");
                     }
 
                 } else{
                     //Creamos nuestros proprios nombres que van a llevar los archivos de imagenes, compuestos por String Pelicula el id del objeto pelicula el titulo del objeto pelicula y la extensión del archivo(jpg, png)
-                    String nombreArchivo = "Pelicula" + pelicula.getId() + "Usuario" + pelicula.getUsuarioPelicula().getId() + "." + FilenameUtils.getExtension(multipartFile.getOriginalFilename());
+                    String nombreArchivo = "Videojuego" + videojuego.getId() + "Usuario" + videojuego.getUsuarioVideojuego().getId() + "." + FilenameUtils.getExtension(multipartFile.getOriginalFilename());
                     //Llamamos al metedos y le pasamos los siguientes argumentos(el archivo de imagen, nombre de la imagen)
 
-                    if(Files.exists(Path.of(FILE_PATH_ROOT+"/" + ("Pelicula" + pelicula.getId() + "Usuario" + pelicula.getUsuarioPelicula().getId() + ".jpg")))) {
-                        FileUtils.delete(new File(FILE_PATH_ROOT+ "/"+ "Pelicula" + pelicula.getId() + "Usuario" + pelicula.getUsuarioPelicula().getId() +".jpg"));
+                    if(Files.exists(Path.of(FILE_PATH_ROOT+"/" + ("Videojuego" + videojuego.getId() + "Usuario" + videojuego.getUsuarioVideojuego().getId() + ".jpg")))) {
+                        FileUtils.delete(new File(FILE_PATH_ROOT+ "/"+ "Videojuego" + videojuego.getId() + "Usuario" + videojuego.getUsuarioVideojuego().getId() +".jpg"));
                     } else{
-                        FileUtils.delete(new File(FILE_PATH_ROOT+ "/"+ "Pelicula" + pelicula.getId() + "Usuario" + pelicula.getUsuarioPelicula().getId() +".png"));
+                        FileUtils.delete(new File(FILE_PATH_ROOT+ "/"+ "Videojuego" + videojuego.getId() + "Usuario" + videojuego.getUsuarioVideojuego().getId() +".png"));
 
                     }
                     fileSystemStorageService.storeWithName(multipartFile, nombreArchivo);
 
                     //Modificamos el nombre del atributo imagenRuta del objeto pelicula con la url que genera el controlador ImagenesController
-                    pelicula.setImagenRuta("/imagenes/leerImagen/" + nombreArchivo);
+                    videojuego.setImagenRuta("/imagenes/leerImagen/" + nombreArchivo);
 
                 }
 
                 //Volvemos a guardar el objeto en la BBDD con los cambios
-                peliculaService.saveEntity(pelicula);
+                videojuegoService.saveEntity(videojuego);
                 attributes.addFlashAttribute("success","Elemento añadido correctamente");
             } catch (DataIntegrityViolationException e){
-                logger.error("Error al guardar la pelicula modificada");
+                logger.error("Error al guardar el videojuego modificado");
                 attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
             } catch (Exception e){
-                logger.error("Error al guardar la pelicula modificada");
+                logger.error("Error al guardar el videojuego modificado");
                 attributes.addFlashAttribute("failed", "Error");
             }
-            return "redirect:/peliculas";
+            return "redirect:/videojuegos";
         }
 
     }
 
 
     //Eliminar Pelicula
-    @PostMapping("/deletePelicula")
-    public String deletePelicula(Pelicula pelicula, RedirectAttributes attributes){
+    @PostMapping("/deleteVideojuego")
+    public String deleteVideojuego(Videojuego videojuego, RedirectAttributes attributes){
         try {
-            logger.info("este es el objeto pelicula eliminado{}", pelicula);
-            peliculaService.deleteEntity(pelicula);
+            logger.info("este es el objeto videojuego eliminado{}", videojuego);
+            videojuegoService.deleteEntity(videojuego);
             attributes.addFlashAttribute("success", "Elemento borrado");
         }catch (Exception e){
+            logger.error("Error al elminar videojuego", e);
             attributes.addFlashAttribute("failed", "Error al eliminar");
         }
 
-        return "redirect:/peliculas";
+        return "redirect:/videojuegos";
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam(value = "tituloPeliculaBusqueda", required = false) String tituloPeliculaBusqueda,
+    public String search(@RequestParam(value = "tituloVideojuegoBusqueda", required = false) String tituloVideojuegoBusqueda,
                          @RequestParam(value = "filtroPuntuacion", required = false) Integer filtroPuntuacion,
                          @RequestParam(value = "filtroGenero", required = false) Integer generoId,
                          @RequestParam(value = "filtroYear", required = false) Integer filtroYear,
@@ -249,20 +253,20 @@ public class PeliculaController {
                          @RequestParam(value = "filtroOrden",required = false) String filtrOrden,
                          Model model, @RequestParam("page") Optional<Integer> page,
                          HttpSession session, RedirectAttributes attributes) {
-        logger.info("Titulo de la pelicula: {}", tituloPeliculaBusqueda);
+        logger.info("Titulo del vieojuego: {}", tituloVideojuegoBusqueda);
         logger.info("puntuacion recibida del filtro: {}", filtroPuntuacion);
         logger.info("genero recibido del filtro:{}", generoId);
-        Pelicula pelicula = new Pelicula();
-        model.addAttribute("datosPelicula", pelicula);
+        Videojuego videojuego = new Videojuego();
+        model.addAttribute("datosVideojuego", videojuego);
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
-        List<Plataforma> plataformasList = plataformaService.getAll();
+        List<PlataformaVideojuego> plataformasList = plataformaVideojuegoService.getAll();
         model.addAttribute("listaPlataformas", plataformasList);
         model.addAttribute("listaGeneros", generoElementoCompartidoList);
 
 
         Optional<Usuario> user = usuarioSecurityService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
 
-        pelicula.setUsuarioPelicula(user.get());
+        videojuego.setUsuarioVideojuego(user.get());
 
         calcularAniosUsuario(model, user);
 
@@ -293,87 +297,86 @@ public class PeliculaController {
 
 
             // Empiezan los filtros de búsqueda
-            Page<Pelicula> pagina = null;
-            Optional<Plataforma> plataformaFiltro;
+            Page<Videojuego> pagina = null;
+            Optional<PlataformaVideojuego> plataformaFiltro;
             Optional<GeneroElementoCompartido> generoFiltro;
 
-            if(tituloPeliculaBusqueda == null || tituloPeliculaBusqueda.isBlank()){
+            if(tituloVideojuegoBusqueda == null || tituloVideojuegoBusqueda.isBlank()){
                 if (filtroPuntuacion!=null && generoId == null && filtroYear == null && plataformaId == null){
-                    pagina = peliculaService.getAllPeliculasByPuntuacion(filtroPuntuacion, user.get(), pageRequest);
+                    pagina = videojuegoService.getAllVideojuegosByPuntuacion(filtroPuntuacion, user.get(), pageRequest);
                     model.addAttribute("puntuacionFiltro", filtroPuntuacion);
                     if (pagina.getContent().isEmpty()){
-                        attributes.addFlashAttribute("failed", "No existe ninguna pelicula con esa puntuacion");
-                        return "redirect:/peliculas";
+                        attributes.addFlashAttribute("failed", "No existe ningún videojuego con esa puntuación");
+                        return "redirect:/videojuegos";
                     }
 
                 } else if (filtroPuntuacion == null && generoId != null && filtroYear == null && plataformaId == null) {
                     generoFiltro = generoElementoService.getById(generoId);
                     if (generoFiltro.isPresent()){
-                        pagina = peliculaService.getAllPeliculasByGenero(generoFiltro.get(), user.get(), pageRequest);
+                        pagina = videojuegoService.getAllVideojuegosByGenero(generoFiltro.get(), user.get(), pageRequest);
                         model.addAttribute("generoFiltro", generoId);
                         if (pagina.getContent().isEmpty()){
-                            attributes.addFlashAttribute("failed", "No existe ninguna pelicula con ese género");
-                            return "redirect:/peliculas";
+                            attributes.addFlashAttribute("failed", "No existe ningún videojuego con ese género");
+                            return "redirect:/videojuegos";
                         }
                     }else {
-                        attributes.addFlashAttribute("failed", "El genero no existe");
-                        return "redirect:/peliculas";
+                        attributes.addFlashAttribute("failed", "El género no existe");
+                        return "redirect:/videojuegos";
                     }
 
                 } else if (filtroPuntuacion == null && generoId == null && filtroYear != null && plataformaId == null) {
-                    pagina = peliculaService.getAllPeliculasByYear(filtroYear, user.get(), pageRequest);
+                    pagina = videojuegoService.getAllVideojuegosByYear(filtroYear, user.get(), pageRequest);
                     model.addAttribute("yearFiltro", filtroYear);
                     if (pagina.getContent().isEmpty()){
-                        attributes.addFlashAttribute("failed", "No existe ninguna pelicula con ese año");
-                        return "redirect:/peliculas";
+                        attributes.addFlashAttribute("failed", "No existe ningún videojuego con ese año");
+                        return "redirect:/videojuegos";
                     }
                 } else if (filtroPuntuacion == null && generoId == null && filtroYear == null && plataformaId != null) {
-                    plataformaFiltro = plataformaService.getById(plataformaId);
+                    plataformaFiltro = plataformaVideojuegoService.getById(plataformaId);
                     if (plataformaFiltro.isPresent()){
-                        pagina = peliculaService.getAllPeliculasByPlataforma(plataformaFiltro.get(), user.get(), pageRequest);
+                        pagina = videojuegoService.getAllVideojuegosByPlataforma(plataformaFiltro.get(), user.get(), pageRequest);
                         model.addAttribute("plataformaFiltro", plataformaId);
                         if (pagina.getContent().isEmpty()){
-                            attributes.addFlashAttribute("failed", "No existe ninguna pelicula con esa plataforma");
-                            return "redirect:/peliculas";
+                            attributes.addFlashAttribute("failed", "No existe ningún videojuego con esa plataforma");
+                            return "redirect:/videojuegos";
                         }
                     }else {
                         attributes.addFlashAttribute("failed", "La plataforma no existe");
-                        return "redirect:/peliculas";
+                        return "redirect:/videojuegos";
                     }
                 } else if (filtroPuntuacion != null && generoId != null && filtroYear != null && plataformaId != null) {
-                    plataformaFiltro = plataformaService.getById(plataformaId);
+                    plataformaFiltro = plataformaVideojuegoService.getById(plataformaId);
                     generoFiltro = generoElementoService.getById(generoId);
                     if (plataformaFiltro.isPresent() && generoFiltro.isPresent()){
-                        pagina = peliculaService.getAllPeliculasByAllFiltros(filtroPuntuacion, generoFiltro.get(),
+                        pagina = videojuegoService.getAllVideojuegosByAllFiltros(filtroPuntuacion, generoFiltro.get(),
                                 filtroYear, plataformaFiltro.get(), user.get(), pageRequest);
                         model.addAttribute("puntuacionFiltro", filtroPuntuacion);
                         model.addAttribute("generoFiltro", generoId);
                         model.addAttribute("yearFiltro", filtroYear);
                         model.addAttribute("plataformaFiltro", plataformaId);
                         if (pagina.getContent().isEmpty()){
-                            attributes.addFlashAttribute("failed", "No existe ninguna pelicula con esos filtros");
-                            return "redirect:/peliculas";
+                            attributes.addFlashAttribute("failed", "No existe ningún videojuego con esos filtros");
+                            return "redirect:/videojuegos";
                         }
                     }
 
                 }else {
                     attributes.addFlashAttribute("failed", "Sólo se puede filtrar por título, género, año, valoración " +
                             "plataforma de forma idividual o por género, año, valoración y plataforma juntos");
-                    return "redirect:/peliculas";
+                    return "redirect:/videojuegos";
                 }
             }else {
-                pagina = peliculaService.getAllPeliculasByTitulo(tituloPeliculaBusqueda, user.get(), pageRequest);
+                pagina = videojuegoService.getAllVideojuegosByTitulo(tituloVideojuegoBusqueda, user.get(), pageRequest);
                 if(pagina.getContent().isEmpty()){
-                    attributes.addFlashAttribute("failed", "No hay películas con ese título");
-                    return "redirect:/peliculas";
+                    attributes.addFlashAttribute("failed", "No hay videojuegos con ese título");
+                    return "redirect:/videojuegos";
                 }
-                model.addAttribute("titulo", tituloPeliculaBusqueda);
+                model.addAttribute("titulo", tituloVideojuegoBusqueda);
             }
 
 
             // Agregar resultados al modelo
             model.addAttribute("pagina", pagina);
-            assert pagina != null;
             int totalPages = pagina.getTotalPages();
             if (totalPages > 0) {
                 List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
@@ -383,19 +386,18 @@ public class PeliculaController {
             }
             model.addAttribute("currentPage", currentPage);
             model.addAttribute("size", pagina.getContent().size());
-            model.addAttribute("peliculas", pagina.getContent());
+            model.addAttribute("videojuegos", pagina.getContent());
         }catch (Exception e){
             logger.error("Error en la busqueda",e);
             model.addAttribute("busquedaFallida", "Error al realizar la búsqueda");
         }
-        return "peliculas";
+        return "videojuegos";
     }
 
     private void paginacion(Model model, Optional<Integer> page, HttpSession session, String orden){
         Optional<Usuario> user = usuarioSecurityService.getById(Integer.valueOf((session.getAttribute("idusuario").toString())));
 
-        calcularAniosUsuario(model, user);
-
+        calcularAniosUsuario(model,user);
 
         //Recibe la pagina en la que estoy si no recibe nada asigna la pagina 1
         int currentPage = page.orElse(1);
@@ -426,8 +428,7 @@ public class PeliculaController {
          se crea un objeto page que es el encargado de rellenar en la pagina que le has indicado con la cantidad
          que le has dicho todos los objetos pelicula almacenados, es decir, crea la pagina que visualizas con el contenido
          */
-        // Page<Pelicula> pagina = peliculaService.findAll(pageRequest);
-        Page<Pelicula> pagina = peliculaService.getAllPeliculas(user.get(), pageRequest);
+        Page<Videojuego> pagina = videojuegoService.getAllVideojuegos(user.get(), pageRequest);
 
         //Envio la pagina creada a la vista para poder verla
         model.addAttribute("pagina", pagina);
@@ -452,7 +453,7 @@ public class PeliculaController {
 
         model.addAttribute("size", pagina.getContent().size());
 
-        model.addAttribute("peliculas", pagina.getContent());
+        model.addAttribute("videojuegos", pagina.getContent());
 
 
 

@@ -4,11 +4,14 @@ import com.example.korner.modelo.Usuario;
 import com.example.korner.repositorios.UsuarioRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -17,7 +20,6 @@ public class UsuarioSecurityService extends AbstractService<Usuario,Integer, Usu
 
     private final UsuarioRepository usuarioRepository;
     private final MessageSource messageSource;
-
     private final HttpSession session;
 
     public UsuarioSecurityService(UsuarioRepository usuarioRepository, MessageSource messageSource, HttpSession session) {
@@ -41,5 +43,12 @@ public class UsuarioSecurityService extends AbstractService<Usuario,Integer, Usu
 
     }
 
+    public Page<Usuario> getAllUsuarios(String username,Pageable pageable) {
+        return usuarioRepository.findAllByNombreContainingIgnoreCase(username, pageable);
+    }
+
+    public Page<Usuario> getAllUsuariosSinListId(String username, List<Integer> excludedId, Pageable pageble) {
+        return usuarioRepository.findAllByNombreContainingIgnoreCaseAndIdNotIn(username, excludedId,pageble);
+    }
 
 }

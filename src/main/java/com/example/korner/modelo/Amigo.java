@@ -23,7 +23,10 @@ public class Amigo {
     private Integer id;
 
     @Column (name = "bloqueados")
-    private Boolean bloqueados;
+    private Boolean bloqueado;
+
+    @Column (name = "pendientes")
+    private Boolean pendiente;
 
     @ManyToOne (fetch = FetchType.EAGER)
     @JoinColumn(name = "id_amigo_origen",foreignKey = @ForeignKey(name = "fk_amigo_origen"))
