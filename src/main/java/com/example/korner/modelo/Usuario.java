@@ -39,7 +39,7 @@ public class Usuario implements Serializable, UserDetails {
     private String correo;
 
     @Column (name = "imagen")
-    private String imagen;
+    private String rutaImagen;
 
     @Column (name = "ajustes")
     private String ajustes;
