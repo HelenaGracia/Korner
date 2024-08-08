@@ -367,6 +367,10 @@ public class VideojuegoController {
                 }
             }else {
                 pagina = videojuegoService.getAllVideojuegosByTitulo(tituloVideojuegoBusqueda, user.get(), pageRequest);
+                if(pagina.getContent().isEmpty()){
+                    attributes.addFlashAttribute("failed", "No hay videojuegos con ese título");
+                    return "redirect:/videojuegos";
+                }
                 model.addAttribute("titulo", tituloVideojuegoBusqueda);
             }
 
