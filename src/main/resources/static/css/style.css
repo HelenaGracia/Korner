@@ -10,6 +10,7 @@
 /* **************Resest Styles************** */
 body{
     font-family:"Poppins", sans-serif;
+
     
 }
 footer{
@@ -165,11 +166,14 @@ nav li a img{
 
 /* Fondo curvado */
 .spacer {
-    aspect-ratio: 960/463;
+
     width: 100%;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+    min-height: 100vh;
+
+
 }
 .layer1 {
     background-image: url(../img/wave-haikei_16_9.svg);
