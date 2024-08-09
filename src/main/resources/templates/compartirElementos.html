@@ -19,7 +19,7 @@
         <header>
              <nav class="navbar sticky-top navbar-expand-lg bg-primary" >
                 <div class="container">
-                  <a class="navbar-brand" th:href="@{/home.html}">
+                  <a class="navbar-brand" th:href="@{/home}">
                     <img th:src="@{/img/LogoSinFondo.svg}" alt="logo Korner">
                   </a>
                   <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -97,9 +97,11 @@
             <section class="row align-items-center d-flex justify-content-center">
                 <!-- Barra de Búsqueda-->
                 <div class="col-8 col-md-6 mb-3">
-                    <form th:action="@{/amigos/search}" method="get">
+                    <form th:action="@{/compartir/searchAmigos}" method="get">
                         <div class="input-group">
-                            <input type="search" name="amigosBusqueda" class="form-control search-input" aria-label="search" placeholder="Buscar...">
+                            <input type="search" name="nombreAmigo" class="form-control search-input" aria-label="search" placeholder="Buscar...">
+                            <input type="hidden" name="idPelicula" th:value="${pelicula.getId()}">
+                            <input type="hidden" name="idAnime" th:value="${anime.getId()}">
                             <!-- Botón Buscar -->
                             <div class="input-group-append">
                                 <button type="submit" class="btn-section-searchbar">BUSCAR</button>
@@ -107,32 +109,33 @@
                         </div>
                     </form>
                 </div>
+
                 <div class="row pb-1">
                     <div class="col-12">
                         <div th:if = "${size == 0}" class="text-center">
                             <p>No hay usuarios que mostrar</p>
-                        </div>
+                        </div><!--
                         <div th:if="${busquedaFallida}" class="text-center alert alert-danger">
                             <p th:text="${busquedaFallida}"></p>
-                        </div>
+                        </div>--->
                     </div>
                 </div>
                 <div class="row">
-                    <div th:if="${busquedaUsuarios != null }">
+                    <div >
                         <div class="col-12 d-flex justify-content-center">
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination">
                                     <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
-                                        <a th:href="@{/amigos/search(page=${currentPage - 1}, amigosBusqueda=${busquedaUsuarios})}" class="page-link" href="#">Previous</a>
+                                        <a th:href="@{/compartir (page=${currentPage - 1})}" class="page-link" href="#">Previous</a>
                                     </li>
                                     <li th:each="pageNumber : ${pageNumbers}" class="page-item">
-                                        <a th:href="@{/amigos/search(page=${pageNumber}, amigosBusqueda=${busquedaUsuarios})}"
+                                        <a th:href="@{/compartir (page=${currentPage - 1})}"
                                            th:text="${pageNumber}"
                                            th:classappend="${pageNumber==pagina.number + 1} ? active"
-                                           class="page-link" href="#"></a>
+                                           class="page-link" ></a>
                                     </li>
                                     <li th:unless="${currentPage  ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
-                                        <a th:href="@{/amigos/search(page=${currentPage + 1}, amigosBusqueda=${busquedaUsuarios})}" class="page-link" href="#">Next</a>
+                                        <a th:href="@{/compartir (page=${currentPage - 1})}" class="page-link" href="#">Next</a>
                                     </li>
                                 </ul>
                             </nav>
@@ -142,11 +145,12 @@
                 <table class="table" th:if = "${size > 0}">
 
                     <tbody>
-                    <tr th:each="usuario:${usuarios}">
+                    <tr th:each="usuario:${amigo}">
                         <!--<th scope="row" th:src="${usuario.getImagen()}"></th>-->
                         <th scope="row" ><img src="../static/img/cca.jpg" alt="imagen perfil" class="imgdrop-chat" /></th>
-                        <td th:text="${usuario.nombre}"></td>
-                        <td ><a role="button" class="btn btn-primary" th:href="@{/amigos/enviarSolicitud/{id}/{nombreUser} (id=${usuario.id},nombreUser=${busquedaUsuarios})}" >Solicitar Amistad</a></td>
+                        <td th:text="${usuario.getUsuarioDestino().getNombre()}"></td>
+                        <td ><a role="button" class="btn btn-primary" href="#" >Compartir</a></td>
+                       <!-- <td ><a role="button" class="btn btn-primary" th:href="@{/compartir/{idPelicula}/{idSerie}/{idAnime}/{idLibro}/{idVideojuegos}/ (id=${usuario.id},nombreUser=${busquedaUsuarios})}" >Compartir</a></td>-->
                     </tr>
                     </tbody>
                 </table>

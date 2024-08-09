@@ -84,8 +84,8 @@ public class AmigosController {
 
         //Paginación
         int currentPage = page.orElse(1);
-        Pageable pageRequest = PageRequest.of(currentPage - 1, 2);
-        Page<Amigo> pagina = amigoService.getAllSolicitudesPendientes(user.get(), pageRequest);
+        Pageable pageRequest = PageRequest.of(currentPage - 1, 10);
+        Page<Amigo> pagina = amigoService.getAllSolicitudesPendientes(user.get(),pageRequest);
         model.addAttribute("pagina", pagina);
         int totalPages = pagina.getTotalPages();
         if (totalPages > 0) {
@@ -104,11 +104,17 @@ public class AmigosController {
 
     @GetMapping("/aceptarSolicitud/{id}")
     public String aceptarSolicitud(@PathVariable Integer id ,HttpSession session){
-        Optional<Usuario> userOrigen = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
-        Optional<Usuario> userDestino= usuarioService.getById(id);
+        Optional<Usuario> userDestino = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
+        Optional<Usuario> userOrigen= usuarioService.getById(id);
         Amigo amigoAceptado= amigoService.getAmigo(userDestino.get(),userOrigen.get());
         amigoAceptado.setPendiente(false);
+        Amigo amigoNuevo = new Amigo();
+        amigoNuevo.setBloqueado(false);
+        amigoNuevo.setPendiente(false);
+        amigoNuevo.setUsuarioOrigen(userDestino.get());
+        amigoNuevo.setUsuarioDestino(userOrigen.get());
         amigoService.saveEntity(amigoAceptado);
+        amigoService.saveEntity(amigoNuevo);
 
         return "redirect:/amigos/solicitudesPendientes";
 
@@ -117,7 +123,10 @@ public class AmigosController {
 
     @PostMapping("/delete")
     public String deleteAmigo(Amigo amigos){
-        amigoService.deleteEntity(amigos);
+        Optional<Amigo> amigoOrigen = amigoService.getById(amigos.getId());
+        Amigo amigoDestino = amigoService.getAmigo(amigoOrigen.get().getUsuarioOrigen(),amigoOrigen.get().getUsuarioDestino());
+        amigoService.deleteEntity(amigoOrigen.get());
+        amigoService.deleteEntity(amigoDestino);
         return "redirect:/amigos";
     }
 

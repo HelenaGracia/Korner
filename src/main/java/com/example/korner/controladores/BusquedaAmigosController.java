@@ -84,17 +84,20 @@ public class BusquedaAmigosController {
         return "busquedaAmigos";
     }
 
-    @GetMapping("/enviarSolicitud/{id}")
-    public String enviarSolicitud(@PathVariable Integer id ,HttpSession session){
+    @GetMapping("/enviarSolicitud/{id}/{nombreUser}")
+    public String enviarSolicitud(@PathVariable Integer id ,
+                                  @PathVariable String nombreUser,
+                                  HttpSession session){
         Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
         Optional<Usuario> userDestino= usuarioService.getById(id);
-        Amigo amigo = new Amigo();
-        amigo.setPendiente(true);
-        amigo.setUsuarioOrigen(user.get());
-        amigo.setUsuarioDestino(userDestino.get());
-        amigoService.saveEntity(amigo);
+        Amigo amigoOrigen = new Amigo();
+        amigoOrigen.setPendiente(true);
+        amigoOrigen.setUsuarioOrigen(user.get());
+        amigoOrigen.setUsuarioDestino(userDestino.get());
+        amigoOrigen.setBloqueado(false);
+        amigoService.saveEntity(amigoOrigen);
 
-        return "busquedaAmigos";
+        return "redirect:/amigos/search?amigosBusqueda="+nombreUser;
 
     }
 

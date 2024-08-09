@@ -128,8 +128,8 @@
                     <tr th:each="amigo:${amigos}">
                         <!--<th scope="row" th:src="${usuario.getImagen()}"></th>-->
                         <th scope="row" ><img src="../static/img/cca.jpg" alt="imagen perfil" class="imgdrop-chat" /></th>
-                        <td th:text="${amigo.getUsuarioDestino().getNombre()}"></td>
-                        <td ><a role="button" class="btn btn-primary" th:href="@{/amigos/aceptarSolicitud/{id} (id=${amigo.getUsuarioDestino().id})}" >Aceptar</a></td>
+                        <td th:text="${amigo.getUsuarioOrigen().getNombre()}"></td>
+                        <td ><a role="button" class="btn btn-primary" th:href="@{/amigos/aceptarSolicitud/{id} (id=${amigo.getUsuarioOrigen().id})}" >Aceptar</a></td>
                     </tr>
                     </tbody>
                 </table>

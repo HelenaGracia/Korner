@@ -160,7 +160,7 @@
                              th:classappend="${pageNumber==pagina.number + 1} ? active"
                              class="page-link" href="#"></a>
                         </li>
-                        <li th:unless="${currentPage ==pagina.totalPages}" class="page-item">
+                        <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
                           <a th:href="@{/amigos(page=${currentPage + 1})}" class="page-link" href="#">Next</a>
                         </li>
                       </ul>
@@ -210,7 +210,7 @@
                                 <form th:action="@{amigos/delete}" method="post">
                                   <input type="hidden" name="id" th:value="${amigos.id}">
                                   <div class="mb-3">
-                                    <label for="tituloAmigoDelete" class="form-label">E siguiente amigo se eliminará:</label>
+                                    <label for="tituloAmigoDelete" class="form-label">El siguiente amigo se eliminará:</label>
                                     <h4 class="form-control" id="tituloAmigoDelete" th:text="${amigos.getUsuarioDestino().getNombre()}"></h4>
                                   </div>
                                   <div class="d-flex justify-content-end ">
@@ -303,7 +303,7 @@
                              th:classappend="${pageNumberBloq==paginaBloq.number + 1} ? active"
                              class="page-link" href="#"></a>
                         </li>
-                        <li th:unless="${currentPageBloq ==paginaBloq.totalPages}" class="page-item">
+                        <li th:unless="${currentPageBloq ==paginaBloq.totalPages || pagina.totalPages == 0}" class="page-item">
                           <a th:href="@{/amigos(page=${currentPageBloq + 1})}" class="page-link" href="#">Next</a>
                         </li>
                       </ul>

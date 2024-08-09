@@ -21,22 +21,26 @@ public class ElementoCompartido {
     @Column(name = "id_elemt_compart", nullable = false)
     private Integer id;
 
-    @Column (name = "fecha_compartir")
-    private LocalDateTime fecha;
-
-    @Column (name = "me_gusta")
-    private Integer like;
-
-    @Column (name = "id_elemento")
-    private Integer idElemento;
+//    @Column (name = "fecha_compartir")
+//    private LocalDateTime fecha;
+//
+//    @Column (name = "me_gusta")
+//    private Integer like;
+//
+//    @Column (name = "id_elemento")
+//    private Integer idElemento;
 
     @ManyToOne (fetch = FetchType.EAGER)
     @JoinColumn(name = "id_amigos", foreignKey = @ForeignKey(name = "fk_amigos_elemt_comp"))
     private Amigo amigos;
 
-    @ManyToOne (fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_tipos_elementos", foreignKey = @ForeignKey(name = "fk_tipos_elementos_elemt_comp"))
-    private TipoElemento tipoElemento;
+//    @ManyToOne (fetch = FetchType.EAGER)
+//    @JoinColumn(name = "id_tipos_elementos", foreignKey = @ForeignKey(name = "fk_tipos_elementos_elemt_comp"))
+//    private TipoElemento tipoElemento;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_peliculas", foreignKey = @ForeignKey(name = "fk_peliculas_elemt_comp"))
+    private Pelicula pelicula;
 
 
 }
