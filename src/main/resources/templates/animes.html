@@ -485,7 +485,10 @@
                   </div>
                   <!-- Icono de compartir -->
                   <button class="btn-share">
-                    <img th:src="@{/img/icono_compartir.png}" alt="Compartir" class="share-icon">
+                    <a th:href="@{/compartir/anime/{idAnime} (idAnime = ${anime.id})}">
+                      <img th:src="@{/img/icono_compartir.png}" alt="Compartir" class="share-icon">
+                    </a>
+
                   </button>
                   <!-- Título, Año, Géneros y Plataforma Anime -->
                   <div class="modal-body">

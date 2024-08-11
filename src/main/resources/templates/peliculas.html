@@ -513,11 +513,14 @@
                         <div class="modal-content">
                             <!-- Imagen Película -->
                             <div class="modal-header space-down">
-                                <img th:src="${pelicula.imagenRuta}" alt="Garfield: La Película" class="custom-section-image"/>
+                                <img th:src="${pelicula.imagenRuta}" alt="Imagen de la película" class="custom-section-image"/>
                             </div>
                             <!-- Icono de compartir -->
                             <button class="btn-share">
-                                <img th:src="@{/img/icono_compartir.png}" alt="Compartir" class="share-icon">
+                                <a th:href="@{/compartir/pelicula/{idPelicula} (idPelicula = ${pelicula.id})}">
+                                    <img th:src="@{/img/icono_compartir.png}" alt="Compartir" class="share-icon">
+                                </a>
+
                             </button>
                             <!-- Título, Año, Géneros y Plataforma Película -->
                             <div class="modal-body">

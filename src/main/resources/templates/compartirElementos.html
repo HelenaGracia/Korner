@@ -96,12 +96,15 @@
           <div class="container" >
             <section class="row align-items-center d-flex justify-content-center">
                 <!-- Barra de Búsqueda-->
-                <div class="col-8 col-md-6 mb-3">
+                <div th:if="${size>0 || busquedaAmigo != null}" class="col-8 col-md-6 mb-3">
                     <form th:action="@{/compartir/searchAmigos}" method="get">
                         <div class="input-group">
                             <input type="search" name="nombreAmigo" class="form-control search-input" aria-label="search" placeholder="Buscar...">
-                            <input type="hidden" name="idPelicula" th:value="${pelicula.getId()}">
-                            <input type="hidden" name="idAnime" th:value="${anime.getId()}">
+                            <input type="hidden" name="idPelicula" th:value="${peliculaEnviadaId}">
+                             <input type="hidden" name="idSerie" th:value="${serieEnviadaId}">
+                             <input type="hidden" name="idAnime" th:value="${animeEnviadoId}">
+                             <input type="hidden" name="idLibro" th:value="${libroEnviadoId}">
+                             <input type="hidden" name="idVideojuego" th:value="${videojuegoEnviadoId}">
                             <!-- Botón Buscar -->
                             <div class="input-group-append">
                                 <button type="submit" class="btn-section-searchbar">BUSCAR</button>
@@ -114,10 +117,16 @@
                     <div class="col-12">
                         <div th:if = "${size == 0}" class="text-center">
                             <p>No hay usuarios que mostrar</p>
-                        </div><!--
-                        <div th:if="${busquedaFallida}" class="text-center alert alert-danger">
-                            <p th:text="${busquedaFallida}"></p>
-                        </div>--->
+                        </div>
+                        <div th:if="${success}" class="text-center alert alert-success">
+                            <p th:text="${success}"></p>
+                        </div>
+                        <div th:if="${failed != null}" class="text-center alert alert-danger">
+                            <p th:text="${failed}"></p>
+                        </div>
+                        <div th:if="${objetoCompartido != null}">
+                            <p th:text="${objetoCompartido}"></p>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -126,16 +135,22 @@
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination">
                                     <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
-                                        <a th:href="@{/compartir (page=${currentPage - 1})}" class="page-link" href="#">Previous</a>
+                                        <a th:href="@{/compartir/searchAmigos(page=${currentPage - 1},idPelicula=${peliculaEnviadaId},
+                                        idSerie=${serieEnviadaId},idAnime=${animeEnviadoId},idLibro=${libroEnviadoId},
+                                        idVideojuego=${videojuegoEnviadoId}, nombreAmigo=${busquedaAmigo})}" class="page-link" >Previous</a>
                                     </li>
                                     <li th:each="pageNumber : ${pageNumbers}" class="page-item">
-                                        <a th:href="@{/compartir (page=${currentPage - 1})}"
+                                        <a th:href="@{/compartir/searchAmigos(page=${pageNumber},idPelicula=${peliculaEnviadaId},
+                                        idSerie=${serieEnviadaId},idAnime=${animeEnviadoId},idLibro=${libroEnviadoId},
+                                        idVideojuego=${videojuegoEnviadoId}, nombreAmigo=${busquedaAmigo})}"
                                            th:text="${pageNumber}"
                                            th:classappend="${pageNumber==pagina.number + 1} ? active"
                                            class="page-link" ></a>
                                     </li>
                                     <li th:unless="${currentPage  ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
-                                        <a th:href="@{/compartir (page=${currentPage - 1})}" class="page-link" href="#">Next</a>
+                                        <a th:href="@{/compartir/searchAmigos(page=${currentPage + 1},idPelicula=${peliculaEnviadaId},
+                                        idSerie=${serieEnviadaId},idAnime=${animeEnviadoId},idLibro=${libroEnviadoId},
+                                        idVideojuego=${videojuegoEnviadoId}, nombreAmigo=${busquedaAmigo})}" class="page-link">Next</a>
                                     </li>
                                 </ul>
                             </nav>
@@ -145,15 +160,17 @@
                 <table class="table" th:if = "${size > 0}">
 
                     <tbody>
-                    <tr th:each="usuario:${amigo}">
+                    <tr th:each="amigo:${amigos}">
                         <!--<th scope="row" th:src="${usuario.getImagen()}"></th>-->
                         <th scope="row" ><img src="../static/img/cca.jpg" alt="imagen perfil" class="imgdrop-chat" /></th>
-                        <td th:text="${usuario.getUsuarioDestino().getNombre()}"></td>
-                        <td ><a role="button" class="btn btn-primary" href="#" >Compartir</a></td>
-                       <!-- <td ><a role="button" class="btn btn-primary" th:href="@{/compartir/{idPelicula}/{idSerie}/{idAnime}/{idLibro}/{idVideojuegos}/ (id=${usuario.id},nombreUser=${busquedaUsuarios})}" >Compartir</a></td>-->
+                        <td th:text="${amigo.getUsuarioDestino().getNombre()}"></td>
+                        <td ><a role="button" class="btn btn-primary" th:href="@{/compartir/añadir/{idAmigo}(idAmigo=${amigo.id},idPelicula=${peliculaEnviadaId},
+                                        idSerie=${serieEnviadaId},idAnime=${animeEnviadoId},idLibro=${libroEnviadoId},
+                                        idVideojuego=${videojuegoEnviadoId})}" >Compartir</a></td>
                     </tr>
                     </tbody>
                 </table>
+
             </section>            
           </div>
         </main>

@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "elementos_compartidos", uniqueConstraints = {
-        @UniqueConstraint(columnNames={"id_elemento", "id_amigos","id_tipos_elementos"})})
+        @UniqueConstraint(columnNames={"id_amigos"})})
 public class ElementoCompartido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
