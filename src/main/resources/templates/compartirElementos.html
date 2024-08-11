@@ -104,7 +104,7 @@
                              <input type="hidden" name="idSerie" th:value="${serieEnviadaId}">
                              <input type="hidden" name="idAnime" th:value="${animeEnviadoId}">
                              <input type="hidden" name="idLibro" th:value="${libroEnviadoId}">
-                             <input type="hidden" name="idVideojuego" th:value="${videojuegoEnviadoId}">
+                             <input type="hidden" name="idVideojuegos" th:value="${videojuegoEnviadoId}">
                             <!-- Botón Buscar -->
                             <div class="input-group-append">
                                 <button type="submit" class="btn-section-searchbar">BUSCAR</button>
@@ -137,12 +137,12 @@
                                     <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
                                         <a th:href="@{/compartir/searchAmigos(page=${currentPage - 1},idPelicula=${peliculaEnviadaId},
                                         idSerie=${serieEnviadaId},idAnime=${animeEnviadoId},idLibro=${libroEnviadoId},
-                                        idVideojuego=${videojuegoEnviadoId}, nombreAmigo=${busquedaAmigo})}" class="page-link" >Previous</a>
+                                        idVideojuegos=${videojuegoEnviadoId}, nombreAmigo=${busquedaAmigo})}" class="page-link" >Previous</a>
                                     </li>
                                     <li th:each="pageNumber : ${pageNumbers}" class="page-item">
                                         <a th:href="@{/compartir/searchAmigos(page=${pageNumber},idPelicula=${peliculaEnviadaId},
                                         idSerie=${serieEnviadaId},idAnime=${animeEnviadoId},idLibro=${libroEnviadoId},
-                                        idVideojuego=${videojuegoEnviadoId}, nombreAmigo=${busquedaAmigo})}"
+                                        idVideojuegos=${videojuegoEnviadoId}, nombreAmigo=${busquedaAmigo})}"
                                            th:text="${pageNumber}"
                                            th:classappend="${pageNumber==pagina.number + 1} ? active"
                                            class="page-link" ></a>
@@ -150,7 +150,7 @@
                                     <li th:unless="${currentPage  ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
                                         <a th:href="@{/compartir/searchAmigos(page=${currentPage + 1},idPelicula=${peliculaEnviadaId},
                                         idSerie=${serieEnviadaId},idAnime=${animeEnviadoId},idLibro=${libroEnviadoId},
-                                        idVideojuego=${videojuegoEnviadoId}, nombreAmigo=${busquedaAmigo})}" class="page-link">Next</a>
+                                        idVideojuegos=${videojuegoEnviadoId}, nombreAmigo=${busquedaAmigo})}" class="page-link">Next</a>
                                     </li>
                                 </ul>
                             </nav>
@@ -166,7 +166,7 @@
                         <td th:text="${amigo.getUsuarioDestino().getNombre()}"></td>
                         <td ><a role="button" class="btn btn-primary" th:href="@{/compartir/añadir/{idAmigo}(idAmigo=${amigo.id},idPelicula=${peliculaEnviadaId},
                                         idSerie=${serieEnviadaId},idAnime=${animeEnviadoId},idLibro=${libroEnviadoId},
-                                        idVideojuego=${videojuegoEnviadoId})}" >Compartir</a></td>
+                                        idVideojuegos=${videojuegoEnviadoId})}" >Compartir</a></td>
                     </tr>
                     </tbody>
                 </table>

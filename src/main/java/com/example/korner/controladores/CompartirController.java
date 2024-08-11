@@ -59,7 +59,7 @@ public class CompartirController {
             logger.error("Error en el proceso de compartir una película", e);
             model.addAttribute("failed", "Error en el proceso de compartir una película");
         }
-        return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=" + idPelicula +"&idSerie=&idAnime=&idLibro=&idVideojuego=";
+        return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=" + idPelicula +"&idSerie=&idAnime=&idLibro=&idVideojuegos=";
 
     }
 
@@ -75,7 +75,7 @@ public class CompartirController {
             logger.error("Error en el proceso de compartir una serie", e);
             model.addAttribute("failed", "Error en el proceso de compartir una serie");
         }
-        return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=" + idSerie +"&idSerie=&idAnime=&idLibro=&idVideojuego=";
+        return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=&idSerie=" + idSerie + "&idAnime=&idLibro=&idVideojuegos=";
 
     }
 
@@ -92,7 +92,7 @@ public class CompartirController {
             model.addAttribute("failed", "Error en el proceso de compartir un anime");
         }
 
-        return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=&idSerie=&idAnime=" + idAnime + "&idLibro=&idVideojuego=";
+        return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=&idSerie=&idAnime="+ idAnime+"&idLibro=&idVideojuegos=";
 
     }
 
@@ -111,12 +111,12 @@ public class CompartirController {
         }
 
 
-        return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=" + idLibro +"&idSerie=&idAnime=&idLibro=&idVideojuego=";
+        return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=&idSerie=&idAnime=&idLibro="+ idLibro +"&idVideojuegos=";
 
     }
 
-    @GetMapping("/compartir/videojuego/{idVideojuego}")
-    public String compartirAmigoVideojuego(@PathVariable(value = "idVideojuego",required = false)Integer idVideojuego,
+    @GetMapping("/compartir/videojuego/{idVideojuegos}")
+    public String compartirAmigoVideojuego(@PathVariable(value = "idVideojuegos",required = false)Integer idVideojuego,
                                       Model model) {
 
         try {
@@ -129,7 +129,7 @@ public class CompartirController {
         }
 
 
-        return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=" + idVideojuego +"&idSerie=&idAnime=&idLibro=&idVideojuego=";
+        return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=&idSerie=&idAnime=&idLibro=&idVideojuegos=" + idVideojuego;
 
     }
 
@@ -262,7 +262,7 @@ public class CompartirController {
         model.addAttribute("amigos", pagina.getContent());
     }
 
-@GetMapping("/compartir/añadir/{idAmigo}")
+    @GetMapping("/compartir/añadir/{idAmigo}")
     public String add(@PathVariable(value = "idAmigo",required = false) Integer idAmigo,
                       @RequestParam(value = "idPelicula",required = false)Integer idPelicula,
                       @RequestParam(value = "idSerie",required = false)Integer idSerie,
@@ -271,11 +271,21 @@ public class CompartirController {
                       @RequestParam(value = "idVideojuegos",required = false)Integer idVideojuegos, RedirectAttributes attributes){
         
         Optional<Amigo> amigoOrigen = amigoService.getById(idAmigo);
-        Amigo amigoDestino = amigoService.getAmigo(amigoOrigen.get().getUsuarioDestino(), amigoOrigen.get().getUsuarioOrigen());
+
+        Amigo amigoDestino = amigoService.getAmigo(amigoOrigen.get().getUsuarioOrigen(), amigoOrigen.get().getUsuarioDestino());
         if(amigoDestino.getBloqueado()){
             attributes.addFlashAttribute("failed", "Este usuario te tiene bloqueado");
-            return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=" + idPelicula +"&idSerie=" + idSerie + "&idAnime=" + idAnime +
-                    "&idLibro=" + idLibro + "&idVideojuego=" + idVideojuegos;
+            if(idPelicula !=null){
+                return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=" + idPelicula +"&idSerie=&idAnime=&idLibro=&idVideojuegos=";
+            } else if (idSerie != null) {
+                return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=&idSerie=" + idSerie + "&idAnime=&idLibro=&idVideojuegos=";
+            } else if (idAnime!= null) {
+                return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=&idSerie=&idAnime="+ idAnime+"&idLibro=&idVideojuegos=";
+            } else if (idLibro !=null) {
+                return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=&idSerie=&idAnime=&idLibro="+ idLibro +"&idVideojuegos=";
+            } else if (idVideojuegos !=null) {
+                return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=&idSerie=&idAnime=&idLibro=&idVideojuegos=" + idVideojuegos;
+            }
         }
         else {
             ElementoCompartido elementoCompartido = new ElementoCompartido();
@@ -284,42 +294,81 @@ public class CompartirController {
                 List<ElementoCompartido> listaExiste = amigoDestino.getElementoCompartidos().stream().filter(elemento -> elemento.getPelicula().equals(pelicula.get())).toList();
                 if (listaExiste.isEmpty()){
                     elementoCompartido.setPelicula(pelicula.get());
+                    elementoCompartido.setAmigos(amigoDestino);
                     amigoDestino.getElementoCompartidos().add(elementoCompartido);
                     compartirService.saveEntity(elementoCompartido);
                     amigoService.saveEntity(amigoDestino);
+                    attributes.addFlashAttribute("success", "has compartido la película " + pelicula.get().getTitulo() +" con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
+                    return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=" + idPelicula +"&idSerie=&idAnime=&idLibro=&idVideojuegos=";
                 }else {
-                    attributes.addFlashAttribute("failed", "ya has compartido la película: " + pelicula.get().getTitulo());
-                    return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=" + idPelicula +"&idSerie=" + idSerie + "&idAnime=" + idAnime +
-                            "&idLibro=" + idLibro + "&idVideojuego=" + idVideojuegos;
+                    attributes.addFlashAttribute("failed", "ya has compartido la película: " + pelicula.get().getTitulo() +" con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
+                    return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=" + idPelicula +"&idSerie=&idAnime=&idLibro=&idVideojuegos=";
                 }
 
+            } else if (idSerie != null) {
+                Optional<Serie> serie = serieService.getById(idSerie);
+                List<ElementoCompartido> listaExiste = amigoDestino.getElementoCompartidos().stream().filter(elemento -> elemento.getSerie().equals(serie.get())).toList();
+                if (listaExiste.isEmpty()){
+                    elementoCompartido.setSerie(serie.get());
+                    elementoCompartido.setAmigos(amigoDestino);
+                    amigoDestino.getElementoCompartidos().add(elementoCompartido);
+                    compartirService.saveEntity(elementoCompartido);
+                    amigoService.saveEntity(amigoDestino);
+                    attributes.addFlashAttribute("success", "has compartido la serie " + serie.get().getTitulo() +" con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
+                    return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=&idSerie=" + idSerie + "&idAnime=&idLibro=&idVideojuegos=";
+                }else {
+                    attributes.addFlashAttribute("failed", "ya has compartido la serie: " + serie.get().getTitulo() + " con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
+                    return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=&idSerie=" + idSerie + "&idAnime=&idLibro=&idVideojuegos=";
+                }
+            } else if (idAnime != null) {
+                Optional<Anime> anime = animeService.getById(idAnime);
+                List<ElementoCompartido> listaExiste = amigoDestino.getElementoCompartidos().stream().filter(elemento -> elemento.getAnime().equals(anime.get())).toList();
+                if (listaExiste.isEmpty()){
+                    elementoCompartido.setAnime(anime.get());
+                    elementoCompartido.setAmigos(amigoDestino);
+                    amigoDestino.getElementoCompartidos().add(elementoCompartido);
+                    compartirService.saveEntity(elementoCompartido);
+                    amigoService.saveEntity(amigoDestino);
+                    attributes.addFlashAttribute("success", "has compartido el anime " + anime.get().getTitulo() +" con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
+                    return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=&idSerie=&idAnime="+ idAnime+"&idLibro=&idVideojuegos=";
+                }else {
+                    attributes.addFlashAttribute("failed", "ya has compartido el anime: " + anime.get().getTitulo() + " con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
+                    return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=&idSerie=&idAnime="+ idAnime+"&idLibro=&idVideojuegos=";
+                }
+            } else if (idLibro != null) {
+                Optional<Libro> libro = libroService.getById(idLibro);
+                List<ElementoCompartido> listaExiste = amigoDestino.getElementoCompartidos().stream().filter(elemento -> elemento.getLibro().equals(libro.get())).toList();
+                if (listaExiste.isEmpty()){
+                    elementoCompartido.setLibro(libro.get());
+                    elementoCompartido.setAmigos(amigoDestino);
+                    amigoDestino.getElementoCompartidos().add(elementoCompartido);
+                    compartirService.saveEntity(elementoCompartido);
+                    amigoService.saveEntity(amigoDestino);
+                    attributes.addFlashAttribute("success", "has compartido el libro " + libro.get().getTitulo() +" con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
+                    return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=&idSerie=&idAnime=&idLibro="+ idLibro +"&idVideojuegos=";
+                }else {
+                    attributes.addFlashAttribute("failed", "ya has compartido el libro: " + libro.get().getTitulo() + " con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
+                    return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=&idSerie=&idAnime=&idLibro="+ idLibro +"&idVideojuegos=";
+                }
+            } else if (idVideojuegos!=null) {
+                Optional<Videojuego> videojuego = videojuegoService.getById(idVideojuegos);
+                List<ElementoCompartido> listaExiste = amigoDestino.getElementoCompartidos().stream().filter(elemento -> elemento.getVideojuego().equals(videojuego.get())).toList();
+                if (listaExiste.isEmpty()){
+                    elementoCompartido.setVideojuego(videojuego.get());
+                    elementoCompartido.setAmigos(amigoDestino);
+                    amigoDestino.getElementoCompartidos().add(elementoCompartido);
+                    compartirService.saveEntity(elementoCompartido);
+                    amigoService.saveEntity(amigoDestino);
+                    attributes.addFlashAttribute("success", "has compartido el videojuego " + videojuego.get().getTitulo() +" con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
+                    return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=&idSerie=&idAnime=&idLibro=&idVideojuegos=" + idVideojuegos;
+                }else {
+                    attributes.addFlashAttribute("failed", "ya has compartido el videojuego: " + videojuego.get().getTitulo() + " con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
+                    return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=&idSerie=&idAnime=&idLibro=&idVideojuegos=" + idVideojuegos;
+                }
             }
         }
-        attributes.addFlashAttribute("success", "has compartido correctamente");
-    return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=" + idPelicula +"&idSerie=" + idSerie + "&idAnime=" + idAnime +
-            "&idLibro=" + idLibro + "&idVideojuego=" + idVideojuegos;
-}
 
-}//        ElementoCompartido peliculaCompartida = new ElementoCompartido();
-//        peliculaCompartida.setPelicula(pelicula);
-//        amigo.getElementoCompartidos().add(peliculaCompartida);
-//        compartirService.saveEntity(peliculaCompartida);
-//        amigoService.saveEntity(amigo);
-//
-//@PathVariable(value = "idSerie",required = false)Integer idSerie,
-//@PathVariable(value = "idAnime",required = false)Integer idAnime,
-//@PathVariable(value = "idLibro",required = false)Integer idLibro,
-//@PathVariable(value = "idVideojuegos",required = false)Integer idVideojuegos,
-//}else if (idSerie != null) {
-//Optional<Serie> serie = serieService.getById(idSerie);
-//            model.addAttribute("serie",serie.get());
-//        } else if (idAnime != null) {
-//Optional<Anime> anime = animeService.getById(idAnime);
-//            model.addAttribute("anime",anime.get());
-//        } else if (idVideojuegos != null) {
-//Optional<Videojuego> videojuego = videojuegoService.getById(idVideojuegos);
-//            model.addAttribute("videojuego",videojuego.get());
-//        } else if (idLibro != null) {
-//Optional<Libro> libro = libroService.getById(idLibro);
-//            model.addAttribute("libro",libro.get());
-//        }
+        return "redirect:/amigos";
+    }
+
+}

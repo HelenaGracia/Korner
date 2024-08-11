@@ -13,8 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "elementos_compartidos", uniqueConstraints = {
-        @UniqueConstraint(columnNames={"id_amigos"})})
+@Table(name = "elementos_compartidos")
 public class ElementoCompartido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,6 +40,22 @@ public class ElementoCompartido {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_peliculas", foreignKey = @ForeignKey(name = "fk_peliculas_elemt_comp"))
     private Pelicula pelicula;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_series", foreignKey = @ForeignKey(name = "fk_series_elemt_comp"))
+    private Serie serie;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_animes", foreignKey = @ForeignKey(name = "fk_animes_elemt_comp"))
+    private Anime anime;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_libros", foreignKey = @ForeignKey(name = "fk_libros_elemt_comp"))
+    private Libro libro;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_videojuegos", foreignKey = @ForeignKey(name = "fk_videojuegos_elemt_comp"))
+    private Videojuego videojuego;
 
 
 }
