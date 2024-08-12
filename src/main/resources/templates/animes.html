@@ -42,6 +42,16 @@
                 <li class="nav-item mt-lg-3 me-lg-5 ">
                   <a class="nav-link active" th:href="@{/animes}">Animes</a>
                 </li>
+                <li class="nav-item  dropdown mt-lg-3 me-lg-5 ">
+                  <a class="nav-link dropdown-toggle" href="#"  role="button" data-bs-toggle="dropdown" aria-expanded="false">Compartidos</a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" th:href="@{/compartidos/peliculas}">Peliculas</a></li>
+                    <li><a class="dropdown-item" th:href="@{/compartidos/animes}">Animes</a></li>
+                    <li><a class="dropdown-item" th:href="@{/compartidos/series}">Series</a></li>
+                    <li><a class="dropdown-item" th:href="@{/compartidos/videojuegos}">Videojuegos</a></li>
+                    <li><a class="dropdown-item" th:href="@{/compartidos/libros}">Libros</a></li>
+                  </ul>
+                </li>
                 <li  class="nav-item mt-lg-3 me-lg-5"  >
                   <a sec:authorize="hasRole('ADMIN')" class="nav-link" th:href="@{/gestion}" >Gestión</a>
                 </li>

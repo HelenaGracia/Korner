@@ -43,6 +43,10 @@ public class UsuarioSecurityService extends AbstractService<Usuario,Integer, Usu
 
     }
 
+    public Optional<Usuario> getByName(String nombre) {
+        return usuarioRepository.findBynombre(nombre);
+    }
+
     public Page<Usuario> getAllUsuarios(String username,Pageable pageable) {
         return usuarioRepository.findAllByNombreContainingIgnoreCase(username, pageable);
     }

@@ -291,7 +291,7 @@ public class CompartirController {
             ElementoCompartido elementoCompartido = new ElementoCompartido();
             if (idPelicula != null){
                 Optional<Pelicula> pelicula = peliculaService.getById(idPelicula);
-                List<ElementoCompartido> listaExiste = amigoDestino.getElementoCompartidos().stream().filter(elemento -> elemento.getPelicula().equals(pelicula.get())).toList();
+                List<ElementoCompartido> listaExiste = amigoDestino.getElementoCompartidos().stream().filter(elemento -> elemento.getPelicula() != null).filter(elemento2 -> elemento2.getPelicula().equals(pelicula.get())).toList();
                 if (listaExiste.isEmpty()){
                     elementoCompartido.setPelicula(pelicula.get());
                     elementoCompartido.setAmigos(amigoDestino);
@@ -307,7 +307,7 @@ public class CompartirController {
 
             } else if (idSerie != null) {
                 Optional<Serie> serie = serieService.getById(idSerie);
-                List<ElementoCompartido> listaExiste = amigoDestino.getElementoCompartidos().stream().filter(elemento -> elemento.getSerie().equals(serie.get())).toList();
+                List<ElementoCompartido> listaExiste = amigoDestino.getElementoCompartidos().stream().filter(elemento -> elemento.getSerie() != null).filter(elemento2 -> elemento2.getSerie().equals(serie.get())).toList();
                 if (listaExiste.isEmpty()){
                     elementoCompartido.setSerie(serie.get());
                     elementoCompartido.setAmigos(amigoDestino);
@@ -322,7 +322,7 @@ public class CompartirController {
                 }
             } else if (idAnime != null) {
                 Optional<Anime> anime = animeService.getById(idAnime);
-                List<ElementoCompartido> listaExiste = amigoDestino.getElementoCompartidos().stream().filter(elemento -> elemento.getAnime().equals(anime.get())).toList();
+                List<ElementoCompartido> listaExiste = amigoDestino.getElementoCompartidos().stream().filter(elemento -> elemento.getAnime() != null).filter(elemento2->elemento2.getAnime().equals(anime.get())).toList();
                 if (listaExiste.isEmpty()){
                     elementoCompartido.setAnime(anime.get());
                     elementoCompartido.setAmigos(amigoDestino);
@@ -337,7 +337,7 @@ public class CompartirController {
                 }
             } else if (idLibro != null) {
                 Optional<Libro> libro = libroService.getById(idLibro);
-                List<ElementoCompartido> listaExiste = amigoDestino.getElementoCompartidos().stream().filter(elemento -> elemento.getLibro().equals(libro.get())).toList();
+                List<ElementoCompartido> listaExiste = amigoDestino.getElementoCompartidos().stream().filter(elemento -> elemento.getLibro() != null).filter(elemento2 -> elemento2.getLibro().equals(libro.get())).toList();
                 if (listaExiste.isEmpty()){
                     elementoCompartido.setLibro(libro.get());
                     elementoCompartido.setAmigos(amigoDestino);
@@ -352,7 +352,7 @@ public class CompartirController {
                 }
             } else if (idVideojuegos!=null) {
                 Optional<Videojuego> videojuego = videojuegoService.getById(idVideojuegos);
-                List<ElementoCompartido> listaExiste = amigoDestino.getElementoCompartidos().stream().filter(elemento -> elemento.getVideojuego().equals(videojuego.get())).toList();
+                List<ElementoCompartido> listaExiste = amigoDestino.getElementoCompartidos().stream().filter(elemento -> elemento.getVideojuego() != null).filter(elemento2 -> elemento2.getVideojuego().equals(videojuego.get())).toList();
                 if (listaExiste.isEmpty()){
                     elementoCompartido.setVideojuego(videojuego.get());
                     elementoCompartido.setAmigos(amigoDestino);

@@ -64,6 +64,7 @@ INSERT INTO amigos (id_amigos,id_amigo_origen,id_amigo_destino,bloqueados,pendie
 INSERT INTO amigos (id_amigos,id_amigo_origen,id_amigo_destino,bloqueados,pendientes) VALUES ("118","99","101",0,false);
 INSERT INTO amigos (id_amigos,id_amigo_origen,id_amigo_destino,bloqueados,pendientes) VALUES ("122","101","99",0,false);
 INSERT INTO amigos (id_amigos,id_amigo_origen,id_amigo_destino,bloqueados,pendientes) VALUES ("119","99","102",0,false);
+INSERT INTO amigos (id_amigos,id_amigo_origen,id_amigo_destino,bloqueados,pendientes) VALUES ("123","102","99",true,false);
 INSERT INTO amigos (id_amigos,id_amigo_origen,id_amigo_destino,bloqueados,pendientes) VALUES ("120","99","103",0,false);
 INSERT INTO amigos (id_amigos,id_amigo_origen,id_amigo_destino,bloqueados,pendientes) VALUES ("121","99","104",0,false);
 
