@@ -22,8 +22,8 @@ INSERT INTO roles (id_rol,nombre_rol) VALUES ("3","ROLE_USER");
 
 INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena,id_roles,ajustes) VALUES ("99","user","1998","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","3","animes");
 INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena, id_roles,ajustes) VALUES ("98","useradmin","1990","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","2","home");
-INSERT INTO usuarios (id_usuario,nombre,contrasena, id_roles) VALUES ("100","user1","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","3");
-INSERT INTO usuarios (id_usuario,nombre,contrasena, id_roles) VALUES ("101","user2","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","3");
+INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena, id_roles, ajustes) VALUES ("100","user1","2004","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","3", "home");
+INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena, id_roles, ajustes) VALUES ("101","user2","1963","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","3", "home");
 INSERT INTO usuarios (id_usuario,nombre,contrasena, id_roles) VALUES ("102","user3","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","3");
 INSERT INTO usuarios (id_usuario,nombre,contrasena, id_roles) VALUES ("103","user4","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","3");
 INSERT INTO usuarios (id_usuario,nombre,contrasena, id_roles) VALUES ("104","user5","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","3");
@@ -61,6 +61,12 @@ INSERT INTO amigos (id_amigos,id_amigo_origen,id_amigo_destino,bloqueados,pendie
 INSERT INTO amigos (id_amigos,id_amigo_origen,id_amigo_destino,bloqueados,pendientes) VALUES ("115","101","117",1,false);
 INSERT INTO amigos (id_amigos,id_amigo_origen,id_amigo_destino,bloqueados,pendientes) VALUES ("116","101","118",1,false);
 INSERT INTO amigos (id_amigos,id_amigo_origen,id_amigo_destino,bloqueados,pendientes) VALUES ("117","101","119",0,false);
+INSERT INTO amigos (id_amigos,id_amigo_origen,id_amigo_destino,bloqueados,pendientes) VALUES ("118","99","101",0,false);
+INSERT INTO amigos (id_amigos,id_amigo_origen,id_amigo_destino,bloqueados,pendientes) VALUES ("122","101","99",0,false);
+INSERT INTO amigos (id_amigos,id_amigo_origen,id_amigo_destino,bloqueados,pendientes) VALUES ("119","99","102",0,false);
+INSERT INTO amigos (id_amigos,id_amigo_origen,id_amigo_destino,bloqueados,pendientes) VALUES ("123","102","99",true,false);
+INSERT INTO amigos (id_amigos,id_amigo_origen,id_amigo_destino,bloqueados,pendientes) VALUES ("120","99","103",0,false);
+INSERT INTO amigos (id_amigos,id_amigo_origen,id_amigo_destino,bloqueados,pendientes) VALUES ("121","99","104",0,false);
 
 
 INSERT INTO peliculas (id,id_pelicula_usuarios,titulo, year, puntuacion, opinion, trailer) VALUES ("1006","99","Shoujo Kageki Revue Starlight the movie","2020","5","opinion de prueba","https://www.youtube.com/embed/AAabX4HO8xA?si=7bd5QYheVkxFF8aO");

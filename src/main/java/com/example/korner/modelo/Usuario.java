@@ -15,7 +15,7 @@ import java.util.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Table(name = "usuarios")
+@Table(name = "usuarios",uniqueConstraints = @UniqueConstraint(columnNames = {"nombre"}))
 public class Usuario implements Serializable, UserDetails {
 
     @Id
