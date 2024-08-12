@@ -35,7 +35,7 @@ public class CompartidosController {
 
 
     @GetMapping("/compartidos/peliculas")
-    public String compartidos(@RequestParam(value = "nombreUsuario", required = false) String nombreUsuario,
+    public String compartidosPeliculas(@RequestParam(value = "nombreUsuario", required = false) String nombreUsuario,
                               @RequestParam(value = "page") Optional<Integer> page,
                               HttpSession session,Model model) {
         Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
