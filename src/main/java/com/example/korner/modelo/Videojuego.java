@@ -17,7 +17,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "videojuegos",uniqueConstraints = @UniqueConstraint(columnNames = "titulo"),
+@Table(name = "videojuegos",uniqueConstraints = @UniqueConstraint(columnNames = {"titulo","id_videojuego_usuarios"}),
         indexes = {@Index(name = "indice1",columnList = "titulo"),
                 @Index(name = "indice2",columnList = "year"),
                 @Index(name = "indice3",columnList = "puntuacion")})

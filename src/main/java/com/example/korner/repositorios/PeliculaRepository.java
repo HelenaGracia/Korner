@@ -10,6 +10,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 
 public interface PeliculaRepository extends JpaRepository<Pelicula, Integer> {
@@ -25,9 +27,9 @@ public interface PeliculaRepository extends JpaRepository<Pelicula, Integer> {
 
     Page<Pelicula> findAllByPlataformasPeliculaAndUsuarioPelicula(Plataforma plataforma, Usuario usuario, Pageable pageable);
 
-    Page<Pelicula> findAllByPuntuacionAndGenerosPeliculaAndYearAndPlataformasPeliculaAndUsuarioPelicula(
-            Integer puntuacion, GeneroElementoCompartido genero, Integer year, Plataforma plataforma, Usuario usuario, Pageable pageable);
+    Page<Pelicula> findAllByPuntuacionAndGenerosPeliculaAndYearAndPlataformasPeliculaAndUsuarioPelicula(Integer puntuacion, GeneroElementoCompartido genero, Integer year, Plataforma plataforma, Usuario usuario, Pageable pageable);
 
+    Page<Pelicula> findAllByIdIn(List<Integer> ids, Pageable pageable);
 
-
+    Page<Pelicula> findAllByIdInAndUsuarioPelicula(List<Integer> ids,Usuario usuario, Pageable pageable);
 }

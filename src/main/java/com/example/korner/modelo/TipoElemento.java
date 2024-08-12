@@ -23,8 +23,8 @@ public class TipoElemento {
     @Column(name = "descripcion", length = 45)
     private String descripcion;
 
-    @OneToMany (mappedBy = "tipoElemento", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<ElementoCompartido> elementoCompartidos;
+//    @OneToMany (mappedBy = "tipoElemento", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private Set<ElementoCompartido> elementoCompartidos;
 
     @OneToMany (mappedBy = "tipoElemento", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<GeneroElementoCompartido> GeneroElementoCompartidos;

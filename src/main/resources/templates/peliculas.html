@@ -42,6 +42,16 @@
                         <li class="nav-item mt-lg-3 me-lg-5 ">
                             <a class="nav-link" th:href="@{/animes}">Animes</a>
                         </li>
+                        <li class="nav-item  dropdown mt-lg-3 me-lg-5 ">
+                            <a class="nav-link dropdown-toggle" href="#"  role="button" data-bs-toggle="dropdown" aria-expanded="false">Compartidos</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" th:href="@{/compartidos/peliculas}">Peliculas</a></li>
+                                <li><a class="dropdown-item" th:href="@{/compartidos/animes}">Animes</a></li>
+                                <li><a class="dropdown-item" th:href="@{/compartidos/series}">Series</a></li>
+                                <li><a class="dropdown-item" th:href="@{/compartidos/videojuegos}">Videojuegos</a></li>
+                                <li><a class="dropdown-item" th:href="@{/compartidos/libros}">Libros</a></li>
+                            </ul>
+                        </li>
                         <li  class="nav-item mt-lg-3 me-lg-5"  >
                             <a sec:authorize="hasRole('ADMIN')" class="nav-link" th:href="@{/gestion}" >Gestión</a>
                         </li>
@@ -513,11 +523,14 @@
                         <div class="modal-content">
                             <!-- Imagen Película -->
                             <div class="modal-header space-down">
-                                <img th:src="${pelicula.imagenRuta}" alt="Garfield: La Película" class="custom-section-image"/>
+                                <img th:src="${pelicula.imagenRuta}" alt="Imagen de la película" class="custom-section-image"/>
                             </div>
                             <!-- Icono de compartir -->
                             <button class="btn-share">
-                                <img th:src="@{/img/icono_compartir.png}" alt="Compartir" class="share-icon">
+                                <a th:href="@{/compartir/pelicula/{idPelicula} (idPelicula = ${pelicula.id})}">
+                                    <img th:src="@{/img/icono_compartir.png}" alt="Compartir" class="share-icon">
+                                </a>
+
                             </button>
                             <!-- Título, Año, Géneros y Plataforma Película -->
                             <div class="modal-body">
@@ -548,7 +561,7 @@
                                 <h6>Puntuación:</h6>
                                 <div class="modal-rating space-down d-flex align-items-center">
 
-                                    <h6 style="font-weight:bold;" th:text="${pelicula.puntuacion}"></h6>
+                                    <h6 style="font-weight:bold;" th:text="${pelicula.puntuacion}">10</h6>
                                     <h6 style="font-weight:bold;" >/5</h6>
                                 </div>
                             </div>
@@ -634,10 +647,8 @@
                     </div>
                 </div>
                 <!-- FIN PAGINACION -->
-
-
+            </div>
         </div>
-
     </main>
 
 

@@ -1,13 +1,12 @@
 package com.example.korner.servicio;
 
-import com.example.korner.modelo.GeneroElementoCompartido;
-import com.example.korner.modelo.Pelicula;
-import com.example.korner.modelo.Plataforma;
-import com.example.korner.modelo.Usuario;
+import com.example.korner.modelo.*;
 import com.example.korner.repositorios.PeliculaRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PeliculaServiceImpl extends AbstractService<Pelicula,Integer, PeliculaRepository>{
@@ -48,5 +47,13 @@ public class PeliculaServiceImpl extends AbstractService<Pelicula,Integer, Pelic
             Plataforma plataforma, Usuario usuario, Pageable pageable){
         return peliculaRepository.findAllByPuntuacionAndGenerosPeliculaAndYearAndPlataformasPeliculaAndUsuarioPelicula(
                 puntuacion,genero,year,plataforma, usuario, pageable);
+    }
+
+    public Page<Pelicula> getAllPeliculasCompartidosByListId(List<Integer> listId, Pageable page){
+        return peliculaRepository.findAllByIdIn(listId, page);
+    }
+
+    public Page<Pelicula> getAllPeliculasCompartidosByListIdAndUsuario(List<Integer> listId, Usuario usuario, Pageable page){
+        return peliculaRepository.findAllByIdInAndUsuarioPelicula(listId,usuario, page);
     }
 }
