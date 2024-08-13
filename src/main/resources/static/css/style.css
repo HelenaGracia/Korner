@@ -1,4 +1,6 @@
 /* **************Custom properties************** */
+
+
 :root{
     --firts-color:rgb(197,54,120);
     
@@ -45,11 +47,18 @@ nav li a img{
 .nav-link {
     color: var(--bs-white);
     padding-top: 1.3rem;
-    margin-right: 2rem;
+    margin-right: 1.5rem;
 }
 
 .nav-link:hover {
     color: var(--bs-black);
+}
+
+.dropdown-item.active, .dropdown-item:active {
+    color: var(--second-color);
+
+    text-decoration: none;
+    background-color: var(--bs-white);
 }
 
 /* Fondo rosa */
@@ -679,7 +688,23 @@ nav li a img{
         position: absolute;
         top:3.938rem;
         right:2.118rem ;
-        box-shadow: 0 0.3rem 0.5rem 0 rgba(0,0,0,0.2) 0, 0.4rem, 1.3rem, 0, rgba(0, 0, 0, 0.19) 
+        box-shadow: 0 0.3rem 0.5rem 0 rgba(0,0,0,0.2) 0, 0.4rem, 1.3rem, 0, rgba(0, 0, 0, 0.19)
+    }
+}
+
+@media (min-width: 1050px) and (max-width: 1205px){
+    .nav-link {
+        color: var(--bs-white);
+        padding-top: 1.3rem;
+        margin-right: 1.0rem;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1049px){
+    .nav-link {
+        color: var(--bs-white);
+        padding-top: 1.3rem;
+        margin-right: 0.5rem;
     }
 }
 
