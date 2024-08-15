@@ -13,7 +13,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Table(name = "plataformas_videojuegos")
+@Table(name = "plataformas_videojuegos",uniqueConstraints = @UniqueConstraint(columnNames = {"nombre_plataforma_videojuego"}))
 public class PlataformaVideojuego {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

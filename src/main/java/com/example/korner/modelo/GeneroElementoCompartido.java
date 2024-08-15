@@ -1,7 +1,6 @@
 package com.example.korner.modelo;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import java.io.Serializable;
@@ -11,6 +10,7 @@ import java.io.Serializable;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Table(name = "generos_elementos_compartidos", uniqueConstraints = @UniqueConstraint(columnNames = "nombre_genero"))
 public class GeneroElementoCompartido implements Serializable{
   
@@ -19,21 +19,12 @@ public class GeneroElementoCompartido implements Serializable{
     @Column(name = "id_genero_elemt_compart", nullable = false)
     private Integer id;
 
-    @Column (name = "nombre_genero" , length = 45)
+    @Column (name = "nombre_genero" , length = 30)
     @Size(min = 2, message = "Debe tener como mínimo 2 caracter")
     @Size(max = 30,  message = "Debe tener como máximo 30 caracteres")
     private String nombre;
 
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_tipo_elemento", foreignKey = @ForeignKey(name = "fk_tipo_elemento_genero_elem_comp"))
-    private TipoElemento tipoElemento;
 
-    @Override
-    public String toString() {
-        return "GeneroElementoCompartido{" +
-                "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                ", tipoElemento=" + tipoElemento +
-                '}';
-    }
+
+
 }

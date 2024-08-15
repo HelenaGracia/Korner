@@ -17,19 +17,21 @@ import java.util.stream.IntStream;
 
 @Controller
 public class CompartidosController {
-
+  
     private final CompartirServiceImpl compartirService;
     private final AmigoServiceImpl amigoService;
     private final PeliculaServiceImpl peliculaService;
     private final UsuarioSecurityService usuarioService;
     private final AnimeServiceImpl animeService;
-
-    public CompartidosController(CompartirServiceImpl compartirService, AmigoServiceImpl amigoService, PeliculaServiceImpl peliculaService, UsuarioSecurityService usuarioService, AnimeServiceImpl animeService) {
+    private final VideojuegoServiceImpl videojuegoService;
+ 
+    public CompartidosController(CompartirServiceImpl compartirService, AmigoServiceImpl amigoService, PeliculaServiceImpl peliculaService, UsuarioSecurityService usuarioService, AnimeServiceImpl animeService, VideojuegoServiceImpl videojuegoService) {
         this.compartirService = compartirService;
         this.amigoService = amigoService;
         this.peliculaService = peliculaService;
         this.usuarioService = usuarioService;
         this.animeService = animeService;
+        this.videojuegoService = videojuegoService;
     }
 
 
@@ -146,10 +148,126 @@ public class CompartidosController {
         model.addAttribute("size", pagina.getContent().size());
         return "animesCompartidos";
     }
+  
+  @GetMapping("/compartidos/videojuegos")
+    public String compartidosVideojuegos(@RequestParam(value = "nombreUsuario", required = false) String nombreUsuario,
+                                       @RequestParam(value = "page") Optional<Integer> page,
+                                       HttpSession session,Model model) {
+        Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
+        List<ElementoCompartido> listElementosCompartidos = compartirService.getAllAmigosByAmigoOrigen(user.get());
+ 
+        List<Integer> listVideojuegoId = listElementosCompartidos.stream().map(ElementoCompartido::getVideojuego).filter(videojuego -> videojuego != null).map(Videojuego::getId).toList();
+ 
+        int currentPage = page.orElse(1);
+        PageRequest pageRequest = PageRequest.of(currentPage - 1, 4);
+        Page<Videojuego> pagina=null ;
+ 
+        if(nombreUsuario== null || nombreUsuario.isBlank()){
+            pagina = videojuegoService.getAllVideojuegosCompartidosByListId(listVideojuegoId,pageRequest);
+            model.addAttribute("videojuegos",pagina.getContent());
+        }else{
+            model.addAttribute("nombreUsuario", nombreUsuario);
+            Optional<Usuario> usuarioBusqueda = usuarioService.getByName(nombreUsuario);
+            if(usuarioBusqueda.isPresent()){
+                pagina = videojuegoService.getAllVideojuegosCompartidosByListIdAndUsuario(listVideojuegoId,usuarioBusqueda.get(), pageRequest);
+                Amigo amigoExiste = amigoService.getAmigo(usuarioBusqueda.get(),user.get());
+                if(amigoExiste != null){
+                    if(pagina.getContent().isEmpty()){
+                        pagina = videojuegoService.getAllVideojuegosCompartidosByListId(listVideojuegoId,pageRequest);
+                        model.addAttribute("failed", "El usuario " + nombreUsuario + " no ha compartido ningún videojuego contigo");
+                        model.addAttribute("videojuegos", pagina.getContent());
+                    } else {
+                        model.addAttribute("videojuegos",pagina.getContent());
+                    }
+                } else {
+                    pagina = videojuegoService.getAllVideojuegosCompartidosByListId(listVideojuegoId,pageRequest);
+                    model.addAttribute("failed", "El usuario " + nombreUsuario + " no es amigo tuyo");
+                    model.addAttribute("videojuegos",pagina.getContent());
+                }
+ 
+            } else {
+                model.addAttribute("failed", "El usuario " + nombreUsuario + " no existe");
+                pagina = videojuegoService.getAllVideojuegosCompartidosByListId(listVideojuegoId,pageRequest);
+                model.addAttribute("videojuegos",pagina.getContent());
+            }
+        }
+ 
+ 
+        model.addAttribute("pagina", pagina);
+        int totalPages = pagina.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("size", pagina.getContent().size());
+        return "videojuegosCompartidos";
+    }
 }
 
-//        List<Integer> listAnimeId = listElementosCompartidos.stream().map(ElementoCompartido::getAnime).filter(anime -> anime != null).map(Anime::getId).toList();
-//        List<Integer> listSerieId = listElementosCompartidos.stream().map(ElementoCompartido::getSerie).filter(serie -> serie != null).map(Serie::getId).toList();
-//        List<Integer> listVideojuegoId = listElementosCompartidos.stream().map(ElementoCompartido::getVideojuego).filter(videojuego -> videojuego != null).map(Videojuego::getId).toList();
-//        List<Integer> listLibroId = listElementosCompartidos.stream().map(ElementoCompartido::getLibro).filter(libro -> libro != null).map(Libro::getId).toList();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
