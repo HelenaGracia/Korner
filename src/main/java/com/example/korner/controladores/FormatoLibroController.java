@@ -1,12 +1,11 @@
 package com.example.korner.controladores;
 
-import com.example.korner.modelo.GeneroElementoCompartido;
-import com.example.korner.modelo.Pelicula;
-import com.example.korner.modelo.Plataforma;
-import com.example.korner.servicio.GeneroElementoServiceImpl;
+import com.example.korner.modelo.FormatoLibro;
+import com.example.korner.modelo.PlataformaVideojuego;
+import com.example.korner.servicio.FormatoLibroServiceImpl;
+import com.example.korner.servicio.PlataformaVideojuegoServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,100 +23,100 @@ import java.util.stream.IntStream;
 
 
 @Controller
-@RequestMapping("/generosElementos")
-public class GeneroElementoController {
+@RequestMapping("/formatosLibros")
+public class FormatoLibroController {
 
 
-    private final GeneroElementoServiceImpl generoElementoService;
+    private final FormatoLibroServiceImpl formatoLibroService;
 
-    private final Logger logger = LoggerFactory.getLogger(GeneroElementoController.class);
+    private final Logger logger = LoggerFactory.getLogger(FormatoLibroController.class);
 
-    public GeneroElementoController(GeneroElementoServiceImpl generoElementoService) {
-        this.generoElementoService = generoElementoService;
+    public FormatoLibroController( FormatoLibroServiceImpl formatoLibroService) {
+        this.formatoLibroService = formatoLibroService;
     }
-
 
     @GetMapping("")
-    public String showGenerosElementos(Model model, @RequestParam("page") Optional<Integer> page){
+    public String showFormatosLibros(Model model, @RequestParam("page") Optional<Integer> page){
 
         paginacion(model,page);
-        GeneroElementoCompartido genero = new GeneroElementoCompartido();
-        model.addAttribute("datosGenero", genero);
-        return "generosElementos";
+        FormatoLibro formatoLibro = new FormatoLibro();
+        model.addAttribute("datosFormato", formatoLibro);
+        return "formatosLibros";
     }
 
-    @PostMapping("/saveGeneroElemento")
-    public String saveGeneroElemento(@Validated @ModelAttribute(name = "datosGenero") GeneroElementoCompartido generoElementoCompartido,
+    @PostMapping("/saveFormato")
+    public String saveFormato(@Validated @ModelAttribute(name = "datosFormato") FormatoLibro formato,
+                               BindingResult bindingResult, RedirectAttributes attributes,
+                                 @RequestParam("page") Optional<Integer> page,
+                                 Model model){
+        paginacion(model,page);
+
+        if (bindingResult.hasErrors()){
+            model.addAttribute("formatoActual", -1);
+            attributes.addFlashAttribute("failed", "Error al introducir los datos en el formulario");
+            return "formatosLibros";
+
+        }else {
+            try {
+                logger.info("este es el objeto formato libro recibido{}", formato);
+                formatoLibroService.saveEntity(formato);
+                logger.info("este es el objeto formato libro guardado{}", formato);
+                attributes.addFlashAttribute("success", "Elemento añadido correctamente");
+            }catch (DataIntegrityViolationException e){
+                logger.error("Error al añadir el formato libro", e);
+                attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
+            } catch (Exception e){
+                logger.error("Error al añadir el formato libro", e);
+                attributes.addFlashAttribute("failed", "Error");
+            }
+            return "redirect:/formatosLibros";
+        }
+
+    }
+
+
+    @PostMapping("/saveFormatoModificar")
+    public String saveFormatoModificar(@Validated @ModelAttribute(name = "datosFormato") FormatoLibro formato,
                                  BindingResult bindingResult, RedirectAttributes attributes,
-                                     @RequestParam("page") Optional<Integer> page,
-                                     Model model){
-        paginacion(model,page);
+                                          @RequestParam("page") Optional<Integer> page,
+                                          Model model){
+        paginacion(model, page);
 
         if (bindingResult.hasErrors()){
-            model.addAttribute("generoElementoActual", -1);
+            model.addAttribute("formatoActual", formato.getId());
             attributes.addFlashAttribute("failed", "Error al introducir los datos en el formulario");
-            return "generosElementos";
+            return "formatosLibros";
 
         }else {
             try {
-                logger.info("este es el objeto genero recibido{}", generoElementoCompartido);
-                generoElementoService.saveEntity(generoElementoCompartido);
-                logger.info("este es el objeto genero guardado{}", generoElementoCompartido);
+                logger.info("este es el objeto formato libro recibido{}", formato);
+                formatoLibroService.saveEntity(formato);
+                logger.info("este es el objeto formato Libro guardado{}", formato);
                 attributes.addFlashAttribute("success", "Elemento añadido correctamente");
             }catch (DataIntegrityViolationException e){
-                logger.error("Error al añadir el genero del elemento", e);
+                logger.error("Error al modificar el formato libro", e);
                 attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
             } catch (Exception e){
-                logger.error("Error al añadir el genero del elemento", e);
+                logger.error("Error al modificar el formato libro", e);
                 attributes.addFlashAttribute("failed", "Error");
             }
-            return "redirect:/generosElementos";
-        }
-
-    }
-
-    @PostMapping("/saveGeneroElementoModificar")
-    public String saveGeneroElementoModificar(@Validated @ModelAttribute(name = "datosGenero") GeneroElementoCompartido generoElementoCompartido,
-                                     BindingResult bindingResult, RedirectAttributes attributes,
-                                     @RequestParam("page") Optional<Integer> page,
-                                     Model model){
-        paginacion(model,page);
-
-        if (bindingResult.hasErrors()){
-            model.addAttribute("generoElementoActual", generoElementoCompartido.getId());
-            attributes.addFlashAttribute("failed", "Error al introducir los datos en el formulario");
-            return "generosElementos";
-
-        }else {
-            try {
-                logger.info("este es el objeto genero recibido{}", generoElementoCompartido);
-                generoElementoService.saveEntity(generoElementoCompartido);
-                logger.info("este es el objeto genero guardado{}", generoElementoCompartido);
-                attributes.addFlashAttribute("success", "Elemento añadido correctamente");
-            }catch (DataIntegrityViolationException e){
-                logger.error("Error al modificar el genero elemento", e);
-                attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
-            } catch (Exception e){
-                logger.error("Error al modificar el genero elemento", e);
-                attributes.addFlashAttribute("failed", "Error");
-            }
-            return "redirect:/generosElementos";
+            return "redirect:/formatosLibros";
         }
 
     }
 
 
-    @PostMapping("/deleteGenero")
-    public String deleteGenero(GeneroElementoCompartido generoElementoCompartido, RedirectAttributes attributes){
+    @PostMapping("/deleteFormato")
+    public String deleteFormato(FormatoLibro formato, RedirectAttributes attributes){
         try {
-            logger.info("este es el objeto genero eliminado{}", generoElementoCompartido);
-            generoElementoService.deleteEntity(generoElementoCompartido);
+            logger.info("este es el objeto formato libro eliminado{}", formato);
+            formatoLibroService.deleteEntity(formato);
             attributes.addFlashAttribute("success", "Elemento borrado");
         }catch (Exception e){
             attributes.addFlashAttribute("failed", "Error al eliminar");
-            logger.error("Error al eliminar el genero elemento", e);
+            logger.error("Error al eleminar el formato libro", e);
         }
-        return "redirect:/generosElementos";
+        return "redirect:/formatosLibros";
     }
 
     private void paginacion(Model model, Optional<Integer> page){
@@ -129,7 +128,7 @@ public class GeneroElementoController {
          se crea un objeto page que es el encargado de rellenar en la pagina que le has indicado con la cantidad
          que le has dicho todos los objetos pelicula almacenados, es decir, crea la pagina que visualizas con el contenido
          */
-        Page<GeneroElementoCompartido> pagina = generoElementoService.findAll(pageRequest);
+        Page<FormatoLibro> pagina = formatoLibroService.findAll(pageRequest);
 
         //Envio la pagina creada a la vista para poder verla
         model.addAttribute("pagina", pagina);
@@ -154,7 +153,9 @@ public class GeneroElementoController {
 
         model.addAttribute("size", pagina.getContent().size());
 
-        model.addAttribute("generos", pagina.getContent());
+        model.addAttribute("formatos", pagina.getContent());
+
+
 
     }
 

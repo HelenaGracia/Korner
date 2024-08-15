@@ -186,6 +186,10 @@
                                     <h5 class="modal-title"><b th:text="${videojuego.titulo}"></b></h5>
                                 </div>
                                 <div class="space-down">
+                                    <h6>Compartido por: </h6>
+                                    <h6 ><b th:text="${videojuego.usuarioVideojuego.getNombre()}"></b></h6>
+                                </div>
+                                <div class="space-down">
                                     <h6>Año jugado:</h6>
                                     <h6 th:text="${videojuego.year}"></h6>
                                 </div>

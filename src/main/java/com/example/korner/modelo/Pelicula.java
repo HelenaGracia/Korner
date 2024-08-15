@@ -16,7 +16,6 @@ import java.util.Set;
                 @Index(name = "indice3",columnList = "puntuacion")})
 public class Pelicula  extends AbstractEntity{
     @Column (name = "trailer" , length = 1000)
-    @NotBlank
     private String trailerRuta;
 
 

@@ -1,7 +1,6 @@
 package com.example.korner.modelo;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
@@ -33,16 +32,20 @@ public class Libro  extends AbstractEntity{
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn (name = "id_libro_usuarios")
     private Usuario usuarioLibro;
-    
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn (name = "id_tipo_formatos")
-    private TipoFormatos tipoFormatos;
+
+    @ManyToMany (fetch = FetchType.LAZY)
+    @JoinTable(name = "libro_formato", joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "id_tipo_formato"))
+    @NotEmpty
+    private Set<FormatoLibro> formatosLibros;
 
     @Override
     public String toString() {
         return "Libro{" +
-                ", plataformasLibro=" + plataformasLibro +
-                ", generoElementoCompartidoLibro=" + generosLibro +
-                '}'+ super.toString();
+                "plataformasLibro=" + plataformasLibro +
+                ", generosLibro=" + generosLibro +
+                ", usuarioLibro=" + usuarioLibro +
+                ", formatosLibros=" + formatosLibros +
+                '}' + super.toString();
     }
 }

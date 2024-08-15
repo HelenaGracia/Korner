@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.springframework.data.web.SortDefault;
 
 @Entity
 @Getter
@@ -11,7 +12,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Table(name = "plataformas", uniqueConstraints = @UniqueConstraint(columnNames = "nombre_plataforma"))
+@Table(name = "plataformas", uniqueConstraints =@UniqueConstraint(columnNames = "nombre_plataforma"))
+
 public class Plataforma {
 
     @Id
@@ -27,7 +29,4 @@ public class Plataforma {
 
 
 
-    @ManyToOne (fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_tipos_elementos", foreignKey = @ForeignKey(name = "fk_tipos_elementos_plataforma"))
-    private TipoElemento tipoElemento;
 }

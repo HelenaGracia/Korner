@@ -692,7 +692,7 @@ nav li a img{
     }
 }
 
-@media (min-width: 1050px) and (max-width: 1205px){
+@media (min-width: 1077px) and (max-width: 1230px){
     .nav-link {
         color: var(--bs-white);
         padding-top: 1.3rem;
@@ -700,7 +700,7 @@ nav li a img{
     }
 }
 
-@media (min-width: 992px) and (max-width: 1049px){
+@media (min-width: 992px) and (max-width: 1076px){
     .nav-link {
         color: var(--bs-white);
         padding-top: 1.3rem;

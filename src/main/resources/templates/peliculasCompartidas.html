@@ -182,8 +182,13 @@
                             </div>
                             <!-- Título, Año, Géneros y Plataforma Película -->
                             <div class="modal-body">
+
                                 <div class="space-down">
                                     <h5 class="modal-title"><b th:text="${pelicula.titulo}"></b></h5>
+                                </div>
+                                <div class="space-down">
+                                    <h6>Compartido por: </h6>
+                                    <h6 ><b th:text="${pelicula.usuarioPelicula.getNombre()}"></b></h6>
                                 </div>
                                 <div class="space-down">
                                     <h6>Año de visualización:</h6>
@@ -214,7 +219,7 @@
                                 </div>
                             </div>
                             <!-- Tráiler -->
-                            <div class="yt-trailer">
+                            <div th:unless="${ pelicula.trailerRuta.isBlank()}" class="yt-trailer">
                                 <iframe
                                         th:src="${pelicula.trailerRuta}"
                                         allow="autoplay; encrypted-media; gyroscope; picture-in-picture"

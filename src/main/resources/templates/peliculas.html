@@ -567,7 +567,7 @@
                                 </div>
                             </div>
                             <!-- Tráiler -->
-                            <div class="yt-trailer">
+                            <div th:unless="${ pelicula.trailerRuta.isBlank()}" class="yt-trailer">
                                 <iframe
                                         th:src="${pelicula.trailerRuta}"
                                         allow="autoplay; encrypted-media; gyroscope; picture-in-picture"

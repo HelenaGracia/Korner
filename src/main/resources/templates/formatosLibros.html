@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Formatos Libros</title>
+  <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css}" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"/>
+  <link rel="preconnect" th:href="@{https://fonts.googleapis.com}"/>
+  <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css}"/>
+  <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin/>
+  <link th:href="@{https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap}" rel="stylesheet"/>
+  <link rel="stylesheet" th:href="@{/css/style.css}"/>
+  <link rel="icon" th:href="@{/img/favicon.ico}"/>
+  <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js}" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+  <div class="page-container">
+      <header>
+        <nav class="navbar sticky-top navbar-expand-lg bg-primary" >
+          <div class="container">
+            <a class="navbar-brand" th:href="@{/home}">
+              <img th:src="@{/img/LogoSinFondo.svg}" alt="logo Korner">
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse  justify-content-evenly" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item mt-lg-3  me-xl-3  ">
+                  <a class="nav-link" th:href="@{/peliculas}">Peliculas</a>
+                </li>
+                <li class="nav-item mt-lg-3  me-xl-3 ">
+                  <a class="nav-link" th:href="@{/videojuegos}">Videojuegos</a>
+                </li>
+                <li class="nav-item mt-lg-3  me-xl-3 ">
+                  <a class="nav-link" th:href="@{/series}">Series</a>
+                </li>
+                <li class="nav-item mt-lg-3  me-xl-3 ">
+                  <a class="nav-link" th:href="@{/libros}">Libros</a>
+                </li>
+                <li class="nav-item mt-lg-3  me-xl-3  ">
+                  <a class="nav-link" th:href="@{/animes}">Animes</a>
+                </li>
+                <li class="nav-item  dropdown mt-lg-3  me-xl-3 ">
+                  <a class="nav-link dropdown-toggle " href="#"  role="button" data-bs-toggle="dropdown" aria-expanded="false">Compartidos</a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" th:href="@{/compartidos/peliculas}">Peliculas</a></li>
+                    <li><a class="dropdown-item" th:href="@{/compartidos/animes}">Animes</a></li>
+                    <li><a class="dropdown-item" th:href="@{/compartidos/series}">Series</a></li>
+                    <li><a class="dropdown-item" th:href="@{/compartidos/videojuegos}">Videojuegos</a></li>
+                    <li><a class="dropdown-item" th:href="@{/compartidos/libros}">Libros</a></li>
+                  </ul>
+                </li>
+                <li class="nav-item  dropdown mt-lg-3  me-xl-2 ">
+                  <a class="nav-link dropdown-toggle active" href="#"  role="button" data-bs-toggle="dropdown" aria-expanded="false">Gestión</a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" th:href="@{/usuarios}">Usuarios</a></li>
+                    <li><a class="dropdown-item" th:href="@{/generosElementos}">Géneros Elementos</a></li>
+                    <li><a class="dropdown-item" th:href="@{/plataformasElementos}">Plataformas Elementos</a></li>
+                    <li><a class="dropdown-item active" th:href="@{/formatosLibros}">Formatos Libros</a></li>
+                    <li><a class="dropdown-item" th:href="@{/plataformasVideojuegos}">Plataformas Videojuegos</a></li>
+                    <li><a class="dropdown-item" th:href="@{/generosUsuarios}">Géneros Usuarios</a></li>
+                  </ul>
+                </li>
+                <li class="nav-item ms-lg-2 ms-xl-2">
+                  <a class="" href="#" role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                    <img th:src="@{/img/Nevernight.jpg}" alt="imagen perfil" >
+                  </a>
+                </li>
+                <li class="nav-item mt-lg-4 ms-lg-2 ms-xl-3">
+                  <a href="#" role="button" class="position-relative" data-bs-toggle="modal" data-bs-target="#modal-noti">
+                    <span class="position-absolute top-0  start-100 translate-middle badge rounded-pill bg-danger">9</span>
+                    <i class="bi bi-bell fs-3 text-black"></i>
+                    <span class="visually-hidden">Notificaciones no leidas</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <!-- Modal Notificaciones -->
+      <div class="modal fade" id="modal-noti" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">Notificaciones</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              ...
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Understood</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- OffCanvas Perfil -->
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasRightLabel">Perfil</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <img th:src="@{/img/Nevernight.jpg}" alt="imagen perfil" class="img-perfil" >
+            <a href="" class="nombre-perfil" >VictorMer</a>
+            <a th:href="@{/ajustes}" class="btn btn-primary boton-perfil" >Ajustes</a>
+            <a th:href="@{/amigos}" class="btn btn-primary boton-perfil" >Amigos</a>
+            <a th:href="@{/logout}" class="btn btn-primary boton-perfil" >Cerrar sesión</a>
+        </div>
+      </div>
+
+    <!-- MODAL FORMULARIO AÑADIR FORMATO LIBRO -->
+
+    <div class="modal fade" id="modalFormatoAñadir" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel">AÑADIR FORMATO LIBRO</h1>
+            <a th:href="@{/formatosLibros}" class="btn btn-close"></a>
+          </div>
+          <div class="modal-body">
+            <form th:action="@{/formatosLibros/saveFormato}" method="post" enctype="multipart/form-data" th:object="${datosFormato}">
+              <script th:inline="javascript" th:if="${#fields.hasErrors('*') and  formatoActual == -1}">/*<![CDATA[*/ $(document).ready(function () { $('#modalFormatoAñadir').modal('show');}); /*]]>*/</script>
+              <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" th:field="*{nombre}" >
+                <p th:if="${#fields.hasErrors('nombre')}" th:errorclass="error" th:errors="*{nombre}"></p>
+              </div>
+              <div class="d-flex justify-content-end ">
+                <a th:href="@{/formatosLibros}" class="btn btn-secondary me-2">Cerrar</a>
+                <button type="submit" class="btn btn-primary">Añadir formato</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!--FIN MODAL FORMULARIO AÑADIR FORMATO LIBRO -->
+
+    <!-- ESTRUCTURA FORMATOS -->
+
+      <main class="content-wrap pt-5">
+
+        <div class="container">
+          <section class="row pb-5">
+            <article class="col-12">
+              <h1>Formatos de los Libros</h1>
+              <div th:if = "${size == 0}">
+                <p>No hay añadido ningún formato</p>
+              </div>
+              <button type="button" class="btn btn-primary my-5" data-bs-toggle="modal" data-bs-target="#modalFormatoAñadir">Añadir Formato</button>
+              <div th:if="${success}" class="text-center alert alert-success">
+                <p th:text="${success}"></p>
+              </div>
+              <div th:if="${failed}" class="text-center alert alert-danger">
+                <p th:text="${failed}"></p>
+              </div>
+
+              <!-- INICIO PAGINACION -->
+
+              <div class="row">
+                <div class="col-12 d-flex justify-content-center mb-3">
+                  <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                      <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
+                        <a th:href="@{/formatosLibros(page=${currentPage - 1})}" class="page-link" >Previous</a>
+                      </li>
+                      <li th:each="pageNumber : ${pageNumbers}" class="page-item">
+                        <a th:href="@{/formatosLibros(page=${pageNumber})}"
+                           th:text="${pageNumber}"
+                           th:classappend="${pageNumber==pagina.number + 1} ? active"
+                           class="page-link" ></a>
+                      </li>
+                      <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
+                        <a th:href="@{/formatosLibros(page=${currentPage + 1})}" class="page-link" >Next</a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+
+
+              <!-- FIN PAGINACION -->
+
+
+              <table class="table" th:if = "${size > 0}">
+                <thead class="table-light">
+                <tr>
+                  <th scope="col">Id</th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Modificar</th>
+                  <th scope="col">Eliminar</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="formato:${formatos}">
+                  <th scope="row" th:text="${formato.id}"></th>
+                  <td th:text="${formato.nombre}"></td>
+                  <td ><a role="button" data-bs-toggle="modal" th:attr="data-bs-target='#modalFormatoModificar' +*{formato.id}"><i class="bi bi-pencil fs-4 ps-4"></i></a></td>
+                  <td ><a role="button" data-bs-toggle="modal" th:attr="data-bs-target='#modalFormatoDelete' +*{formato.id}"><i class="bi bi-trash3 fs-4 ps-4"></i></a></td>
+                </tr>
+                </tbody>
+              </table>
+            </article>
+          </section>
+
+          <!-- INICIO PAGINACION -->
+
+          <div class="row">
+            <div class="col-12 d-flex justify-content-center mb-3">
+              <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                  <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
+                    <a th:href="@{/formatosLibros(page=${currentPage - 1})}" class="page-link">Previous</a>
+                  </li>
+                  <li th:each="pageNumber : ${pageNumbers}" class="page-item">
+                    <a th:href="@{/formatosLibros(page=${pageNumber})}"
+                       th:text="${pageNumber}"
+                       th:classappend="${pageNumber==pagina.number + 1} ? active"
+                       class="page-link" ></a>
+                  </li>
+                  <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
+                    <a th:href="@{/formatosLibros(page=${currentPage + 1})}" class="page-link" >Next</a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+
+
+          <!-- FIN PAGINACION -->
+
+        </div>
+      </main>
+
+
+
+    <!-- INICIO EACH MODALES FORMULARIOS ELIMINAR MODIFICAR -->
+
+    <div th:each="formatoForm:${formatos}">
+
+      <!-- MODAL FORMULARIO ELIMINAR FORMATO LIBRO -->
+
+      <div class="modal fade" th:id="modalFormatoDelete + ${formatoForm.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel3" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel3">ELIMINAR FORMATO LIBRO</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form th:action="@{/formatosLibros/deleteFormato}" method="post">
+                <input type="hidden" name="id" th:value="${formatoForm.id}">
+                <div class="mb-3">
+                  <label for="nombre" class="form-label">¿Está seguro de eliminar el siguiente formato?:</label>
+                  <h4 class="form-control"   th:text="${formatoForm.nombre}"></h4>
+                </div>
+                <div class="d-flex justify-content-end ">
+                  <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cerrar</button>
+                  <button type="submit" class="btn btn-primary" >Borrar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- FIN MODAL FORMULARIO ELIMINAR FORMATO LIBRO -->
+
+      <!-- MODAL FORMULARIO MODIFICAR FORMATO LIBRO -->
+
+      <div class="modal fade"  th:id="modalFormatoModificar + ${formatoForm.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel">MODIFICAR FORMATO LIBRO</h1>
+              <a th:href="@{/formatosLibros}" class="btn btn-close"></a>
+            </div>
+            <div class="modal-body">
+              <form th:action="@{/formatosLibros/saveFormatoModificar}" method="post"  th:object="${datosFormato}">
+                  <script th:inline="javascript" th:if="${#fields.hasErrors('*')and formatoActual == formatoForm.id}">/*<![CDATA[*/ $(document).ready(function () {
+                    let modalIdFormato = 'modalFormatoModificar' + /*[[${formatoForm.id}]]*/'';
+                    $('#' + modalIdFormato).modal('show');}); /*]]>*/</script>
+                <input type="hidden" name="id" th:value="${formatoForm.id}">
+                <div class="mb-3">
+                  <label for="nombre" class="form-label">Nombre</label>
+                  <input type="text" class="form-control" id="nombre" th:name="nombre" th:value="${formatoForm.nombre}">
+                  <p th:if="${#fields.hasErrors('nombre')}" th:errorclass="error" th:errors="*{nombre}" th:field="*{nombre}"></p>
+                </div>
+                <div class="d-flex justify-content-end ">
+                  <a th:href="@{/formatosLibros}" class="btn btn-secondary me-2">Cerrar</a>
+                  <button type="submit" class="btn btn-primary" >Guardar</button>
+                </div>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- FIN MODAL FORMULARIO MODIFICAR FORMATO LIBRO -->
+
+    </div>
+    <!-- FIN EACH MODALES FORMULARIOS ELIMINAR MODIFICAR -->
+
+      <footer class="bg-primary"></footer>
+      <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js}" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  </div>
+</body>
+
+</html>
