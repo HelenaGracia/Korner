@@ -17,51 +17,62 @@
 <body>
 <div class="page-container">
     <header>
-        <nav class="navbar sticky-top navbar-expand-lg bg-primary" >
-            <div class="container">
-                <a class="navbar-brand" th:href="@{/home}">
-                    <img th:src="@{/img/LogoSinFondo.svg}" alt="logo Korner">
-                </a>
-                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse  justify-content-evenly" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item mt-lg-3 me-lg-5 ">
-                            <a class="nav-link active" th:href="@{/peliculas}">Peliculas</a>
-                        </li>
-                        <li class="nav-item mt-lg-3 me-lg-5">
-                            <a class="nav-link" th:href="@{/videojuegos}">Videojuegos</a>
-                        </li>
-                        <li class="nav-item mt-lg-3 me-lg-5">
-                            <a class="nav-link" th:href="@{/series}">Series</a>
-                        </li>
-                        <li class="nav-item mt-lg-3 me-lg-5">
-                            <a class="nav-link" th:href="@{/libros}">Libros</a>
-                        </li>
-                        <li class="nav-item mt-lg-3 me-lg-5 ">
-                            <a class="nav-link" th:href="@{/animes}">Animes</a>
-                        </li>
-                        <li  class="nav-item mt-lg-3 me-lg-5"  >
-                            <a sec:authorize="hasRole('ADMIN')" class="nav-link" th:href="@{/gestion}" >Gestión</a>
-                        </li>
-                        <li class="nav-item ms-lg-5">
-                            <a class="" href="#" role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                                <img th:src="@{/img/Nevernight.jpg}" alt="imagen perfil" >
-                            </a>
-                        </li>
-                        <li class="nav-item mt-lg-4 ms-lg-4">
-                            <a href="#" role="button" class="position-relative" data-bs-toggle="modal" data-bs-target="#modal-noti">
-                                <span class="position-absolute top-0  start-100 translate-middle badge rounded-pill bg-danger">9</span>
-                                <i class="bi bi-bell fs-3 text-black"></i>
-                                <span class="visually-hidden">Notificaciones no leidas</span>
-                            </a>
-                        </li>
-                    </ul>
+        <header>
+            <nav class="navbar sticky-top navbar-expand-lg bg-primary" >
+                <div class="container">
+                    <a class="navbar-brand" th:href="@{/home}">
+                        <img th:src="@{/img/LogoSinFondo.svg}" alt="logo Korner">
+                    </a>
+                    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse  justify-content-evenly" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item mt-lg-3  me-xl-3 " >
+                                <a class="nav-link active" th:href="@{/peliculas}">Peliculas</a>
+                            </li>
+                            <li class="nav-item mt-lg-3  me-xl-3 ">
+                                <a class="nav-link" th:href="@{/videojuegos}">Videojuegos</a>
+                            </li>
+                            <li class="nav-item mt-lg-3  me-xl-3 ">
+                                <a class="nav-link" th:href="@{/series}">Series</a>
+                            </li>
+                            <li class="nav-item mt-lg-3 me-xl-3  ">
+                                <a class="nav-link" th:href="@{/libros}">Libros</a>
+                            </li>
+                            <li class="nav-item mt-lg-3  me-xl-3 ">
+                                <a class="nav-link" th:href="@{/animes}">Animes</a>
+                            </li>
+                            <li class="nav-item  dropdown mt-lg-3  me-xl-3 ">
+                                <a class="nav-link dropdown-toggle " href="#"  role="button" data-bs-toggle="dropdown" aria-expanded="false">Compartidos</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" th:href="@{/compartidos/peliculas}">Peliculas</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/compartidos/animes}">Animes</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/compartidos/series}">Series</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/compartidos/videojuegos}">Videojuegos</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/compartidos/libros}">Libros</a></li>
+                                </ul>
+                            </li>
+                            <li  class="nav-item mt-lg-3  me-xl-2"  >
+                                <a sec:authorize="hasRole('ADMIN')" class="nav-link" th:href="@{/gestion}" >Gestión</a>
+                            </li>
+                            <li class="nav-item ms-lg-2 ms-xl-2 ">
+                                <a class="" href="#" role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                                    <img th:src="@{/img/Nevernight.jpg}" alt="imagen perfil" >
+                                </a>
+                            </li>
+                            <li class="nav-item mt-lg-4 ms-lg-2 ms-xl-3 ">
+                                <a href="#" role="button" class="position-relative" data-bs-toggle="modal" data-bs-target="#modal-noti">
+                                    <span class="position-absolute top-0  start-100 translate-middle badge rounded-pill bg-danger">9</span>
+                                    <i class="bi bi-bell fs-3 text-black"></i>
+                                    <span class="visually-hidden">Notificaciones no leidas</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
+            </nav>
+        </header>
     <!-- Modal Notificaciones -->
     <div class="modal fade" id="modal-noti" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -378,7 +389,7 @@
                                      filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}"
                                        th:text="${pageNumber}"
                                        th:classappend="${pageNumber==pagina.number + 1} ? active"
-                                       class="page-link" href="#"></a>
+                                       class="page-link" ></a>
                                 </li>
                                 <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
                                     <a th:href="@{/peliculas/search(page=${currentPage + 1}, tituloPeliculaBusqueda=${titulo},
@@ -513,11 +524,14 @@
                         <div class="modal-content">
                             <!-- Imagen Película -->
                             <div class="modal-header space-down">
-                                <img th:src="${pelicula.imagenRuta}" alt="Garfield: La Película" class="custom-section-image"/>
+                                <img th:src="${pelicula.imagenRuta}" alt="Imagen de la película" class="custom-section-image"/>
                             </div>
                             <!-- Icono de compartir -->
                             <button class="btn-share">
-                                <img th:src="@{/img/icono_compartir.png}" alt="Compartir" class="share-icon">
+                                <a th:href="@{/compartir/pelicula/{idPelicula} (idPelicula = ${pelicula.id})}">
+                                    <img th:src="@{/img/icono_compartir.png}" alt="Compartir" class="share-icon">
+                                </a>
+
                             </button>
                             <!-- Título, Año, Géneros y Plataforma Película -->
                             <div class="modal-body">
@@ -553,7 +567,7 @@
                                 </div>
                             </div>
                             <!-- Tráiler -->
-                            <div class="yt-trailer">
+                            <div th:unless="${ pelicula.trailerRuta.isBlank()}" class="yt-trailer">
                                 <iframe
                                         th:src="${pelicula.trailerRuta}"
                                         allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
@@ -634,10 +648,8 @@
                     </div>
                 </div>
                 <!-- FIN PAGINACION -->
-
-
+            </div>
         </div>
-
     </main>
 
 

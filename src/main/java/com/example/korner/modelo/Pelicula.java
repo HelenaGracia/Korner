@@ -10,13 +10,12 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "peliculas" ,uniqueConstraints = @UniqueConstraint(columnNames = "titulo"),
+@Table(name = "peliculas" ,uniqueConstraints = @UniqueConstraint(columnNames = {"titulo","id_pelicula_usuarios"}),
         indexes = {@Index(name = "indice1",columnList = "titulo"),
                 @Index(name = "indice2",columnList = "year"),
                 @Index(name = "indice3",columnList = "puntuacion")})
 public class Pelicula  extends AbstractEntity{
     @Column (name = "trailer" , length = 1000)
-    @NotBlank
     private String trailerRuta;
 
 

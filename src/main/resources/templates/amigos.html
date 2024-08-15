@@ -42,6 +42,16 @@
                       <li class="nav-item mt-lg-3 me-lg-5 ">
                         <a class="nav-link" th:href="@{/animes}">Animes</a>
                       </li>
+                      <li class="nav-item  dropdown mt-lg-3 me-lg-5 ">
+                        <a class="nav-link dropdown-toggle" href="#"  role="button" data-bs-toggle="dropdown" aria-expanded="false">Compartidos</a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" th:href="@{/compartidos/peliculas}">Peliculas</a></li>
+                          <li><a class="dropdown-item" th:href="@{/compartidos/animes}">Animes</a></li>
+                          <li><a class="dropdown-item" th:href="@{/compartidos/series}">Series</a></li>
+                          <li><a class="dropdown-item" th:href="@{/compartidos/videojuegos}">Videojuegos</a></li>
+                          <li><a class="dropdown-item" th:href="@{/compartidos/libros}">Libros</a></li>
+                        </ul>
+                      </li>
                       <li class="nav-item ms-lg-5">
                         <a class="" href="#" role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                             <img th:src="@{/img/Nevernight.jpg}" alt="imagen perfil" >
@@ -98,7 +108,7 @@
         
         <!-- Cuadro Buscar Amigos-->
 
-              <article class="caja1 col-12 col-sm-5">
+              <article class="caja1 col-12 col-sm-6">
                 <h6 class="titulo-caja">Buscar Amigos</h6>
                 <form th:action="@{/amigos/search}" method="get">
                   <div class="row p-2 input-group">
@@ -113,28 +123,20 @@
 
               </article>
 
-        <!-- cuadro Nueva solicitud de amistad-->
+        <!-- DropDown Solicitudes -->
 
-              <article class="caja1 col-12 col-sm-5 offset-sm-2">
-                <h6 class="titulo-caja">Nueva solicitud de amistad</h6>
-                <div class="row p-2">
-                    <div class="col-8 col-sm-12 col-md-8">
-                      <div class="solicitud-amistad mx-auto">
-                        <img th:src="@{/img/op.png}" alt="imagen perfil" class="imgsolicitud" />
-                        <span class=" mx-auto">Carri1608</span>
-                      </div>
-                    </div>
-                    <div class="col-4 col-sm-12 col-md-4 caja-botones " >
-                      <button class="btn btn-primary btn-sm btn-caja mx-auto ">
-                        <i class="bi bi-check-lg"></i>
-                      </button>
-                      <button class="btn btn-primary btn-sm btn-caja mx-auto">
-                        <i class="bi bi-x-lg"></i>
-                      </button>
-                    </div>
+              <div class="d-flex justify-content-end col-12 col-sm-6 pb-4">
+                <div class="dropdown">
+                  <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Ver Solicitudes
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" th:href="@{/amigos/solicitudesPendientes}">Pendientes</a></li>
+                    <li><a class="dropdown-item" th:href="@{/amigos/solicitudesEnviadas}">Enviadas</a></li>
+                  </ul>
                 </div>
-              </article>    
-              
+              </div>
+
 
               <!---------Seccion Conectados----------->
 
@@ -152,16 +154,16 @@
                     <nav aria-label="Page navigation example">
                       <ul class="pagination">
                         <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
-                          <a th:href="@{/amigos(page=${currentPage - 1})}" class="page-link" href="#">Previous</a>
+                          <a th:href="@{/amigos(page=${currentPage - 1})}" class="page-link">Previous</a>
                         </li>
                         <li th:each="pageNumber : ${pageNumbers}" class="page-item">
                           <a th:href="@{/amigos(page=${pageNumber})}"
                              th:text="${pageNumber}"
                              th:classappend="${pageNumber==pagina.number + 1} ? active"
-                             class="page-link" href="#"></a>
+                             class="page-link" ></a>
                         </li>
-                        <li th:unless="${currentPage ==pagina.totalPages}" class="page-item">
-                          <a th:href="@{/amigos(page=${currentPage + 1})}" class="page-link" href="#">Next</a>
+                        <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
+                          <a th:href="@{/amigos(page=${currentPage + 1})}" class="page-link" >Next</a>
                         </li>
                       </ul>
                     </nav>
@@ -210,7 +212,7 @@
                                 <form th:action="@{amigos/delete}" method="post">
                                   <input type="hidden" name="id" th:value="${amigos.id}">
                                   <div class="mb-3">
-                                    <label for="tituloAmigoDelete" class="form-label">E siguiente amigo se eliminará:</label>
+                                    <label for="tituloAmigoDelete" class="form-label">El siguiente amigo se eliminará:</label>
                                     <h4 class="form-control" id="tituloAmigoDelete" th:text="${amigos.getUsuarioDestino().getNombre()}"></h4>
                                   </div>
                                   <div class="d-flex justify-content-end ">
@@ -295,16 +297,16 @@
                     <nav aria-label="Page navigation example">
                       <ul class="pagination">
                         <li th:if="${paginaBloq.totalPages > 1 && currentPageBloq!=1}" class="page-item">
-                          <a th:href="@{/amigos(page=${currentPage - 1})}" class="page-link" href="#">Previous</a>
+                          <a th:href="@{/amigos(pagebloq=${currentPageBloq - 1})}" class="page-link" >Previous</a>
                         </li>
                         <li th:each="pageNumberBloq : ${pageNumbersBloq}" class="page-item">
-                          <a th:href="@{/amigos(page=${pageNumberBloq})}"
+                          <a th:href="@{/amigos(pagebloq=${pageNumberBloq})}"
                              th:text="${pageNumberBloq}"
                              th:classappend="${pageNumberBloq==paginaBloq.number + 1} ? active"
-                             class="page-link" href="#"></a>
+                             class="page-link" ></a>
                         </li>
-                        <li th:unless="${currentPageBloq ==paginaBloq.totalPages}" class="page-item">
-                          <a th:href="@{/amigos(page=${currentPageBloq + 1})}" class="page-link" href="#">Next</a>
+                        <li th:unless="${currentPageBloq == paginaBloq.totalPages || pagina.totalPages == 0}" class="page-item">
+                          <a th:href="@{/amigos(pagebloq=${currentPageBloq + 1})}" class="page-link">Next</a>
                         </li>
                       </ul>
                     </nav>

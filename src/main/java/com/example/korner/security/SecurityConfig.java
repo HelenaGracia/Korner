@@ -53,7 +53,12 @@ public class SecurityConfig {
                     .requestMatchers("/").permitAll()
                     .requestMatchers("/creacion").permitAll()
                     .requestMatchers(HttpMethod.POST, "/creacion/**").permitAll()
-                    .requestMatchers("/gestion/**").hasAuthority("ADMIN");
+                    .requestMatchers("/gestion",
+                            "/plataformasElementos",
+                            "/formatosLibros",
+                            "/generosElementos",
+                            "/generosUsuarios",
+                            "/plataformasVideojuegos").hasRole("ADMIN");
                 customizer.anyRequest().authenticated();
         });
 

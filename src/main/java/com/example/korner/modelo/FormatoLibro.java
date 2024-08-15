@@ -1,10 +1,9 @@
 package com.example.korner.modelo;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.springframework.data.web.SortDefault;
+
 
 @Entity
 @Getter
@@ -12,20 +11,17 @@ import org.springframework.data.web.SortDefault;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Table(name = "plataformas", uniqueConstraints =@UniqueConstraint(columnNames = "nombre_plataforma"))
-
-public class Plataforma {
-
+@Table(name = "formato_libros")
+public class FormatoLibro  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_plataforma", nullable = false)
+    @Column(name = "id_tipo_formato", nullable = false)
     private Integer id;
 
-
-    @Column (name = "nombre_plataforma" , length = 30)
+    @Column (name = "nombre_formato_libro" , length = 30)
     @Size(min = 2, message = "Debe tener como mínimo 2 caracter")
     @Size(max = 30,  message = "Debe tener como máximo 30 caracteres")
-    private String nombrePlataforma;
+    private String nombre;
 
 
 

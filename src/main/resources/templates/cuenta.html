@@ -39,45 +39,48 @@
       </header>
       <main class="content-wrap pt-2">
         <div class="container">
+          <div th:if="${failed}" class="text-center alert alert-danger" >
+            <p th:text="${failed}"></p>
+          </div>
           <section class="row d-flex justify-content-center pb-5">
             <h2 class="text-center txt-naranja">CREAR CUENTA</h2>
             <article class="col-12 col-md-6 p-3 formAjustes">
-              <form th:action="@{creacion/save}" method="post">
+              <form th:action="@{/creacion/save}" method="post" th:object="${nuevoUsuario}">
                 <div class="mb-3">
                   <label class="form-label" for="usernameAjustes">Nombre de usuario:</label>
-                  <input class="form-control" id="usernameAjustes" name="nombre" placeholder="Nombre Usuario" type="text" >
+                  <p th:if="${#fields.hasErrors('nombre')}" th:errorclass="error" th:errors="*{nombre}" ></p>
+                  <p th:if="${failedNombre}" class="error" th:text="${failedNombre}"></p>
+                  <input class="form-control" id="usernameAjustes" th:field="*{nombre}" name="nombre" placeholder="Nombre Usuario" type="text" minlength="2" maxlength="20">
                 </div>
                 <div class="mb-3">
                   <label class="form-label" for="contrasena">Password</label>
-                  <input class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña" type="password" >
+                  <p th:if="${#fields.hasErrors('contrasena')}" th:errorclass="error" th:errors="*{contrasena}" ></p>
+                  <input class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña" type="password" minlength="6" maxlength="20" >
                 </div>
                 <div class="mb-3">
                   <label class="form-label" for="correo">Email</label>
-                  <input class="form-control" id="correo" name="correo" placeholder="Correo Electrónico" type="email" >
-
+                  <p th:if="${#fields.hasErrors('correo')}" th:errorclass="error" th:errors="*{correo}" ></p>
+                  <p th:if="${failedCorreo}" class="error" th:text="${failedCorreo}"></p>
+                  <input class="form-control" id="correo" name="correo" th:field="*{correo}" placeholder="Correo Electrónico" type="email" >
                 </div>
                 <div class="mb-3">
                   <label for="anyoNacimiento">Año de nacimiento:</label>
-                  <div class="form-floating">
-                    <select class="form-select mb-3 order" id="anyoNacimiento" name="edad" aria-label="Floating label select example">
+                  <div >
+                    <p th:if="${#fields.hasErrors('anioNacimiento')}" th:errorclass="error" th:errors="*{anioNacimiento}" ></p>
+                    <select class="form-select mb-3 order" id="anyoNacimiento"  name="anioNacimiento" aria-label="Floating label select example">
                         <option value="0" disabled hidden selected>Selecciona Año de Nacimiento</option>
-                        <option th:each="option : ${options}" th:value="${option}" th:text="${option}" ></option>
+                        <option th:each="option : ${options}" th:field="*{anioNacimiento}" th:value="${option}" th:text="${option}" ></option>
                     </select>
                   </div>
                 </div>
                 <div class="mb-3">
                   <div class="d-block">Género</div>
                   <div class="contenedor2">
+                    <p th:if="${#fields.hasErrors('generos')}" th:errorclass="error" th:errors="*{generos}" ></p>
                     <div class="form-check form-check-inline"  th:each="generoUsuarios : ${generoUsuario}">
                       <label class="form-check-label" for="generoUsuario" th:text="${generoUsuarios.getDescripcion()}" ></label>
-                      <input class="form-check-input" type="radio" name="generos"  th:value="${generoUsuarios.getId()}" id="generoUsuario" >
+                      <input class="form-check-input" th:field="*{generos}" type="radio" name="generos"  th:value="${generoUsuarios.getId()}" id="generoUsuario" >
                     </div>
-                    <!--
-                    <div class="mb-3">
-                      <label class="form-label" for="usernameCrearCuenta">País:</label>
-                      <input class="form-control" id="usernameCrearCuenta" name="usernameCrearCuenta" placeholder="País" type="text" >
-                    </div>
-                    -->
                     <div class="mb-3 d-flex justify-content-end">
                       <button class="btn btn-primary" type="submit">Enviar</button>
                     </div>

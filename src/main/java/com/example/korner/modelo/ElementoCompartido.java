@@ -13,30 +13,49 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "elementos_compartidos", uniqueConstraints = {
-        @UniqueConstraint(columnNames={"id_elemento", "id_amigos","id_tipos_elementos"})})
+@Table(name = "elementos_compartidos")
 public class ElementoCompartido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_elemt_compart", nullable = false)
     private Integer id;
 
-    @Column (name = "fecha_compartir")
-    private LocalDateTime fecha;
-
-    @Column (name = "me_gusta")
-    private Integer like;
-
-    @Column (name = "id_elemento")
-    private Integer idElemento;
+//    @Column (name = "fecha_compartir")
+//    private LocalDateTime fecha;
+//
+//    @Column (name = "me_gusta")
+//    private Integer like;
+//
+//    @Column (name = "id_elemento")
+//    private Integer idElemento;
 
     @ManyToOne (fetch = FetchType.EAGER)
     @JoinColumn(name = "id_amigos", foreignKey = @ForeignKey(name = "fk_amigos_elemt_comp"))
     private Amigo amigos;
 
-    @ManyToOne (fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_tipos_elementos", foreignKey = @ForeignKey(name = "fk_tipos_elementos_elemt_comp"))
-    private TipoElemento tipoElemento;
+//    @ManyToOne (fetch = FetchType.EAGER)
+//    @JoinColumn(name = "id_tipos_elementos", foreignKey = @ForeignKey(name = "fk_tipos_elementos_elemt_comp"))
+//    private TipoElemento tipoElemento;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_peliculas", foreignKey = @ForeignKey(name = "fk_peliculas_elemt_comp"))
+    private Pelicula pelicula;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_series", foreignKey = @ForeignKey(name = "fk_series_elemt_comp"))
+    private Serie serie;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_animes", foreignKey = @ForeignKey(name = "fk_animes_elemt_comp"))
+    private Anime anime;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_libros", foreignKey = @ForeignKey(name = "fk_libros_elemt_comp"))
+    private Libro libro;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_videojuegos", foreignKey = @ForeignKey(name = "fk_videojuegos_elemt_comp"))
+    private Videojuego videojuego;
 
 
 }

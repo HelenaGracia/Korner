@@ -46,9 +46,7 @@ public class AbstractService <E,ID, REPO extends JpaRepository<E, ID>> {
 
 
 
-    public Iterable<E> findAll(Sort sort) {
-        return repo.findAll(sort);
-    }
+
 
 
     public Page<E> findAll(Pageable pageable) {

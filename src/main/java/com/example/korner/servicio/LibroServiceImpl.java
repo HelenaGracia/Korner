@@ -1,13 +1,12 @@
 package com.example.korner.servicio;
 
-import com.example.korner.modelo.GeneroElementoCompartido;
-import com.example.korner.modelo.Libro;
-import com.example.korner.modelo.Plataforma;
-import com.example.korner.modelo.Usuario;
+import com.example.korner.modelo.*;
 import com.example.korner.repositorios.LibroRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
     public class LibroServiceImpl extends AbstractService<Libro,Integer, LibroRepository>{
@@ -48,5 +47,13 @@ import org.springframework.stereotype.Service;
                 Plataforma plataforma, Usuario usuario, Pageable pageable){
             return libroRepository.findAllByPuntuacionAndGenerosLibroAndYearAndPlataformasLibroAndUsuarioLibro(
                     puntuacion,genero,year,plataforma, usuario, pageable);
+        }
+
+        public Page<Libro> getAllLibroCompartidosByListId (List<Integer> listId, Pageable page){
+            return libroRepository.findAllByIdIn(listId, page);
+        }
+
+        public Page<Libro> getAllLibroCompartidosByListIdAndUsuario (List<Integer> listId,Usuario usuario, Pageable page){
+            return libroRepository.findAllByIdInAndUsuarioLibro(listId,usuario, page);
         }
     }

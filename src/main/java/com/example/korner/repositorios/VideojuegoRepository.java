@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 
 public interface VideojuegoRepository extends JpaRepository<Videojuego, Integer> {
@@ -21,9 +23,10 @@ public interface VideojuegoRepository extends JpaRepository<Videojuego, Integer>
 
     Page<Videojuego> findAllByPlataformasVideojuegoAndUsuarioVideojuego(PlataformaVideojuego plataforma, Usuario usuario, Pageable pageable);
 
-    Page<Videojuego> findAllByPuntuacionAndGenerosVideojuegosAndYearAndPlataformasVideojuegoAndUsuarioVideojuego(
-            Integer puntuacion, GeneroElementoCompartido genero, Integer year, PlataformaVideojuego plataforma, Usuario usuario, Pageable pageable);
+    Page<Videojuego> findAllByPuntuacionAndGenerosVideojuegosAndYearAndPlataformasVideojuegoAndUsuarioVideojuego(Integer puntuacion, GeneroElementoCompartido genero, Integer year, PlataformaVideojuego plataforma, Usuario usuario, Pageable pageable);
 
+    Page<Videojuego> findAllByIdIn(List<Integer> ids, Pageable pageable);
 
+    Page<Videojuego> findAllByIdInAndUsuarioVideojuego(List<Integer> ids,Usuario usuario, Pageable pageable);
 
 }

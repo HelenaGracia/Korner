@@ -146,7 +146,7 @@
                         <!--<th scope="row" th:src="${usuario.getImagen()}"></th>-->
                         <th scope="row" ><img src="../static/img/cca.jpg" alt="imagen perfil" class="imgdrop-chat" /></th>
                         <td th:text="${usuario.nombre}"></td>
-                        <td ><a role="button" class="btn btn-primary" th:href="@{/amigos/enviarSolicitud/{id} (id=${usuario.id})}" >Solicitar Amistad</a></td>
+                        <td ><a role="button" class="btn btn-primary" th:href="@{/amigos/enviarSolicitud/{id}/{nombreUser} (id=${usuario.id},nombreUser=${busquedaUsuarios})}" >Solicitar Amistad</a></td>
                     </tr>
                     </tbody>
                 </table>

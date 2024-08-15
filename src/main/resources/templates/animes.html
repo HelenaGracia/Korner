@@ -42,6 +42,16 @@
                 <li class="nav-item mt-lg-3 me-lg-5 ">
                   <a class="nav-link active" th:href="@{/animes}">Animes</a>
                 </li>
+                <li class="nav-item  dropdown mt-lg-3 me-lg-5 ">
+                  <a class="nav-link dropdown-toggle" href="#"  role="button" data-bs-toggle="dropdown" aria-expanded="false">Compartidos</a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" th:href="@{/compartidos/peliculas}">Peliculas</a></li>
+                    <li><a class="dropdown-item" th:href="@{/compartidos/animes}">Animes</a></li>
+                    <li><a class="dropdown-item" th:href="@{/compartidos/series}">Series</a></li>
+                    <li><a class="dropdown-item" th:href="@{/compartidos/videojuegos}">Videojuegos</a></li>
+                    <li><a class="dropdown-item" th:href="@{/compartidos/libros}">Libros</a></li>
+                  </ul>
+                </li>
                 <li  class="nav-item mt-lg-3 me-lg-5"  >
                   <a sec:authorize="hasRole('ADMIN')" class="nav-link" th:href="@{/gestion}" >Gestión</a>
                 </li>
@@ -212,11 +222,12 @@
             </div>
             <div class="modal-body">
               <form th:action="@{/animes/saveAnime}" method="post" enctype="multipart/form-data" th:object="${datosAnime}">
-                <script th:inline="javascript" th:if="${#fields.hasErrors('*')  and  animeActual == -1 }">/*<![CDATA[*/ $(document).ready(function () { $('#modalAnimeAñadir').modal('show');}); /*]]>*/</script>
+                <script th:inline="javascript" th:if="${#fields.hasErrors('*')  and  animeActual == -1 || tituloRepetido != null} ">/*<![CDATA[*/ $(document).ready(function () { $('#modalAnimeAñadir').modal('show');}); /*]]>*/</script>
                 <div class="mb-3">
                   <label for="titulo" class="form-label">Título</label>
                   <input type="text" class="form-control" id="titulo" name="titulo" th:field="*{titulo}" >
                   <p th:if="${#fields.hasErrors('titulo')}" th:errorclass="error" th:errors="*{titulo}" ></p>
+                  <p th:if="${tituloRepetido}" class="error" th:text="${tituloRepetido}"></p>
                 </div>
                 <div class="mb-3">
                   <label for="imagen" class="form-label">Imagen</label>
@@ -394,6 +405,7 @@
                           <label for="titulo" class="form-label">Título</label>
                           <input type="text" class="form-control" id="titulo" th:name="titulo" th:value="${anime.titulo}">
                           <p th:if="${#fields.hasErrors('titulo')}" th:errorclass="error" th:errors="*{titulo}" th:field="*{titulo}"></p>
+                          <!--<p th:if="${tituloRepetido2}" class="error" th:text="${tituloRepetido2}"></p>-->
                         </div>
                         <div class="mb-3">
                           <label for="imagen" class="form-label">Imagen</label>
@@ -410,7 +422,7 @@
                         </div>
                         <div class="mb-3">
                           <div  class="form-label">Géneros</div><br>
-                          <div class="form-check form-check-inline"  th:each="generosItem: ${listaGeneros}">
+                          <div class="form-check form-check-inline" th:each="generosItem: ${listaGeneros}">
                             <label class="form-check-label" for="generosAnime" th:text="${generosItem.nombre}" ></label>
                             <input class="form-check-input" type="checkbox" th:field="*{generosAnime}"  th:value="${generosItem.id}" id="generosAnime" >
                           </div>
@@ -425,7 +437,7 @@
                         </div>
                         <div class="mb-3">
                           <div  class="form-label">Plataformas</div><br>
-                          <div class="form-check form-check-inline"  th:each="plataformasItem: ${listaPlataformas}">
+                          <div class="form-check form-check-inline"   th:each="plataformasItem: ${listaPlataformas}">
                             <label class="form-check-label" for="plataformasAnime" th:text="${plataformasItem.nombrePlataforma}" ></label>
                             <input class="form-check-input" type="checkbox" th:field="*{plataformasAnime}" th:value="${plataformasItem.id}" id="plataformasAnime" >
                           </div>
@@ -485,7 +497,10 @@
                   </div>
                   <!-- Icono de compartir -->
                   <button class="btn-share">
-                    <img th:src="@{/img/icono_compartir.png}" alt="Compartir" class="share-icon">
+                    <a th:href="@{/compartir/anime/{idAnime} (idAnime = ${anime.id})}">
+                      <img th:src="@{/img/icono_compartir.png}" alt="Compartir" class="share-icon">
+                    </a>
+
                   </button>
                   <!-- Título, Año, Géneros y Plataforma Anime -->
                   <div class="modal-body">
