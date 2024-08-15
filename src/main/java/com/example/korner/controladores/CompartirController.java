@@ -239,12 +239,6 @@ public class CompartirController {
         Pageable pageRequest = PageRequest.of(currentPage - 1, 3);
         Page<Amigo> pagina = amigoService.getAllAmigos(user.get(), pageRequest);
 
-        if (pagina.getContent().isEmpty()){
-
-            model.addAttribute("failed", "No tienes amigos con los que compartir, Añade amigos");
-
-        }
-
         //Envio la pagina creada a la vista para poder verla
         model.addAttribute("pagina", pagina);
         //Obtengo la cantidad de paginas creadas, por ejemplo: 8

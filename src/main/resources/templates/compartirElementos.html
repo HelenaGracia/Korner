@@ -110,6 +110,9 @@
                                 <button type="submit" class="btn-section-searchbar">BUSCAR</button>
                             </div>
                         </div>
+                        <div th:if="${objetoCompartido != null}" class="text-center mt-3">
+                            <p th:text="${objetoCompartido}"></p>
+                        </div>
                     </form>
                 </div>
 
@@ -124,9 +127,7 @@
                         <div th:if="${failed != null}" class="text-center alert alert-danger">
                             <p th:text="${failed}"></p>
                         </div>
-                        <div th:if="${objetoCompartido != null}">
-                            <p th:text="${objetoCompartido}"></p>
-                        </div>
+
                     </div>
                 </div>
                 <div class="row">
