@@ -124,6 +124,31 @@
                 <p th:text="${failed}"></p>
               </div>
 
+              <!-- INICIO PAGINACION -->
+
+              <div class="row">
+                <div class="col-12 d-flex justify-content-center mb-3">
+                  <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                      <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
+                        <a th:href="@{/generosUsuarios(page=${currentPage - 1})}" class="page-link" >Previous</a>
+                      </li>
+                      <li th:each="pageNumber : ${pageNumbers}" class="page-item">
+                        <a th:href="@{/generosUsuarios(page=${pageNumber})}"
+                           th:text="${pageNumber}"
+                           th:classappend="${pageNumber==pagina.number + 1} ? active"
+                           class="page-link" ></a>
+                      </li>
+                      <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
+                        <a th:href="@{/generosUsuarios(page=${currentPage + 1})}" class="page-link" >Next</a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+
+              <!-- FIN PAGINACION -->
+
               <table class="table" th:if = "${size > 0}">
                 <thead class="table-light">
                 <tr>
@@ -142,6 +167,28 @@
                 </tr>
                 </tbody>
               </table>
+              <!-- INICIO PAGINACION 2 -->
+              <div class="row">
+                <div class="col-12 d-flex justify-content-center mb-3">
+                  <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                      <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
+                        <a th:href="@{/generosUsuarios(page=${currentPage - 1})}" class="page-link" >Previous</a>
+                      </li>
+                      <li th:each="pageNumber : ${pageNumbers}" class="page-item">
+                        <a th:href="@{/generosUsuarios(page=${pageNumber})}"
+                           th:text="${pageNumber}"
+                           th:classappend="${pageNumber==pagina.number + 1} ? active"
+                           class="page-link" ></a>
+                      </li>
+                      <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
+                        <a th:href="@{/generosUsuarios(page=${currentPage + 1})}" class="page-link" >Next</a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+              <!-- FIN PAGINACION 2 -->
             </article>
           </section>
         </div>
@@ -158,12 +205,14 @@
             </div>
             <div class="modal-body">
               <form th:action="@{/generosUsuarios/saveGeneroUser}" method="post" th:object="${newGenero}">
+                <script th:inline="javascript" th:if="${#fields.hasErrors('*') and generoUsuarioActual == -1}">/*<![CDATA[*/ $(document).ready(function () { $('#modalGeneroAñadir').modal('show');}); /*]]>*/</script>
                 <div class="mb-3">
                   <label for="descripcionAñadir" class="form-label">Nombre</label>
                   <input type="text" class="form-control" id="descripcionAñadir" name="descripcion" th:field="*{descripcion}">
+                  <p th:if="${#fields.hasErrors('descripcion')}" th:errorclass="error" th:errors="*{descripcion}"></p>
                 </div>
                   <div class="d-flex justify-content-end mt-3">
-                    <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancelar</button>
+                    <a th:href="@{/generosUsuarios}" class="btn btn-secondary me-2">Cancelar</a>
                     <button type="submit" class="btn btn-primary">Añadir </button>
                   </div>
               </form>
@@ -217,15 +266,19 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <form th:action="@{/generosUsuarios/saveGeneroUser}" method="post" >
+                <form th:action="@{/generosUsuarios/modificarGeneroUser}" method="post" th:object="${newGenero}">
+                  <script th:inline="javascript" th:if="${#fields.hasErrors('*')and generoUsuarioActual == generoForm.id}">/*<![CDATA[*/ $(document).ready(function () {
+                    let modalIdGeneroUsuario = 'modalGeneroModificar' + /*[[${generoForm.id}]]*/'';
+                    $('#' + modalIdGeneroUsuario).modal('show');}); /*]]>*/</script>
                   <input type="hidden" name="id" th:value="${generoForm.id}">
                   <div class="mb-3">
                     <label for="descripcionModificar" class="form-label">Modificar nombre género:</label>
                     <input type="text" class="form-control" id="descripcionModificar"  th:name="descripcion" th:value="${generoForm.descripcion}">
+                    <p th:if="${#fields.hasErrors('descripcion')}" th:errorclass="error" th:errors="*{descripcion}" th:field="*{descripcion}"></p>
                   </div>
                   <div class="d-flex justify-content-end ">
-                    <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary" >Modificar</button>
+                    <a th:href="@{/generosUsuarios}" class="btn btn-secondary me-2">Cerrar</a>
+                    <button type="submit" class="btn btn-primary" >Guardar</button>
                   </div>
                 </form>
               </div>

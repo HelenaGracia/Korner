@@ -1,11 +1,13 @@
 package com.example.korner.modelo;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.io.Serializable;
+import java.time.Year;
 import java.util.*;
 
 
@@ -15,7 +17,9 @@ import java.util.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Table(name = "usuarios",uniqueConstraints = @UniqueConstraint(columnNames = {"nombre"}))
+@Table(name = "usuarios",uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"nombre"}),
+        @UniqueConstraint(columnNames = "correo")})
 public class Usuario implements Serializable, UserDetails {
 
     @Id
@@ -23,19 +27,29 @@ public class Usuario implements Serializable, UserDetails {
     @Column(name = "id_usuario", nullable = false)
     private Integer id;
 
-    @Column (name = "nombre" , length = 45)
+    @Size(max = 20,  message = "Debe tener como máximo 20 caracteres")
+    @Size(min = 2,  message = "Debe tener como mínimo 2 caracteres")
+    @NotBlank
+    @Pattern(regexp = "^\\S+$",message = "No puede haber espacios en el nombre")
+    @Column (name = "nombre" , length = 20)
     private String nombre;
 
     @Column (name = "anio_nacimiento")
+    @Min(1900)
+    @Max(2200)
+    @NotNull
     private Integer anioNacimiento;
 
-    @Column (name = "pais" , length = 45)
-    private String pais;
+    @Column (name = "activa")
+    private Boolean activa;
 
     @Column (name = "contrasena" , length = 100)
+    @NotBlank
     private String contrasena;
 
     @Column (name = "correo" , length = 45)
+    @NotBlank
+    @Email(message = "Introduzca un Email válido")
     private String correo;
 
     @Column (name = "imagen")
@@ -50,6 +64,7 @@ public class Usuario implements Serializable, UserDetails {
 
     @ManyToOne (fetch = FetchType.EAGER)
     @JoinColumn(name = "id_generos", foreignKey = @ForeignKey(name = "fk_genero_usuario"))
+    @NotNull(message = "Debe seleccionar una opción")
     private Genero generos;
 
     @OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
