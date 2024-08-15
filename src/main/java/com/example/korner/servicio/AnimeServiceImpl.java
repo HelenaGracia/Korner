@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AnimeServiceImpl extends AbstractService<Anime,Integer, AnimeRepository>{
@@ -54,5 +55,9 @@ public class AnimeServiceImpl extends AbstractService<Anime,Integer, AnimeReposi
 
     public Page<Anime> getAllAnimesCompartidosByListIdAndUsuario (List<Integer> listId,Usuario usuario, Pageable page){
         return animeRepository.findAllByIdInAndUsuarioAnime(listId,usuario, page);
+    }
+
+    public Optional<Anime> getAnimeByTituloAndUsuarioAnime (String titulo,Usuario usuario){
+        return animeRepository.findAnimeByTituloAndUsuarioAnime(titulo,usuario);
     }
 }

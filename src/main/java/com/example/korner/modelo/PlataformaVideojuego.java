@@ -3,6 +3,7 @@ package com.example.korner.modelo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.springframework.data.web.SortDefault;
 
 import java.util.Set;
 

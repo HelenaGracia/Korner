@@ -94,7 +94,7 @@
             <a th:href="@{/logout}" class="btn btn-primary boton-perfil" >Cerrar sesión</a>
         </div>
     </div>
-    <main class="pt-2">
+    <main class="content-wrap pt-5">
         <div class="container">
             <section class="row d-flex justify-content-center pb-5">
                 <h1 class="text-center txt-naranja">Ajustes</h1>
@@ -102,22 +102,22 @@
                     <form th:action="@{/ajustes/modificar}" method="post">
                         <div class="mb-3">
                             <label class="form-label" for="usernameAjustes">Nombre de usuario:</label>
-                            <input class="form-control" id="usernameAjustes" name="usernameAjustes" placeholder="Tú usuario" type="text" >
+                            <input class="form-control" id="usernameAjustes" name="usernameAjustes" placeholder="Nombre de usuario" type="text" >
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="emailAjustes">Email:</label>
-                            <input class="form-control" id="emailAjustes" name="emailAjustes" placeholder="Tú correo" type="email" >
+                            <input class="form-control" id="emailAjustes" name="emailAjustes" placeholder="Email" type="email" >
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="passwordAjustes">Contraseña:</label>
-                            <input class="form-control" id="passwordAjustes" type="password">
+                            <input class="form-control" id="passwordAjustes" placeholder="***********" type="password">
                         </div>
                         <div class="mb-4">
                             <label for="imagenAjustes" class="form-label">Selecciona tu imagen de perfil:</label>
                             <input class="form-control" type="file" id="imagenAjustes">
                         </div>
                         <div class="form-check mb-3">
-                            <input class="form-check-input" type="radio" th:value="home" th:name="ajustes" id="homeAjustes" checked>
+                            <input class="form-check-input" type="radio" th:value="home" th:name="ajustes" id="homeAjustes">
                             <label class="form-check-label" for="homeAjustes">
                                 Iniciar aplicación en Home
                             </label>

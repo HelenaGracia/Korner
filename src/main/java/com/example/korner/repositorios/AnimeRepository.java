@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AnimeRepository extends JpaRepository<Anime, Integer> {
@@ -30,5 +31,6 @@ public interface AnimeRepository extends JpaRepository<Anime, Integer> {
 
     Page<Anime> findAllByIdInAndUsuarioAnime(List<Integer> ids,Usuario usuario, Pageable pageable);
 
+    Optional<Anime> findAnimeByTituloAndUsuarioAnime(String titulo,Usuario usuario);
 
 }

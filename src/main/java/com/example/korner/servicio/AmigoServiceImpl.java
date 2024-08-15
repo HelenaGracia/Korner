@@ -28,6 +28,10 @@ public class AmigoServiceImpl extends AbstractService<Amigo,Integer, AmigosRepos
         return amigosRepository.findAllByUsuarioDestinoAndBloqueadoFalseAndPendienteTrue(usuario,pageable);
     }
 
+    public Page<Amigo> getAllSolicitudesEnviadas (Usuario usuario, Pageable pageable) {
+        return amigosRepository.findAllByUsuarioOrigenAndBloqueadoFalseAndPendienteTrue(usuario,pageable);
+    }
+
     public Page<Amigo> getAllAmigosBloqueados (Usuario usuario, Pageable pageable) {
         return amigosRepository.findAllByUsuarioOrigenAndBloqueadoTrue(usuario,pageable);
     }
