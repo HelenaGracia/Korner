@@ -27,10 +27,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Year;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -88,9 +85,9 @@ public class AnimeController {
         List<Plataforma> plataformasList = plataformaService.getAll();
         model.addAttribute("listaPlataformas", plataformasList);
         model.addAttribute("listaGeneros", generoElementoCompartidoList);
+        Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
 
-
-        if (bindingResult.hasErrors() || multipartFile.isEmpty()){
+        if (bindingResult.hasErrors() || multipartFile.isEmpty()) {
             if (multipartFile.isEmpty()){
                 ObjectError error = new ObjectError("imagenError", "Debes seleccionar una imagen");
                 bindingResult.addError(error);
@@ -101,11 +98,11 @@ public class AnimeController {
             attributes.addFlashAttribute("failed", "Error al introducir los datos en el formulario");
             model.addAttribute("animeActual", -1);
             return "animes";
-
+        }else if (animeService.getAnimeByTituloAndUsuarioAnime(anime.getTitulo(),user.get()).isPresent()){
+        model.addAttribute("tituloRepetido","Ya tienes un anime con ese título");
+        return "animes";
         }else {
             try {
-                Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
-
                 anime.setUsuarioAnime(user.get());
                 logger.info("este es el objeto anime recibido{}", anime);
             /*guardamos en la BBDD  el objeto anime con el resto de la información que hemos obtenido
@@ -138,11 +135,12 @@ public class AnimeController {
 
     @PostMapping("/saveAnimeModificar")
     public String saveAnimeModificar(@RequestParam("imagen") MultipartFile multipartFile,
-                                        @Validated @ModelAttribute(name = "datosAnime") Anime anime,
-                                        BindingResult bindingResult,
-                                        RedirectAttributes attributes, Model model,
-                                        @RequestParam("page") Optional<Integer> page, HttpSession session,
-                                        @RequestParam(value = "orden", required = false) String orden){
+                                     @ModelAttribute(name = "genero") GeneroElementoCompartido genero,
+                                     @Validated @ModelAttribute(name = "datosAnime") Anime anime,
+                                     BindingResult bindingResult,
+                                     RedirectAttributes attributes, Model model,
+                                     @RequestParam("page") Optional<Integer> page, HttpSession session,
+                                     @RequestParam(value = "orden", required = false) String orden){
 
         paginacion(model, page, session, orden);
 
@@ -154,9 +152,10 @@ public class AnimeController {
 
 
         Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
-
         anime.setUsuarioAnime(user.get());
-
+//        Optional<Anime> anime2 = animeService.getAnimeByTituloAndUsuarioAnime(anime.getTitulo(),user.get());
+//        Integer idAnime = anime2.get().getId();
+//        Integer idAnime2 = anime.getId();
         if (bindingResult.hasErrors()){
             model.addAttribute("animeActual", anime.getId());
             return "animes";
@@ -173,6 +172,9 @@ public class AnimeController {
                         anime.setImagenRuta("/imagenes/leerImagen/" + "Anime" + anime.getId() + "Usuario" + anime.getUsuarioAnime().getId()  + ".png");
                     }
 
+//                }else if (animeService.getAnimeByTituloAndUsuarioAnime(anime.getTitulo(),user.get()).isPresent() && idAnime != idAnime2) {
+//                    model.addAttribute("tituloRepetido2","Ya tienes un anime con ese título");
+//                    return "animes";
                 } else{
                     //Creamos nuestros proprios nombres que van a llevar los archivos de imagenes, compuestos por String Anime el id del objeto anime el titulo del objeto anime y la extensión del archivo(jpg, png)
                     String nombreArchivo = "Anime" + anime.getId() + "Usuario" + anime.getUsuarioAnime().getId() + "." + FilenameUtils.getExtension(multipartFile.getOriginalFilename());

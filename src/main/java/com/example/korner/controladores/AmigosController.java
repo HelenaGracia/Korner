@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +34,9 @@ public class AmigosController {
 
 
     @GetMapping
-    public String showAmigos(@RequestParam("page") Optional<Integer> page,HttpSession session,Model model) {
+    public String showAmigos(@RequestParam("page") Optional<Integer> page,
+                             @RequestParam("pagebloq") Optional<Integer> pagebloq,
+                             HttpSession session,Model model) {
 
         Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
 
@@ -58,7 +61,7 @@ public class AmigosController {
         model.addAttribute("amigo", pagina.getContent());
 
         //Paginación Bloqueados
-        int currentPageBloq = page.orElse(1);
+        int currentPageBloq = pagebloq.orElse(1);
         Page<Amigo> paginaBloq = amigoService.getAllAmigosBloqueados(user.get(), pageRequest);
         model.addAttribute("paginaBloq", paginaBloq);
         int totalPagesBloq = pagina.getTotalPages();
@@ -117,6 +120,58 @@ public class AmigosController {
         amigoService.saveEntity(amigoNuevo);
 
         return "redirect:/amigos/solicitudesPendientes";
+
+    }
+
+    @GetMapping("/rechazarSolicitud/{id}")
+    public String rechazarSolicitud(@PathVariable Integer id , HttpSession session, RedirectAttributes attributes){
+
+        Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
+        Optional<Usuario> userDestino= usuarioService.getById(id);
+        Amigo amigoEliminar = amigoService.getAmigo(user.get(),userDestino.get());
+        amigoService.deleteEntity(amigoEliminar);
+        attributes.addFlashAttribute("success","La solicitud de amistad del usuario: " + userDestino.get().getNombre() + " ha sido rechazada");
+
+        return "redirect:/amigos/solicitudesPendientes";
+
+    }
+
+    @GetMapping("/solicitudesEnviadas")
+    public String verSolicitudesEnviadas(@RequestParam("page") Optional<Integer> page,
+                                         Model model, HttpSession session){
+        Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
+
+        //Paginación
+        int currentPage = page.orElse(1);
+        Pageable pageRequest = PageRequest.of(currentPage - 1, 10);
+        Page<Amigo> pagina = amigoService.getAllSolicitudesEnviadas(user.get(),pageRequest);
+        model.addAttribute("pagina", pagina);
+        int totalPages = pagina.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+        //Envio a la vista la pagina en la que estoy
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("size", pagina.getContent().size());
+        model.addAttribute("amigos", pagina.getContent());
+
+        return "amigosSolicitudesEnviadas";
+    }
+
+    @GetMapping("/eliminarSolicitud/{id}")
+    public String eliminarSolicitudEnviada(@PathVariable Integer id , HttpSession session, RedirectAttributes attributes){
+
+        Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
+        Optional<Usuario> userDestino= usuarioService.getById(id);
+        Amigo amigoEliminar = amigoService.getAmigo(userDestino.get(),user.get());
+        amigoService.deleteEntity(amigoEliminar);
+        attributes.addFlashAttribute("success","La solicitud de amistad al usuario: " + userDestino.get().getNombre() + " ha sido eliminada");
+
+        return "redirect:/amigos/solicitudesEnviadas";
 
     }
 
