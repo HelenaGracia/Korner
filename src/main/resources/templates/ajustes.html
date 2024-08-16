@@ -112,12 +112,18 @@
                 <article class="col-12 col-md-6 p-3 formAjustes">
                     <form th:action="@{/ajustes/modificar}" method="post">
                         <div class="mb-3">
+                            <p class="text-center mb-2"><b >Cambiar Nombre de Usuario</b></p>
                             <label class="form-label" for="usernameAjustes">Nombre de usuario:</label>
                             <input class="form-control" id="usernameAjustes" name="usernameAjustes" placeholder="Nombre de usuario" type="text" >
+                            <label class="form-label mt-2" for="usernameAjustesNuevo">Nuevo nombre de usuario:</label>
+                            <input class="form-control" id="usernameAjustesNuevo" name="usernameAjustes" placeholder="Nuevo nombre de usuario" type="text" >
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="emailAjustes">Email:</label>
+                            <p class="text-center mb-2"><b >Cambiar dirección de correo</b></p>
+                            <label class="form-label" for="usernameAjustes">Nombre de usuario:</label>
                             <input class="form-control" id="emailAjustes" name="emailAjustes" placeholder="Email" type="email" >
+                            <label class="form-label" for="emailAjustesNuevo">Email:</label>
+                            <input class="form-control" id="emailAjustesNuevo" name="emailAjustes" placeholder="Email" type="email" >
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="passwordAjustes">Contraseña:</label>

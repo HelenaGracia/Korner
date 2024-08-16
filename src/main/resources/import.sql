@@ -87,6 +87,12 @@ INSERT INTO peliculas (id,id_pelicula_usuarios,titulo, year, puntuacion, opinion
 
 INSERT INTO peliculas (id,id_pelicula_usuarios,titulo, year, puntuacion, opinion, trailer) VALUES ("1005","98","prueba5","2020","2","opinion de prueba5","wwww.youtube");
 
+INSERT INTO animes (id,id_anime_usuarios,titulo, year, puntuacion, opinion,imagen) VALUES ("1005","99","prueba1","2020","2","opinion de prueba5","/imagenes/leerImagen/Anime1005Usuario99.png");
+INSERT INTO animes (id,id_anime_usuarios,titulo, year, puntuacion, opinion,imagen) VALUES ("1006","99","prueba2","2020","2","opinion de prueba5","/imagenes/leerImagen/Anime1006Usuario99.png");
+INSERT INTO animes (id,id_anime_usuarios,titulo, year, puntuacion, opinion,imagen) VALUES ("1007","99","prueba3","2020","2","opinion de prueba5","/imagenes/leerImagen/Anime1007Usuario99.png");
+INSERT INTO animes (id,id_anime_usuarios,titulo, year, puntuacion, opinion,imagen) VALUES ("1008","99","prueba4","2020","2","opinion de prueba5","/imagenes/leerImagen/Anime1008Usuario99.png");
+INSERT INTO animes (id,id_anime_usuarios,titulo, year, puntuacion, opinion,imagen) VALUES ("1009","99","prueba5","2020","2","opinion de prueba5","/imagenes/leerImagen/Anime1009Usuario99.png");
+
 
 INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1000", "1");
 INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1000", "2");

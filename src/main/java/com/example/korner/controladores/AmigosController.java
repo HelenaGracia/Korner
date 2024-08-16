@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -34,8 +35,8 @@ public class AmigosController {
 
 
     @GetMapping
-    public String showAmigos(@RequestParam("page") Optional<Integer> page,
-                             @RequestParam("pagebloq") Optional<Integer> pagebloq,
+    public String showAmigos(@RequestParam(value = "page",required = false) Optional<Integer> page,
+                             @RequestParam(value = "pagebloq" , required = false) Optional<Integer> pagebloq,
                              HttpSession session,Model model) {
 
         Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
@@ -62,9 +63,10 @@ public class AmigosController {
 
         //Paginación Bloqueados
         int currentPageBloq = pagebloq.orElse(1);
-        Page<Amigo> paginaBloq = amigoService.getAllAmigosBloqueados(user.get(), pageRequest);
+        Pageable pageRequestBloq = PageRequest.of(currentPageBloq - 1, 6);
+        Page<Amigo> paginaBloq = amigoService.getAllAmigosBloqueados(user.get(), pageRequestBloq);
         model.addAttribute("paginaBloq", paginaBloq);
-        int totalPagesBloq = pagina.getTotalPages();
+        int totalPagesBloq = paginaBloq.getTotalPages();
         if (totalPagesBloq > 0) {
             List<Integer> pageNumbersBloq = IntStream.rangeClosed(1, totalPagesBloq)
                     .boxed()

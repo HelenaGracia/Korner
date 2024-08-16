@@ -153,13 +153,23 @@ public class AnimeController {
 
         Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
         anime.setUsuarioAnime(user.get());
-//        Optional<Anime> anime2 = animeService.getAnimeByTituloAndUsuarioAnime(anime.getTitulo(),user.get());
-//        Integer idAnime = anime2.get().getId();
-//        Integer idAnime2 = anime.getId();
+
         if (bindingResult.hasErrors()){
             model.addAttribute("animeActual", anime.getId());
             return "animes";
         }else {
+            Optional<Anime> anime2 = animeService.getAnimeByTituloAndUsuarioAnime(anime.getTitulo(), user.get());
+            if (anime2.isPresent()){
+                Integer idAnime = anime2.get().getId();
+                Integer idAnime2 = anime.getId();
+                if (!Objects.equals(idAnime, idAnime2)) {
+                model.addAttribute("tituloRepetido2","Ya tienes un anime con el título: " + anime.getTitulo());
+                model.addAttribute("animeRepetido", anime.getId());
+                return "animes";
+                }
+            }
+
+        }
             try {
                 if (multipartFile.isEmpty()){
 
@@ -172,9 +182,6 @@ public class AnimeController {
                         anime.setImagenRuta("/imagenes/leerImagen/" + "Anime" + anime.getId() + "Usuario" + anime.getUsuarioAnime().getId()  + ".png");
                     }
 
-//                }else if (animeService.getAnimeByTituloAndUsuarioAnime(anime.getTitulo(),user.get()).isPresent() && idAnime != idAnime2) {
-//                    model.addAttribute("tituloRepetido2","Ya tienes un anime con ese título");
-//                    return "animes";
                 } else{
                     //Creamos nuestros proprios nombres que van a llevar los archivos de imagenes, compuestos por String Anime el id del objeto anime el titulo del objeto anime y la extensión del archivo(jpg, png)
                     String nombreArchivo = "Anime" + anime.getId() + "Usuario" + anime.getUsuarioAnime().getId() + "." + FilenameUtils.getExtension(multipartFile.getOriginalFilename());
@@ -204,7 +211,7 @@ public class AnimeController {
                 attributes.addFlashAttribute("failed", "Error");
             }
             return "redirect:/animes";
-        }
+
 
     }
 

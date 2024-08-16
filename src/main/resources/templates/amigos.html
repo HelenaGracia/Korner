@@ -158,16 +158,16 @@
                     <nav aria-label="Page navigation example">
                       <ul class="pagination">
                         <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
-                          <a th:href="@{/amigos(page=${currentPage - 1})}" class="page-link">Previous</a>
+                          <a th:href="@{/amigos(page=${currentPage - 1},pagebloq=${currentPageBloq})}" class="page-link">Previous</a>
                         </li>
                         <li th:each="pageNumber : ${pageNumbers}" class="page-item">
-                          <a th:href="@{/amigos(page=${pageNumber})}"
+                          <a th:href="@{/amigos(page=${pageNumber},pagebloq=${currentPageBloq})}"
                              th:text="${pageNumber}"
                              th:classappend="${pageNumber==pagina.number + 1} ? active"
                              class="page-link" ></a>
                         </li>
                         <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
-                          <a th:href="@{/amigos(page=${currentPage + 1})}" class="page-link" >Next</a>
+                          <a th:href="@{/amigos(page=${currentPage + 1},pagebloq=${currentPageBloq})}" class="page-link" >Next</a>
                         </li>
                       </ul>
                     </nav>
@@ -301,16 +301,16 @@
                     <nav aria-label="Page navigation example">
                       <ul class="pagination">
                         <li th:if="${paginaBloq.totalPages > 1 && currentPageBloq!=1}" class="page-item">
-                          <a th:href="@{/amigos(pagebloq=${currentPageBloq - 1})}" class="page-link" >Previous</a>
+                          <a th:href="@{/amigos(pagebloq=${currentPageBloq - 1}, page=${currentPage})}" class="page-link" >Previous</a>
                         </li>
                         <li th:each="pageNumberBloq : ${pageNumbersBloq}" class="page-item">
-                          <a th:href="@{/amigos(pagebloq=${pageNumberBloq})}"
+                          <a th:href="@{/amigos(pagebloq=${pageNumberBloq}, page=${currentPage})}"
                              th:text="${pageNumberBloq}"
                              th:classappend="${pageNumberBloq==paginaBloq.number + 1} ? active"
                              class="page-link" ></a>
                         </li>
-                        <li th:unless="${currentPageBloq == paginaBloq.totalPages || pagina.totalPages == 0}" class="page-item">
-                          <a th:href="@{/amigos(pagebloq=${currentPageBloq + 1})}" class="page-link">Next</a>
+                        <li th:unless="${currentPageBloq == paginaBloq.totalPages || paginaBloq.totalPages == 0}" class="page-item">
+                          <a th:href="@{/amigos(pagebloq=${currentPageBloq + 1}, page=${currentPage})}" class="page-link">Next</a>
                         </li>
                       </ul>
                     </nav>
