@@ -189,6 +189,7 @@ public class PeliculaController {
                 if (!Objects.equals(idPelicula, idPelicula2)){
                     model.addAttribute("tituloRepetido2", "Ya tienes una película con el título: " + pelicula.getTitulo());
                     model.addAttribute("peliculaRepetida", pelicula.getId());
+                    return "peliculas";
                 }
             }
         }
