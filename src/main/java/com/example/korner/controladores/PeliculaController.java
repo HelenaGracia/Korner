@@ -102,6 +102,7 @@ public class PeliculaController {
         List<Plataforma> plataformasList = plataformaService.getAll();
         model.addAttribute("listaPlataformas", plataformasList);
         model.addAttribute("listaGeneros", generoElementoCompartidoList);
+        Optional<Usuario> user = usuarioSecurityService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
 
 
         if (bindingResult.hasErrors() || multipartFile.isEmpty()){
@@ -116,10 +117,11 @@ public class PeliculaController {
             model.addAttribute("peliculaActual", -1);
             return "peliculas";
 
-        }else {
+        } else if (peliculaService.getPeliculaByTituloAndUsuario(pelicula.getTitulo(),user.get()).isPresent()) {
+            model.addAttribute("tituloRepetido", "Ya tienes una película con ese título");
+            return "peliculas";
+        } else {
             try {
-                Optional<Usuario> user = usuarioSecurityService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
-
                 pelicula.setUsuarioPelicula(user.get());
                 logger.info("este es el objeto pelicula recibido{}", pelicula);
             /*guardamos en la BBDD  el objeto pelicula con el resto de la información que hemos obtenido
@@ -180,9 +182,18 @@ public class PeliculaController {
             model.addAttribute("peliculaActual", pelicula.getId());
             return "peliculas";
         }else {
+            Optional<Pelicula> pelicula2 = peliculaService.getPeliculaByTituloAndUsuario(pelicula.getTitulo(),user.get());
+            if (pelicula2.isPresent()){
+                Integer idPelicula = pelicula.getId();
+                Integer idPelicula2 = pelicula2.get().getId();
+                if (!Objects.equals(idPelicula, idPelicula2)){
+                    model.addAttribute("tituloRepetido2", "Ya tienes una película con el título: " + pelicula.getTitulo());
+                    model.addAttribute("peliculaRepetida", pelicula.getId());
+                }
+            }
+        }
             try {
                 if (multipartFile.isEmpty()){
-
 
                     Boolean archivo = Files.exists(Path.of(FILE_PATH_ROOT+"/" + ( "Pelicula" + pelicula.getId() + "Usuario" + pelicula.getUsuarioPelicula().getId()  + ".jpg")));
 
@@ -221,7 +232,7 @@ public class PeliculaController {
                 attributes.addFlashAttribute("failed", "Error");
             }
             return "redirect:/peliculas";
-        }
+
 
     }
 
