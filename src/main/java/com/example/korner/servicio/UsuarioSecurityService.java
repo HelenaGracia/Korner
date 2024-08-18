@@ -63,4 +63,8 @@ public class UsuarioSecurityService extends AbstractService<Usuario,Integer, Usu
         return usuarioRepository.findAllByNombreContainingIgnoreCaseAndIdIn(username, includeId);
     }
 
+    public List<Usuario>getAllUsuariosMenosEste(Integer id){
+        return usuarioRepository.findAllByIdNot(id);
+    }
+
 }

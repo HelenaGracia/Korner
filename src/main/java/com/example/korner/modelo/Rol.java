@@ -24,6 +24,6 @@ public class Rol {
     @Column (name = "nombre_rol" , length = 45)
     private String nombre;
 
-    @OneToMany (mappedBy = "role", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany (mappedBy = "role", fetch = FetchType.EAGER)
     private Set<Usuario> usuario;
 }
