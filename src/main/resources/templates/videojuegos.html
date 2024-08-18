@@ -349,16 +349,16 @@
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
-                                    <a th:href="@{/videojuegos(page=${currentPage - 1}, orden=${orden})}" class="page-link" href="#">Previous</a>
+                                    <a th:href="@{/videojuegos(page=${currentPage - 1}, orden=${orden})}" class="page-link" >Previous</a>
                                 </li>
                                 <li th:each="pageNumber : ${pageNumbers}" class="page-item">
                                     <a th:href="@{/videojuegos(page=${pageNumber}, orden=${orden})}"
                                        th:text="${pageNumber}"
                                        th:classappend="${pageNumber==pagina.number + 1} ? active"
-                                       class="page-link" href="#"></a>
+                                       class="page-link" ></a>
                                 </li>
                                 <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
-                                    <a th:href="@{/videojuegos(page=${currentPage + 1}, orden=${orden})}" class="page-link" href="#">Next</a>
+                                    <a th:href="@{/videojuegos(page=${currentPage + 1}, orden=${orden})}" class="page-link" >Next</a>
                                 </li>
                             </ul>
                         </nav>
@@ -376,7 +376,7 @@
                                     <a th:href="@{/videojuegos/search(page=${currentPage - 1}, tituloVideojuegoBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
-                                    filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" href="#">Previous</a>
+                                    filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" >Previous</a>
                                 </li>
                                 <li th:each="pageNumber : ${pageNumbers}" class="page-item">
                                     <a th:href="@{/videojuegos/search(page=${pageNumber}, tituloVideojuegoBusqueda=${titulo},
@@ -385,13 +385,13 @@
                                      filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}"
                                        th:text="${pageNumber}"
                                        th:classappend="${pageNumber==pagina.number + 1} ? active"
-                                       class="page-link" href="#"></a>
+                                       class="page-link"></a>
                                 </li>
                                 <li th:unless="${currentPage  ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
                                     <a th:href="@{/videojuegos/search(page=${currentPage + 1}, tituloVideojuegoBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
-                                     filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" href="#">Next</a>
+                                     filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" >Next</a>
                                 </li>
                             </ul>
                         </nav>
@@ -470,9 +470,6 @@
                                             <a th:href="@{/videojuegos}" class="btn btn-secondary me-2">Cerrar</a>
                                             <button type="submit" class="btn btn-primary" >Guardar</button>
                                         </div>
-
-
-
 
                                     </form>
                                 </div>
@@ -585,16 +582,16 @@
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
-                                    <a th:href="@{/videojuegos(page=${currentPage - 1}, orden=${orden})}" class="page-link" href="#">Previous</a>
+                                    <a th:href="@{/videojuegos(page=${currentPage - 1}, orden=${orden})}" class="page-link" >Previous</a>
                                 </li>
                                 <li th:each="pageNumber : ${pageNumbers}" class="page-item">
                                     <a th:href="@{/videojuegos(page=${pageNumber}, orden=${orden})}"
                                        th:text="${pageNumber}"
                                        th:classappend="${pageNumber==pagina.number + 1} ? active"
-                                       class="page-link" href="#"></a>
+                                       class="page-link"></a>
                                 </li>
                                 <li th:unless="${currentPage  ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
-                                    <a th:href="@{/videojuegos(page=${currentPage + 1}, orden=${orden})}" class="page-link" href="#">Next</a>
+                                    <a th:href="@{/videojuegos(page=${currentPage + 1}, orden=${orden})}" class="page-link" >Next</a>
                                 </li>
                             </ul>
                         </nav>
@@ -609,7 +606,7 @@
                                     <a th:href="@{/videojuegos/search(page=${currentPage - 1}, tituloVideojuegoBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
-                                    filtroPlataforma=${plataformaFiltro},filtroOrden=${ordenFiltro})}" class="page-link" href="#">Previous</a>
+                                    filtroPlataforma=${plataformaFiltro},filtroOrden=${ordenFiltro})}" class="page-link" >Previous</a>
                                 </li>
                                 <li th:each="pageNumber : ${pageNumbers}" class="page-item">
                                     <a th:href="@{/videojuegos/search(page=${pageNumber}, tituloVideojuegoBusqueda=${titulo},
@@ -618,13 +615,13 @@
                                      filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}"
                                        th:text="${pageNumber}"
                                        th:classappend="${pageNumber==pagina.number + 1} ? active"
-                                       class="page-link" href="#"></a>
+                                       class="page-link" ></a>
                                 </li>
                                 <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
                                     <a th:href="@{/videojuegos/search(page=${currentPage + 1}, tituloVideojuegoBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
-                                     filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" href="#">Next</a>
+                                     filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" >Next</a>
                                 </li>
                             </ul>
                         </nav>
