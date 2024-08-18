@@ -25,10 +25,9 @@ public class LoginController {
     @GetMapping("/loginSuccess")
     String loginSuccess(HttpSession session) {
         Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString())));
-        String ajustesUsuario = user.get().getAjustes();
+        String ajustesUsuario = user.get().getAjustesInicioSesion();
 
         return switch (ajustesUsuario) {
-            case "home" -> "redirect:/home";
             case "peliculas" -> "redirect:/peliculas";
             case "series" -> "redirect:/series";
             case "videojuegos" -> "redirect:/videojuegos";

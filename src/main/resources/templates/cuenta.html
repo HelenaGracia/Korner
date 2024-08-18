@@ -50,18 +50,18 @@
                   <label class="form-label" for="usernameAjustes">Nombre de usuario:</label>
                   <p th:if="${#fields.hasErrors('nombre')}" th:errorclass="error" th:errors="*{nombre}" ></p>
                   <p th:if="${failedNombre}" class="error" th:text="${failedNombre}"></p>
-                  <input class="form-control" id="usernameAjustes" th:field="*{nombre}" name="nombre" placeholder="Nombre Usuario" type="text" minlength="2" maxlength="20">
+                  <input class="form-control" id="usernameAjustes" th:field="*{nombre}" name="nombre" placeholder="Nombre Usuario" type="text" minlength="2" maxlength="20" required="required">
                 </div>
                 <div class="mb-3">
                   <label class="form-label" for="contrasena">Password</label>
                   <p th:if="${#fields.hasErrors('contrasena')}" th:errorclass="error" th:errors="*{contrasena}" ></p>
-                  <input class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña" type="password" minlength="6" maxlength="20" >
+                  <input class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña" type="password" minlength="6" maxlength="20" required="required">
                 </div>
                 <div class="mb-3">
                   <label class="form-label" for="correo">Email</label>
                   <p th:if="${#fields.hasErrors('correo')}" th:errorclass="error" th:errors="*{correo}" ></p>
                   <p th:if="${failedCorreo}" class="error" th:text="${failedCorreo}"></p>
-                  <input class="form-control" id="correo" name="correo" th:field="*{correo}" placeholder="Correo Electrónico" type="email" >
+                  <input class="form-control" id="correo" name="correo" th:field="*{correo}" placeholder="Correo Electrónico" type="email" required="required">
                 </div>
                 <div class="mb-3">
                   <label for="anyoNacimiento">Año de nacimiento:</label>
