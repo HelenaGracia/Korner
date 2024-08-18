@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 
@@ -28,5 +29,7 @@ public interface VideojuegoRepository extends JpaRepository<Videojuego, Integer>
     Page<Videojuego> findAllByIdIn(List<Integer> ids, Pageable pageable);
 
     Page<Videojuego> findAllByIdInAndUsuarioVideojuego(List<Integer> ids,Usuario usuario, Pageable pageable);
+
+    Optional<Videojuego> findVideojuegoByTituloAndUsuarioVideojuego(String titulo, Usuario usuario);
 
 }

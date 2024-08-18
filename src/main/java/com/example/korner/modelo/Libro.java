@@ -16,10 +16,10 @@ import java.util.Set;
 public class Libro  extends AbstractEntity{
 
     @ManyToMany (fetch = FetchType.LAZY)
-    @JoinTable(name = "libro_plataforma", joinColumns = @JoinColumn(name = "id"),
-            inverseJoinColumns = @JoinColumn(name = "id_plataforma"))
+    @JoinTable(name = "libro_formato", joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "id_formato"))
     @NotEmpty
-    private Set<Plataforma> plataformasLibro;
+    private Set<FormatoLibro> formatosLibro;
 
 
 
@@ -33,19 +33,13 @@ public class Libro  extends AbstractEntity{
     @JoinColumn (name = "id_libro_usuarios")
     private Usuario usuarioLibro;
 
-    @ManyToMany (fetch = FetchType.LAZY)
-    @JoinTable(name = "libro_formato", joinColumns = @JoinColumn(name = "id"),
-            inverseJoinColumns = @JoinColumn(name = "id_tipo_formato"))
-    @NotEmpty
-    private Set<FormatoLibro> formatosLibros;
 
     @Override
     public String toString() {
         return "Libro{" +
-                "plataformasLibro=" + plataformasLibro +
+                "formatosLibro=" + formatosLibro +
                 ", generosLibro=" + generosLibro +
                 ", usuarioLibro=" + usuarioLibro +
-                ", formatosLibros=" + formatosLibros +
-                '}' + super.toString();
+                '}'+ super.toString();
     }
 }

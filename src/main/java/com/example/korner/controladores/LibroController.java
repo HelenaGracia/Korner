@@ -1,9 +1,6 @@
 package com.example.korner.controladores;
 
-import com.example.korner.modelo.GeneroElementoCompartido;
-import com.example.korner.modelo.Libro;
-import com.example.korner.modelo.Plataforma;
-import com.example.korner.modelo.Usuario;
+import com.example.korner.modelo.*;
 import com.example.korner.servicio.*;
 import jakarta.servlet.http.HttpSession;
 import org.apache.commons.io.FileUtils;
@@ -40,7 +37,7 @@ public class LibroController {
 
     private final GeneroElementoServiceImpl generoElementoService;
 
-    private final PlataformaServiceImpl plataformaService;
+    private final FormatoLibroServiceImpl formatoLibroService;
     private final FileSystemStorageService fileSystemStorageService;
 
     private final UsuarioSecurityService usuarioSecurityService;
@@ -48,13 +45,13 @@ public class LibroController {
 
 
     public LibroController(LibroServiceImpl libroService,
-                              GeneroElementoServiceImpl generoElementoService,
-                              FileSystemStorageService fileSystemStorageService,
-                              PlataformaServiceImpl plataformaService, UsuarioSecurityService usuarioSecurityService) {
+                           GeneroElementoServiceImpl generoElementoService, FormatoLibroServiceImpl formatoLibroService,
+                           FileSystemStorageService fileSystemStorageService,
+                           UsuarioSecurityService usuarioSecurityService) {
         this.libroService = libroService;
         this.generoElementoService = generoElementoService;
+        this.formatoLibroService = formatoLibroService;
         this.fileSystemStorageService = fileSystemStorageService;
-        this.plataformaService = plataformaService;
         this.usuarioSecurityService = usuarioSecurityService;
     }
 
@@ -70,16 +67,11 @@ public class LibroController {
 
 
 
-        //List<Libro> listadoLibros = libroService.getAll();
         Libro libro = new Libro();
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
-        List<Plataforma> plataformasList = plataformaService.getAll();
+        List<FormatoLibro> formatosList = formatoLibroService.getAll();
         model.addAttribute("listaGeneros", generoElementoCompartidoList);
-        model.addAttribute("listaPlataformas", plataformasList);
-        //model.addAttribute("size", listadoLibros.size());
-
-        //model.addAttribute("libros", listadoLibros);
-
+        model.addAttribute("listaFormatos", formatosList);
         model.addAttribute("datosLibro", libro);
 
         return "libros";
@@ -105,10 +97,10 @@ public class LibroController {
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
         Set<GeneroElementoCompartido> listadoGeneros = libro.getGenerosLibro();
         logger.info("listado de generos:{}", listadoGeneros);
-        List<Plataforma> plataformasList = plataformaService.getAll();
-        model.addAttribute("listaPlataformas", plataformasList);
+        List<FormatoLibro> formatosList = formatoLibroService.getAll();
+        model.addAttribute("listaFormatos", formatosList);
         model.addAttribute("listaGeneros", generoElementoCompartidoList);
-
+        Optional<Usuario> user = usuarioSecurityService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
 
         if (bindingResult.hasErrors() || multipartFile.isEmpty()){
             if (multipartFile.isEmpty()){
@@ -122,10 +114,11 @@ public class LibroController {
             model.addAttribute("libroActual", -1);
             return "libros";
 
-        }else {
+        } else if (libroService.getLibroByTituloAndUsuario(libro.getTitulo(), user.get()).isPresent()) {
+            model.addAttribute("tituloRepetido", "Ya tienes un libro con ese título");
+            return "libros";
+        } else {
             try {
-                Optional<Usuario> user = usuarioSecurityService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
-
                 libro.setUsuarioLibro(user.get());
                 logger.info("este es el objeto libro recibido{}", libro);
             /*guardamos en la BBDD  el objeto libro con el resto de la información que hemos obtenido
@@ -173,8 +166,8 @@ public class LibroController {
 
         final String FILE_PATH_ROOT = "D:/ficheros";
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
-        List<Plataforma> plataformasList = plataformaService.getAll();
-        model.addAttribute("listaPlataformas", plataformasList);
+        List<FormatoLibro> formatosList = formatoLibroService.getAll();
+        model.addAttribute("listaFormatos", formatosList);
         model.addAttribute("listaGeneros", generoElementoCompartidoList);
 
 
@@ -186,9 +179,17 @@ public class LibroController {
             model.addAttribute("libroActual", libro.getId());
             return "libros";
         }else {
+            Optional<Libro> libro2 = libroService.getLibroByTituloAndUsuario(libro.getTitulo(), user.get());
+            if (libro2.isPresent()){
+                if (!Objects.equals(libro.getId(), libro2.get().getId())){
+                    model.addAttribute("tituloRepetido2", "Ya tienes un libro con el título: " + libro.getTitulo());
+                    model.addAttribute("libroRepetido", libro.getId());
+                    return "libros";
+                }
+            }
+        }
             try {
                 if (multipartFile.isEmpty()){
-
 
                     Boolean archivo = Files.exists(Path.of(FILE_PATH_ROOT+"/" + ( "Libro" + libro.getId() + "Usuario" + libro.getUsuarioLibro().getId()  + ".jpg")));
 
@@ -227,7 +228,7 @@ public class LibroController {
                 attributes.addFlashAttribute("failed", "Error");
             }
             return "redirect:/libros";
-        }
+
 
     }
 
@@ -251,7 +252,7 @@ public class LibroController {
                          @RequestParam(value = "filtroPuntuacion", required = false) Integer filtroPuntuacion,
                          @RequestParam(value = "filtroGenero", required = false) Integer generoId,
                          @RequestParam(value = "filtroYear", required = false) Integer filtroYear,
-                         @RequestParam(value = "filtroPlataforma", required = false) Integer plataformaId,
+                         @RequestParam(value = "filtroFormato", required = false) Integer formatoId,
                          @RequestParam(value = "filtroOrden",required = false) String filtrOrden,
                          Model model, @RequestParam("page") Optional<Integer> page,
                          HttpSession session, RedirectAttributes attributes) {
@@ -261,8 +262,8 @@ public class LibroController {
         Libro libro = new Libro();
         model.addAttribute("datosLibro", libro);
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
-        List<Plataforma> plataformasList = plataformaService.getAll();
-        model.addAttribute("listaPlataformas", plataformasList);
+        List<FormatoLibro> formatosList = formatoLibroService.getAll();
+        model.addAttribute("listaFormatos", formatosList);
         model.addAttribute("listaGeneros", generoElementoCompartidoList);
 
 
@@ -300,25 +301,25 @@ public class LibroController {
 
             // Empiezan los filtros de búsqueda
             Page<Libro> pagina = null;
-            Optional<Plataforma> plataformaFiltro;
+            Optional<FormatoLibro> formatoFiltro;
             Optional<GeneroElementoCompartido> generoFiltro;
 
             if(tituloLibroBusqueda == null || tituloLibroBusqueda.isBlank()){
-                if (filtroPuntuacion!=null && generoId == null && filtroYear == null && plataformaId == null){
+                if (filtroPuntuacion!=null && generoId == null && filtroYear == null && formatoId == null){
                     pagina = libroService.getAllLibrosByPuntuacion(filtroPuntuacion, user.get(), pageRequest);
                     model.addAttribute("puntuacionFiltro", filtroPuntuacion);
                     if (pagina.getContent().isEmpty()){
-                        attributes.addFlashAttribute("failed", "No existe ninguna libro con esa puntuacion");
+                        attributes.addFlashAttribute("failed", "No existe ningún libro con esa puntuación");
                         return "redirect:/libros";
                     }
 
-                } else if (filtroPuntuacion == null && generoId != null && filtroYear == null && plataformaId == null) {
+                } else if (filtroPuntuacion == null && generoId != null && filtroYear == null && formatoId == null) {
                     generoFiltro = generoElementoService.getById(generoId);
                     if (generoFiltro.isPresent()){
                         pagina = libroService.getAllLibrosByGenero(generoFiltro.get(), user.get(), pageRequest);
                         model.addAttribute("generoFiltro", generoId);
                         if (pagina.getContent().isEmpty()){
-                            attributes.addFlashAttribute("failed", "No existe ninguna libro con ese género");
+                            attributes.addFlashAttribute("failed", "No existe ningún libro con ese género");
                             return "redirect:/libros";
                         }
                     }else {
@@ -326,45 +327,45 @@ public class LibroController {
                         return "redirect:/libros";
                     }
 
-                } else if (filtroPuntuacion == null && generoId == null && filtroYear != null && plataformaId == null) {
+                } else if (filtroPuntuacion == null && generoId == null && filtroYear != null && formatoId == null) {
                     pagina = libroService.getAllLibrosByYear(filtroYear, user.get(), pageRequest);
                     model.addAttribute("yearFiltro", filtroYear);
                     if (pagina.getContent().isEmpty()){
-                        attributes.addFlashAttribute("failed", "No existe ninguna libro con ese año");
+                        attributes.addFlashAttribute("failed", "No existe ningún libro con ese año");
                         return "redirect:/libros";
                     }
-                } else if (filtroPuntuacion == null && generoId == null && filtroYear == null && plataformaId != null) {
-                    plataformaFiltro = plataformaService.getById(plataformaId);
-                    if (plataformaFiltro.isPresent()){
-                        pagina = libroService.getAllLibrosByPlataforma(plataformaFiltro.get(), user.get(), pageRequest);
-                        model.addAttribute("plataformaFiltro", plataformaId);
+                } else if (filtroPuntuacion == null && generoId == null && filtroYear == null && formatoId != null) {
+                    formatoFiltro = formatoLibroService.getById(formatoId);
+                    if (formatoFiltro.isPresent()){
+                        pagina = libroService.getAllLibrosByFormato(formatoFiltro.get(), user.get(), pageRequest);
+                        model.addAttribute("formatoFiltro", formatoId);
                         if (pagina.getContent().isEmpty()){
-                            attributes.addFlashAttribute("failed", "No existe ninguna libro con esa plataforma");
+                            attributes.addFlashAttribute("failed", "No existe ningún libro con ese formato");
                             return "redirect:/libros";
                         }
                     }else {
-                        attributes.addFlashAttribute("failed", "La plataforma no existe");
+                        attributes.addFlashAttribute("failed", "El formato no existe");
                         return "redirect:/libros";
                     }
-                } else if (filtroPuntuacion != null && generoId != null && filtroYear != null && plataformaId != null) {
-                    plataformaFiltro = plataformaService.getById(plataformaId);
+                } else if (filtroPuntuacion != null && generoId != null && filtroYear != null && formatoId != null) {
+                    formatoFiltro = formatoLibroService.getById(formatoId);
                     generoFiltro = generoElementoService.getById(generoId);
-                    if (plataformaFiltro.isPresent() && generoFiltro.isPresent()){
+                    if (formatoFiltro.isPresent() && generoFiltro.isPresent()){
                         pagina = libroService.getAllLibrosByAllFiltros(filtroPuntuacion, generoFiltro.get(),
-                                filtroYear, plataformaFiltro.get(), user.get(), pageRequest);
+                                filtroYear, formatoFiltro.get(), user.get(), pageRequest);
                         model.addAttribute("puntuacionFiltro", filtroPuntuacion);
                         model.addAttribute("generoFiltro", generoId);
                         model.addAttribute("yearFiltro", filtroYear);
-                        model.addAttribute("plataformaFiltro", plataformaId);
+                        model.addAttribute("formatoFiltro", formatoId);
                         if (pagina.getContent().isEmpty()){
-                            attributes.addFlashAttribute("failed", "No existe ninguna libro con esos filtros");
+                            attributes.addFlashAttribute("failed", "No existe ningún libro con esos filtros");
                             return "redirect:/libros";
                         }
                     }
 
                 }else {
                     attributes.addFlashAttribute("failed", "Sólo se puede filtrar por título, género, año, valoración " +
-                            "plataforma de forma idividual o por género, año, valoración y plataforma juntos");
+                            "formato de forma idividual o por género, año, valoración y formato juntos");
                     return "redirect:/libros";
                 }
             }else {

@@ -25,10 +25,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Year;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -104,6 +101,7 @@ public class VideojuegoController {
         List<PlataformaVideojuego> plataformasList = plataformaVideojuegoService.getAll();
         model.addAttribute("listaPlataformas", plataformasList);
         model.addAttribute("listaGeneros", generoElementoCompartidoList);
+        Optional<Usuario> user = usuarioSecurityService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
 
 
         if (bindingResult.hasErrors() || multipartFile.isEmpty()){
@@ -118,10 +116,11 @@ public class VideojuegoController {
             model.addAttribute("videojuegoActual", -1);
             return "videojuegos";
 
-        }else {
+        } else if (videojuegoService.getVideojuegoByTituloAndUsuario(videojuego.getTitulo(), user.get()).isPresent()) {
+            model.addAttribute("tituloRepetido", "Ya tienes un videojuego con ese título");
+            return "videojuegos";
+        } else {
             try {
-                Optional<Usuario> user = usuarioSecurityService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
-
                 videojuego.setUsuarioVideojuego(user.get());
                 logger.info("este es el objeto videojuego recibido{}", videojuego);
             /*guardamos en la BBDD  el objeto pelicula con el resto de la información que hemos obtenido
@@ -183,6 +182,15 @@ public class VideojuegoController {
             model.addAttribute("videojuegoActual", videojuego.getId());
             return "videojuegos";
         }else {
+            Optional<Videojuego> videojuego2 = videojuegoService.getVideojuegoByTituloAndUsuario(videojuego.getTitulo(), user.get());
+            if (videojuego2.isPresent()){
+                if (!Objects.equals(videojuego.getId(), videojuego2.get().getId())){
+                    model.addAttribute("tituloRepetido2", "Ya tienes un videojuego con el título: " + videojuego.getTitulo());
+                    model.addAttribute("videojuegoRepetido", videojuego.getId());
+                    return "videojuegos";
+                }
+            }
+        }
             try {
                 if (multipartFile.isEmpty()){
 
@@ -224,7 +232,7 @@ public class VideojuegoController {
                 attributes.addFlashAttribute("failed", "Error");
             }
             return "redirect:/videojuegos";
-        }
+
 
     }
 

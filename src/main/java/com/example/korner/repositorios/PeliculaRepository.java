@@ -11,6 +11,7 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 
@@ -32,6 +33,8 @@ public interface PeliculaRepository extends JpaRepository<Pelicula, Integer> {
     Page<Pelicula> findAllByIdIn(List<Integer> ids, Pageable pageable);
 
     Page<Pelicula> findAllByIdInAndUsuarioPelicula(List<Integer> ids,Usuario usuario, Pageable pageable);
+
+    Optional<Pelicula> findPeliculaByTituloAndUsuarioPelicula(String titulo, Usuario usuario);
 
 
 }

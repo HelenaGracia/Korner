@@ -24,14 +24,17 @@ public class CompartidosController {
     private final UsuarioSecurityService usuarioService;
     private final AnimeServiceImpl animeService;
     private final VideojuegoServiceImpl videojuegoService;
+
+    private final LibroServiceImpl libroService;
  
-    public CompartidosController(CompartirServiceImpl compartirService, AmigoServiceImpl amigoService, PeliculaServiceImpl peliculaService, UsuarioSecurityService usuarioService, AnimeServiceImpl animeService, VideojuegoServiceImpl videojuegoService) {
+    public CompartidosController(CompartirServiceImpl compartirService, AmigoServiceImpl amigoService, PeliculaServiceImpl peliculaService, UsuarioSecurityService usuarioService, AnimeServiceImpl animeService, VideojuegoServiceImpl videojuegoService, LibroServiceImpl libroService) {
         this.compartirService = compartirService;
         this.amigoService = amigoService;
         this.peliculaService = peliculaService;
         this.usuarioService = usuarioService;
         this.animeService = animeService;
         this.videojuegoService = videojuegoService;
+        this.libroService = libroService;
     }
 
 
@@ -204,6 +207,63 @@ public class CompartidosController {
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("size", pagina.getContent().size());
         return "videojuegosCompartidos";
+    }
+
+    @GetMapping("/compartidos/libros")
+    public String compartidosLibros(@RequestParam(value = "nombreUsuario", required = false) String nombreUsuario,
+                                         @RequestParam(value = "page") Optional<Integer> page,
+                                         HttpSession session,Model model) {
+        Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
+        List<ElementoCompartido> listElementosCompartidos = compartirService.getAllAmigosByAmigoOrigen(user.get());
+
+        List<Integer> listlibroId = listElementosCompartidos.stream().map(ElementoCompartido::getLibro).filter(libro -> libro != null).map(Libro::getId).toList();
+
+        int currentPage = page.orElse(1);
+        PageRequest pageRequest = PageRequest.of(currentPage - 1, 4);
+        Page<Libro> pagina=null ;
+
+        if(nombreUsuario== null || nombreUsuario.isBlank()){
+            pagina = libroService.getAllLibroCompartidosByListId(listlibroId,pageRequest);
+            model.addAttribute("libros",pagina.getContent());
+        }else{
+            model.addAttribute("nombreUsuario", nombreUsuario);
+            Optional<Usuario> usuarioBusqueda = usuarioService.getByName(nombreUsuario);
+            if(usuarioBusqueda.isPresent()){
+                pagina = libroService.getAllLibroCompartidosByListIdAndUsuario(listlibroId,usuarioBusqueda.get(), pageRequest);
+                Amigo amigoExiste = amigoService.getAmigo(usuarioBusqueda.get(),user.get());
+                if(amigoExiste != null){
+                    if(pagina.getContent().isEmpty()){
+                        pagina = libroService.getAllLibroCompartidosByListId(listlibroId,pageRequest);
+                        model.addAttribute("failed", "El usuario " + nombreUsuario + " no ha compartido ningún libro contigo");
+                        model.addAttribute("libros", pagina.getContent());
+                    } else {
+                        model.addAttribute("libros",pagina.getContent());
+                    }
+                } else {
+                    pagina = libroService.getAllLibroCompartidosByListId(listlibroId,pageRequest);
+                    model.addAttribute("failed", "El usuario " + nombreUsuario + " no es amigo tuyo");
+                    model.addAttribute("libros",pagina.getContent());
+                }
+
+            } else {
+                model.addAttribute("failed", "El usuario " + nombreUsuario + " no existe");
+                pagina = libroService.getAllLibroCompartidosByListId(listlibroId,pageRequest);
+                model.addAttribute("libros",pagina.getContent());
+            }
+        }
+
+
+        model.addAttribute("pagina", pagina);
+        int totalPages = pagina.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("size", pagina.getContent().size());
+        return "librosCompartidos";
     }
 }
 

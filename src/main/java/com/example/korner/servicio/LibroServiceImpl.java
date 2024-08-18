@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
     public class LibroServiceImpl extends AbstractService<Libro,Integer, LibroRepository>{
@@ -38,15 +39,15 @@ import java.util.List;
             return  libroRepository.findAllByYearAndUsuarioLibro(year, usuario, pageable);
         }
 
-        public  Page<Libro> getAllLibrosByPlataforma(Plataforma plataforma, Usuario usuario, Pageable pageable){
-            return libroRepository.findAllByPlataformasLibroAndUsuarioLibro(plataforma, usuario, pageable);
+        public  Page<Libro> getAllLibrosByFormato(FormatoLibro formato, Usuario usuario, Pageable pageable){
+            return libroRepository.findAllByFormatosLibroAndUsuarioLibro(formato, usuario, pageable);
         }
 
         public Page<Libro>getAllLibrosByAllFiltros(
                 Integer puntuacion, GeneroElementoCompartido genero, Integer year,
-                Plataforma plataforma, Usuario usuario, Pageable pageable){
-            return libroRepository.findAllByPuntuacionAndGenerosLibroAndYearAndPlataformasLibroAndUsuarioLibro(
-                    puntuacion,genero,year,plataforma, usuario, pageable);
+                FormatoLibro formato, Usuario usuario, Pageable pageable){
+            return libroRepository.findAllByPuntuacionAndGenerosLibroAndYearAndFormatosLibroAndUsuarioLibro(
+                    puntuacion,genero,year,formato, usuario, pageable);
         }
 
         public Page<Libro> getAllLibroCompartidosByListId (List<Integer> listId, Pageable page){
@@ -55,5 +56,9 @@ import java.util.List;
 
         public Page<Libro> getAllLibroCompartidosByListIdAndUsuario (List<Integer> listId,Usuario usuario, Pageable page){
             return libroRepository.findAllByIdInAndUsuarioLibro(listId,usuario, page);
+        }
+
+        public Optional<Libro> getLibroByTituloAndUsuario(String titulo, Usuario usuario){
+            return libroRepository.findLibroByTituloAndUsuarioLibro(titulo, usuario);
         }
     }

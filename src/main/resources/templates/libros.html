@@ -187,13 +187,13 @@
 
               </div>
 
-              <!-- Filtro por Plataforma -->
+              <!-- Filtro por Formato -->
               <div class="form-group mb-3">
-                <label><strong>Plataforma</strong></label><br>
+                <label><strong>Formato</strong></label><br>
                 <div class="form-check">
-                  <select class="form-select" th:name="filtroPlataforma">
-                    <option th:selected="selected" th:disabled="disabled">--Selecione Plataforma--</option>
-                    <option th:each="plataformaFiltroForm:${listaPlataformas}" th:value="${plataformaFiltroForm.id}" th:text="${plataformaFiltroForm.nombrePlataforma}"></option>
+                  <select class="form-select" th:name="filtroFormato">
+                    <option th:selected="selected" th:disabled="disabled">--Seleccione Formato--</option>
+                    <option th:each="formatoFiltroForm:${listaFormatos}" th:value="${formatoFiltroForm.id}" th:text="${formatoFiltroForm.nombre}"></option>
                   </select>
                 </div>
               </div>
@@ -235,11 +235,12 @@
         </div>
         <div class="modal-body">
           <form th:action="@{/libros/saveLibro}" method="post" enctype="multipart/form-data" th:object="${datosLibro}">
-            <script th:inline="javascript" th:if="${#fields.hasErrors('*')  and  libroActual == -1 }">/*<![CDATA[*/ $(document).ready(function () { $('#modalLibroAñadir').modal('show');}); /*]]>*/</script>
+            <script th:inline="javascript" th:if="${#fields.hasErrors('*')  and  libroActual == -1 || tituloRepetido != null}">/*<![CDATA[*/ $(document).ready(function () { $('#modalLibroAñadir').modal('show');}); /*]]>*/</script>
             <div class="mb-3">
               <label for="titulo" class="form-label">Título</label>
               <input type="text" class="form-control" id="titulo" name="titulo" th:field="*{titulo}" >
               <p th:if="${#fields.hasErrors('titulo')}" th:errorclass="error" th:errors="*{titulo}" ></p>
+              <p th:if="${tituloRepetido}" class="error" th:text="${tituloRepetido}"></p>
             </div>
             <div class="mb-3">
               <label for="imagen" class="form-label">Imagen</label>
@@ -269,19 +270,11 @@
             </div>
             <div class="mb-3">
               <div  class="form-label">Formato</div><br>
-              <div class="form-check form-check-inline"  th:each="formatoItem: ${listaFormato}">
-                <label class="form-check-label" for="tipoFormatos" th:text="${formatoItem.nombreFormato}" ></label>
-                <input class="form-check-input" type="checkbox" th:field="*{tipoFormatos}" th:value="${formatoItem.id}" id="tipoFormatos" >
+              <div class="form-check form-check-inline"  th:each="formatoItem: ${listaFormatos}">
+                <label class="form-check-label" for="formatosLibro" th:text="${formatoItem.nombre}" ></label>
+                <input class="form-check-input" type="checkbox" th:field="*{formatosLibro}" th:value="${formatoItem.id}" id="formatosLibro" >
               </div>
-              <p  th:if="${#fields.hasErrors('tipoFormatos')}" th:errorclass="error" th:errors="*{tipoFormatos}"  ></p>
-            </div>
-            <div class="mb-3">
-              <div  class="form-label">Plataformas</div><br>
-              <div class="form-check form-check-inline"  th:each="plataformasItem: ${listaPlataformas}">
-                <label class="form-check-label" for="plataformasLibro" th:text="${plataformasItem.nombrePlataforma}" ></label>
-                <input class="form-check-input" type="checkbox" th:field="*{plataformasLibro}" th:value="${plataformasItem.id}" id="plataformasLibro" >
-              </div>
-              <p  th:if="${#fields.hasErrors('plataformasLibro')}" th:errorclass="error" th:errors="*{plataformasLibro}"  ></p>
+              <p  th:if="${#fields.hasErrors('formatosLibro')}" th:errorclass="error" th:errors="*{formatosLibro}"  ></p>
             </div>
             <div class="mb-3">
               <label for="puntuacion" class="form-label">Valoración</label>
@@ -311,7 +304,7 @@
       <div class="row pb-1">
         <div class="col-12">
           <div th:if = "${size == 0}" class="text-center">
-            <p>No hay añadida ningun libro</p>
+            <p>No hay añadido ningún libro</p>
           </div>
           <div th:if="${success}" class="text-center alert alert-success">
             <p th:text="${success}"></p>
@@ -324,9 +317,9 @@
 
       <!-- INICIO ORDENACION -->
 
-      <div class="row">
+      <div th:if="${size>0}" class="row">
         <div class="col-12 d-flex justify-content-start">
-          <div class="col-3" th:if="${titulo == null && puntuacionFiltro == null && generoFiltro == null && yearFiltro == null && plataformaFiltro == null}">
+          <div class="col-3" th:if="${titulo == null && puntuacionFiltro == null && generoFiltro == null && yearFiltro == null && formatoFiltro == null}">
             <form th:action="@{/libros}" method="get" class="row row-cols-lg-auto g-3 align-items-center" >
               <div class="col-12">
                 <select class="form-select" th:name="orden" >
@@ -351,7 +344,7 @@
 
       <!-- INICIO PAGINACION -->
       <div class="row ">
-        <div th:if="${titulo == null && puntuacionFiltro == null && generoFiltro == null && yearFiltro == null && plataformaFiltro == null}">
+        <div th:if="${titulo == null && puntuacionFiltro == null && generoFiltro == null && yearFiltro == null && formatoFiltro == null}">
           <div class="col-12 d-flex justify-content-center mb-3">
             <nav aria-label="Page navigation example">
               <ul class="pagination">
@@ -362,17 +355,17 @@
                   <a th:href="@{/libros(page=${pageNumber}, orden=${orden})}"
                      th:text="${pageNumber}"
                      th:classappend="${pageNumber==pagina.number + 1} ? active"
-                     class="page-link" href="#"></a>
+                     class="page-link" ></a>
                 </li>
                 <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
-                  <a th:href="@{/libros(page=${currentPage + 1}, orden=${orden})}" class="page-link" href="#">Next</a>
+                  <a th:href="@{/libros(page=${currentPage + 1}, orden=${orden})}" class="page-link" >Next</a>
                 </li>
               </ul>
             </nav>
           </div>
         </div>
 
-        <div th:if="${titulo != null || puntuacionFiltro != null || generoFiltro !=null || yearFiltro != null || plataformaFiltro != null}">
+        <div th:if="${titulo != null || puntuacionFiltro != null || generoFiltro !=null || yearFiltro != null || formatoFiltro != null}">
           <div class="col-12 d-flex justify-content-end mb-3">
             <a class="btn btn-primary" th:href="@{/libros}">Cancelar búsqueda y filtrado</a>
           </div>
@@ -383,22 +376,22 @@
                   <a th:href="@{/libros/search(page=${currentPage - 1}, tituloLibroBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
-                                    filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" href="#">Previous</a>
+                                    filtroFormato=${formatoFiltro}, filtroOrden=${ordenFiltro})}" class="page-link">Previous</a>
                 </li>
                 <li th:each="pageNumber : ${pageNumbers}" class="page-item">
                   <a th:href="@{/libros/search(page=${pageNumber}, tituloLibroBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
-                                     filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}"
+                                     filtroFormato=${formatoFiltro}, filtroOrden=${ordenFiltro})}"
                      th:text="${pageNumber}"
                      th:classappend="${pageNumber==pagina.number + 1} ? active"
-                     class="page-link" href="#"></a>
+                     class="page-link"></a>
                 </li>
                 <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
                   <a th:href="@{/libros/search(page=${currentPage + 1}, tituloLibroBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
-                                     filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" href="#">Next</a>
+                                     filtroFormato=${formatoFiltro}, filtroOrden=${ordenFiltro})}" class="page-link">Next</a>
                 </li>
               </ul>
             </nav>
@@ -421,7 +414,7 @@
                 </div>
                 <div class="modal-body">
                   <form th:action="@{/libros/saveLibroModificar}" method="post" enctype="multipart/form-data" th:object="${datosLibro}">
-                    <script th:inline="javascript" th:if="${#fields.hasErrors('*') and libroActual == libro.id} ">/*<![CDATA[*/ $(document).ready(function () {
+                    <script th:inline="javascript" th:if="${#fields.hasErrors('*') and libroActual == libro.id || libroRepetido == libro.id} ">/*<![CDATA[*/ $(document).ready(function () {
                       let modalId = 'modalLibroUpdate' + /*[[${libro.id}]]*/'';
                       $('#' + modalId).modal('show');}); /*]]>*/</script>
                     <input type="hidden" name="id" th:value="${libro.id}">
@@ -429,6 +422,7 @@
                       <label for="titulo" class="form-label">Título</label>
                       <input type="text" class="form-control" id="titulo" th:name="titulo" th:value="${libro.titulo}">
                       <p th:if="${#fields.hasErrors('titulo')}" th:errorclass="error" th:errors="*{titulo}" th:field="*{titulo}"></p>
+                      <p th:if="${libroRepetido == libro.id}" class="error" th:text="${tituloRepetido2}"></p>
                     </div>
                     <div class="mb-3">
                       <label for="imagen" class="form-label">Imagen</label>
@@ -460,19 +454,11 @@
                     </div>
                     <div class="mb-3">
                       <div  class="form-label">Formato</div><br>
-                      <div class="form-check form-check-inline"  th:each="formatoItem: ${listaFormato}">
-                        <label class="form-check-label" for="tipoFormatos" th:text="${formatoItem.nombreFormato}" ></label>
-                        <input class="form-check-input" type="checkbox" th:field="*{tipoFormatos}" th:value="${formatoItem.id}" id="tipoFormatos" >
+                      <div class="form-check form-check-inline"  th:each="formatoItem: ${listaFormatos}">
+                        <label class="form-check-label" for="formatosLibro" th:text="${formatoItem.nombre}" ></label>
+                        <input class="form-check-input" type="checkbox" th:field="*{formatosLibro}" th:value="${formatoItem.id}" id="formatosLibro" >
                       </div>
-                      <p  th:if="${#fields.hasErrors('tipoFormatos')}" th:errorclass="error" th:errors="*{tipoFormatos}"  ></p>
-                    </div>
-                    <div class="mb-3">
-                      <div  class="form-label">Plataformas</div><br>
-                      <div class="form-check form-check-inline"  th:each="plataformasItem: ${listaPlataformas}">
-                        <label class="form-check-label" for="plataformasLibro" th:text="${plataformasItem.nombrePlataforma}" ></label>
-                        <input class="form-check-input" type="checkbox" th:field="*{plataformasLibro}" th:value="${plataformasItem.id}" id="plataformasLibro" >
-                      </div>
-                      <p  th:if="${#fields.hasErrors('plataformasLibro')}" th:errorclass="error" th:errors="*{plataformasLibro}"  ></p>
+                      <p  th:if="${#fields.hasErrors('formatosLibro')}" th:errorclass="error" th:errors="*{formatosLibro}"  ></p>
                     </div>
                     <div class="mb-3">
                       <label for="puntuacion" class="form-label">Valoración</label>
@@ -529,11 +515,13 @@
             <div class="modal-content">
               <!-- Imagen Libro -->
               <div class="modal-header space-down">
-                <img th:src="${libro.imagenRuta}" alt="" class="custom-section-image"/>
+                <img th:src="${libro.imagenRuta}" alt="Imagen de la portada del libro" class="custom-section-image"/>
               </div>
               <!-- Icono de compartir -->
               <button class="btn-share">
-                <img th:src="@{/img/icono_compartir.png}" alt="Compartir" class="share-icon">
+                <a th:href="@{/compartir/libro/{idLibro} (idLibro = ${libro.id})}">
+                  <img th:src="@{/img/icono_compartir.png}" alt="Compartir" class="share-icon">
+                </a>
               </button>
               <!-- Título, Año, Géneros y Plataforma Libro -->
               <div class="modal-body">
@@ -541,7 +529,7 @@
                   <h5 class="modal-title"><b th:text="${libro.titulo}"></b></h5>
                 </div>
                 <div class="space-down">
-                  <h6>Año:</h6>
+                  <h6>Año leído:</h6>
                   <h6 th:text="${libro.year}"></h6>
                 </div>
                 <div class="space-down">
@@ -550,11 +538,7 @@
                 </div>
                 <div class="space-down">
                   <h6>Formato:</h6>
-                  <h6 th:each="tipoFormatos: ${libro.getTipoFormatos()}" th:text="${TipoFormatos.nombreTipoFormatos}"></h6>
-                </div>
-                <div class="space-down">
-                  <h6>Plataformas:</h6>
-                  <h6 th:each="plataforma: ${libro.getPlataformasLibro()}" th:text="${plataforma.nombrePlataforma}"></h6>
+                  <h6 th:each="formato: ${libro.getFormatosLibro()}" th:text="${formato.nombre}"></h6>
                 </div>
               </div>
               <!-- Reseña y Puntuación -->
@@ -595,28 +579,28 @@
 
       <!-- INICIO PAGINACION -->
       <div class="row">
-        <div th:if="${titulo == null && puntuacionFiltro == null && generoFiltro == null && yearFiltro == null && plataformaFiltro == null}">
+        <div th:if="${titulo == null && puntuacionFiltro == null && generoFiltro == null && yearFiltro == null && formatoFiltro == null}">
           <div class="col-12 d-flex justify-content-center mb-5">
             <nav aria-label="Page navigation example">
               <ul class="pagination">
                 <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
-                  <a th:href="@{/libros(page=${currentPage - 1}, orden=${orden})}" class="page-link" href="#">Previous</a>
+                  <a th:href="@{/libros(page=${currentPage - 1}, orden=${orden})}" class="page-link">Previous</a>
                 </li>
                 <li th:each="pageNumber : ${pageNumbers}" class="page-item">
                   <a th:href="@{/libros(page=${pageNumber}, orden=${orden})}"
                      th:text="${pageNumber}"
                      th:classappend="${pageNumber==pagina.number + 1} ? active"
-                     class="page-link" href="#"></a>
+                     class="page-link"></a>
                 </li>
                 <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
-                  <a th:href="@{/libros(page=${currentPage + 1}, orden=${orden})}" class="page-link" href="#">Next</a>
+                  <a th:href="@{/libros(page=${currentPage + 1}, orden=${orden})}" class="page-link">Next</a>
                 </li>
               </ul>
             </nav>
           </div>
         </div>
 
-        <div th:if="${titulo != null || puntuacionFiltro != null || generoFiltro !=null || yearFiltro != null || plataformaFiltro != null}">
+        <div th:if="${titulo != null || puntuacionFiltro != null || generoFiltro !=null || yearFiltro != null || formatoFiltro != null}">
           <div class="col-12 d-flex justify-content-center mb-5">
             <nav aria-label="Page navigation example">
               <ul class="pagination">
@@ -624,22 +608,22 @@
                   <a th:href="@{/libros/search(page=${currentPage - 1}, tituloLibroBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
-                                    filtroPlataforma=${plataformaFiltro},filtroOrden=${ordenFiltro})}" class="page-link" href="#">Previous</a>
+                                    filtroFormato=${formatoFiltro},filtroOrden=${ordenFiltro})}" class="page-link">Previous</a>
                 </li>
                 <li th:each="pageNumber : ${pageNumbers}" class="page-item">
                   <a th:href="@{/libros/search(page=${pageNumber}, tituloLibroBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
-                                     filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}"
+                                     filtroFormato=${formatoFiltro}, filtroOrden=${ordenFiltro})}"
                      th:text="${pageNumber}"
                      th:classappend="${pageNumber==pagina.number + 1} ? active"
-                     class="page-link" href="#"></a>
+                     class="page-link"></a>
                 </li>
                 <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
                   <a th:href="@{/libros/search(page=${currentPage + 1}, tituloLibroBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
-                                     filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" href="#">Next</a>
+                                     filtroFormato=${formatoFiltro}, filtroOrden=${ordenFiltro})}" class="page-link">Next</a>
                 </li>
               </ul>
             </nav>

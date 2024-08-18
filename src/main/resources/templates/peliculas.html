@@ -235,11 +235,12 @@
                 </div>
                 <div class="modal-body">
                     <form th:action="@{/peliculas/savePelicula}" method="post" enctype="multipart/form-data" th:object="${datosPelicula}">
-                        <script th:inline="javascript" th:if="${#fields.hasErrors('*')  and  peliculaActual == -1 }">/*<![CDATA[*/ $(document).ready(function () { $('#modalPeliculaAñadir').modal('show');}); /*]]>*/</script>
+                        <script th:inline="javascript" th:if="${#fields.hasErrors('*')  and  peliculaActual == -1 || tituloRepetido != null }">/*<![CDATA[*/ $(document).ready(function () { $('#modalPeliculaAñadir').modal('show');}); /*]]>*/</script>
                         <div class="mb-3">
                             <label for="titulo" class="form-label">Título</label>
                             <input type="text" class="form-control" id="titulo" name="titulo" th:field="*{titulo}" >
                             <p th:if="${#fields.hasErrors('titulo')}" th:errorclass="error" th:errors="*{titulo}" ></p>
+                            <p th:if="${tituloRepetido}" class="error" th:text="${tituloRepetido}"></p>
                         </div>
                         <div class="mb-3">
                             <label for="imagen" class="form-label">Imagen</label>
@@ -308,7 +309,7 @@
             <div class="row pb-1">
                 <div class="col-12">
                     <div th:if = "${size == 0}" class="text-center">
-                        <p>No hay añadida ningúna película</p>
+                        <p>No hay añadida ninguna película</p>
                     </div>
                     <div th:if="${success}" class="text-center alert alert-success">
                         <p th:text="${success}"></p>
@@ -353,16 +354,16 @@
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
-                                    <a th:href="@{/peliculas(page=${currentPage - 1}, orden=${orden})}" class="page-link" href="#">Previous</a>
+                                    <a th:href="@{/peliculas(page=${currentPage - 1}, orden=${orden})}" class="page-link" >Previous</a>
                                 </li>
                                 <li th:each="pageNumber : ${pageNumbers}" class="page-item">
                                     <a th:href="@{/peliculas(page=${pageNumber}, orden=${orden})}"
                                        th:text="${pageNumber}"
                                        th:classappend="${pageNumber==pagina.number + 1} ? active"
-                                       class="page-link" href="#"></a>
+                                       class="page-link" ></a>
                                 </li>
                                 <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
-                                    <a th:href="@{/peliculas(page=${currentPage + 1}, orden=${orden})}" class="page-link" href="#">Next</a>
+                                    <a th:href="@{/peliculas(page=${currentPage + 1}, orden=${orden})}" class="page-link" >Next</a>
                                 </li>
                             </ul>
                         </nav>
@@ -380,7 +381,7 @@
                                     <a th:href="@{/peliculas/search(page=${currentPage - 1}, tituloPeliculaBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
-                                    filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" href="#">Previous</a>
+                                    filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" >Previous</a>
                                 </li>
                                 <li th:each="pageNumber : ${pageNumbers}" class="page-item">
                                     <a th:href="@{/peliculas/search(page=${pageNumber}, tituloPeliculaBusqueda=${titulo},
@@ -395,7 +396,7 @@
                                     <a th:href="@{/peliculas/search(page=${currentPage + 1}, tituloPeliculaBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
-                                     filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" href="#">Next</a>
+                                     filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" >Next</a>
                                 </li>
                             </ul>
                         </nav>
@@ -418,7 +419,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <form th:action="@{/peliculas/savePeliculaModificar}" method="post" enctype="multipart/form-data" th:object="${datosPelicula}">
-                                        <script th:inline="javascript" th:if="${#fields.hasErrors('*') and peliculaActual == pelicula.id} ">/*<![CDATA[*/ $(document).ready(function () {
+                                        <script th:inline="javascript" th:if="${#fields.hasErrors('*') and peliculaActual == pelicula.id || peliculaRepetida == pelicula.id} ">/*<![CDATA[*/ $(document).ready(function () {
                                             let modalId = 'modalPeliculaUpdate' + /*[[${pelicula.id}]]*/'';
                                             $('#' + modalId).modal('show');}); /*]]>*/</script>
                                         <input type="hidden" name="id" th:value="${pelicula.id}">
@@ -426,6 +427,7 @@
                                             <label for="titulo" class="form-label">Título</label>
                                             <input type="text" class="form-control" id="titulo" th:name="titulo" th:value="${pelicula.titulo}">
                                             <p th:if="${#fields.hasErrors('titulo')}" th:errorclass="error" th:errors="*{titulo}" th:field="*{titulo}"></p>
+                                            <p th:if="${peliculaRepetida == pelicula.id}" class="error" th:text="${tituloRepetido2}"></p>
                                         </div>
                                         <div class="mb-3">
                                             <label for="imagen" class="form-label">Imagen</label>
@@ -602,16 +604,16 @@
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
-                                    <a th:href="@{/peliculas(page=${currentPage - 1}, orden=${orden})}" class="page-link" href="#">Previous</a>
+                                    <a th:href="@{/peliculas(page=${currentPage - 1}, orden=${orden})}" class="page-link" >Previous</a>
                                 </li>
                                 <li th:each="pageNumber : ${pageNumbers}" class="page-item">
                                     <a th:href="@{/peliculas(page=${pageNumber}, orden=${orden})}"
                                        th:text="${pageNumber}"
                                        th:classappend="${pageNumber==pagina.number + 1} ? active"
-                                       class="page-link" href="#"></a>
+                                       class="page-link" ></a>
                                 </li>
                                 <li th:unless="${currentPage == pagina.totalPages || pagina.totalPages == 0}" class="page-item">
-                                    <a th:href="@{/peliculas(page=${currentPage + 1}, orden=${orden})}" class="page-link" href="#">Next</a>
+                                    <a th:href="@{/peliculas(page=${currentPage + 1}, orden=${orden})}" class="page-link">Next</a>
                                 </li>
                             </ul>
                         </nav>
@@ -626,7 +628,7 @@
                                     <a th:href="@{/peliculas/search(page=${currentPage - 1}, tituloPeliculaBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
-                                    filtroPlataforma=${plataformaFiltro},filtroOrden=${ordenFiltro})}" class="page-link" href="#">Previous</a>
+                                    filtroPlataforma=${plataformaFiltro},filtroOrden=${ordenFiltro})}" class="page-link" >Previous</a>
                                 </li>
                                 <li th:each="pageNumber : ${pageNumbers}" class="page-item">
                                     <a th:href="@{/peliculas/search(page=${pageNumber}, tituloPeliculaBusqueda=${titulo},
@@ -635,13 +637,13 @@
                                      filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}"
                                        th:text="${pageNumber}"
                                        th:classappend="${pageNumber==pagina.number + 1} ? active"
-                                       class="page-link" href="#"></a>
+                                       class="page-link" ></a>
                                 </li>
                                 <li th:unless="${currentPage == pagina.totalPages || pagina.totalPages == 0}" class="page-item">
                                     <a th:href="@{/peliculas/search(page=${currentPage + 1}, tituloPeliculaBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
-                                     filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" href="#">Next</a>
+                                     filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" >Next</a>
                                 </li>
                             </ul>
                         </nav>
