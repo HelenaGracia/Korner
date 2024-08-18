@@ -38,8 +38,8 @@ footer{
 
 /* Imagen perfil */
 nav li a img{
-    height: 6rem;
-    width: auto;
+    height: 4.5rem;
+    width: 4.5rem;
     clip-path: circle();    
 }
 

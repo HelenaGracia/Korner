@@ -160,9 +160,8 @@ public class AjustesController {
     @GetMapping("/fotoPerfil")
     public String verAjustesFotoPerfil(HttpSession session,Model model) {
         Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString())));
-        if (user.get().getRutaImagen()!= null){
             model.addAttribute("imagenRuta",user.get().getRutaImagen());
-        }
+
         return "ajustesFotoPerfil";
     }
 
