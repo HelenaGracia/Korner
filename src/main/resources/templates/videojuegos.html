@@ -235,11 +235,12 @@
                 </div>
                 <div class="modal-body">
                     <form th:action="@{/videojuegos/saveVideojuego}" method="post" enctype="multipart/form-data" th:object="${datosVideojuego}">
-                        <script th:inline="javascript" th:if="${#fields.hasErrors('*')  and  videojuegoActual == -1 }">/*<![CDATA[*/ $(document).ready(function () { $('#modalVideojuegoAñadir').modal('show');}); /*]]>*/</script>
+                        <script th:inline="javascript" th:if="${#fields.hasErrors('*')  and  videojuegoActual == -1 || tituloRepetido != null }">/*<![CDATA[*/ $(document).ready(function () { $('#modalVideojuegoAñadir').modal('show');}); /*]]>*/</script>
                         <div class="mb-3">
                             <label for="titulo" class="form-label">Título</label>
                             <input type="text" class="form-control" id="titulo" name="titulo" th:field="*{titulo}" >
                             <p th:if="${#fields.hasErrors('titulo')}" th:errorclass="error" th:errors="*{titulo}" ></p>
+                            <p th:if="${tituloRepetido}" class="error" th:text="${tituloRepetido}"></p>
                         </div>
                         <div class="mb-3">
                             <label for="imagen" class="form-label">Imagen</label>
@@ -413,7 +414,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <form th:action="@{/videojuegos/saveVideojuegoModificar}" method="post" enctype="multipart/form-data" th:object="${datosVideojuego}">
-                                        <script th:inline="javascript" th:if="${#fields.hasErrors('*') and videojuegoActual == videojuego.id} ">/*<![CDATA[*/ $(document).ready(function () {
+                                        <script th:inline="javascript" th:if="${#fields.hasErrors('*') and videojuegoActual == videojuego.id || videojuegoRepetido == videojuego.id} ">/*<![CDATA[*/ $(document).ready(function () {
                                             let modalId = 'modalVideojuegoUpdate' + /*[[${videojuego.id}]]*/'';
                                             $('#' + modalId).modal('show');}); /*]]>*/</script>
                                         <input type="hidden" name="id" th:value="${videojuego.id}">
@@ -421,6 +422,7 @@
                                             <label for="titulo" class="form-label">Título</label>
                                             <input type="text" class="form-control" id="titulo" th:name="titulo" th:value="${videojuego.titulo}">
                                             <p th:if="${#fields.hasErrors('titulo')}" th:errorclass="error" th:errors="*{titulo}" th:field="*{titulo}"></p>
+                                            <p th:if="${videojuegoRepetido == videojuego.id}" class="error" th:text="${tituloRepetido2}"></p>
                                         </div>
                                         <div class="mb-3">
                                             <label for="imagen" class="form-label">Imagen</label>

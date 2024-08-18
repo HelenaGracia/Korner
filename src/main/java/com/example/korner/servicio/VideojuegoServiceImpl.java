@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VideojuegoServiceImpl extends AbstractService<Videojuego,Integer, VideojuegoRepository>{
@@ -57,5 +58,9 @@ public class VideojuegoServiceImpl extends AbstractService<Videojuego,Integer, V
 
     public Page<Videojuego> getAllVideojuegosCompartidosByListIdAndUsuario (List<Integer> listId,Usuario usuario, Pageable page){
         return videojuegoRepository.findAllByIdInAndUsuarioVideojuego(listId,usuario, page);
+    }
+
+    public Optional<Videojuego> getVideojuegoByTituloAndUsuario(String titulo, Usuario usuario){
+        return videojuegoRepository.findVideojuegoByTituloAndUsuarioVideojuego(titulo,usuario);
     }
 }

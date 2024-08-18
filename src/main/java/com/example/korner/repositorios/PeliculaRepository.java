@@ -34,7 +34,7 @@ public interface PeliculaRepository extends JpaRepository<Pelicula, Integer> {
 
     Page<Pelicula> findAllByIdInAndUsuarioPelicula(List<Integer> ids,Usuario usuario, Pageable pageable);
 
-    Optional<Pelicula> findPeliculaByTituloAndUsuarioPelicula(String pelicula, Usuario usuario);
+    Optional<Pelicula> findPeliculaByTituloAndUsuarioPelicula(String titulo, Usuario usuario);
 
 
 }
