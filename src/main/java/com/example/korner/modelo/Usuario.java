@@ -55,8 +55,8 @@ public class Usuario implements Serializable, UserDetails {
     @Column (name = "imagen")
     private String rutaImagen;
 
-    @Column (name = "ajustes")
-    private String ajustes;
+    @Column (name = "ajustes_sesion")
+    private String ajustesInicioSesion;
 
     @ManyToOne (fetch = FetchType.EAGER)
     @JoinColumn(name = "id_roles", foreignKey = @ForeignKey(name = "fk_rol_usuario"))

@@ -4,6 +4,7 @@ package com.example.korner.controladores;
 import com.example.korner.modelo.Genero;
 import com.example.korner.modelo.Rol;
 import com.example.korner.modelo.Usuario;
+import com.example.korner.modeloValidaciones.UsuarioNuevo;
 import com.example.korner.servicio.GeneroUsuarioServiceImpl;
 import com.example.korner.servicio.RolServiceImpl;
 import com.example.korner.servicio.UsuarioSecurityService;
@@ -59,7 +60,7 @@ public class CuentaController {
 
 
     @PostMapping("/save")
-    public String save(@Validated @ModelAttribute(name = "nuevoUsuario")Usuario usuario,
+    public String save(@Validated @ModelAttribute(name = "nuevoUsuario") UsuarioNuevo usuarioNuevo,
                        BindingResult bindingResult, Model model, RedirectAttributes attributes){
         try {
             List<Integer> options = new ArrayList<>();
@@ -73,24 +74,30 @@ public class CuentaController {
 
             if (bindingResult.hasErrors()){
                 return "cuenta";
-            } else if (usuarioService.getByName(usuario.getNombre()).isPresent()) {
-                if (usuarioService.getByCorreo(usuario.getCorreo()).isPresent()) {
+            } else if (usuarioService.getByName(usuarioNuevo.getNombre()).isPresent()) {
+                if (usuarioService.getByCorreo(usuarioNuevo.getCorreo()).isPresent()) {
                     model.addAttribute("failedNombre", "Ya existe un usuario con ese nombre");
                     model.addAttribute("failedCorreo", "Ya existe un usuario con ese correo");
                     return "cuenta";
                 }
                 model.addAttribute("failedNombre", "Ya existe un usuario con ese nombre");
                 return "cuenta";
-            } else if (usuarioService.getByCorreo(usuario.getCorreo()).isPresent()) {
+            } else if (usuarioService.getByCorreo(usuarioNuevo.getCorreo()).isPresent()) {
                 model.addAttribute("failedCorreo", "Ya existe un usuario con ese correo");
                 return "cuenta";
             }
             Optional<Rol> role = rolService.getById(1);
-            String password = bCryptPasswordEncoder.encode(usuario.getContrasena());
+            String password = bCryptPasswordEncoder.encode(usuarioNuevo.getContrasena());
+            Usuario usuario = new Usuario();
             if (role.isPresent()) {
-                usuario.setRole(role.get());
+                usuario.setNombre(usuarioNuevo.getNombre());
+                usuario.setCorreo(usuarioNuevo.getCorreo());
                 usuario.setContrasena(password);
-                usuario.setAjustes("home");
+                usuario.setAnioNacimiento(usuarioNuevo.getAnioNacimiento());
+                usuario.setGeneros(usuarioNuevo.getGeneros());
+                usuario.setRole(role.get());
+                usuario.setAjustesInicioSesion("home");
+               // usuario.setActiva(false);
                 usuarioService.saveEntity(usuario);
                 return "redirect:/home";
             }
