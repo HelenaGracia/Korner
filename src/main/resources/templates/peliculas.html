@@ -309,7 +309,7 @@
             <div class="row pb-1">
                 <div class="col-12">
                     <div th:if = "${size == 0}" class="text-center">
-                        <p>No hay añadida ningúna película</p>
+                        <p>No hay añadida ninguna película</p>
                     </div>
                     <div th:if="${success}" class="text-center alert alert-success">
                         <p th:text="${success}"></p>
@@ -354,16 +354,16 @@
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
-                                    <a th:href="@{/peliculas(page=${currentPage - 1}, orden=${orden})}" class="page-link" href="#">Previous</a>
+                                    <a th:href="@{/peliculas(page=${currentPage - 1}, orden=${orden})}" class="page-link" >Previous</a>
                                 </li>
                                 <li th:each="pageNumber : ${pageNumbers}" class="page-item">
                                     <a th:href="@{/peliculas(page=${pageNumber}, orden=${orden})}"
                                        th:text="${pageNumber}"
                                        th:classappend="${pageNumber==pagina.number + 1} ? active"
-                                       class="page-link" href="#"></a>
+                                       class="page-link" ></a>
                                 </li>
                                 <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
-                                    <a th:href="@{/peliculas(page=${currentPage + 1}, orden=${orden})}" class="page-link" href="#">Next</a>
+                                    <a th:href="@{/peliculas(page=${currentPage + 1}, orden=${orden})}" class="page-link" >Next</a>
                                 </li>
                             </ul>
                         </nav>
@@ -381,7 +381,7 @@
                                     <a th:href="@{/peliculas/search(page=${currentPage - 1}, tituloPeliculaBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
-                                    filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" href="#">Previous</a>
+                                    filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" >Previous</a>
                                 </li>
                                 <li th:each="pageNumber : ${pageNumbers}" class="page-item">
                                     <a th:href="@{/peliculas/search(page=${pageNumber}, tituloPeliculaBusqueda=${titulo},
@@ -396,7 +396,7 @@
                                     <a th:href="@{/peliculas/search(page=${currentPage + 1}, tituloPeliculaBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
-                                     filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" href="#">Next</a>
+                                     filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" >Next</a>
                                 </li>
                             </ul>
                         </nav>
@@ -604,16 +604,16 @@
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
-                                    <a th:href="@{/peliculas(page=${currentPage - 1}, orden=${orden})}" class="page-link" href="#">Previous</a>
+                                    <a th:href="@{/peliculas(page=${currentPage - 1}, orden=${orden})}" class="page-link" >Previous</a>
                                 </li>
                                 <li th:each="pageNumber : ${pageNumbers}" class="page-item">
                                     <a th:href="@{/peliculas(page=${pageNumber}, orden=${orden})}"
                                        th:text="${pageNumber}"
                                        th:classappend="${pageNumber==pagina.number + 1} ? active"
-                                       class="page-link" href="#"></a>
+                                       class="page-link" ></a>
                                 </li>
                                 <li th:unless="${currentPage == pagina.totalPages || pagina.totalPages == 0}" class="page-item">
-                                    <a th:href="@{/peliculas(page=${currentPage + 1}, orden=${orden})}" class="page-link" href="#">Next</a>
+                                    <a th:href="@{/peliculas(page=${currentPage + 1}, orden=${orden})}" class="page-link">Next</a>
                                 </li>
                             </ul>
                         </nav>
@@ -628,7 +628,7 @@
                                     <a th:href="@{/peliculas/search(page=${currentPage - 1}, tituloPeliculaBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
-                                    filtroPlataforma=${plataformaFiltro},filtroOrden=${ordenFiltro})}" class="page-link" href="#">Previous</a>
+                                    filtroPlataforma=${plataformaFiltro},filtroOrden=${ordenFiltro})}" class="page-link" >Previous</a>
                                 </li>
                                 <li th:each="pageNumber : ${pageNumbers}" class="page-item">
                                     <a th:href="@{/peliculas/search(page=${pageNumber}, tituloPeliculaBusqueda=${titulo},
@@ -637,13 +637,13 @@
                                      filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}"
                                        th:text="${pageNumber}"
                                        th:classappend="${pageNumber==pagina.number + 1} ? active"
-                                       class="page-link" href="#"></a>
+                                       class="page-link" ></a>
                                 </li>
                                 <li th:unless="${currentPage == pagina.totalPages || pagina.totalPages == 0}" class="page-item">
                                     <a th:href="@{/peliculas/search(page=${currentPage + 1}, tituloPeliculaBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
-                                     filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" href="#">Next</a>
+                                     filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" >Next</a>
                                 </li>
                             </ul>
                         </nav>

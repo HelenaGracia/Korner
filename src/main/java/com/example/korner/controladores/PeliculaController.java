@@ -184,9 +184,7 @@ public class PeliculaController {
         }else {
             Optional<Pelicula> pelicula2 = peliculaService.getPeliculaByTituloAndUsuario(pelicula.getTitulo(),user.get());
             if (pelicula2.isPresent()){
-                Integer idPelicula = pelicula.getId();
-                Integer idPelicula2 = pelicula2.get().getId();
-                if (!Objects.equals(idPelicula, idPelicula2)){
+                if (!Objects.equals(pelicula.getId(), pelicula2.get().getId())){
                     model.addAttribute("tituloRepetido2", "Ya tienes una película con el título: " + pelicula.getTitulo());
                     model.addAttribute("peliculaRepetida", pelicula.getId());
                     return "peliculas";

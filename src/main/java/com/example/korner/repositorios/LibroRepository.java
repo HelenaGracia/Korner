@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 
@@ -21,12 +22,14 @@ public interface LibroRepository extends JpaRepository<Libro, Integer> {
 
     Page<Libro> findAllByYearAndUsuarioLibro(Integer year, Usuario usuario, Pageable pageable);
 
-    Page<Libro> findAllByPlataformasLibroAndUsuarioLibro(Plataforma plataforma, Usuario usuario, Pageable pageable);
+    Page<Libro> findAllByFormatosLibroAndUsuarioLibro(FormatoLibro formato, Usuario usuario, Pageable pageable);
 
-    Page<Libro> findAllByPuntuacionAndGenerosLibroAndYearAndPlataformasLibroAndUsuarioLibro(Integer puntuacion, GeneroElementoCompartido genero, Integer year, Plataforma plataforma, Usuario usuario, Pageable pageable);
+    Page<Libro> findAllByPuntuacionAndGenerosLibroAndYearAndFormatosLibroAndUsuarioLibro(Integer puntuacion, GeneroElementoCompartido genero, Integer year, FormatoLibro formato, Usuario usuario, Pageable pageable);
 
     Page<Libro> findAllByIdIn(List<Integer> ids, Pageable pageable);
 
     Page<Libro> findAllByIdInAndUsuarioLibro(List<Integer> ids,Usuario usuario, Pageable pageable);
+
+    Optional<Libro> findLibroByTituloAndUsuarioLibro(String titulo, Usuario usuario);
 
 }
