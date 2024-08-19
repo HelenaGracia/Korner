@@ -16,7 +16,6 @@ import java.util.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Table(name = "usuarios",uniqueConstraints = {
         @UniqueConstraint(columnNames = {"nombre"}),
         @UniqueConstraint(columnNames = "correo")})
@@ -83,8 +82,7 @@ public class Usuario implements Serializable, UserDetails {
     @OneToMany (fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true, mappedBy = "usuarioPelicula")
     private Set<Pelicula> peliculas;
 
-    @OneToMany (fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
-    @JoinColumn (name = "id_usuarios", foreignKey = @ForeignKey(name = "fk_usuarios_series"))
+    @OneToMany (fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true, mappedBy = "usuarioSerie")
     private Set<Serie> series;
 
     @OneToMany (mappedBy = "usuarioOrigen", fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)

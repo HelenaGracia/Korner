@@ -41,14 +41,10 @@ public class PlataformaController {
     }
 
     @GetMapping("")
-    public String showPlataformas(Model model, @RequestParam("page") Optional<Integer> page){
+    public String showPlataformas(Model model, @RequestParam("page") Optional<Integer> page, HttpSession session){
 
-        paginacion(model,page);
-
-        //List<Plataforma> listadoPlataformas = plataformaService.getAll();
+        paginacion(model,page, session);
         Plataforma plataforma = new Plataforma();
-        //model.addAttribute("size", listadoPlataformas.size());
-       // model.addAttribute("plataformas", listadoPlataformas);
         model.addAttribute("datosPlataforma", plataforma);
         return "plataformas";
     }
@@ -57,8 +53,8 @@ public class PlataformaController {
     public String savePlataforma(@Validated @ModelAttribute(name = "datosPlataforma") Plataforma plataforma,
                                BindingResult bindingResult, RedirectAttributes attributes,
                                  @RequestParam("page") Optional<Integer> page,
-                                 Model model){
-        paginacion(model,page);
+                                 Model model, HttpSession session){
+        paginacion(model,page, session);
 
         if (bindingResult.hasErrors()){
             model.addAttribute("plataformaActual", -1);
@@ -67,15 +63,13 @@ public class PlataformaController {
 
         }else {
             try {
-                logger.info("este es el objeto plataforma recibido{}", plataforma);
                 plataformaService.saveEntity(plataforma);
-                logger.info("este es el objeto plataforma guardado{}", plataforma);
                 attributes.addFlashAttribute("success", "Elemento añadido correctamente");
             }catch (DataIntegrityViolationException e){
-                e.printStackTrace();
+                logger.error("Error al guardar debido a nombres duplicados");
                 attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
             } catch (Exception e){
-                e.printStackTrace();
+                logger.error("Error al guardar", e);
                 attributes.addFlashAttribute("failed", "Error");
             }
             return "redirect:/plataformasElementos";
@@ -88,8 +82,8 @@ public class PlataformaController {
     public String savePlataformaModificar(@Validated @ModelAttribute(name = "datosPlataforma") Plataforma plataforma,
                                  BindingResult bindingResult, RedirectAttributes attributes,
                                           @RequestParam("page") Optional<Integer> page,
-                                          Model model){
-        paginacion(model, page);
+                                          Model model, HttpSession session){
+        paginacion(model, page, session);
 
         if (bindingResult.hasErrors()){
             model.addAttribute("plataformaActual", plataforma.getId());
@@ -98,15 +92,13 @@ public class PlataformaController {
 
         }else {
             try {
-                logger.info("este es el objeto plataforma recibido{}", plataforma);
                 plataformaService.saveEntity(plataforma);
-                logger.info("este es el objeto plataforma guardado{}", plataforma);
                 attributes.addFlashAttribute("success", "Elemento añadido correctamente");
             }catch (DataIntegrityViolationException e){
-                e.printStackTrace();
+                logger.error("Error al modificar debido a nombres duplicados", e);
                 attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
             } catch (Exception e){
-                e.printStackTrace();
+                logger.error("Error al modificar", e);
                 attributes.addFlashAttribute("failed", "Error");
             }
             return "redirect:/plataformasElementos";
@@ -118,17 +110,16 @@ public class PlataformaController {
     @PostMapping("/deletePlataforma")
     public String deletePlataforma(Plataforma plataforma, RedirectAttributes attributes){
         try {
-            logger.info("este es el objeto plataforma eliminado{}", plataforma);
-
             plataformaService.deleteEntity(plataforma);
             attributes.addFlashAttribute("success", "Elemento borrado");
         }catch (Exception e){
+            logger.error("Error al eliminar", e);
             attributes.addFlashAttribute("failed", "Error al eliminar");
         }
         return "redirect:/plataformasElementos";
     }
 
-    private void paginacion(Model model, Optional<Integer> page){
+    private void paginacion(Model model, Optional<Integer> page, HttpSession session){
         //Recibe la pagina en la que estoy si no recibe nada asigna la pagina 1
         int currentPage = page.orElse(1);
         //Guarda la pagina en la que estoy (Si es la pagina 1, la 2...) y la cantidad de elementos que quiero mostrar en ella
@@ -164,6 +155,8 @@ public class PlataformaController {
         model.addAttribute("size", pagina.getContent().size());
 
         model.addAttribute("plataformas", pagina.getContent());
+
+        model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
 
     }
 

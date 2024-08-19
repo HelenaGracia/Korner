@@ -173,16 +173,18 @@ public class AjustesController {
                 model.addAttribute("failedImage","No has seleccionado ninguna imagen");
                 return "ajustesFotoPerfil";
             }else{
-                final String FILE_PATH_ROOT = "C:/ficheros";
+                final String FILE_PATH_ROOT = "D:/ficheros";
                 Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString())));
                 String nombreExtension = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
                 if (nombreExtension.equals("png") || nombreExtension.equals("jpg")){
                     String nombreArchivo = "Usuario" + user.get().getId() + "ImagenPerfil." + FilenameUtils.getExtension(multipartFile.getOriginalFilename());
-                    if(user.get().getRutaImagen()!=null){
-                        FileUtils.delete(new File(FILE_PATH_ROOT+ "/"+ nombreArchivo));
+                    if(!Objects.equals(user.get().getRutaImagen(), "/img/pacman.jpg")){
+                        String nombreAntiguo = "Usuario" + user.get().getId() + "ImagenPerfil." + FilenameUtils.getExtension(user.get().getRutaImagen());
+                        FileUtils.delete(new File(FILE_PATH_ROOT+ "/"+ nombreAntiguo));
                     }
                     fileSystemStorageService.storeWithName(multipartFile, nombreArchivo);
                     user.get().setRutaImagen( "/imagenes/leerImagen/" + nombreArchivo);
+                    session.setAttribute("rutaImagen", user.get().getRutaImagen());
                     usuarioService.saveEntity(user.get());
                     attributes.addFlashAttribute("success", "La imagen se ha cambiado correctamente");
                     return "redirect:/ajustes/fotoPerfil";

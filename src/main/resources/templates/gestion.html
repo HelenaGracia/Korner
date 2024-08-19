@@ -66,7 +66,7 @@
                             </li>
                             <li class="nav-item ms-lg-2 ms-xl-2">
                                 <a class="" href="#" role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                                    <img th:src="@{/img/Nevernight.jpg}" alt="imagen perfil" >
+                                    <img th:src="${imagenUsuario}" alt="imagen perfil" />
                                 </a>
                             </li>
                             <li class="nav-item mt-lg-4 ms-lg-2 ms-xl-3">
@@ -117,15 +117,65 @@
           <div class="container d-flex justify-content-center">
             <section class="row pb-5">
                 <article class="col-12">
-                   <h2>Bienvenido <span>Nombre admin</span> a la página de gestión de <span class="txt-naranja">Korner</span></h2>
+                   <h2 class="mt-3">Bienvenido <span th:text="${nombreUsuario}"></span> a la página de gestión de <span class="txt-naranja">Korner</span></h2>
                    <div class="d-flex justify-content-center">
                     <img class="pt-5" th:src="@{/img/LogoSinFondo.svg}" alt="Logo Korner">
                    </div>
-                   
                 </article>
             </section>
 
-
+              <section class="row align-items-center ">
+                  <article class="col-12 col-md-6">
+                      <div class="card mx-auto mb-5 " style="width: 18rem;">
+                          <img th:src="@{/img/pelicula.png}" class="card-img-top img-card" alt="imagen de un conjunto de géneros">
+                          <div class="card-body">
+                              <h5 class="card-title txt-naranja">Géneros</h5>
+                              <p class="card-text">Gestiona los géneros de los elementos</p>
+                              <a th:href="@{/generosElementos}" class="btn btn-primary px-5 py-2">Ir</a>
+                          </div>
+                      </div>
+                  </article>
+                  <article class="col-12 col-md-6">
+                      <div class="card mx-auto mb-5" style="width: 18rem;">
+                          <img th:src="@{/img/videojuego.png}" class="card-img-top img-card" alt="videojuego">
+                          <div class="card-body">
+                              <h5 class="card-title txt-naranja">Videojuegos</h5>
+                              <p class="card-text">Guarda todas los vdeojuegos que hayas jugado</p>
+                              <a th:href="@{/videojuegos}" class="btn btn-primary px-5 py-2">Ir</a>
+                          </div>
+                      </div>
+                  </article>
+                  <article class="col-12 col-md-6">
+                      <div class="card mx-auto mb-5" style="width: 18rem;">
+                          <img th:src="@{/img/serie.png}" class="card-img-top img-card" alt="serie">
+                          <div class="card-body">
+                              <h5 class="card-title txt-naranja">Series</h5>
+                              <p class="card-text">Guarda todas las series que hayas visto</p>
+                              <a th:href="@{/series}" class="btn btn-primary px-5 py-2">Ir</a>
+                          </div>
+                      </div>
+                  </article>
+                  <article class="col-12 col-md-6">
+                      <div class="card mx-auto mb-5" style="width: 18rem;">
+                          <img th:src="@{/img/libro.png}" class="card-img-top img-card" alt="libro">
+                          <div class="card-body">
+                              <h5 class="card-title txt-naranja">Libros</h5>
+                              <p class="card-text">Guarda todos los libros que hayas leído</p>
+                              <a th:href="@{/libros}" class="btn btn-primary px-5 py-2">Ir</a>
+                          </div>
+                      </div>
+                  </article>
+                  <article class="col-12 col-md-6">
+                      <div class="card mx-auto mb-5" style="width: 18rem;">
+                          <img th:src="@{/img/anime.png}" class="card-img-top img-card" alt="pelicula">
+                          <div class="card-body">
+                              <h5 class="card-title txt-naranja">Animes</h5>
+                              <p class="card-text">Guarda todos los animes que hayas visto</p>
+                              <a th:href="@{/animes}" class="btn btn-primary px-5 py-2">Ir</a>
+                          </div>
+                      </div>
+                  </article>
+              </section>
            
           </div>
         </main>

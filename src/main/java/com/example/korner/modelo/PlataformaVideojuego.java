@@ -12,7 +12,6 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Table(name = "plataformas_videojuegos",uniqueConstraints = @UniqueConstraint(columnNames = {"nombre_plataforma_videojuego"}))
 public class PlataformaVideojuego {
     @Id

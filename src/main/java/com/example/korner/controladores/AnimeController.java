@@ -80,8 +80,6 @@ public class AnimeController {
         paginacion(model, page, session, orden);
 
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
-        Set<GeneroElementoCompartido> listadoGeneros = anime.getGenerosAnime();
-        logger.info("listado de generos:{}", listadoGeneros);
         List<Plataforma> plataformasList = plataformaService.getAll();
         model.addAttribute("listaPlataformas", plataformasList);
         model.addAttribute("listaGeneros", generoElementoCompartidoList);
@@ -104,12 +102,12 @@ public class AnimeController {
         }else {
             try {
                 anime.setUsuarioAnime(user.get());
-                logger.info("este es el objeto anime recibido{}", anime);
+
             /*guardamos en la BBDD  el objeto anime con el resto de la información que hemos obtenido
              del formulario para que genere un id al guardarse
              */
                 animeService.saveEntity(anime);
-                logger.info("este es el objeto anime guardado{}", anime);
+
             /*Creamos nuestros proprios nombres que van a llevar los archivos de imagenes, compuestos por el id
              del objeto anime y la extensión del archivo(jpg, png)
              */
@@ -122,10 +120,10 @@ public class AnimeController {
                 animeService.saveEntity(anime);
                 attributes.addFlashAttribute("success", "Anime añadido correctamente");
             }catch (DataIntegrityViolationException e){
-                e.printStackTrace();
+                logger.error("Error al guardar el anime por nombres duplicados");
                 attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
             } catch (Exception e){
-                e.printStackTrace();
+                logger.error("Error al guardar el anime");
                 attributes.addFlashAttribute("failed", "Error");
             }
             return "redirect:/animes";
@@ -144,7 +142,7 @@ public class AnimeController {
 
         paginacion(model, page, session, orden);
 
-        final String FILE_PATH_ROOT = "C:/ficheros";
+        final String FILE_PATH_ROOT = "D:/ficheros";
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
         List<Plataforma> plataformasList = plataformaService.getAll();
         model.addAttribute("listaPlataformas", plataformasList);
@@ -204,10 +202,10 @@ public class AnimeController {
                 animeService.saveEntity(anime);
                 attributes.addFlashAttribute("success","Anime añadido correctamente");
             } catch (DataIntegrityViolationException e){
-                e.printStackTrace();
+                logger.error("Error al guardar el anime modificado por nombres duplicados");
                 attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
             } catch (Exception e){
-                e.printStackTrace();
+                logger.error("Error al guardar el anime modificado");
                 attributes.addFlashAttribute("failed", "Error");
             }
             return "redirect:/animes";
@@ -217,12 +215,19 @@ public class AnimeController {
 
 
     @PostMapping("/deleteAnime")
-    public String deleteAnime(Anime anime, RedirectAttributes attributes){
+    public String deleteAnime(Integer id, RedirectAttributes attributes){
+        final String FILE_PATH_ROOT = "D:/ficheros";
         try {
-            logger.info("este es el objeto anime eliminado{}", anime);
-            animeService.deleteEntity(anime);
+            Optional<Anime> animeEliminar = animeService.getById(id);
+            if(Files.exists(Path.of(FILE_PATH_ROOT+"/" + ("Anime" + animeEliminar.get().getId() + "Usuario" + animeEliminar.get().getUsuarioAnime().getId() + ".jpg")))) {
+                FileUtils.delete(new File(FILE_PATH_ROOT+ "/"+ "Anime" + animeEliminar.get().getId() + "Usuario" + animeEliminar.get().getUsuarioAnime().getId() +".jpg"));
+            } else{
+                FileUtils.delete(new File(FILE_PATH_ROOT+ "/"+ "Anime" + animeEliminar.get().getId() + "Usuario" + animeEliminar.get().getUsuarioAnime().getId() +".png"));
+            }
+            animeService.deleteEntity(animeEliminar.get());
             attributes.addFlashAttribute("success", "Anime borrado");
         }catch (Exception e){
+            logger.error("Error al eliminar el anime");
             attributes.addFlashAttribute("failed", "Error al eliminar anime");
         }
         return "redirect:/animes";
@@ -237,9 +242,6 @@ public class AnimeController {
                          @RequestParam(value = "filtroOrden",required = false) String filtrOrden,
                          Model model, @RequestParam("page") Optional<Integer> page,
                          HttpSession session, RedirectAttributes attributes) {
-        logger.info("Titulo de la anime: {}", tituloAnimeBusqueda);
-        logger.info("puntuacion recibida del filtro: {}", filtroPuntuacion);
-        logger.info("genero recibido del filtro:{}", generoId);
         Anime anime = new Anime();
         model.addAttribute("datosAnime", anime);
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
@@ -346,7 +348,7 @@ public class AnimeController {
 
                 }else {
                     attributes.addFlashAttribute("failed", "Sólo se puede filtrar por título, género, año, valoración " +
-                            "plataforma de forma idividual o por género, año, valoración y plataforma juntos");
+                            "plataforma de forma individual o por género, año, valoración y plataforma juntos");
                     return "redirect:/animes";
                 }
             }else {
@@ -371,6 +373,8 @@ public class AnimeController {
             model.addAttribute("currentPage", currentPage);
             model.addAttribute("size", pagina.getContent().size());
             model.addAttribute("animes", pagina.getContent());
+            model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
+
         }catch (Exception e){
             logger.error("Error en la busqueda",e);
             model.addAttribute("busquedaFallida", "Error al realizar la búsqueda");
@@ -439,6 +443,7 @@ public class AnimeController {
         //getContent() returns just that single page's data
         model.addAttribute("size", pagina.getContent().size());
         model.addAttribute("animes", pagina.getContent());
+        model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
 
 
     }

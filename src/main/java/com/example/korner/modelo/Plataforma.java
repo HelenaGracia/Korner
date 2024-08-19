@@ -11,7 +11,6 @@ import org.springframework.data.web.SortDefault;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Table(name = "plataformas", uniqueConstraints =@UniqueConstraint(columnNames = "nombre_plataforma"))
 
 public class Plataforma {

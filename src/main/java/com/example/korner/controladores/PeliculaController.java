@@ -97,8 +97,6 @@ public class PeliculaController {
 
 
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
-        Set<GeneroElementoCompartido> listadoGeneros = pelicula.getGenerosPelicula();
-        logger.info("listado de generos:{}", listadoGeneros);
         List<Plataforma> plataformasList = plataformaService.getAll();
         model.addAttribute("listaPlataformas", plataformasList);
         model.addAttribute("listaGeneros", generoElementoCompartidoList);
@@ -123,12 +121,12 @@ public class PeliculaController {
         } else {
             try {
                 pelicula.setUsuarioPelicula(user.get());
-                logger.info("este es el objeto pelicula recibido{}", pelicula);
+
             /*guardamos en la BBDD  el objeto pelicula con el resto de la información que hemos obtenido
              del formulario para que genere un id al guardarse
              */
                 peliculaService.saveEntity(pelicula);
-                logger.info("este es el objeto pelicula guardado{}", pelicula);
+
             /*Creamos nuestros proprios nombres que van a llevar los archivos de imagenes, compuestos por el id
              del objeto pelicula y la extensión del archivo(jpg, png)
              */
@@ -141,7 +139,7 @@ public class PeliculaController {
                 peliculaService.saveEntity(pelicula);
                 attributes.addFlashAttribute("success", "Elemento añadido correctamente");
             }catch (DataIntegrityViolationException e){
-                logger.error("Error al guardar la pelicula creada");
+                logger.error("Error al guardar la pelicula creada por nombres duplicados");
                 attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
             } catch (Exception e){
                 logger.error("Error al guardar la pelicula creada");
@@ -224,7 +222,7 @@ public class PeliculaController {
                 peliculaService.saveEntity(pelicula);
                 attributes.addFlashAttribute("success","Elemento añadido correctamente");
             } catch (DataIntegrityViolationException e){
-                logger.error("Error al guardar la pelicula modificada");
+                logger.error("Error al guardar la pelicula modificada por nombres duplicados");
                 attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
             } catch (Exception e){
                 logger.error("Error al guardar la pelicula modificada");
@@ -240,10 +238,10 @@ public class PeliculaController {
     @PostMapping("/deletePelicula")
     public String deletePelicula(Pelicula pelicula, RedirectAttributes attributes){
         try {
-            logger.info("este es el objeto pelicula eliminado{}", pelicula);
             peliculaService.deleteEntity(pelicula);
             attributes.addFlashAttribute("success", "Elemento borrado");
         }catch (Exception e){
+            logger.error("Error al eliminar la pelicula");
             attributes.addFlashAttribute("failed", "Error al eliminar");
         }
 
@@ -259,9 +257,6 @@ public class PeliculaController {
                          @RequestParam(value = "filtroOrden",required = false) String filtrOrden,
                          Model model, @RequestParam("page") Optional<Integer> page,
                          HttpSession session, RedirectAttributes attributes) {
-        logger.info("Titulo de la pelicula: {}", tituloPeliculaBusqueda);
-        logger.info("puntuacion recibida del filtro: {}", filtroPuntuacion);
-        logger.info("genero recibido del filtro:{}", generoId);
         Pelicula pelicula = new Pelicula();
         model.addAttribute("datosPelicula", pelicula);
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
@@ -368,7 +363,7 @@ public class PeliculaController {
 
                 }else {
                     attributes.addFlashAttribute("failed", "Sólo se puede filtrar por título, género, año, valoración " +
-                            "plataforma de forma idividual o por género, año, valoración y plataforma juntos");
+                            "plataforma de forma individual o por género, año, valoración y plataforma juntos");
                     return "redirect:/peliculas";
                 }
             }else {
@@ -394,6 +389,7 @@ public class PeliculaController {
             model.addAttribute("currentPage", currentPage);
             model.addAttribute("size", pagina.getContent().size());
             model.addAttribute("peliculas", pagina.getContent());
+            model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
         }catch (Exception e){
             logger.error("Error en la busqueda",e);
             model.addAttribute("busquedaFallida", "Error al realizar la búsqueda");
@@ -436,7 +432,6 @@ public class PeliculaController {
          se crea un objeto page que es el encargado de rellenar en la pagina que le has indicado con la cantidad
          que le has dicho todos los objetos pelicula almacenados, es decir, crea la pagina que visualizas con el contenido
          */
-        // Page<Pelicula> pagina = peliculaService.findAll(pageRequest);
         Page<Pelicula> pagina = peliculaService.getAllPeliculas(user.get(), pageRequest);
 
         //Envio la pagina creada a la vista para poder verla
@@ -464,10 +459,7 @@ public class PeliculaController {
 
         model.addAttribute("peliculas", pagina.getContent());
 
-
-
-
-
+        model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
 
     }
 

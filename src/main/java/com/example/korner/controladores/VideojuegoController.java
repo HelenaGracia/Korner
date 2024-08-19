@@ -57,17 +57,13 @@ public class VideojuegoController {
 
     private final Logger logger = LoggerFactory.getLogger(VideojuegoController.class);
 
-    //Mostrar Peliculas
+    //Mostrar Videojuegos
     @GetMapping("")
     public String listAllVideojuegos(Model model, @RequestParam("page") Optional<Integer> page,
                                      HttpSession session, @RequestParam(value = "orden", required = false) String orden){
 
-
         paginacion(model, page, session, orden);
 
-
-
-        //List<Pelicula> listadoPeliculas = peliculaService.getAll();
         Videojuego videojuego = new Videojuego();
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
         List<PlataformaVideojuego> plataformasList = plataformaVideojuegoService.getAll();
@@ -79,7 +75,7 @@ public class VideojuegoController {
     }
 
 
-    //Guardar Pelicula
+    //Guardar Videojuego
 
     @PostMapping("/saveVideojuego")
     /*Obtenemos del formulario el contenido del input imagen, que es un archivo de imagen y
@@ -96,8 +92,6 @@ public class VideojuegoController {
 
 
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
-        Set<GeneroElementoCompartido> listadoGeneros = videojuego.getGenerosVideojuegos();
-        logger.info("listado de generos:{}", listadoGeneros);
         List<PlataformaVideojuego> plataformasList = plataformaVideojuegoService.getAll();
         model.addAttribute("listaPlataformas", plataformasList);
         model.addAttribute("listaGeneros", generoElementoCompartidoList);
@@ -122,26 +116,24 @@ public class VideojuegoController {
         } else {
             try {
                 videojuego.setUsuarioVideojuego(user.get());
-                logger.info("este es el objeto videojuego recibido{}", videojuego);
-            /*guardamos en la BBDD  el objeto pelicula con el resto de la información que hemos obtenido
+            /*guardamos en la BBDD  el objeto Videojuego con el resto de la información que hemos obtenido
              del formulario para que genere un id al guardarse
              */
                 videojuegoService.saveEntity(videojuego);
 
-                logger.info("este es el objeto videojuego guardado{}", videojuego);
             /*Creamos nuestros proprios nombres que van a llevar los archivos de imagenes, compuestos por el id
-             del objeto pelicula y la extensión del archivo(jpg, png)
+             del objeto Videojuego y la extensión del archivo(jpg, png)
              */
                 String nombreArchivo = "Videojuego" + videojuego.getId() + "Usuario" + videojuego.getUsuarioVideojuego().getId() + "." + FilenameUtils.getExtension(multipartFile.getOriginalFilename());
                 //Llamamos al metodo y le pasamos los siguientes argumentos(el archivo de imagen, nombre de la imagen)
                 fileSystemStorageService.storeWithName(multipartFile, nombreArchivo);
-                //Modificamos el nombre del atributo imagenRuta del objeto pelicula con la url que genera el controlador ImagenesController
+                //Modificamos el nombre del atributo imagenRuta del objeto Videojuego con la url que genera el controlador ImagenesController
                 videojuego.setImagenRuta( "/imagenes/leerImagen/" + nombreArchivo);
                 //Volvemos a guardar el objeto en la BBDD con los cambios
                 videojuegoService.saveEntity(videojuego);
                 attributes.addFlashAttribute("success", "Elemento añadido correctamente");
             }catch (DataIntegrityViolationException e){
-                logger.error("Error al guardar el videojuego creado", e);
+                logger.error("Error al guardar el videojuego creado por nombres duplicados", e);
                 attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
             } catch (Exception e){
                 logger.error("Error al guardar el videojuego creado", e);
@@ -204,7 +196,7 @@ public class VideojuegoController {
                     }
 
                 } else{
-                    //Creamos nuestros proprios nombres que van a llevar los archivos de imagenes, compuestos por String Pelicula el id del objeto pelicula el titulo del objeto pelicula y la extensión del archivo(jpg, png)
+                    //Creamos nuestros proprios nombres que van a llevar los archivos de imagenes, compuestos por String Videojuego el id del objeto Videojuego el titulo del objeto Videojuego y la extensión del archivo(jpg, png)
                     String nombreArchivo = "Videojuego" + videojuego.getId() + "Usuario" + videojuego.getUsuarioVideojuego().getId() + "." + FilenameUtils.getExtension(multipartFile.getOriginalFilename());
                     //Llamamos al metedos y le pasamos los siguientes argumentos(el archivo de imagen, nombre de la imagen)
 
@@ -216,7 +208,7 @@ public class VideojuegoController {
                     }
                     fileSystemStorageService.storeWithName(multipartFile, nombreArchivo);
 
-                    //Modificamos el nombre del atributo imagenRuta del objeto pelicula con la url que genera el controlador ImagenesController
+                    //Modificamos el nombre del atributo imagenRuta del objeto Videojuego con la url que genera el controlador ImagenesController
                     videojuego.setImagenRuta("/imagenes/leerImagen/" + nombreArchivo);
 
                 }
@@ -225,7 +217,7 @@ public class VideojuegoController {
                 videojuegoService.saveEntity(videojuego);
                 attributes.addFlashAttribute("success","Elemento añadido correctamente");
             } catch (DataIntegrityViolationException e){
-                logger.error("Error al guardar el videojuego modificado");
+                logger.error("Error al guardar el videojuego modificado por nombres duplicados");
                 attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
             } catch (Exception e){
                 logger.error("Error al guardar el videojuego modificado");
@@ -237,11 +229,10 @@ public class VideojuegoController {
     }
 
 
-    //Eliminar Pelicula
+    //Eliminar Videojuego
     @PostMapping("/deleteVideojuego")
     public String deleteVideojuego(Videojuego videojuego, RedirectAttributes attributes){
         try {
-            logger.info("este es el objeto videojuego eliminado{}", videojuego);
             videojuegoService.deleteEntity(videojuego);
             attributes.addFlashAttribute("success", "Elemento borrado");
         }catch (Exception e){
@@ -261,9 +252,6 @@ public class VideojuegoController {
                          @RequestParam(value = "filtroOrden",required = false) String filtrOrden,
                          Model model, @RequestParam("page") Optional<Integer> page,
                          HttpSession session, RedirectAttributes attributes) {
-        logger.info("Titulo del vieojuego: {}", tituloVideojuegoBusqueda);
-        logger.info("puntuacion recibida del filtro: {}", filtroPuntuacion);
-        logger.info("genero recibido del filtro:{}", generoId);
         Videojuego videojuego = new Videojuego();
         model.addAttribute("datosVideojuego", videojuego);
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
@@ -370,7 +358,7 @@ public class VideojuegoController {
 
                 }else {
                     attributes.addFlashAttribute("failed", "Sólo se puede filtrar por título, género, año, valoración " +
-                            "plataforma de forma idividual o por género, año, valoración y plataforma juntos");
+                            "plataforma de forma individual o por género, año, valoración y plataforma juntos");
                     return "redirect:/videojuegos";
                 }
             }else {
@@ -395,6 +383,7 @@ public class VideojuegoController {
             model.addAttribute("currentPage", currentPage);
             model.addAttribute("size", pagina.getContent().size());
             model.addAttribute("videojuegos", pagina.getContent());
+            model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
         }catch (Exception e){
             logger.error("Error en la busqueda",e);
             model.addAttribute("busquedaFallida", "Error al realizar la búsqueda");
@@ -434,7 +423,7 @@ public class VideojuegoController {
 
         /*
          se crea un objeto page que es el encargado de rellenar en la pagina que le has indicado con la cantidad
-         que le has dicho todos los objetos pelicula almacenados, es decir, crea la pagina que visualizas con el contenido
+         que le has dicho todos los objetos Videojuego almacenados, es decir, crea la pagina que visualizas con el contenido
          */
         Page<Videojuego> pagina = videojuegoService.getAllVideojuegos(user.get(), pageRequest);
 
@@ -462,6 +451,8 @@ public class VideojuegoController {
         model.addAttribute("size", pagina.getContent().size());
 
         model.addAttribute("videojuegos", pagina.getContent());
+
+        model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
 
 
 
