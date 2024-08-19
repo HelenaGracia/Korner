@@ -63,6 +63,7 @@ public class AjustesController {
         }if (bCryptPasswordEncoder.matches(nombre.getPasswordActual(), user.get().getPassword())){
             user.get().setNombre(nombre.getNombre());
             usuarioService.saveEntity(user.get());
+            session.setAttribute("userName", user.get().getNombre());
             attributes.addFlashAttribute("success", "Se ha cambiado el nombre correctamente");
             return "redirect:/ajustes/nombre";
         }

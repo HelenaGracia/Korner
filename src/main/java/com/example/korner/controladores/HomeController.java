@@ -12,6 +12,7 @@ public class HomeController {
     @GetMapping("")
     public String showHome(Model model, HttpSession session){
         model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
         return "home";
     }
 

@@ -61,7 +61,7 @@
                       <img th:src="${imagenUsuario}" alt="imagen perfil" />
                     </a>
                   </li>
-                  <li class="nav-item mt-lg-4 ms-lg-2 ms-xl-3 ">
+                  <li class="nav-item mt-4 ms-lg-2 ms-xl-3 ">
                     <a href="#" role="button" class="position-relative" data-bs-toggle="modal" data-bs-target="#modal-noti">
                       <span class="position-absolute top-0  start-100 translate-middle badge rounded-pill bg-danger">9</span>
                       <i class="bi bi-bell fs-3 text-black"></i>
@@ -192,9 +192,9 @@
                         </div>
                         
                         <a class= " caja-conectados-chat" href="#" >
-                          <img th:src="@{img/lilo.jpg}" class="card-img-top img-card-amigos" alt="imagenperfil">
+                          <img th:src="${amigos.getUsuarioDestino().getRutaImagen()}" class=" img-card-amigos" alt="imagenperfil">
                           <div>
-                            <h6 class="card-title text-center" th:text="${amigos.getUsuarioDestino().getNombre()}">Juanma25</h6>
+                            <h6 class="card-title text-center" th:text="${amigos.getUsuarioDestino().getNombre()}"></h6>
                             <div class="caja-estado text-center">
                               <span class="conectado"></span>
                               <p class="text-center texto-estado" style="display: inline-block">Online</p>
@@ -271,7 +271,7 @@
                                         
                     <div class="col-6 col-sm-4 col-lg-2">
                       <div class="card card-amigos mx-auto mb-3">
-                        <img src="../static/img/opm.png" class="card-img-top img-card-amigos" alt="imagenperfil">
+                        <img src="../static/img/opm.png" class=" img-card-amigos" alt="imagenperfil">
                         <div>
                           <h6 class="card-title text-center" >Pedrito5</h6>
                           <div class="caja-estado text-center">
@@ -328,9 +328,9 @@
                           </li>
                         </ul>
                       </div>
-                      <img src="../static/img/animal1.png" class="card-img-top img-card-amigos" alt="imagenperfil">
+                      <img th:src="${bloqueado.getUsuarioDestino().getRutaImagen()}" class=" img-card-amigos" alt="imagenperfil">
                       <div>
-                        <h6 class="card-title text-center" th:text="${bloqueado.getUsuarioDestino().getNombre()}">Juan2</h6>
+                        <h6 class="card-title text-center" th:text="${bloqueado.getUsuarioDestino().getNombre()}"></h6>
                         <div class="caja-estado text-center">
                           <span class="desconectado"></span>
                           <p class="text-center texto-estado" style="display: inline-block">Desconectado</p>
