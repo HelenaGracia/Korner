@@ -33,13 +33,4 @@ public class Libro  extends AbstractEntity{
     @JoinColumn (name = "id_libro_usuarios")
     private Usuario usuarioLibro;
 
-
-    @Override
-    public String toString() {
-        return "Libro{" +
-                "formatosLibro=" + formatosLibro +
-                ", generosLibro=" + generosLibro +
-                ", usuarioLibro=" + usuarioLibro +
-                '}'+ super.toString();
-    }
 }

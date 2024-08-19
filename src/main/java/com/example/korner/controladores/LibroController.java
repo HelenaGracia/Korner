@@ -95,8 +95,6 @@ public class LibroController {
 
 
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
-        Set<GeneroElementoCompartido> listadoGeneros = libro.getGenerosLibro();
-        logger.info("listado de generos:{}", listadoGeneros);
         List<FormatoLibro> formatosList = formatoLibroService.getAll();
         model.addAttribute("listaFormatos", formatosList);
         model.addAttribute("listaGeneros", generoElementoCompartidoList);
@@ -120,12 +118,12 @@ public class LibroController {
         } else {
             try {
                 libro.setUsuarioLibro(user.get());
-                logger.info("este es el objeto libro recibido{}", libro);
+
             /*guardamos en la BBDD  el objeto libro con el resto de la información que hemos obtenido
              del formulario para que genere un id al guardarse
              */
                 libroService.saveEntity(libro);
-                logger.info("este es el objeto libro guardado{}", libro);
+
             /*Creamos nuestros proprios nombres que van a llevar los archivos de imagenes, compuestos por el id
              del objeto libro y la extensión del archivo(jpg, png)
              */
@@ -138,10 +136,10 @@ public class LibroController {
                 libroService.saveEntity(libro);
                 attributes.addFlashAttribute("success", "Elemento añadido correctamente");
             }catch (DataIntegrityViolationException e){
-                e.printStackTrace();
+                logger.error("Error al guardar el libro por nombres duplicados");
                 attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
             } catch (Exception e){
-                e.printStackTrace();
+                logger.error("Error al guardar el libro");
                 attributes.addFlashAttribute("failed", "Error");
             }
             return "redirect:/libros";
@@ -221,10 +219,10 @@ public class LibroController {
                 libroService.saveEntity(libro);
                 attributes.addFlashAttribute("success","Elemento añadido correctamente");
             } catch (DataIntegrityViolationException e){
-                e.printStackTrace();
+                logger.error("Error al guardar el libro modificado por nombres duplicados");
                 attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
             } catch (Exception e){
-                e.printStackTrace();
+                logger.error("Error al guardar el libro modificado");
                 attributes.addFlashAttribute("failed", "Error");
             }
             return "redirect:/libros";
@@ -237,10 +235,10 @@ public class LibroController {
     @PostMapping("/deleteLibro")
     public String deleteLibro(Libro libro, RedirectAttributes attributes){
         try {
-            logger.info("este es el objeto libro eliminado{}", libro);
             libroService.deleteEntity(libro);
             attributes.addFlashAttribute("success", "Elemento borrado");
         }catch (Exception e){
+            logger.error("Error al eliminar el libro");
             attributes.addFlashAttribute("failed", "Error al eliminar");
         }
 
@@ -256,9 +254,6 @@ public class LibroController {
                          @RequestParam(value = "filtroOrden",required = false) String filtrOrden,
                          Model model, @RequestParam("page") Optional<Integer> page,
                          HttpSession session, RedirectAttributes attributes) {
-        logger.info("Titulo de la libro: {}", tituloLibroBusqueda);
-        logger.info("puntuacion recibida del filtro: {}", filtroPuntuacion);
-        logger.info("genero recibido del filtro:{}", generoId);
         Libro libro = new Libro();
         model.addAttribute("datosLibro", libro);
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
@@ -365,7 +360,7 @@ public class LibroController {
 
                 }else {
                     attributes.addFlashAttribute("failed", "Sólo se puede filtrar por título, género, año, valoración " +
-                            "formato de forma idividual o por género, año, valoración y formato juntos");
+                            "formato de forma individual o por género, año, valoración y formato juntos");
                     return "redirect:/libros";
                 }
             }else {
@@ -390,6 +385,7 @@ public class LibroController {
             model.addAttribute("currentPage", currentPage);
             model.addAttribute("size", pagina.getContent().size());
             model.addAttribute("libros", pagina.getContent());
+            model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
         }catch (Exception e){
             logger.error("Error en la busqueda",e);
             model.addAttribute("busquedaFallida", "Error al realizar la búsqueda");
@@ -459,6 +455,8 @@ public class LibroController {
         model.addAttribute("size", pagina.getContent().size());
 
         model.addAttribute("libros", pagina.getContent());
+
+        model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
 
 
 

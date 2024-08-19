@@ -5,6 +5,7 @@ import com.example.korner.modelo.Plataforma;
 import com.example.korner.modelo.PlataformaVideojuego;
 import com.example.korner.servicio.PlataformaServiceImpl;
 import com.example.korner.servicio.PlataformaVideojuegoServiceImpl;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -37,9 +38,9 @@ public class PlataformaVideojuegoController {
     }
 
     @GetMapping("")
-    public String showPlataformasVideojuegos(Model model, @RequestParam("page") Optional<Integer> page){
+    public String showPlataformasVideojuegos(Model model, @RequestParam("page") Optional<Integer> page, HttpSession session){
 
-        paginacion(model,page);
+        paginacion(model,page, session);
         PlataformaVideojuego plataformaVideojuego = new PlataformaVideojuego();
         model.addAttribute("datosPlataforma", plataformaVideojuego);
         return "plataformasVideojuegos";
@@ -49,8 +50,8 @@ public class PlataformaVideojuegoController {
     public String savePlataforma(@Validated @ModelAttribute(name = "datosPlataforma") PlataformaVideojuego plataforma,
                                BindingResult bindingResult, RedirectAttributes attributes,
                                  @RequestParam("page") Optional<Integer> page,
-                                 Model model){
-        paginacion(model,page);
+                                 Model model, HttpSession session){
+        paginacion(model,page, session);
 
         if (bindingResult.hasErrors()){
             model.addAttribute("plataformaActual", -1);
@@ -80,8 +81,8 @@ public class PlataformaVideojuegoController {
     public String savePlataformaModificar(@Validated @ModelAttribute(name = "datosPlataforma") PlataformaVideojuego plataforma,
                                  BindingResult bindingResult, RedirectAttributes attributes,
                                           @RequestParam("page") Optional<Integer> page,
-                                          Model model){
-        paginacion(model, page);
+                                          Model model, HttpSession session){
+        paginacion(model, page, session);
 
         if (bindingResult.hasErrors()){
             model.addAttribute("plataformaActual", plataforma.getId());
@@ -120,7 +121,7 @@ public class PlataformaVideojuegoController {
         return "redirect:/plataformasVideojuegos";
     }
 
-    private void paginacion(Model model, Optional<Integer> page){
+    private void paginacion(Model model, Optional<Integer> page, HttpSession session){
         //Recibe la pagina en la que estoy si no recibe nada asigna la pagina 1
         int currentPage = page.orElse(1);
         //Guarda la pagina en la que estoy (Si es la pagina 1, la 2...) y la cantidad de elementos que quiero mostrar en ella
@@ -156,6 +157,9 @@ public class PlataformaVideojuegoController {
         model.addAttribute("size", pagina.getContent().size());
 
         model.addAttribute("plataformas", pagina.getContent());
+
+        model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
+
 
 
 

@@ -10,7 +10,6 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Table(name = "formato_libros")
 public class FormatoLibro  {
     @Id

@@ -67,10 +67,10 @@
               </li>
               <li class="nav-item ms-lg-2 ms-xl-2">
                 <a class="" href="#" role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                  <img th:src="@{/img/Nevernight.jpg}" alt="imagen perfil" >
+                  <img th:src="${imagenUsuario}" alt="imagen perfil" />
                 </a>
               </li>
-              <li class="nav-item mt-lg-4 ms-lg-2 ms-xl-3">
+              <li class="nav-item mt-4 ms-lg-2 ms-xl-3">
                 <a href="#" role="button" class="position-relative" data-bs-toggle="modal" data-bs-target="#modal-noti">
                   <span class="position-absolute top-0  start-100 translate-middle badge rounded-pill bg-danger">9</span>
                   <i class="bi bi-bell fs-3 text-black"></i>
@@ -107,7 +107,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <img th:src="@{/img/Nevernight.jpg}" alt="imagen perfil" class="img-perfil" >
+            <img th:src="${imagenUsuario}" alt="imagen perfil" class="img-perfil" >
             <a href="" class="nombre-perfil" >VictorMer</a>
             <a th:href="@{/ajustes}" class="btn btn-primary boton-perfil" >Ajustes</a>
             <a th:href="@{/amigos}" class="btn btn-primary boton-perfil" >Amigos</a>

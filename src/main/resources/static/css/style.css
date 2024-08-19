@@ -467,7 +467,7 @@ nav li a img{
 .nombre-perfil{
     text-decoration: none;
     color: black;
-    margin-left: 7.8rem;
+    margin-left: 1rem;
 }
 
 .boton-perfil{
@@ -553,7 +553,7 @@ nav li a img{
 
 .img-card-amigos{
     width: 4.5rem;
-    height: auto;
+    height: 4.5rem;
     border-radius: 50%;
     margin: 1rem 2.25rem;
 }

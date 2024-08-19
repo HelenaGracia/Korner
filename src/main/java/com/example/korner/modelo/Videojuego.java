@@ -40,12 +40,4 @@ public class Videojuego extends AbstractEntity{
     @JoinColumn (name = "id_videojuego_usuarios")
     private Usuario usuarioVideojuego;
 
-    @Override
-    public String toString() {
-        return "Videojuego{" +
-                "generosVideojuegos=" + generosVideojuegos +
-                ", plataformasVideojuego=" + plataformasVideojuego +
-                ", usuarioVideojuego=" + usuarioVideojuego +
-                '}' + super.toString();
-    }
 }

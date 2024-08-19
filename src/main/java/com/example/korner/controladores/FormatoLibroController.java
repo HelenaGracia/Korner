@@ -4,6 +4,7 @@ import com.example.korner.modelo.FormatoLibro;
 import com.example.korner.modelo.PlataformaVideojuego;
 import com.example.korner.servicio.FormatoLibroServiceImpl;
 import com.example.korner.servicio.PlataformaVideojuegoServiceImpl;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -36,9 +37,9 @@ public class FormatoLibroController {
     }
 
     @GetMapping("")
-    public String showFormatosLibros(Model model, @RequestParam("page") Optional<Integer> page){
+    public String showFormatosLibros(Model model, @RequestParam("page") Optional<Integer> page, HttpSession session){
 
-        paginacion(model,page);
+        paginacion(model,page, session);
         FormatoLibro formatoLibro = new FormatoLibro();
         model.addAttribute("datosFormato", formatoLibro);
         return "formatosLibros";
@@ -48,8 +49,8 @@ public class FormatoLibroController {
     public String saveFormato(@Validated @ModelAttribute(name = "datosFormato") FormatoLibro formato,
                                BindingResult bindingResult, RedirectAttributes attributes,
                                  @RequestParam("page") Optional<Integer> page,
-                                 Model model){
-        paginacion(model,page);
+                                 Model model, HttpSession session){
+        paginacion(model,page, session);
 
         if (bindingResult.hasErrors()){
             model.addAttribute("formatoActual", -1);
@@ -58,12 +59,10 @@ public class FormatoLibroController {
 
         }else {
             try {
-                logger.info("este es el objeto formato libro recibido{}", formato);
                 formatoLibroService.saveEntity(formato);
-                logger.info("este es el objeto formato libro guardado{}", formato);
                 attributes.addFlashAttribute("success", "Elemento añadido correctamente");
             }catch (DataIntegrityViolationException e){
-                logger.error("Error al añadir el formato libro", e);
+                logger.error("Error al añadir el formato libro por nombres duplicados", e);
                 attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
             } catch (Exception e){
                 logger.error("Error al añadir el formato libro", e);
@@ -79,8 +78,8 @@ public class FormatoLibroController {
     public String saveFormatoModificar(@Validated @ModelAttribute(name = "datosFormato") FormatoLibro formato,
                                  BindingResult bindingResult, RedirectAttributes attributes,
                                           @RequestParam("page") Optional<Integer> page,
-                                          Model model){
-        paginacion(model, page);
+                                          Model model, HttpSession session){
+        paginacion(model, page, session);
 
         if (bindingResult.hasErrors()){
             model.addAttribute("formatoActual", formato.getId());
@@ -89,12 +88,10 @@ public class FormatoLibroController {
 
         }else {
             try {
-                logger.info("este es el objeto formato libro recibido{}", formato);
                 formatoLibroService.saveEntity(formato);
-                logger.info("este es el objeto formato Libro guardado{}", formato);
                 attributes.addFlashAttribute("success", "Elemento añadido correctamente");
             }catch (DataIntegrityViolationException e){
-                logger.error("Error al modificar el formato libro", e);
+                logger.error("Error al modificar el formato libro por nombres duplicados", e);
                 attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
             } catch (Exception e){
                 logger.error("Error al modificar el formato libro", e);
@@ -109,7 +106,6 @@ public class FormatoLibroController {
     @PostMapping("/deleteFormato")
     public String deleteFormato(FormatoLibro formato, RedirectAttributes attributes){
         try {
-            logger.info("este es el objeto formato libro eliminado{}", formato);
             formatoLibroService.deleteEntity(formato);
             attributes.addFlashAttribute("success", "Elemento borrado");
         }catch (Exception e){
@@ -119,7 +115,7 @@ public class FormatoLibroController {
         return "redirect:/formatosLibros";
     }
 
-    private void paginacion(Model model, Optional<Integer> page){
+    private void paginacion(Model model, Optional<Integer> page, HttpSession session){
         //Recibe la pagina en la que estoy si no recibe nada asigna la pagina 1
         int currentPage = page.orElse(1);
         //Guarda la pagina en la que estoy (Si es la pagina 1, la 2...) y la cantidad de elementos que quiero mostrar en ella
@@ -154,6 +150,8 @@ public class FormatoLibroController {
         model.addAttribute("size", pagina.getContent().size());
 
         model.addAttribute("formatos", pagina.getContent());
+
+        model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
 
 
 

@@ -4,6 +4,7 @@ import com.example.korner.modelo.GeneroElementoCompartido;
 import com.example.korner.modelo.Pelicula;
 import com.example.korner.modelo.Plataforma;
 import com.example.korner.servicio.GeneroElementoServiceImpl;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +39,9 @@ public class GeneroElementoController {
 
 
     @GetMapping("")
-    public String showGenerosElementos(Model model, @RequestParam("page") Optional<Integer> page){
+    public String showGenerosElementos(Model model, @RequestParam("page") Optional<Integer> page, HttpSession session){
 
-        paginacion(model,page);
+        paginacion(model,page,session);
         GeneroElementoCompartido genero = new GeneroElementoCompartido();
         model.addAttribute("datosGenero", genero);
         return "generosElementos";
@@ -50,8 +51,8 @@ public class GeneroElementoController {
     public String saveGeneroElemento(@Validated @ModelAttribute(name = "datosGenero") GeneroElementoCompartido generoElementoCompartido,
                                  BindingResult bindingResult, RedirectAttributes attributes,
                                      @RequestParam("page") Optional<Integer> page,
-                                     Model model){
-        paginacion(model,page);
+                                     Model model, HttpSession session){
+        paginacion(model,page, session);
 
         if (bindingResult.hasErrors()){
             model.addAttribute("generoElementoActual", -1);
@@ -60,12 +61,11 @@ public class GeneroElementoController {
 
         }else {
             try {
-                logger.info("este es el objeto genero recibido{}", generoElementoCompartido);
                 generoElementoService.saveEntity(generoElementoCompartido);
                 logger.info("este es el objeto genero guardado{}", generoElementoCompartido);
                 attributes.addFlashAttribute("success", "Elemento añadido correctamente");
             }catch (DataIntegrityViolationException e){
-                logger.error("Error al añadir el genero del elemento", e);
+                logger.error("Error al añadir el genero del elemento por nombres duplicados", e);
                 attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
             } catch (Exception e){
                 logger.error("Error al añadir el genero del elemento", e);
@@ -80,8 +80,8 @@ public class GeneroElementoController {
     public String saveGeneroElementoModificar(@Validated @ModelAttribute(name = "datosGenero") GeneroElementoCompartido generoElementoCompartido,
                                      BindingResult bindingResult, RedirectAttributes attributes,
                                      @RequestParam("page") Optional<Integer> page,
-                                     Model model){
-        paginacion(model,page);
+                                     Model model, HttpSession session){
+        paginacion(model,page, session);
 
         if (bindingResult.hasErrors()){
             model.addAttribute("generoElementoActual", generoElementoCompartido.getId());
@@ -90,12 +90,11 @@ public class GeneroElementoController {
 
         }else {
             try {
-                logger.info("este es el objeto genero recibido{}", generoElementoCompartido);
                 generoElementoService.saveEntity(generoElementoCompartido);
                 logger.info("este es el objeto genero guardado{}", generoElementoCompartido);
                 attributes.addFlashAttribute("success", "Elemento añadido correctamente");
             }catch (DataIntegrityViolationException e){
-                logger.error("Error al modificar el genero elemento", e);
+                logger.error("Error al modificar el genero elemento por nombres duplicados", e);
                 attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
             } catch (Exception e){
                 logger.error("Error al modificar el genero elemento", e);
@@ -110,7 +109,6 @@ public class GeneroElementoController {
     @PostMapping("/deleteGenero")
     public String deleteGenero(GeneroElementoCompartido generoElementoCompartido, RedirectAttributes attributes){
         try {
-            logger.info("este es el objeto genero eliminado{}", generoElementoCompartido);
             generoElementoService.deleteEntity(generoElementoCompartido);
             attributes.addFlashAttribute("success", "Elemento borrado");
         }catch (Exception e){
@@ -120,7 +118,7 @@ public class GeneroElementoController {
         return "redirect:/generosElementos";
     }
 
-    private void paginacion(Model model, Optional<Integer> page){
+    private void paginacion(Model model, Optional<Integer> page, HttpSession session){
         //Recibe la pagina en la que estoy si no recibe nada asigna la pagina 1
         int currentPage = page.orElse(1);
         //Guarda la pagina en la que estoy (Si es la pagina 1, la 2...) y la cantidad de elementos que quiero mostrar en ella
@@ -155,6 +153,8 @@ public class GeneroElementoController {
         model.addAttribute("size", pagina.getContent().size());
 
         model.addAttribute("generos", pagina.getContent());
+
+        model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
 
     }
 

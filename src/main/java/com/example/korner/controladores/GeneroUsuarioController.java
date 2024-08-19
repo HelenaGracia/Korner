@@ -3,6 +3,7 @@ package com.example.korner.controladores;
 import com.example.korner.modelo.Genero;
 import com.example.korner.modelo.GeneroElementoCompartido;
 import com.example.korner.servicio.GeneroUsuarioServiceImpl;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,9 +33,9 @@ public class GeneroUsuarioController {
 
 
     @GetMapping("")
-    public String generosUser(@RequestParam("page") Optional<Integer> page, Model model){
+    public String generosUser(@RequestParam("page") Optional<Integer> page, Model model, HttpSession session){
 
-        paginacion(model,page);
+        paginacion(model,page, session);
         model.addAttribute("newGenero", new Genero());
         return "generosUsuarios";
     }
@@ -43,8 +44,8 @@ public class GeneroUsuarioController {
     public String saveGenero(@Validated @ModelAttribute("newGenero") Genero generoUser,
                              BindingResult bindingResult,
                              @RequestParam("page") Optional<Integer> page,
-                             RedirectAttributes attributes,Model model){
-        paginacion(model,page);
+                             RedirectAttributes attributes,Model model, HttpSession session){
+        paginacion(model,page, session);
         if (bindingResult.hasErrors()) {
             model.addAttribute("generoUsuarioActual", -1);
             attributes.addFlashAttribute("failed", "Error al introducir los datos en el formulario");
@@ -71,8 +72,8 @@ public class GeneroUsuarioController {
     public String modificarGenero(@Validated @ModelAttribute("newGenero") Genero generoUser,
                              BindingResult bindingResult,
                              @RequestParam("page") Optional<Integer> page,
-                             RedirectAttributes attributes,Model model){
-        paginacion(model,page);
+                             RedirectAttributes attributes,Model model, HttpSession session){
+        paginacion(model,page, session);
         if (bindingResult.hasErrors()) {
             model.addAttribute("generoUsuarioActual", generoUser.getId());
             attributes.addFlashAttribute("failed", "Error al introducir los datos en el formulario");
@@ -107,7 +108,7 @@ public class GeneroUsuarioController {
         return "redirect:/generosUsuarios";
     }
 
-    private void paginacion(Model model, Optional<Integer> page){
+    private void paginacion(Model model, Optional<Integer> page, HttpSession session){
 
         int currentPage = page.orElse(1);
         PageRequest pageRequest = PageRequest.of(currentPage-1, 10);
@@ -126,6 +127,7 @@ public class GeneroUsuarioController {
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("size", pagina.getContent().size());
         model.addAttribute("generosUsuario", pagina.getContent());
+        model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
 
     }
 }

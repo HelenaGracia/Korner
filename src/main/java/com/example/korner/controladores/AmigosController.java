@@ -40,6 +40,7 @@ public class AmigosController {
                              HttpSession session,Model model) {
 
         Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
+        model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
 
         //Paginación
         int currentPage = page.orElse(1);
@@ -86,6 +87,7 @@ public class AmigosController {
     public String solicitudesPendientes(@RequestParam("page") Optional<Integer> page,
                                         Model model, HttpSession session) {
         Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
+        model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
 
         //Paginación
         int currentPage = page.orElse(1);
@@ -104,6 +106,7 @@ public class AmigosController {
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("size", pagina.getContent().size());
         model.addAttribute("amigos", pagina.getContent());
+        model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
         return "amigosPendientes";
     }
 
@@ -142,6 +145,7 @@ public class AmigosController {
     public String verSolicitudesEnviadas(@RequestParam("page") Optional<Integer> page,
                                          Model model, HttpSession session){
         Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
+        model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
 
         //Paginación
         int currentPage = page.orElse(1);

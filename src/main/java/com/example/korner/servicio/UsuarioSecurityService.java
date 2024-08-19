@@ -35,6 +35,8 @@ public class UsuarioSecurityService extends AbstractService<Usuario,Integer, Usu
         Optional<Usuario> user = usuarioRepository.findBynombre(username);
         if (user.isPresent()) {
             session.setAttribute("idusuario", user.get().getId());
+            session.setAttribute("rutaImagen", user.get().getRutaImagen());
+            session.setAttribute("userName",user.get().getNombre());
             return user.get();
         } else {
             String errorMessage = messageSource.getMessage("user.not.found",null, Locale.getDefault());

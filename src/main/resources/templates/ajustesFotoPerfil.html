@@ -57,11 +57,10 @@
                         </li>
                         <li class="nav-item ms-lg-2 ms-xl-2 ">
                             <a class="" href="#" role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                                <img th:unless="${imagenRuta}" th:src="@{/img/pacman.jpg}" alt="imagen perfil" >
-                                <img th:if="${imagenRuta}" class="" th:src="${imagenRuta}" alt="Garfield: La Película" />
+                                <img th:src="${imagenRuta}" alt="imagen perfil" />
                             </a>
                         </li>
-                        <li class="nav-item mt-lg-4 ms-lg-2 ms-xl-3 ">
+                        <li class="nav-item mt-4 ms-lg-2 ms-xl-3 ">
                             <a href="#" role="button" class="position-relative" data-bs-toggle="modal" data-bs-target="#modal-noti">
                                 <span class="position-absolute top-0  start-100 translate-middle badge rounded-pill bg-danger">9</span>
                                 <i class="bi bi-bell fs-3 text-black"></i>

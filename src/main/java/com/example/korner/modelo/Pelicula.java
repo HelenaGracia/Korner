@@ -38,13 +38,4 @@ public class Pelicula  extends AbstractEntity{
 
     private Usuario usuarioPelicula;
 
-
-    @Override
-    public String toString() {
-        return "Pelicula{" +
-                "trailerRuta='" + trailerRuta + '\'' +
-                ", plataformasPelicula=" + plataformasPelicula +
-                ", generoElementoCompartidoPelicula=" + generosPelicula +
-                '}'+ super.toString();
-    }
 }

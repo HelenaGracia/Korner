@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>Películas</title>
+    <title>Series</title>
     <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css}" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"/>
     <link rel="preconnect" th:href="@{https://fonts.googleapis.com}"/>
     <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css}"/>
@@ -29,13 +29,13 @@
                     <div class="collapse navbar-collapse  justify-content-evenly" id="navbarNav">
                         <ul class="navbar-nav">
                             <li class="nav-item mt-lg-3  me-xl-3 " >
-                                <a class="nav-link active" th:href="@{/peliculas}">Películas</a>
+                                <a class="nav-link" th:href="@{/peliculas}">Películas</a>
                             </li>
                             <li class="nav-item mt-lg-3  me-xl-3 ">
                                 <a class="nav-link" th:href="@{/videojuegos}">Videojuegos</a>
                             </li>
                             <li class="nav-item mt-lg-3  me-xl-3 ">
-                                <a class="nav-link" th:href="@{/series}">Series</a>
+                                <a class="nav-link active" th:href="@{/series}">Series</a>
                             </li>
                             <li class="nav-item mt-lg-3 me-xl-3  ">
                                 <a class="nav-link" th:href="@{/libros}">Libros</a>
@@ -110,14 +110,14 @@
         <div class="row">
             <!-- Botón "Añadir" -->
             <div class="col-12 col-md-3 d-flex justify-content-center mb-5 mb-md-0">
-                <button type="button" class="btn-section-add" data-bs-toggle="modal" data-bs-target="#modalPeliculaAñadir">AÑADIR</button>
+                <button type="button" class="btn-section-add" data-bs-toggle="modal" data-bs-target="#modalSerieAñadir">AÑADIR</button>
             </div>
 
             <!-- Barra de Búsqueda-->
             <div class="col-8 col-md-6 mb-3">
-                <form th:action="@{/peliculas/search}" method="get">
+                <form th:action="@{/series/search}" method="get">
                     <div class="input-group">
-                        <input type="search" name="tituloPeliculaBusqueda" class="form-control search-input" aria-label="search" placeholder="Buscar...">
+                        <input type="search" name="tituloSerieBusqueda" class="form-control search-input" aria-label="search" placeholder="Buscar...">
                         <!-- Botón Buscar -->
                         <div class="input-group-append">
                             <button type="submit" class="btn-section-searchbar">BUSCAR</button>
@@ -133,7 +133,7 @@
                         FILTROS
                     </button>
                     <div class="dropdown-menu p-4" aria-labelledby="dropdownMenuButton">
-                        <form th:action="@{/peliculas/search}" method="get">
+                        <form th:action="@{/series/search}" method="get">
                             <!-- Filtro por Género -->
                             <div class="form-group mb-3">
                                 <label><strong>Género</strong></label><br>
@@ -224,18 +224,18 @@
         </div>
     </div>
 
-    <!-- MODAL FORMULARIO AÑADIR PELICULA -->
-    <div class="modal fade" id="modalPeliculaAñadir" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"  aria-hidden="true">
+    <!-- MODAL FORMULARIO AÑADIR SERIE -->
+    <div class="modal fade" id="modalSerieAñadir" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"  aria-hidden="true">
 
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel">AÑADIR PELICULA</h1>
-                    <a th:href="@{/peliculas}" class="btn btn-close"></a>
+                    <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel">AÑADIR SERIE</h1>
+                    <a th:href="@{/series}" class="btn btn-close"></a>
                 </div>
                 <div class="modal-body">
-                    <form th:action="@{/peliculas/savePelicula}" method="post" enctype="multipart/form-data" th:object="${datosPelicula}">
-                        <script th:inline="javascript" th:if="${#fields.hasErrors('*')  and  peliculaActual == -1 || tituloRepetido != null }">/*<![CDATA[*/ $(document).ready(function () { $('#modalPeliculaAñadir').modal('show');}); /*]]>*/</script>
+                    <form th:action="@{/series/saveSerie}" method="post" enctype="multipart/form-data" th:object="${datosSerie}">
+                        <script th:inline="javascript" th:if="${#fields.hasErrors('*')  and  serieActual == -1 || tituloRepetido != null }">/*<![CDATA[*/ $(document).ready(function () { $('#modalSerieAñadir').modal('show');}); /*]]>*/</script>
                         <div class="mb-3">
                             <label for="titulo" class="form-label">Título</label>
                             <input type="text" class="form-control" id="titulo" name="titulo" th:field="*{titulo}" >
@@ -258,10 +258,10 @@
                         <div class="mb-3">
                             <div  class="form-label">Géneros</div><br>
                             <div class="form-check form-check-inline"  th:each="generosItem: ${listaGeneros}">
-                                <label class="form-check-label" for="generosPelicula" th:text="${generosItem.nombre}" ></label>
-                                <input class="form-check-input" type="checkbox" th:field="*{generosPelicula}"  th:value="${generosItem.id}" id="generosPelicula" >
+                                <label class="form-check-label" for="generosSerie" th:text="${generosItem.nombre}" ></label>
+                                <input class="form-check-input" type="checkbox" th:field="*{generosSerie}"  th:value="${generosItem.id}" id="generosSerie" >
                             </div>
-                            <p  th:if="${#fields.hasErrors('generosPelicula')}" th:errorclass="error" th:errors="*{generosPelicula}"  ></p>
+                            <p  th:if="${#fields.hasErrors('generosSerie')}" th:errorclass="error" th:errors="*{generosSerie}"  ></p>
                         </div>
                         <div class="mb-3">
                             <label for="opinion" class="form-label">Reseña</label>
@@ -271,10 +271,10 @@
                         <div class="mb-3">
                             <div  class="form-label">Plataformas</div><br>
                             <div class="form-check form-check-inline"  th:each="plataformasItem: ${listaPlataformas}">
-                                <label class="form-check-label" for="plataformasPelicula" th:text="${plataformasItem.nombrePlataforma}" ></label>
-                                <input class="form-check-input" type="checkbox" th:field="*{plataformasPelicula}" th:value="${plataformasItem.id}" id="plataformasPelicula" >
+                                <label class="form-check-label" for="plataformasSerie" th:text="${plataformasItem.nombrePlataforma}" ></label>
+                                <input class="form-check-input" type="checkbox" th:field="*{plataformasSerie}" th:value="${plataformasItem.id}" id="plataformasSerie" >
                             </div>
-                            <p  th:if="${#fields.hasErrors('plataformasPelicula')}" th:errorclass="error" th:errors="*{plataformasPelicula}"  ></p>
+                            <p  th:if="${#fields.hasErrors('plataformasSerie')}" th:errorclass="error" th:errors="*{plataformasSerie}"  ></p>
                         </div>
                         <div class="mb-3">
                             <label for="puntuacion" class="form-label">Valoración</label>
@@ -287,8 +287,8 @@
                             <p  th:if="${#fields.hasErrors('trailerRuta')}" th:errorclass="error" th:errors="*{trailerRuta}" ></p>
                         </div>
                         <div class="d-flex justify-content-end ">
-                            <a th:href="@{/peliculas}" class="btn btn-secondary me-2">Cerrar</a>
-                            <button type="submit" class="btn btn-primary">Añadir película</button>
+                            <a th:href="@{/series}" class="btn btn-secondary me-2">Cerrar</a>
+                            <button type="submit" class="btn btn-primary">Añadir serie</button>
                         </div>
 
 
@@ -299,9 +299,9 @@
         </div>
     </div>
 
-    <!-- FIN MODAL FORMULARIO AÑADIR PELICULA -->
+    <!-- FIN MODAL FORMULARIO AÑADIR SERIE -->
 
-    <!-- ESTRUCTURA PELICULAS -->
+    <!-- ESTRUCTURA SERIES -->
 
     <main class="content-wrap pt-5">
         <div class="container">
@@ -309,7 +309,7 @@
             <div class="row pb-1">
                 <div class="col-12">
                     <div th:if = "${size == 0}" class="text-center">
-                        <p>No hay añadida ninguna película</p>
+                        <p>No hay añadida ninguna serie</p>
                     </div>
                     <div th:if="${success}" class="text-center alert alert-success">
                         <p th:text="${success}"></p>
@@ -325,7 +325,7 @@
             <div th:if="${size>0}" class="row">
                 <div class="col-12 d-flex justify-content-start">
                     <div class="col-3" th:if="${titulo == null && puntuacionFiltro == null && generoFiltro == null && yearFiltro == null && plataformaFiltro == null}">
-                        <form th:action="@{/peliculas}" method="get" class="row row-cols-lg-auto g-3 align-items-center" >
+                        <form th:action="@{/series}" method="get" class="row row-cols-lg-auto g-3 align-items-center" >
                             <div class="col-12">
                                 <select class="form-select" th:name="orden" >
                                     <option th:selected="selected" th:disabled="disabled">--Ordenar por--</option>
@@ -354,16 +354,16 @@
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
-                                    <a th:href="@{/peliculas(page=${currentPage - 1}, orden=${orden})}" class="page-link" >Previous</a>
+                                    <a th:href="@{/series(page=${currentPage - 1}, orden=${orden})}" class="page-link" >Previous</a>
                                 </li>
                                 <li th:each="pageNumber : ${pageNumbers}" class="page-item">
-                                    <a th:href="@{/peliculas(page=${pageNumber}, orden=${orden})}"
+                                    <a th:href="@{/series(page=${pageNumber}, orden=${orden})}"
                                        th:text="${pageNumber}"
                                        th:classappend="${pageNumber==pagina.number + 1} ? active"
                                        class="page-link" ></a>
                                 </li>
                                 <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
-                                    <a th:href="@{/peliculas(page=${currentPage + 1}, orden=${orden})}" class="page-link" >Next</a>
+                                    <a th:href="@{/series(page=${currentPage + 1}, orden=${orden})}" class="page-link" >Next</a>
                                 </li>
                             </ul>
                         </nav>
@@ -372,19 +372,19 @@
 
                 <div th:if="${titulo != null || puntuacionFiltro != null || generoFiltro !=null || yearFiltro != null || plataformaFiltro != null}">
                     <div class="col-12 d-flex justify-content-end mb-3">
-                        <a class="btn btn-primary" th:href="@{/peliculas}">Cancelar búsqueda y filtrado</a>
+                        <a class="btn btn-primary" th:href="@{/series}">Cancelar búsqueda y filtrado</a>
                     </div>
                     <div class="col-12 d-flex justify-content-center">
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
-                                    <a th:href="@{/peliculas/search(page=${currentPage - 1}, tituloPeliculaBusqueda=${titulo},
+                                    <a th:href="@{/series/search(page=${currentPage - 1}, tituloSerieBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
                                     filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" >Previous</a>
                                 </li>
                                 <li th:each="pageNumber : ${pageNumbers}" class="page-item">
-                                    <a th:href="@{/peliculas/search(page=${pageNumber}, tituloPeliculaBusqueda=${titulo},
+                                    <a th:href="@{/series/search(page=${pageNumber}, tituloSerieBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
                                      filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}"
@@ -393,7 +393,7 @@
                                        class="page-link" ></a>
                                 </li>
                                 <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
-                                    <a th:href="@{/peliculas/search(page=${currentPage + 1}, tituloPeliculaBusqueda=${titulo},
+                                    <a th:href="@{/series/search(page=${currentPage + 1}, tituloSerieBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
                                      filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" >Next</a>
@@ -405,29 +405,29 @@
                 <!-- FIN PAGINACION -->
 
 
-                <div class="col-12 col-md-6 mb-4" th:if = "${size > 0}" th:each = "pelicula : ${peliculas}"  >
+                <div class="col-12 col-md-6 mb-4" th:if = "${size > 0}" th:each = "serie : ${series}"  >
 
 
-                    <!-- MODAL FORMULARIO MODIFICAR PELICULA -->
+                    <!-- MODAL FORMULARIO MODIFICAR SERIE -->
 
-                    <div class="modal fade"  th:id="modalPeliculaUpdate + ${pelicula.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"  aria-hidden="true">
+                    <div class="modal fade"  th:id="modalSerieUpdate + ${serie.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"  aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel">MODIFICAR PELICULA</h1>
-                                    <a th:href="@{/peliculas}" class="btn btn-close"></a>
+                                    <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel">MODIFICAR SERIE</h1>
+                                    <a th:href="@{/series}" class="btn btn-close"></a>
                                 </div>
                                 <div class="modal-body">
-                                    <form th:action="@{/peliculas/savePeliculaModificar}" method="post" enctype="multipart/form-data" th:object="${datosPelicula}">
-                                        <script th:inline="javascript" th:if="${#fields.hasErrors('*') and peliculaActual == pelicula.id || peliculaRepetida == pelicula.id} ">/*<![CDATA[*/ $(document).ready(function () {
-                                            let modalId = 'modalPeliculaUpdate' + /*[[${pelicula.id}]]*/'';
+                                    <form th:action="@{/series/saveSerieModificar}" method="post" enctype="multipart/form-data" th:object="${datosSerie}">
+                                        <script th:inline="javascript" th:if="${#fields.hasErrors('*') and serieActual == serie.id || serieRepetida == serie.id} ">/*<![CDATA[*/ $(document).ready(function () {
+                                            let modalId = 'modalSerieUpdate' + /*[[${serie.id}]]*/'';
                                             $('#' + modalId).modal('show');}); /*]]>*/</script>
-                                        <input type="hidden" name="id" th:value="${pelicula.id}">
+                                        <input type="hidden" name="id" th:value="${serie.id}">
                                         <div class="mb-3">
                                             <label for="titulo" class="form-label">Título</label>
-                                            <input type="text" class="form-control" id="titulo" th:name="titulo" th:value="${pelicula.titulo}">
+                                            <input type="text" class="form-control" id="titulo" th:name="titulo" th:value="${serie.titulo}">
                                             <p th:if="${#fields.hasErrors('titulo')}" th:errorclass="error" th:errors="*{titulo}" th:field="*{titulo}"></p>
-                                            <p th:if="${peliculaRepetida == pelicula.id}" class="error" th:text="${tituloRepetido2}"></p>
+                                            <p th:if="${serieRepetida == serie.id}" class="error" th:text="${tituloRepetido2}"></p>
                                         </div>
                                         <div class="mb-3">
                                             <label for="imagen" class="form-label">Imagen</label>
@@ -439,51 +439,48 @@
                                         <div class="mb-3">
                                             <label for="year" class="form-label">Año de visualización</label>
                                             <input type="number" class="form-control" id="year"
-                                                   th:name="year" th:value="${pelicula.year}" th:min="${anioNacimiento}" th:max="${anioActual}" step="1">
+                                                   th:name="year" th:value="${serie.year}" th:min="${anioNacimiento}" th:max="${anioActual}" step="1">
                                             <p th:if="${#fields.hasErrors('year')}" th:errorclass="error" th:errors="*{year}" th:field="*{year}"></p>
                                         </div>
                                         <div class="mb-3">
                                             <div  class="form-label">Géneros</div><br>
                                             <div class="form-check form-check-inline"  th:each="generosItem: ${listaGeneros}">
-                                                <label class="form-check-label" for="generosPelicula" th:text="${generosItem.nombre}" ></label>
-                                                <input class="form-check-input" type="checkbox" th:field="*{generosPelicula}"  th:value="${generosItem.id}" id="generosPelicula" >
+                                                <label class="form-check-label" for="generosSerie" th:text="${generosItem.nombre}" ></label>
+                                                <input class="form-check-input" type="checkbox" th:field="*{generosSerie}"  th:value="${generosItem.id}" id="generosSerie" >
                                             </div>
-                                            <p  th:if="${#fields.hasErrors('generosPelicula')}" th:errorclass="error" th:errors="*{generosPelicula}"  ></p>
+                                            <p  th:if="${#fields.hasErrors('generosSerie')}" th:errorclass="error" th:errors="*{generosSerie}"  ></p>
                                         </div>
                                         <div class="mb-3">
                                             <label for="opinion" class="form-label">Reseña</label>
                                             <textarea class="form-control" id="opinionPeliculaUpdate"
                                                       style="height: 100px" placeholder="Escribe tu reseña aquí" th:name="opinion"
-                                                      th:text="${pelicula.opinion}" ></textarea>
+                                                      th:text="${serie.opinion}" ></textarea>
                                             <p th:if="${#fields.hasErrors('opinion')}" th:errorclass="error" th:errors="*{opinion}" th:field="*{opinion}"></p>
                                         </div>
                                         <div class="mb-3">
                                             <div  class="form-label">Plataformas</div><br>
                                             <div class="form-check form-check-inline"  th:each="plataformasItem: ${listaPlataformas}">
-                                                <label class="form-check-label" for="plataformasPelicula" th:text="${plataformasItem.nombrePlataforma}" ></label>
-                                                <input class="form-check-input" type="checkbox" th:field="*{plataformasPelicula}" th:value="${plataformasItem.id}" id="plataformasPelicula" >
+                                                <label class="form-check-label" for="plataformasSerie" th:text="${plataformasItem.nombrePlataforma}" ></label>
+                                                <input class="form-check-input" type="checkbox" th:field="*{plataformasSerie}" th:value="${plataformasItem.id}" id="plataformasSerie" >
                                             </div>
-                                            <p  th:if="${#fields.hasErrors('plataformasPelicula')}" th:errorclass="error" th:errors="*{plataformasPelicula}"  ></p>
+                                            <p  th:if="${#fields.hasErrors('plataformasSerie')}" th:errorclass="error" th:errors="*{plataformasSerie}"  ></p>
                                         </div>
                                         <div class="mb-3">
                                             <label for="puntuacion" class="form-label">Valoración</label>
                                             <input type="number" class="form-control" id="puntuacionPeliculaUpdate"
-                                                   min="0" max="5" step="1" th:name="puntuacion" th:value="${pelicula.puntuacion}">
+                                                   min="0" max="5" step="1" th:name="puntuacion" th:value="${serie.puntuacion}">
                                             <p th:if="${#fields.hasErrors('puntuacion')}" th:errorclass="error" th:errors="*{puntuacion}" th:field="*{puntuacion}"></p>
                                         </div>
                                         <div class="mb-3">
                                             <label for="trailerRuta" class="form-label">Trailer</label>
                                             <input type="text" class="form-control" id="trailerRutaPeliculaUpdate" th:name="trailerRuta"
-                                                   th:value="${pelicula.trailerRuta}">
+                                                   th:value="${serie.trailerRuta}">
                                             <p  th:if="${#fields.hasErrors('trailerRuta')}" th:errorclass="error" th:errors="*{trailerRuta}" th:field="*{trailerRuta}"></p>
                                         </div>
                                         <div class="d-flex justify-content-end ">
-                                            <a th:href="@{/peliculas}" class="btn btn-secondary me-2">Cerrar</a>
+                                            <a th:href="@{/series}" class="btn btn-secondary me-2">Cerrar</a>
                                             <button type="submit" class="btn btn-primary" >Guardar</button>
                                         </div>
-
-
-
 
                                     </form>
                                 </div>
@@ -492,23 +489,23 @@
                         </div>
                     </div>
 
-                    <!-- FIN MODAL FORMULARIO MODIFICAR PELICULA -->
+                    <!-- FIN MODAL FORMULARIO MODIFICAR SERIE -->
 
-                    <!-- MODAL FORMULARIO ELIMINAR PELICULA -->
+                    <!-- MODAL FORMULARIO ELIMINAR SERIE -->
 
-                    <div class="modal fade"  th:id="modalPeliculaDelete + ${pelicula.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"  aria-hidden="true">
+                    <div class="modal fade"  th:id="modalSerieDelete + ${serie.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"  aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel3">ELIMINAR PELICULA</h1>
+                                    <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel3">ELIMINAR SERIE</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form th:action="@{peliculas/deletePelicula}" method="post">
-                                        <input type="hidden" name="id" th:value="${pelicula.id}">
+                                    <form th:action="@{series/deleteSerie}" method="post">
+                                        <input type="hidden" name="id" th:value="${serie.id}">
                                         <div class="mb-3">
-                                            <label for="titulo" class="form-label">Eliminar la siguiente película:</label>
-                                            <h4 class="form-control" id="tituloPeliculaDelete" th:text="${pelicula.titulo}"></h4>
+                                            <label for="titulo" class="form-label">Eliminar la siguiente serie:</label>
+                                            <h4 class="form-control" id="tituloSerieDelete" th:text="${serie.titulo}"></h4>
                                         </div>
                                         <div class="d-flex justify-content-end ">
                                             <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cerrar</button>
@@ -520,37 +517,37 @@
                         </div>
                     </div>
 
-                    <!--FIN MODAL FORMULARIO ELIMINAR PELICULA -->
+                    <!--FIN MODAL FORMULARIO ELIMINAR SERIE -->
 
                     <div class="modal-dialog modal-dialog-centered custom-modal">
                         <div class="modal-content">
-                            <!-- Imagen Película -->
+                            <!-- Imagen Serie -->
                             <div class="modal-header space-down">
-                                <img th:src="${pelicula.imagenRuta}" alt="Imagen de la película" class="custom-section-image"/>
+                                <img th:src="${serie.imagenRuta}" alt="Imagen de la serie" class="custom-section-image"/>
                             </div>
                             <!-- Icono de compartir -->
                             <button class="btn-share">
-                                <a th:href="@{/compartir/pelicula/{idPelicula} (idPelicula = ${pelicula.id})}">
+                                <a th:href="@{/compartir/serie/{idSerie} (idSerie = ${serie.id})}">
                                     <img th:src="@{/img/icono_compartir.png}" alt="Compartir" class="share-icon">
                                 </a>
 
                             </button>
-                            <!-- Título, Año, Géneros y Plataforma Película -->
+                            <!-- Título, Año, Géneros y Plataforma Serie -->
                             <div class="modal-body">
                                 <div class="space-down">
-                                    <h5 class="modal-title"><b th:text="${pelicula.titulo}"></b></h5>
+                                    <h5 class="modal-title"><b th:text="${serie.titulo}"></b></h5>
                                 </div>
                                 <div class="space-down">
                                     <h6>Año de visualización:</h6>
-                                    <h6 th:text="${pelicula.year}"></h6>
+                                    <h6 th:text="${serie.year}"></h6>
                                 </div>
                                 <div class="space-down">
                                     <h6>Géneros:</h6>
-                                    <h6 th:each="genero: ${pelicula.getGenerosPelicula()}" th:text="${genero.nombre}"></h6>
+                                    <h6 th:each="genero: ${serie.getGenerosSerie()}" th:text="${genero.nombre}"></h6>
                                 </div>
                                 <div class="space-down">
                                     <h6>Plataformas:</h6>
-                                    <h6 th:each="plataforma: ${pelicula.getPlataformasPelicula()}" th:text="${plataforma.nombrePlataforma}"></h6>
+                                    <h6 th:each="plataforma: ${serie.getPlataformasSerie()}" th:text="${plataforma.nombrePlataforma}"></h6>
                                 </div>
                             </div>
                             <!-- Reseña y Puntuación -->
@@ -558,20 +555,20 @@
                                 <div class="space-down">
                                     <h6>Opinión:</h6>
                                     <div class="form-control" style="border-radius: 0; border-color: black; background-color: white; height: auto;">
-                                        <p th:text="${pelicula.opinion}"></p>
+                                        <p th:text="${serie.opinion}"></p>
                                     </div>
                                 </div>
                                 <h6>Puntuación:</h6>
                                 <div class="modal-rating space-down d-flex align-items-center">
 
-                                    <h6 style="font-weight:bold;" th:text="${pelicula.puntuacion}"></h6>
+                                    <h6 style="font-weight:bold;" th:text="${serie.puntuacion}"></h6>
                                     <h6 style="font-weight:bold;" >/5</h6>
                                 </div>
                             </div>
                             <!-- Tráiler -->
-                            <div th:unless="${ pelicula.trailerRuta.isBlank()}" class="yt-trailer">
+                            <div th:unless="${ serie.trailerRuta.isBlank()}" class="yt-trailer">
                                 <iframe
-                                        th:src="${pelicula.trailerRuta}"
+                                        th:src="${serie.trailerRuta}"
                                         allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
                                         allowfullscreen>
                                 </iframe>
@@ -580,9 +577,9 @@
                             <div class="modal-body text-center space-down" style="margin-top: 15px;">
                                 <div class="button-container" style="display: flex; justify-content: center; gap: 10px;">
                                     <button type="button" class="btn-section-primary"  data-bs-toggle="modal"
-                                            th:attr="data-bs-target='#modalPeliculaUpdate' +*{pelicula.id}">Modificar</button>
+                                            th:attr="data-bs-target='#modalSerieUpdate' +*{serie.id}">Modificar</button>
                                     <button type="button"  class="btn-section-primary" data-bs-toggle="modal"
-                                            th:attr="data-bs-target='#modalPeliculaDelete' + *{pelicula.id}">Eliminar</button>
+                                            th:attr="data-bs-target='#modalSerieDelete' + *{serie.id}">Eliminar</button>
                                 </div>
                             </div>
                         </div>
@@ -604,16 +601,16 @@
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
-                                    <a th:href="@{/peliculas(page=${currentPage - 1}, orden=${orden})}" class="page-link" >Previous</a>
+                                    <a th:href="@{/series(page=${currentPage - 1}, orden=${orden})}" class="page-link" >Previous</a>
                                 </li>
                                 <li th:each="pageNumber : ${pageNumbers}" class="page-item">
-                                    <a th:href="@{/peliculas(page=${pageNumber}, orden=${orden})}"
+                                    <a th:href="@{/series(page=${pageNumber}, orden=${orden})}"
                                        th:text="${pageNumber}"
                                        th:classappend="${pageNumber==pagina.number + 1} ? active"
                                        class="page-link" ></a>
                                 </li>
                                 <li th:unless="${currentPage == pagina.totalPages || pagina.totalPages == 0}" class="page-item">
-                                    <a th:href="@{/peliculas(page=${currentPage + 1}, orden=${orden})}" class="page-link">Next</a>
+                                    <a th:href="@{/series(page=${currentPage + 1}, orden=${orden})}" class="page-link">Next</a>
                                 </li>
                             </ul>
                         </nav>
@@ -625,13 +622,13 @@
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
-                                    <a th:href="@{/peliculas/search(page=${currentPage - 1}, tituloPeliculaBusqueda=${titulo},
+                                    <a th:href="@{/series/search(page=${currentPage - 1}, tituloSerieBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
                                     filtroPlataforma=${plataformaFiltro},filtroOrden=${ordenFiltro})}" class="page-link" >Previous</a>
                                 </li>
                                 <li th:each="pageNumber : ${pageNumbers}" class="page-item">
-                                    <a th:href="@{/peliculas/search(page=${pageNumber}, tituloPeliculaBusqueda=${titulo},
+                                    <a th:href="@{/series/search(page=${pageNumber}, tituloSerieBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
                                      filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}"
@@ -640,7 +637,7 @@
                                        class="page-link" ></a>
                                 </li>
                                 <li th:unless="${currentPage == pagina.totalPages || pagina.totalPages == 0}" class="page-item">
-                                    <a th:href="@{/peliculas/search(page=${currentPage + 1}, tituloPeliculaBusqueda=${titulo},
+                                    <a th:href="@{/series/search(page=${currentPage + 1}, tituloSerieBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
                                      filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" >Next</a>
