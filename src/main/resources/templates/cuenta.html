@@ -50,7 +50,7 @@
                   <label class="form-label" for="usernameAjustes">Nombre de usuario:</label>
                   <p th:if="${#fields.hasErrors('nombre')}" th:errorclass="error" th:errors="*{nombre}" ></p>
                   <p th:if="${failedNombre}" class="error" th:text="${failedNombre}"></p>
-                  <input class="form-control" id="usernameAjustes" th:field="*{nombre}" name="nombre" placeholder="Nombre Usuario" type="text" minlength="2" maxlength="20" required="required">
+                  <input class="form-control" id="usernameAjustes" th:field="*{nombre}" name="nombre" placeholder="Nombre Usuario" pattern="^\S+$" title="No puede haber espacios en el nombre" type="text" minlength="2" maxlength="20" required="required">
                 </div>
                 <div class="mb-3">
                   <label class="form-label" for="contrasena">Password</label>
