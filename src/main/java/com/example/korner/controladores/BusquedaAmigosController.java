@@ -40,6 +40,7 @@ public class BusquedaAmigosController {
                          @RequestParam(value = "page") Optional<Integer> page,HttpSession session, Model model) {
         try{
             Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
+            model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
             //lista Amigos del usuario sin distincion de bloqueados o pendientes
             List<Amigo> listAmigos = amigoService.getAllAmigosList(user.get());
             //lista de Id de esos amigos
