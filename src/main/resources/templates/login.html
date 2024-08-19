@@ -28,7 +28,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-lg-auto">
-                        <li class="nav-item me-lg-5">
+                        <li class="nav-item me-lg-5 mb-3 mb-lg-0">
                             <a class="index-link" th:href="@{/login}" role="button">Login</a>
                         </li>
                         <li class="nav-item">
@@ -45,18 +45,17 @@
             <section class="row d-flex justify-content-center pb-5">
                 <h4 class="text-center txt-naranja" th:text="#{login.title}"></h4>
                 <article class="col-12 col-md-6 p-3 formAjustes">
-                    <div th:if="${param.error}">
-                        Nombre o password de usuario incorrecto.</div>
                     <div th:if="${param.logout}">
                         You have been logged out.</div>
                     <form th:action="@{/login}"  method="post">
                         <div class="mb-3">
                             <label class="form-label" for="username">Nombre de usuario:</label>
-                            <input type="text" class="form-control" id="username" name="username" placeholder="username" >
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Nombre" >
+                            <p th:if="${param.error}" class="error">Nombre o contraseña de usuario incorrecto</p>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="password">Contraseña:</label>
-                            <input class="form-control" id="password" type="password" name="password">
+                            <input class="form-control" id="password" type="password" name="password" placeholder="Contraseña">
                         </div>
 
                         <div class="mb-3 d-flex justify-content-end">

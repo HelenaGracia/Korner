@@ -14,6 +14,7 @@ import java.util.List;
 public interface AmigosRepository extends JpaRepository<Amigo, Integer> {
 
     Page<Amigo> findAllByUsuarioOrigenAndBloqueadoFalseAndPendienteFalse(Usuario usuario, Pageable pageble);
+    //Page<Amigo> findAllByUsuarioOrigenAndBloqueadoFalseAndPendienteFalseAndUsuarioOrigen_ActivaTrue(Usuario usuario, Pageable pageble);
 
     Page<Amigo> findAllByUsuarioDestinoAndBloqueadoFalseAndPendienteTrue(Usuario usuario,Pageable pageble);
     Page<Amigo> findAllByUsuarioOrigenAndBloqueadoFalseAndPendienteTrue(Usuario usuario,Pageable pageble);
