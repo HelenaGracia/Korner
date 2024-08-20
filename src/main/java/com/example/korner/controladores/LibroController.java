@@ -134,7 +134,7 @@ public class LibroController {
                 libro.setImagenRuta( "/imagenes/leerImagen/" + nombreArchivo);
                 //Volvemos a guardar el objeto en la BBDD con los cambios
                 libroService.saveEntity(libro);
-                attributes.addFlashAttribute("success", "Elemento añadido correctamente");
+                attributes.addFlashAttribute("success", "Libro añadido correctamente");
             }catch (DataIntegrityViolationException e){
                 logger.error("Error al guardar el libro por nombres duplicados");
                 attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
@@ -217,7 +217,7 @@ public class LibroController {
 
                 //Volvemos a guardar el objeto en la BBDD con los cambios
                 libroService.saveEntity(libro);
-                attributes.addFlashAttribute("success","Elemento añadido correctamente");
+                attributes.addFlashAttribute("success","Libro modificado correctamente");
             } catch (DataIntegrityViolationException e){
                 logger.error("Error al guardar el libro modificado por nombres duplicados");
                 attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
@@ -243,7 +243,7 @@ public class LibroController {
                 FileUtils.delete(new File(FILE_PATH_ROOT+ "/"+ "Libro" + eliminarLibro.get().getId() + "Usuario" + eliminarLibro.get().getUsuarioLibro().getId() +".png"));
             }
             libroService.deleteEntity(eliminarLibro.get());
-            attributes.addFlashAttribute("success", "Elemento borrado");
+            attributes.addFlashAttribute("success", "Libro borrado");
         }catch (Exception e){
             logger.error("Error al eliminar el libro");
             attributes.addFlashAttribute("failed", "Error al eliminar");

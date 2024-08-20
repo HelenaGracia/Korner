@@ -127,7 +127,7 @@ public class VideojuegoController {
                 videojuego.setImagenRuta( "/imagenes/leerImagen/" + nombreArchivo);
                 //Volvemos a guardar el objeto en la BBDD con los cambios
                 videojuegoService.saveEntity(videojuego);
-                attributes.addFlashAttribute("success", "Elemento añadido correctamente");
+                attributes.addFlashAttribute("success", "Videojuego añadido correctamente");
             }catch (DataIntegrityViolationException e){
                 logger.error("Error al guardar el videojuego creado por nombres duplicados", e);
                 attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
@@ -209,7 +209,7 @@ public class VideojuegoController {
 
                 //Volvemos a guardar el objeto en la BBDD con los cambios
                 videojuegoService.saveEntity(videojuego);
-                attributes.addFlashAttribute("success","Elemento añadido correctamente");
+                attributes.addFlashAttribute("success","Videojuego modificado correctamente");
             } catch (DataIntegrityViolationException e){
                 logger.error("Error al guardar el videojuego modificado por nombres duplicados");
                 attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
@@ -236,7 +236,7 @@ public class VideojuegoController {
 
             }
             videojuegoService.deleteEntity(videojuegoEliminar.get());
-            attributes.addFlashAttribute("success", "Elemento borrado");
+            attributes.addFlashAttribute("success", "Videojuego borrado");
         }catch (Exception e){
             logger.error("Error al elminar videojuego", e);
             attributes.addFlashAttribute("failed", "Error al eliminar");

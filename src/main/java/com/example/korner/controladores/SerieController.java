@@ -121,7 +121,7 @@ public class SerieController {
                 serie.setImagenRuta( "/imagenes/leerImagen/" + nombreArchivo);
                 //Volvemos a guardar el objeto en la BBDD con los cambios
                 serieService.saveEntity(serie);
-                attributes.addFlashAttribute("success", "Elemento añadido correctamente");
+                attributes.addFlashAttribute("success", "Serie añadida correctamente");
             }catch (DataIntegrityViolationException e){
                 logger.error("Error al guardar la serie creada por nombres duplicados");
                 attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
@@ -199,7 +199,7 @@ public class SerieController {
 
             //Volvemos a guardar el objeto en la BBDD con los cambios
             serieService.saveEntity(serie);
-            attributes.addFlashAttribute("success","Elemento añadido correctamente");
+            attributes.addFlashAttribute("success","Serie modificada correctamente");
         } catch (DataIntegrityViolationException e){
             logger.error("Error al guardar la serie modificada por nombres duplicados");
             attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
@@ -223,7 +223,7 @@ public class SerieController {
 
             }
             serieService.deleteEntity(serieEliminar.get());
-            attributes.addFlashAttribute("success", "Elemento borrado");
+            attributes.addFlashAttribute("success", "Serie borrada");
         }catch (Exception e){
             logger.error("Error al elminar la serie");
             attributes.addFlashAttribute("failed", "Error al eliminar");
