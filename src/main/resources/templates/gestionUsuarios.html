@@ -159,6 +159,7 @@
                             <th scope="col">Nombre</th>
                             <th scope="col">Correo</th>
                             <th scope="col">Año Nacimiento</th>
+                            <th scope="col">Rol</th>
                             <th scope="col">Activa</th>
                         </tr>
                         </thead>
@@ -169,8 +170,10 @@
                             <td th:text="${usuario.getNombre()}"></td>
                             <td th:text="${usuario.getCorreo()}"></td>
                             <td th:text="${usuario.getAnioNacimiento()}"></td>
+                            <td th:text="${usuario.getRole().getNombre()}"></td>
                             <td th:text="${usuario.getActiva()}"></td>
                             <td ><a role="button" class="btn btn-primary" th:href="@{/gestionUsuarios/eliminarUsuario/{id} (id=${usuario.getId()})}" >Eliminar</a></td>
+                            <td ><a role="button" class="btn btn-primary" th:href="@{/gestionUsuarios/cambiarEstado/{id} (id=${usuario.getId()})}" >Cambiar</a></td>
                         </tr>
                         </tbody>
                     </table>
