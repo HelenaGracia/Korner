@@ -118,67 +118,75 @@
         <main class="content-wrap ">
           <div class="container d-flex justify-content-center">
             <section class="row pb-5">
-                <article class="col-12">
-                   <h2 class="mt-3">Bienvenido <span th:text="${nameUsuario}"></span> a la página de gestión de <span class="txt-naranja">Korner</span></h2>
+                <article class="col-12 text-center mt-5 pt-3">
+                   <h2>Bienvenido <span class="txt-rosa" th:text="${nameUsuario}"></span> a la página de gestión de <span class="txt-naranja">Korner</span></h2>
                    <div class="d-flex justify-content-center">
-                    <img class="pt-5" th:src="@{/img/LogoSinFondo.svg}" alt="Logo Korner">
+                    <img class="pt-3 pb-3" style="width: auto; height: 12rem" th:src="@{/img/LogoSinFondo.svg}" alt="Logo Korner">
                    </div>
+                </article>
+
+                <article class="col-12 col-md-6">
+                    <div class="card mx-auto mb-5" style="width: 18rem;">
+                        <img th:src="@{/img/plataformas.png}" class=" img-card2" alt="imagen de un conjunto de plataformas">
+                        <div class="card-body">
+                            <h5 class="card-title txt-naranja">Plataformas</h5>
+                            <p class="card-text">Gestiona las plataformas de las películas, series y animes</p>
+                            <a th:href="@{/plataformasElementos}" class="btn btn-primary px-5 py-2">Ir</a>
+                        </div>
+                    </div>
+                </article>
+                <article class="col-12 col-md-6">
+                    <div class="card mx-auto mb-5" style="width: 18rem;">
+                        <img th:src="@{/img/formato.png}" class=" img-card2" alt="formato libro">
+                        <div class="card-body">
+                            <h5 class="card-title txt-naranja">Formatos Libros</h5>
+                            <p class="card-text">Gestiona los formatos de los libros</p>
+                            <a th:href="@{/formatosLibros}" class="btn btn-primary px-5 py-2">Ir</a>
+                        </div>
+                    </div>
+                </article>
+                <article class="col-12 col-md-6">
+                    <div class="card mx-auto mb-5" style="width: 18rem;">
+                        <img th:src="@{/img/usuario.png}" class=" img-card" alt="usuario">
+                        <div class="card-body">
+                            <h5 class="card-title txt-naranja">Usuarios</h5>
+                            <p class="card-text">Gestiona las cuentas de los usuarios</p>
+                            <a th:href="@{/gestionUsuarios}" class="btn btn-primary px-5 py-2">Ir</a>
+                        </div>
+                    </div>
+                </article>
+                <article class="col-12 col-md-6">
+                    <div class="card mx-auto mb-5" style="width: 18rem;">
+                        <img th:src="@{/img/simboloGenero.png}" class=" img-card" alt="logo genero hombre y mujer">
+                        <div class="card-body">
+                            <h5 class="card-title txt-naranja">Géneros Usuarios</h5>
+                            <p class="card-text">Gestiona los géneros de los usuarios</p>
+                            <a th:href="@{/generosUsuarios}" class="btn btn-primary px-5 py-2">Ir</a>
+                        </div>
+                    </div>
+                </article>
+                <article class="col-12 col-md-6">
+                    <div class="card mx-auto mb-5" style="width: 18rem;">
+                        <img th:src="@{/img/pltaVideojuego.png}" class=" img-card2" alt="imagen conjunto de videoconsolas">
+                        <div class="card-body">
+                            <h5 class="card-title txt-naranja">Plataformas Videojuegos</h5>
+                            <p class="card-text">Gestiona las plataformas de los videojuegos</p>
+                            <a th:href="@{/plataformasVideojuegos}" class="btn btn-primary px-5 py-2">Ir</a>
+                        </div>
+                    </div>
+                </article>
+                <article class="col-12 col-md-6">
+                    <div class="card mx-auto mb-5 " style="width: 18rem;">
+                        <img th:src="@{/img/generos.png}" class=" img-card2" alt="imagen de un conjunto de géneros">
+                        <div class="card-body">
+                            <h5 class="card-title txt-naranja">Géneros</h5>
+                            <p class="card-text">Gestiona los géneros de los elementos</p>
+                            <a th:href="@{/generosElementos}" class="btn btn-primary px-5 py-2">Ir</a>
+                        </div>
+                    </div>
                 </article>
             </section>
 
-              <section class="row align-items-center ">
-                  <article class="col-12 col-md-6">
-                      <div class="card mx-auto mb-5 " style="width: 18rem;">
-                          <img th:src="@{/img/pelicula.png}" class="card-img-top img-card" alt="imagen de un conjunto de géneros">
-                          <div class="card-body">
-                              <h5 class="card-title txt-naranja">Géneros</h5>
-                              <p class="card-text">Gestiona los géneros de los elementos</p>
-                              <a th:href="@{/generosElementos}" class="btn btn-primary px-5 py-2">Ir</a>
-                          </div>
-                      </div>
-                  </article>
-                  <article class="col-12 col-md-6">
-                      <div class="card mx-auto mb-5" style="width: 18rem;">
-                          <img th:src="@{/img/videojuego.png}" class="card-img-top img-card" alt="videojuego">
-                          <div class="card-body">
-                              <h5 class="card-title txt-naranja">Videojuegos</h5>
-                              <p class="card-text">Guarda todas los vdeojuegos que hayas jugado</p>
-                              <a th:href="@{/videojuegos}" class="btn btn-primary px-5 py-2">Ir</a>
-                          </div>
-                      </div>
-                  </article>
-                  <article class="col-12 col-md-6">
-                      <div class="card mx-auto mb-5" style="width: 18rem;">
-                          <img th:src="@{/img/serie.png}" class="card-img-top img-card" alt="serie">
-                          <div class="card-body">
-                              <h5 class="card-title txt-naranja">Series</h5>
-                              <p class="card-text">Guarda todas las series que hayas visto</p>
-                              <a th:href="@{/series}" class="btn btn-primary px-5 py-2">Ir</a>
-                          </div>
-                      </div>
-                  </article>
-                  <article class="col-12 col-md-6">
-                      <div class="card mx-auto mb-5" style="width: 18rem;">
-                          <img th:src="@{/img/libro.png}" class="card-img-top img-card" alt="libro">
-                          <div class="card-body">
-                              <h5 class="card-title txt-naranja">Libros</h5>
-                              <p class="card-text">Guarda todos los libros que hayas leído</p>
-                              <a th:href="@{/libros}" class="btn btn-primary px-5 py-2">Ir</a>
-                          </div>
-                      </div>
-                  </article>
-                  <article class="col-12 col-md-6">
-                      <div class="card mx-auto mb-5" style="width: 18rem;">
-                          <img th:src="@{/img/anime.png}" class="card-img-top img-card" alt="pelicula">
-                          <div class="card-body">
-                              <h5 class="card-title txt-naranja">Animes</h5>
-                              <p class="card-text">Guarda todos los animes que hayas visto</p>
-                              <a th:href="@{/animes}" class="btn btn-primary px-5 py-2">Ir</a>
-                          </div>
-                      </div>
-                  </article>
-              </section>
-           
           </div>
         </main>
         <footer class="bg-primary "></footer>
