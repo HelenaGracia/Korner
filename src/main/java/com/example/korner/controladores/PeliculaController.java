@@ -236,9 +236,17 @@ public class PeliculaController {
 
     //Eliminar Pelicula
     @PostMapping("/deletePelicula")
-    public String deletePelicula(Pelicula pelicula, RedirectAttributes attributes){
+    public String deletePelicula(@RequestParam("id") Integer id, RedirectAttributes attributes){
+        final String FILE_PATH_ROOT = "D:/ficheros";
         try {
-            peliculaService.deleteEntity(pelicula);
+            Optional<Pelicula> peliculaEliminar = peliculaService.getById(id);
+            if(Files.exists(Path.of(FILE_PATH_ROOT+"/" + ("Pelicula" + peliculaEliminar.get().getId() + "Usuario" + peliculaEliminar.get().getUsuarioPelicula().getId() + ".jpg")))) {
+                FileUtils.delete(new File(FILE_PATH_ROOT+ "/"+ "Pelicula" + peliculaEliminar.get().getId() + "Usuario" + peliculaEliminar.get().getUsuarioPelicula().getId() +".jpg"));
+            } else{
+                FileUtils.delete(new File(FILE_PATH_ROOT+ "/"+ "Pelicula" + peliculaEliminar.get().getId() + "Usuario" + peliculaEliminar.get().getUsuarioPelicula().getId() +".png"));
+
+            }
+            peliculaService.deleteEntity(peliculaEliminar.get());
             attributes.addFlashAttribute("success", "Elemento borrado");
         }catch (Exception e){
             logger.error("Error al eliminar la pelicula");

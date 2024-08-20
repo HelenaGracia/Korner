@@ -225,9 +225,17 @@ public class VideojuegoController {
 
     //Eliminar Videojuego
     @PostMapping("/deleteVideojuego")
-    public String deleteVideojuego(Videojuego videojuego, RedirectAttributes attributes){
+    public String deleteVideojuego(@RequestParam("id") Integer id, RedirectAttributes attributes){
+        final String FILE_PATH_ROOT = "D:/ficheros";
         try {
-            videojuegoService.deleteEntity(videojuego);
+            Optional<Videojuego>videojuegoEliminar = videojuegoService.getById(id);
+            if(Files.exists(Path.of(FILE_PATH_ROOT+"/" + ("Videojuego" + videojuegoEliminar.get().getId() + "Usuario" + videojuegoEliminar.get().getUsuarioVideojuego().getId() + ".jpg")))) {
+                FileUtils.delete(new File(FILE_PATH_ROOT+ "/"+ "Videojuego" + videojuegoEliminar.get().getId() + "Usuario" + videojuegoEliminar.get().getUsuarioVideojuego().getId() +".jpg"));
+            } else{
+                FileUtils.delete(new File(FILE_PATH_ROOT+ "/"+ "Videojuego" + videojuegoEliminar.get().getId() + "Usuario" + videojuegoEliminar.get().getUsuarioVideojuego().getId() +".png"));
+
+            }
+            videojuegoService.deleteEntity(videojuegoEliminar.get());
             attributes.addFlashAttribute("success", "Elemento borrado");
         }catch (Exception e){
             logger.error("Error al elminar videojuego", e);

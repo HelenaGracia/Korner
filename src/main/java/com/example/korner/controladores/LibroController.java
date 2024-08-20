@@ -233,9 +233,16 @@ public class LibroController {
 
     //Eliminar Libro
     @PostMapping("/deleteLibro")
-    public String deleteLibro(Libro libro, RedirectAttributes attributes){
+    public String deleteLibro(@RequestParam("id") Integer id, RedirectAttributes attributes){
+        final String FILE_PATH_ROOT = "D:/ficheros";
         try {
-            libroService.deleteEntity(libro);
+            Optional<Libro>eliminarLibro = libroService.getById(id);
+            if(Files.exists(Path.of(FILE_PATH_ROOT+"/" + ("Libro" + eliminarLibro.get().getId() + "Usuario" + eliminarLibro.get().getUsuarioLibro().getId() + ".jpg")))) {
+                FileUtils.delete(new File(FILE_PATH_ROOT+ "/"+ "Libro" + eliminarLibro.get().getId() + "Usuario" + eliminarLibro.get().getUsuarioLibro().getId() +".jpg"));
+            } else{
+                FileUtils.delete(new File(FILE_PATH_ROOT+ "/"+ "Libro" + eliminarLibro.get().getId() + "Usuario" + eliminarLibro.get().getUsuarioLibro().getId() +".png"));
+            }
+            libroService.deleteEntity(eliminarLibro.get());
             attributes.addFlashAttribute("success", "Elemento borrado");
         }catch (Exception e){
             logger.error("Error al eliminar el libro");
