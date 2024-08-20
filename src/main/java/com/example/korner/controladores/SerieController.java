@@ -37,7 +37,6 @@ public class SerieController {
     private final GeneroElementoServiceImpl generoElementoService;
     private final PlataformaServiceImpl plataformaService;
     private final FileSystemStorageService fileSystemStorageService;
-
     private final UsuarioSecurityService usuarioSecurityService;
 
     private final Logger logger = LoggerFactory.getLogger(SerieController.class);
@@ -57,7 +56,6 @@ public class SerieController {
 
 
         paginacion(model, page, session, orden);
-
 
         Serie serie = new Serie();
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
@@ -145,9 +143,6 @@ public class SerieController {
                                         @RequestParam(value = "orden", required = false) String orden){
 
         paginacion(model, page, session, orden);
-
-
-
 
         final String FILE_PATH_ROOT = "D:/ficheros";
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
@@ -379,6 +374,7 @@ public class SerieController {
             model.addAttribute("size", pagina.getContent().size());
             model.addAttribute("series", pagina.getContent());
             model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
+            model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
         }catch (Exception e){
             logger.error("Error en la busqueda",e);
             model.addAttribute("busquedaFallida", "Error al realizar la búsqueda");
@@ -441,14 +437,11 @@ public class SerieController {
         }
         //Envio a la vista la pagina en la que estoy
         model.addAttribute("currentPage", currentPage);
-
         //getContent() returns just that single page's data
-
         model.addAttribute("size", pagina.getContent().size());
-
         model.addAttribute("series", pagina.getContent());
-
         model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
     }
 
     private void calcularAniosUsuario(Model model, Optional<Usuario> user) {

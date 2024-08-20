@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,7 +42,7 @@ public class BusquedaAmigosController {
         try{
             Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
             model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
-            //lista Amigos del usuario sin distincion de bloqueados o pendientes
+            model.addAttribute("nameUsuario",session.getAttribute("userName").toString());            //lista Amigos del usuario sin distincion de bloqueados o pendientes
             List<Amigo> listAmigos = amigoService.getAllAmigosList(user.get());
             //lista de Id de esos amigos
             List<Integer> listIdAmigos= new java.util.ArrayList<>(listAmigos.stream().map(Amigo::getUsuarioDestino).map(Usuario::getId).toList());
@@ -88,7 +89,7 @@ public class BusquedaAmigosController {
     @GetMapping("/enviarSolicitud/{id}/{nombreUser}")
     public String enviarSolicitud(@PathVariable Integer id ,
                                   @PathVariable String nombreUser,
-                                  HttpSession session){
+                                  HttpSession session, RedirectAttributes attributes){
         Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
         Optional<Usuario> userDestino= usuarioService.getById(id);
         Amigo amigoOrigen = new Amigo();
@@ -97,7 +98,7 @@ public class BusquedaAmigosController {
         amigoOrigen.setUsuarioDestino(userDestino.get());
         amigoOrigen.setBloqueado(false);
         amigoService.saveEntity(amigoOrigen);
-
+        attributes.addFlashAttribute("success","La solicitud ha sido enviada al usuario: "+userDestino.get().getNombre());
         return "redirect:/amigos/search?amigosBusqueda="+nombreUser;
 
     }

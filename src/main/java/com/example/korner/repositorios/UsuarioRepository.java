@@ -18,6 +18,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     Page<Usuario> findAllByNombreContainingIgnoreCase(String username, Pageable pageble);
     Page<Usuario> findAllByNombreContainingIgnoreCaseAndIdNotIn(String username, List<Integer> excludedId, Pageable pageble);
     List<Usuario> findAllByNombreContainingIgnoreCaseAndIdIn(String username, List<Integer> includeId);
-    List<Usuario>findAllByIdNot(Integer id);
+    Page<Usuario>findAllByIdNot(Integer id,Pageable pageble);
 
 }

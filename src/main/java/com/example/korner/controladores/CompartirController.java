@@ -50,7 +50,7 @@ public class CompartirController {
 
     @GetMapping("/compartir/pelicula/{idPelicula}")
     public String compartirAmigoPelicula(@PathVariable(value = "idPelicula",required = false)Integer idPelicula,
-                                    Model model) {
+                                    Model model,HttpSession session) {
         try {
             Optional<Pelicula> pelicula = peliculaService.getById(idPelicula);
             model.addAttribute("peliculaEnviadaId",pelicula.get().getId());
@@ -220,6 +220,8 @@ public class CompartirController {
                 model.addAttribute("currentPage", currentPage);
                 model.addAttribute("size", pagina.getContent().size());
                 model.addAttribute("amigos", pagina.getContent());
+                model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
+                model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
             }
         }catch (Exception e){
             logger.error("Error en el proceso de búsqueda y compartir", e);
@@ -254,6 +256,8 @@ public class CompartirController {
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("size", pagina.getContent().size());
         model.addAttribute("amigos", pagina.getContent());
+        model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
     }
 
     @GetMapping("/compartir/añadir/{idAmigo}")
@@ -262,9 +266,12 @@ public class CompartirController {
                       @RequestParam(value = "idSerie",required = false)Integer idSerie,
                       @RequestParam(value = "idAnime",required = false)Integer idAnime,
                       @RequestParam(value = "idLibro",required = false)Integer idLibro,
-                      @RequestParam(value = "idVideojuegos",required = false)Integer idVideojuegos, RedirectAttributes attributes){
+                      @RequestParam(value = "idVideojuegos",required = false)Integer idVideojuegos,
+                      RedirectAttributes attributes, HttpSession session, Model model){
         
         Optional<Amigo> amigoOrigen = amigoService.getById(idAmigo);
+        model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
 
         Amigo amigoDestino = amigoService.getAmigo(amigoOrigen.get().getUsuarioOrigen(), amigoOrigen.get().getUsuarioDestino());
         if(amigoDestino.getBloqueado()){

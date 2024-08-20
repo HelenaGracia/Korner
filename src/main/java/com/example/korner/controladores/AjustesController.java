@@ -37,19 +37,25 @@ public class AjustesController {
     }
 
     @GetMapping
-    public String ajustes() {
+    public String ajustes(HttpSession session,Model model) {
+        model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
         return "ajustes";
     }
 
     @GetMapping("/nombre")
-    public String verAjustesCambioNombre(Model model){
+    public String verAjustesCambioNombre(Model model,HttpSession session){
         model.addAttribute("nombre",new NombreNuevo());
+        model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
         return "ajustesNombre";
     }
 
     @PostMapping("/nombre")
     public String modificarCambioNombre(@Validated @ModelAttribute(value = "nombre") NombreNuevo nombre, BindingResult bindingResult,
                                         HttpSession session, RedirectAttributes attributes, Model model){
+        model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
         if (bindingResult.hasErrors()) {
             return "ajustesNombre";
         }
@@ -72,7 +78,9 @@ public class AjustesController {
     }
 
     @GetMapping("/inicioSesion")
-    public String verAjustesInicioSesion() {
+    public String verAjustesInicioSesion(Model model, HttpSession session) {
+        model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
         return "ajustesInicioSesion";
     }
 
@@ -80,6 +88,8 @@ public class AjustesController {
     public String modificarInicoSesion(@RequestParam(value = "ajustes") String ajustes,
                                      HttpSession session, RedirectAttributes attributes,Model model) {
         Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString())));
+        model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
         if(Objects.equals(user.get().getAjustesInicioSesion(), ajustes)){
             model.addAttribute("failed","Ya tiene la configuracion en: "+ajustes);
             return "ajustesInicioSesion";
@@ -92,8 +102,9 @@ public class AjustesController {
     }
 
     @GetMapping("/password")
-    public String verAjustesPassword(Model model) {
-
+    public String verAjustesPassword(Model model,HttpSession session) {
+        model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
         model.addAttribute("password", new PasswordNueva());
         return "ajustesContrasena";
     }
@@ -101,6 +112,8 @@ public class AjustesController {
     @PostMapping("/password")
     public String modificarPassword(@Validated @ModelAttribute(value = "password") PasswordNueva password, BindingResult bindingResult,
                                     HttpSession session, RedirectAttributes attributes, Model model) {
+        model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
         if (bindingResult.hasErrors()) {
             return "ajustesContrasena";
         }
@@ -126,7 +139,9 @@ public class AjustesController {
     }
 
     @GetMapping("/correo")
-    public String verAjustesCorreo(Model model) {
+    public String verAjustesCorreo(Model model,HttpSession session) {
+        model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
         model.addAttribute("correo", new CorreoNuevo());
         return "ajustesCorreo";
     }
@@ -134,6 +149,8 @@ public class AjustesController {
     @PostMapping("/correo")
     public String modificarCorreo(@Validated @ModelAttribute(value = "correo") CorreoNuevo correo,
                                   BindingResult bindingResult, HttpSession session, Model model, RedirectAttributes attributes) {
+        model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
         if (bindingResult.hasErrors()) {
             return "ajustesCorreo";
         }
@@ -160,15 +177,16 @@ public class AjustesController {
 
     @GetMapping("/fotoPerfil")
     public String verAjustesFotoPerfil(HttpSession session,Model model) {
-        Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString())));
-            model.addAttribute("imagenRuta",user.get().getRutaImagen());
-
+        model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
         return "ajustesFotoPerfil";
     }
 
     @PostMapping("/fotoPerfil")
     public String modificarFotoPerfil(@RequestParam("imagen") MultipartFile multipartFile,
                                      HttpSession session, RedirectAttributes attributes,Model model) {
+        model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
         try{
             if (multipartFile.isEmpty()){
                 model.addAttribute("failedImage","No has seleccionado ninguna imagen");
@@ -185,8 +203,8 @@ public class AjustesController {
                     }
                     fileSystemStorageService.storeWithName(multipartFile, nombreArchivo);
                     user.get().setRutaImagen( "/imagenes/leerImagen/" + nombreArchivo);
-                    session.setAttribute("rutaImagen", user.get().getRutaImagen());
                     usuarioService.saveEntity(user.get());
+                    session.setAttribute("rutaImagen", user.get().getRutaImagen());
                     attributes.addFlashAttribute("success", "La imagen se ha cambiado correctamente");
                     return "redirect:/ajustes/fotoPerfil";
                 }

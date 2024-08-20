@@ -144,16 +144,11 @@ public class FormatoLibroController {
         }
         //Envio a la vista la pagina en la que estoy
         model.addAttribute("currentPage", currentPage);
-
         //getContent() returns just that single page's data
-
         model.addAttribute("size", pagina.getContent().size());
-
         model.addAttribute("formatos", pagina.getContent());
-
         model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
-
-
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
 
     }
 

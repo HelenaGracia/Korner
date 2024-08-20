@@ -54,6 +54,7 @@ public class SecurityConfig {
                     .requestMatchers("/creacion").permitAll()
                     .requestMatchers(HttpMethod.POST, "/creacion/**").permitAll()
                     .requestMatchers("/gestion",
+                            "/gestionUsuarios",
                             "/plataformasElementos",
                             "/formatosLibros",
                             "/generosElementos",

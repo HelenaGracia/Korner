@@ -16,7 +16,6 @@
 </head>
 <body>
 <div class="page-container">
-    <header>
         <header>
             <nav class="navbar sticky-top navbar-expand-lg bg-primary" >
                 <div class="container">
@@ -53,12 +52,20 @@
                                     <li><a class="dropdown-item" th:href="@{/compartidos/libros}">Libros</a></li>
                                 </ul>
                             </li>
-                            <li  class="nav-item mt-lg-3  me-xl-2"  >
-                                <a sec:authorize="hasRole('ADMIN')" class="nav-link" th:href="@{/gestion}" >Gestión</a>
+                            <li class="nav-item  dropdown mt-lg-3  me-xl-2 ">
+                                <a class="nav-link dropdown-toggle active" href="#"  role="button" data-bs-toggle="dropdown" aria-expanded="false">Gestión</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item active" th:href="@{/gestionUsuarios}">Usuarios</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/generosElementos}">Géneros Elementos</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/plataformasElementos}">Plataformas Elementos</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/formatosLibros}">Formatos Libros</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/plataformasVideojuegos}">Plataformas Videojuegos</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/generosUsuarios}">Géneros Usuarios</a></li>
+                                </ul>
                             </li>
-                            <li class="nav-item ms-lg-2 ms-xl-2 ">
+                            <li class="nav-item ms-lg-2 ms-xl-2">
                                 <a class="" href="#" role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                                    <img th:src="@{/img/Nevernight.jpg}" alt="imagen perfil" >
+                                    <img th:src="${imagenUsuario}" alt="imagen perfil" />
                                 </a>
                             </li>
                             <li class="nav-item mt-4 ms-lg-2 ms-xl-3 ">
@@ -98,11 +105,13 @@
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
-                <img th:src="@{/img/Nevernight.jpg}" alt="imagen perfil" class="img-perfil" />
-                <a href="" class="nombre-perfil" >VictorMer</a>
-                <a th:href="@{/ajustes}"  class="btn btn-primary boton-perfil" >Ajustes</a>
-                <a th:href="@{/amigos}" class="btn btn-primary boton-perfil" >Amigos</a>
-                <a th:href="@{/logout}"  class="btn btn-primary boton-perfil" >Cerrar sesión</a>
+                <div class="text-center">
+                    <img th:src="${imagenUsuario}" alt="imagen perfil" class="img-perfil d-flex mb-2" >
+                    <a th:href="@{/ajustes/nombre}" th:text="${nameUsuario}" class="nombre-perfil pt-3" ></a>
+                    <a th:href="@{/ajustes}" class="btn btn-primary boton-perfil" >Ajustes</a>
+                    <a th:href="@{/amigos}" class="btn btn-primary boton-perfil" >Amigos</a>
+                    <a th:href="@{/logout}" class="btn btn-primary boton-perfil" >Cerrar sesión</a>
+                </div>
             </div>
         </div>
         <!-------Main Cuerpo----------->
@@ -120,61 +129,73 @@
                         </div>
                     </div>
 
-                    <!-- INICIO PAGINACION -->
-                    <!--  <div class="row">
+                        <!-- INICIO PAGINACION -->
+                      <div class="row">
                           <div class="col-12 d-flex justify-content-center mb-3">
                               <nav aria-label="Page navigation example">
                                   <ul class="pagination">
                                       <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
-                                          <a th:href="@{/amigos/solicitudesEnviadas(page=${currentPage - 1})}" class="page-link" href="#">Previous</a>
+                                          <a th:href="@{/gestionUsuarios(page=${currentPage - 1})}" class="page-link" href="#">Previous</a>
                                       </li>
                                       <li th:each="pageNumber : ${pageNumbers}" class="page-item">
-                                          <a th:href="@{/amigos/solicitudesEnviadas(page=${pageNumber})}"
+                                          <a th:href="@{/gestionUsuarios(page=${pageNumber})}"
                                              th:text="${pageNumber}"
                                              th:classappend="${pageNumber==pagina.number + 1} ? active"
                                              class="page-link" href="#"></a>
                                       </li>
                                       <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
-                                          <a th:href="@{/amigos/solicitudesEnviadas(page=${currentPage + 1})}" class="page-link" href="#">Next</a>
+                                          <a th:href="@{/gestionUsuarios(page=${currentPage + 1})}" class="page-link" href="#">Next</a>
                                       </li>
                                   </ul>
                               </nav>
                           </div>
-                      </div> -->
-                    <!-- FIN PAGINACION -->
+                      </div>
+                        <!-- FIN PAGINACION -->
                     <table class="table" th:if = "${size > 0}">
-
+                        <thead class="table-light">
+                        <tr>
+                            <th scope="col">Imagen</th>
+                            <th scope="col">Id</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Correo</th>
+                            <th scope="col">Año Nacimiento</th>
+                            <th scope="col">Activa</th>
+                        </tr>
+                        </thead>
                         <tbody>
                         <tr th:each="usuario:${usuarios}">
-                            <!--<th scope="row" th:src="${usuario.getImagen()}"></th>-->
-                            <th scope="row" ><img src="../static/img/cca.jpg" alt="imagen perfil" class="imgdrop-chat" /></th>
+                            <th scope="row" ><img th:src="${usuario.getRutaImagen()}" alt="imagen perfil" class="imgdrop-chat" /></th>
+                            <td th:text="${usuario.getId()}"></td>
                             <td th:text="${usuario.getNombre()}"></td>
+                            <td th:text="${usuario.getCorreo()}"></td>
+                            <td th:text="${usuario.getAnioNacimiento()}"></td>
+                            <td th:text="${usuario.getActiva()}"></td>
                             <td ><a role="button" class="btn btn-primary" th:href="@{/gestionUsuarios/eliminarUsuario/{id} (id=${usuario.getId()})}" >Eliminar</a></td>
                         </tr>
                         </tbody>
                     </table>
 
                     <!-- INICIO PAGINACION 2-->
-                    <!--  <div class="row">
+                     <div class="row">
                           <div class="col-12 d-flex justify-content-center mb-3">
                               <nav aria-label="Page navigation example">
                                   <ul class="pagination">
                                       <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
-                                          <a th:href="@{/amigos/solicitudesEnviadas(page=${currentPage - 1})}" class="page-link" href="#">Previous</a>
+                                          <a th:href="@{/gestionUsuarios(page=${currentPage - 1})}" class="page-link" href="#">Previous</a>
                                       </li>
                                       <li th:each="pageNumber : ${pageNumbers}" class="page-item">
-                                          <a th:href="@{/amigos/solicitudesEnviadas(page=${pageNumber})}"
+                                          <a th:href="@{/gestionUsuarios(page=${pageNumber})}"
                                              th:text="${pageNumber}"
                                              th:classappend="${pageNumber==pagina.number + 1} ? active"
                                              class="page-link" href="#"></a>
                                       </li>
                                       <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
-                                          <a th:href="@{/amigos/solicitudesEnviadas(page=${currentPage + 1})}" class="page-link" href="#">Next</a>
+                                          <a th:href="@{/gestionUsuarios(page=${currentPage + 1})}" class="page-link" href="#">Next</a>
                                       </li>
                                   </ul>
                               </nav>
                           </div>
-                      </div>-->
+                     </div>
                     <!-- FIN PAGINACION 2-->
                 </section>
             </div>

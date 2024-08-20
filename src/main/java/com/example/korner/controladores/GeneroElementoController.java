@@ -149,13 +149,10 @@ public class GeneroElementoController {
         model.addAttribute("currentPage", currentPage);
 
         //getContent() returns just that single page's data
-
         model.addAttribute("size", pagina.getContent().size());
-
         model.addAttribute("generos", pagina.getContent());
-
         model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
-
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
     }
 
 }

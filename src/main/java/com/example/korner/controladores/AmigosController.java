@@ -11,7 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -41,6 +40,7 @@ public class AmigosController {
 
         Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
         model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
 
         //Paginación
         int currentPage = page.orElse(1);
@@ -88,7 +88,7 @@ public class AmigosController {
                                         Model model, HttpSession session) {
         Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
         model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
-
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
         //Paginación
         int currentPage = page.orElse(1);
         Pageable pageRequest = PageRequest.of(currentPage - 1, 10);
@@ -111,7 +111,7 @@ public class AmigosController {
     }
 
     @GetMapping("/aceptarSolicitud/{id}")
-    public String aceptarSolicitud(@PathVariable Integer id ,HttpSession session){
+    public String aceptarSolicitud(@PathVariable Integer id ,HttpSession session, RedirectAttributes attributes){
         Optional<Usuario> userDestino = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
         Optional<Usuario> userOrigen= usuarioService.getById(id);
         Amigo amigoAceptado= amigoService.getAmigo(userDestino.get(),userOrigen.get());
@@ -123,7 +123,7 @@ public class AmigosController {
         amigoNuevo.setUsuarioDestino(userOrigen.get());
         amigoService.saveEntity(amigoAceptado);
         amigoService.saveEntity(amigoNuevo);
-
+        attributes.addFlashAttribute("success","La solicitud de amistad del usuario: " + userOrigen.get().getNombre() + " ha sido aceptada");
         return "redirect:/amigos/solicitudesPendientes";
 
     }
@@ -146,7 +146,7 @@ public class AmigosController {
                                          Model model, HttpSession session){
         Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
         model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
-
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
         //Paginación
         int currentPage = page.orElse(1);
         Pageable pageRequest = PageRequest.of(currentPage - 1, 10);

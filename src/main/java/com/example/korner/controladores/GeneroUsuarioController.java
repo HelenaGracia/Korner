@@ -128,6 +128,6 @@ public class GeneroUsuarioController {
         model.addAttribute("size", pagina.getContent().size());
         model.addAttribute("generosUsuario", pagina.getContent());
         model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
-
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
     }
 }

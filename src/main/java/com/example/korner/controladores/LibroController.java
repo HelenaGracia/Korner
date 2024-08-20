@@ -386,6 +386,7 @@ public class LibroController {
             model.addAttribute("size", pagina.getContent().size());
             model.addAttribute("libros", pagina.getContent());
             model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
+            model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
         }catch (Exception e){
             logger.error("Error en la busqueda",e);
             model.addAttribute("busquedaFallida", "Error al realizar la búsqueda");
@@ -451,17 +452,10 @@ public class LibroController {
         model.addAttribute("currentPage", currentPage);
 
         //getContent() returns just that single page's data
-
         model.addAttribute("size", pagina.getContent().size());
-
         model.addAttribute("libros", pagina.getContent());
-
         model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
-
-
-
-
-
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
 
     }
 

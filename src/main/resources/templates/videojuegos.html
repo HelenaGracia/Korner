@@ -98,11 +98,13 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <img th:src="${imagenUsuario}" alt="imagen perfil" class="img-perfil" >
-            <a href="" class="nombre-perfil" >VictorMer</a>
-            <a th:href="@{/ajustes}" class="btn btn-primary boton-perfil" >Ajustes</a>
-            <a th:href="@{/amigos}" class="btn btn-primary boton-perfil" >Amigos</a>
-            <a th:href="@{/logout}" class="btn btn-primary boton-perfil" >Cerrar sesión</a>
+            <div class="text-center">
+                <img th:src="${imagenUsuario}" alt="imagen perfil" class="img-perfil d-flex mb-2" >
+                <a th:href="@{/ajustes/nombre}" th:text="${nameUsuario}" class="nombre-perfil pt-3" ></a>
+                <a th:href="@{/ajustes}" class="btn btn-primary boton-perfil" >Ajustes</a>
+                <a th:href="@{/amigos}" class="btn btn-primary boton-perfil" >Amigos</a>
+                <a th:href="@{/logout}" class="btn btn-primary boton-perfil" >Cerrar sesión</a>
+            </div>
         </div>
     </div>
     <!-- ESTRUCTURA BARRA DE BUSQUEDA -->

@@ -34,9 +34,7 @@ import java.util.stream.IntStream;
 public class VideojuegoController {
 
     private final VideojuegoServiceImpl videojuegoService;
-
     private final GeneroElementoServiceImpl generoElementoService;
-
     private final PlataformaVideojuegoServiceImpl plataformaVideojuegoService;
     private final FileSystemStorageService fileSystemStorageService;
 
@@ -88,8 +86,6 @@ public class VideojuegoController {
                                @RequestParam(value = "orden", required = false) String orden){
 
         paginacion(model, page, session, orden);
-
-
 
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
         List<PlataformaVideojuego> plataformasList = plataformaVideojuegoService.getAll();
@@ -155,8 +151,6 @@ public class VideojuegoController {
                                         @RequestParam(value = "orden", required = false) String orden){
 
         paginacion(model, page, session, orden);
-
-
 
 
         final String FILE_PATH_ROOT = "D:/ficheros";
@@ -384,6 +378,7 @@ public class VideojuegoController {
             model.addAttribute("size", pagina.getContent().size());
             model.addAttribute("videojuegos", pagina.getContent());
             model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
+            model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
         }catch (Exception e){
             logger.error("Error en la busqueda",e);
             model.addAttribute("busquedaFallida", "Error al realizar la búsqueda");
@@ -445,19 +440,11 @@ public class VideojuegoController {
         }
         //Envio a la vista la pagina en la que estoy
         model.addAttribute("currentPage", currentPage);
-
         //getContent() returns just that single page's data
-
         model.addAttribute("size", pagina.getContent().size());
-
         model.addAttribute("videojuegos", pagina.getContent());
-
         model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
-
-
-
-
-
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
 
     }
 

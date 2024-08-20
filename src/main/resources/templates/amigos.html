@@ -98,11 +98,13 @@
               <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
-                <img th:src="${imagenUsuario}" alt="imagen perfil" class="img-perfil" />
-                <a href="" class="nombre-perfil" >VictorMer</a>
+              <div class="text-center">
+                <img th:src="${imagenUsuario}" alt="imagen perfil" class="img-perfil d-flex mb-2" >
+                <a th:href="@{/ajustes/nombre}" th:text="${nameUsuario}" class="nombre-perfil pt-3" ></a>
                 <a th:href="@{/ajustes}" class="btn btn-primary boton-perfil" >Ajustes</a>
                 <a th:href="@{/amigos}" class="btn btn-primary boton-perfil" >Amigos</a>
                 <a th:href="@{/logout}" class="btn btn-primary boton-perfil" >Cerrar sesión</a>
+              </div>
             </div>
           </div>
         <!-------Main Cuerpo----------->
@@ -117,7 +119,7 @@
                 <form th:action="@{/amigos/search}" method="get">
                   <div class="row p-2 input-group">
                     <div class="col-8 col-sm-12 col-md-8">
-                      <input type="search" name="amigosBusqueda" class="form-control text-center mx-auto bordenombre" aria-label="search" placeholder="Escribir Nombre">
+                      <input type="search" name="amigosBusqueda" class="form-control text-center mx-auto bordenombre" aria-label="search" placeholder="Escribir Nombre" required="required">
                     </div>
                     <div class="col-4 col-sm-12 col-md-4">
                       <button type="submit" class="btn btn-primary btn-sm mx-auto">BUSCAR</button>
@@ -145,7 +147,7 @@
               <!---------Seccion Conectados----------->
 
               <article class="caja-amigos"  >
-                <h6 class="titulo-caja">Conectados</h6>
+                <h6 class="titulo-caja">Amigos</h6>
                 <div class="row">
                   <div class="row pb-1">
                     <div class="col-12">
@@ -261,30 +263,6 @@
 
               </article>
 
-
-            
-
-              <!---------Seccion Desconectados----------->
-              <article class="caja-amigos">
-                  <h6 class="titulo-caja">Desconectados</h6>
-                  <div class="row">
-                                        
-                    <div class="col-6 col-sm-4 col-lg-2">
-                      <div class="card card-amigos mx-auto mb-3">
-                        <img src="../static/img/opm.png" class=" img-card-amigos" alt="imagenperfil">
-                        <div>
-                          <h6 class="card-title text-center" >Pedrito5</h6>
-                          <div class="caja-estado text-center">
-                            <span class="desconectado"></span>
-                            <p class="text-center texto-estado" style="display: inline-block">Desconectado</p>
-                            <p class="text-center texto-estado">Última conexión hace 2 horas</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-  
-                  </div>
-              </article>
 
               <!---------Seccion Bloqueados----------->
               <article id="seccionbloq" class="caja-amigos" style="display: none;">

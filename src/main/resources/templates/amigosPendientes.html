@@ -16,7 +16,6 @@
 </head>
   <body>
     <div class="page-container">
-        <header>
             <header>
                 <nav class="navbar sticky-top navbar-expand-lg bg-primary" >
                     <div class="container">
@@ -97,13 +96,15 @@
               <h5 class="offcanvas-title" id="offcanvasRightLabel">Perfil</h5>
               <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
-            <div class="offcanvas-body">
-                <img th:src="${imagenUsuario}" alt="imagen perfil" class="img-perfil" />
-                <a href="" class="nombre-perfil" >VictorMer</a>
-                <a th:href="@{/ajustes}"  class="btn btn-primary boton-perfil" >Ajustes</a>
-                <a th:href="@{/amigos}" class="btn btn-primary boton-perfil" >Amigos</a>
-                <a th:href="@{/logout}"  class="btn btn-primary boton-perfil" >Cerrar sesión</a>
-            </div>
+              <div class="offcanvas-body">
+                  <div class="text-center">
+                      <img th:src="${imagenUsuario}" alt="imagen perfil" class="img-perfil d-flex mb-2" >
+                      <a th:href="@{/ajustes/nombre}" th:text="${nameUsuario}" class="nombre-perfil pt-3" ></a>
+                      <a th:href="@{/ajustes}" class="btn btn-primary boton-perfil" >Ajustes</a>
+                      <a th:href="@{/amigos}" class="btn btn-primary boton-perfil" >Amigos</a>
+                      <a th:href="@{/logout}" class="btn btn-primary boton-perfil" >Cerrar sesión</a>
+                  </div>
+              </div>
           </div>
         <!-------Main Cuerpo----------->
         <main class="content-wrap pt-5">

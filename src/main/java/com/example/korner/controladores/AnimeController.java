@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.swing.filechooser.FileSystemView;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -374,7 +373,7 @@ public class AnimeController {
             model.addAttribute("size", pagina.getContent().size());
             model.addAttribute("animes", pagina.getContent());
             model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
-
+            model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
         }catch (Exception e){
             logger.error("Error en la busqueda",e);
             model.addAttribute("busquedaFallida", "Error al realizar la búsqueda");
@@ -444,7 +443,7 @@ public class AnimeController {
         model.addAttribute("size", pagina.getContent().size());
         model.addAttribute("animes", pagina.getContent());
         model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
-
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
 
     }
 

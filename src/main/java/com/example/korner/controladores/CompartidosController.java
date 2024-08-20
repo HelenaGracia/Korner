@@ -46,7 +46,7 @@ public class CompartidosController {
         Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
 
         model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
-
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
         List<ElementoCompartido> listElementosCompartidos = compartirService.getAllAmigosByAmigoOrigen(user.get());
 
         List<Integer> listPeliculaId = listElementosCompartidos.stream().map(ElementoCompartido::getPelicula).filter(pelicula -> pelicula != null).map(Pelicula::getId).toList();
@@ -106,7 +106,7 @@ public class CompartidosController {
         Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
 
         model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
-
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
         List<ElementoCompartido> listElementosCompartidos = compartirService.getAllAmigosByAmigoOrigen(user.get());
 
         List<Integer> listAnimeId = listElementosCompartidos.stream().map(ElementoCompartido::getAnime).filter(anime -> anime != null).map(Anime::getId).toList();
@@ -165,8 +165,8 @@ public class CompartidosController {
                                        HttpSession session,Model model) {
         Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
 
-        model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
-
+      model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
+      model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
         List<ElementoCompartido> listElementosCompartidos = compartirService.getAllAmigosByAmigoOrigen(user.get());
  
         List<Integer> listVideojuegoId = listElementosCompartidos.stream().map(ElementoCompartido::getVideojuego).filter(videojuego -> videojuego != null).map(Videojuego::getId).toList();
@@ -226,7 +226,7 @@ public class CompartidosController {
         Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
 
         model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
-
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
         List<ElementoCompartido> listElementosCompartidos = compartirService.getAllAmigosByAmigoOrigen(user.get());
 
         List<Integer> listlibroId = listElementosCompartidos.stream().map(ElementoCompartido::getLibro).filter(libro -> libro != null).map(Libro::getId).toList();
@@ -286,7 +286,7 @@ public class CompartidosController {
         Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
 
         model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
-
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
         List<ElementoCompartido> listElementosCompartidos = compartirService.getAllAmigosByAmigoOrigen(user.get());
         List<Integer> listSerieId = listElementosCompartidos.stream().map(ElementoCompartido::getSerie).filter(serie -> serie != null).map(Serie::getId).toList();
 
@@ -338,68 +338,3 @@ public class CompartidosController {
         return "seriesCompartidas";
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

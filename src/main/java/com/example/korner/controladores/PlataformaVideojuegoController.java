@@ -130,7 +130,6 @@ public class PlataformaVideojuegoController {
          se crea un objeto page que es el encargado de rellenar en la pagina que le has indicado con la cantidad
          que le has dicho todos los objetos pelicula almacenados, es decir, crea la pagina que visualizas con el contenido
          */
-        // Page<Pelicula> pagina = peliculaService.findAll(pageRequest);
         Page<PlataformaVideojuego> pagina = plataformaVideojuegoService.findAll(pageRequest);
 
         //Envio la pagina creada a la vista para poder verla
@@ -151,17 +150,11 @@ public class PlataformaVideojuegoController {
         }
         //Envio a la vista la pagina en la que estoy
         model.addAttribute("currentPage", currentPage);
-
         //getContent() returns just that single page's data
-
         model.addAttribute("size", pagina.getContent().size());
-
         model.addAttribute("plataformas", pagina.getContent());
-
         model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
-
-
-
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
 
     }
 

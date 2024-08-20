@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>Ajustes</title>
+    <title>Ajustes Sesion</title>
     <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css}" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"/>
     <link rel="preconnect" th:href="@{https://fonts.googleapis.com}"/>
     <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css}"/>
@@ -57,7 +57,7 @@
                         </li>
                         <li class="nav-item ms-lg-2 ms-xl-2 ">
                             <a class="" href="#" role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                                <img th:src="@{/img/Nevernight.jpg}" alt="imagen perfil" >
+                                <img th:src="${imagenUsuario}" alt="imagen perfil" />
                             </a>
                         </li>
                         <li class="nav-item mt-4 ms-lg-2 ms-xl-3 ">
@@ -97,11 +97,13 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <img th:src="@{/img/Nevernight.jpg}" alt="imagen perfil" class="img-perfil" >
-            <a href="" class="nombre-perfil" >VictorMer</a>
-            <a th:href="@{/ajustes}" class="btn btn-primary boton-perfil" >Ajustes</a>
-            <a th:href="@{/amigos}" class="btn btn-primary boton-perfil" >Amigos</a>
-            <a th:href="@{/logout}" class="btn btn-primary boton-perfil" >Cerrar sesión</a>
+            <div class="text-center">
+                <img th:src="${imagenUsuario}" alt="imagen perfil" class="img-perfil d-flex mb-2" >
+                <a th:href="@{/ajustes/nombre}" th:text="${nameUsuario}" class="nombre-perfil pt-3" ></a>
+                <a th:href="@{/ajustes}" class="btn btn-primary boton-perfil" >Ajustes</a>
+                <a th:href="@{/amigos}" class="btn btn-primary boton-perfil" >Amigos</a>
+                <a th:href="@{/logout}" class="btn btn-primary boton-perfil" >Cerrar sesión</a>
+            </div>
         </div>
     </div>
     <main class="content-wrap pt-5">
@@ -153,7 +155,8 @@
                             </label>
                         </div>
                         <div class="mb-3 d-flex justify-content-end">
-                            <button class="btn btn-primary" type="submit">Guardar cambios</button>
+                            <button class="btn btn-primary me-2" type="submit">Guardar cambios</button>
+                            <a th:href="@{/ajustes}" class="btn btn-secondary" >Volver</a>
                         </div>
                     </form>
                 </article>

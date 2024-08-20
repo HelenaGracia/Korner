@@ -16,7 +16,6 @@
 </head>
   <body>
     <div class="page-container">
-        <header>
             <header>
                 <nav class="navbar sticky-top navbar-expand-lg bg-primary" >
                     <div class="container">
@@ -97,13 +96,15 @@
               <h5 class="offcanvas-title" id="offcanvasRightLabel">Perfil</h5>
               <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
-            <div class="offcanvas-body">
-                <img th:src="${imagenUsuario}" alt="imagen perfil" class="img-perfil" />
-                <a href="" class="nombre-perfil" >VictorMer</a>
-                <a th:href="@{/ajustes}" class="btn btn-primary boton-perfil" >Ajustes</a>
-                <a th:href="@{/amigos}" class="btn btn-primary boton-perfil" >Amigos</a>
-                <a th:href="@{/logout}" class="btn btn-primary boton-perfil" >Cerrar sesión</a>
-            </div>
+              <div class="offcanvas-body">
+                  <div class="text-center">
+                      <img th:src="${imagenUsuario}" alt="imagen perfil" class="img-perfil d-flex mb-2" >
+                      <a th:href="@{/ajustes/nombre}" th:text="${nameUsuario}" class="nombre-perfil pt-3" ></a>
+                      <a th:href="@{/ajustes}" class="btn btn-primary boton-perfil" >Ajustes</a>
+                      <a th:href="@{/amigos}" class="btn btn-primary boton-perfil" >Amigos</a>
+                      <a th:href="@{/logout}" class="btn btn-primary boton-perfil" >Cerrar sesión</a>
+                  </div>
+              </div>
           </div>
         <!-------Main Cuerpo----------->
         <main class="content-wrap pt-5">
@@ -129,8 +130,12 @@
                         <div th:if="${busquedaFallida}" class="text-center alert alert-danger">
                             <p th:text="${busquedaFallida}"></p>
                         </div>
+                        <div th:if="${success}" class="text-center alert alert-success">
+                            <p th:text="${success}"></p>
+                        </div>
                     </div>
                 </div>
+                <!-- INICIO PAGINACION -->
                 <div class="row">
                     <div th:if="${busquedaUsuarios != null }">
                         <div class="col-12 d-flex justify-content-center">
@@ -153,6 +158,8 @@
                         </div>
                     </div>
                 </div>
+                <!-- FIN PAGINACION -->
+
                 <table class="table" th:if = "${size > 0}">
 
                     <tbody>
@@ -163,6 +170,31 @@
                     </tr>
                     </tbody>
                 </table>
+
+                <!-- INICIO PAGINACION 2-->
+                <div class="row">
+                    <div th:if="${busquedaUsuarios != null }">
+                        <div class="col-12 d-flex justify-content-center">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
+                                        <a th:href="@{/amigos/search(page=${currentPage - 1}, amigosBusqueda=${busquedaUsuarios})}" class="page-link" href="#">Previous</a>
+                                    </li>
+                                    <li th:each="pageNumber : ${pageNumbers}" class="page-item">
+                                        <a th:href="@{/amigos/search(page=${pageNumber}, amigosBusqueda=${busquedaUsuarios})}"
+                                           th:text="${pageNumber}"
+                                           th:classappend="${pageNumber==pagina.number + 1} ? active"
+                                           class="page-link" href="#"></a>
+                                    </li>
+                                    <li th:unless="${currentPage  ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
+                                        <a th:href="@{/amigos/search(page=${currentPage + 1}, amigosBusqueda=${busquedaUsuarios})}" class="page-link" href="#">Next</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <!-- FIN PAGINACION 2-->
             </section>            
           </div>
         </main>

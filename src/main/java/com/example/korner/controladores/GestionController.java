@@ -13,17 +13,11 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/gestion")
 public class GestionController {
-    private final UsuarioSecurityService usuarioSecurityService;
-
-    public GestionController(UsuarioSecurityService usuarioSecurityService) {
-        this.usuarioSecurityService = usuarioSecurityService;
-    }
 
     @GetMapping("")
     public String showGestion(Model model, HttpSession session){
-        Optional<Usuario> user = usuarioSecurityService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
-        model.addAttribute("nombreUsuario",user.get().getNombre());
         model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
         return "gestion";
     }
 }
