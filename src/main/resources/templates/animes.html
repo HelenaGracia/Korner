@@ -92,10 +92,10 @@
 
       <!-- ESTRUCTURA BARRA DE BUSQUEDA -->
      <div class="container">
-       <div class="search-bar-container" style="margin-top: 35px;">
+       <div class="search-bar-container">
          <div class="row">
            <!-- Botón "Añadir" -->
-           <div class="col-12 col-md-3 d-flex justify-content-center mb-5 mb-md-0">
+           <div class="col-12 col-md-3 d-flex  mb-5 mb-md-0">
              <button type="button" class="btn-section-add" data-bs-toggle="modal" data-bs-target="#modalAnimeAñadir">AÑADIR</button>
            </div>
            <!-- Barra de Búsqueda-->
@@ -123,7 +123,7 @@
                      <label><strong>Género</strong></label><br>
                      <div class="form-check">
                        <select class="form-select" th:name="filtroGenero">
-                         <option th:selected="selected" th:disabled="disabled">--Seleccione Género--</option>
+                         <option th:selected="selected" th:disabled="disabled"></option>
                          <option th:each="generoFiltroForm:${listaGeneros}" th:value="${generoFiltroForm.id}" th:text="${generoFiltroForm.nombre}"></option>
                        </select>
                      </div>
@@ -133,7 +133,7 @@
                      <label><strong>Año</strong></label><br>
                      <div class="form-check" >
                        <select class="form-select" th:name="filtroYear">
-                         <option th:selected="selected" th:disabled="disabled">--Seleccione Año--</option>
+                         <option th:selected="selected" th:disabled="disabled"></option>
                          <option th:each="year:${listadoYears}"  th:value="${year}" th:text="${year}"></option>
                        </select>
                      </div>
@@ -171,7 +171,7 @@
                      <label><strong>Plataforma</strong></label><br>
                      <div class="form-check">
                        <select class="form-select" th:name="filtroPlataforma">
-                         <option th:selected="selected" th:disabled="disabled">--Seleccione Plataforma--</option>
+                         <option th:selected="selected" th:disabled="disabled"></option>
                          <option th:each="plataformaFiltroForm:${listaPlataformas}" th:value="${plataformaFiltroForm.id}" th:text="${plataformaFiltroForm.nombrePlataforma}"></option>
                        </select>
                      </div>
@@ -181,7 +181,7 @@
                      <label><strong>Ordenar por:</strong></label><br>
                      <div class="form-check">
                        <select class="form-select" th:name="filtroOrden">
-                         <option th:selected="selected" th:disabled="disabled">--Ordenar por--</option>
+                         <option th:selected="selected" th:disabled="disabled"></option>
                          <option value="ordenFiltroTituloAsc">Título asc</option>
                          <option value="ordenFiltroTituloDesc">Título desc</option>
                          <option value="ordenFiltroIdAsc">Creación asc</option>
