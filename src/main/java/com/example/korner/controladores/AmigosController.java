@@ -2,8 +2,10 @@ package com.example.korner.controladores;
 
 
 import com.example.korner.modelo.Amigo;
+import com.example.korner.modelo.Notificacion;
 import com.example.korner.modelo.Usuario;
 import com.example.korner.servicio.AmigoServiceImpl;
+import com.example.korner.servicio.NotificacionService;
 import com.example.korner.servicio.UsuarioSecurityService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.data.domain.Page;
@@ -26,10 +28,12 @@ public class AmigosController {
 
     private final AmigoServiceImpl amigoService;
     private final UsuarioSecurityService usuarioService;
+    private final NotificacionService notificacionService;
 
-    public AmigosController(AmigoServiceImpl amigoService, UsuarioSecurityService usuarioService) {
+    public AmigosController(AmigoServiceImpl amigoService, UsuarioSecurityService usuarioService, NotificacionService notificacionService) {
         this.amigoService = amigoService;
         this.usuarioService = usuarioService;
+        this.notificacionService = notificacionService;
     }
 
 
@@ -123,6 +127,13 @@ public class AmigosController {
         amigoNuevo.setUsuarioDestino(userOrigen.get());
         amigoService.saveEntity(amigoAceptado);
         amigoService.saveEntity(amigoNuevo);
+        Notificacion notificacion = new Notificacion();
+        notificacion.setUserFrom(userDestino.get().getNombre());
+        notificacion.setUserTo(userOrigen.get().getNombre());
+        notificacion.setEstado("pendiente");
+        notificacion.setMensaje("El usuario " + userDestino.get().getNombre() + " ha aceptado tu solicitud de amistad");
+        notificacion.setRutaImagenUserFrom(userDestino.get().getRutaImagen());
+        notificacionService.saveEntity(notificacion);
         attributes.addFlashAttribute("success","La solicitud de amistad del usuario: " + userOrigen.get().getNombre() + " ha sido aceptada");
         return "redirect:/amigos/solicitudesPendientes";
 

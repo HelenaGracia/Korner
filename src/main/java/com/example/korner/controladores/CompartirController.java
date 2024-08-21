@@ -31,8 +31,9 @@ public class CompartirController {
     private final VideojuegoServiceImpl videojuegoService;
     private final SerieServiceImpl serieService;
     private final UsuarioSecurityService usuarioService;
+    private final NotificacionService notificacionService;
 
-    public CompartirController(CompartirServiceImpl compartirService, AmigoServiceImpl amigoService, AnimeServiceImpl animeService, PeliculaServiceImpl peliculaService, LibroServiceImpl libroService, VideojuegoServiceImpl videojuegoService, SerieServiceImpl serieService, UsuarioSecurityService usuarioService) {
+    public CompartirController(CompartirServiceImpl compartirService, AmigoServiceImpl amigoService, AnimeServiceImpl animeService, PeliculaServiceImpl peliculaService, LibroServiceImpl libroService, VideojuegoServiceImpl videojuegoService, SerieServiceImpl serieService, UsuarioSecurityService usuarioService, NotificacionService notificacionService) {
         this.compartirService = compartirService;
         this.amigoService = amigoService;
         this.animeService = animeService;
@@ -41,6 +42,7 @@ public class CompartirController {
         this.videojuegoService = videojuegoService;
         this.serieService = serieService;
         this.usuarioService = usuarioService;
+        this.notificacionService = notificacionService;
     }
 
     private final Logger logger = LoggerFactory.getLogger(CompartirController.class);
@@ -50,7 +52,7 @@ public class CompartirController {
 
     @GetMapping("/compartir/pelicula/{idPelicula}")
     public String compartirAmigoPelicula(@PathVariable(value = "idPelicula",required = false)Integer idPelicula,
-                                    Model model,HttpSession session) {
+                                    Model model) {
         try {
             Optional<Pelicula> pelicula = peliculaService.getById(idPelicula);
             model.addAttribute("peliculaEnviadaId",pelicula.get().getId());
@@ -299,10 +301,20 @@ public class CompartirController {
                     amigoDestino.getElementoCompartidos().add(elementoCompartido);
                     compartirService.saveEntity(elementoCompartido);
                     amigoService.saveEntity(amigoDestino);
-                    attributes.addFlashAttribute("success", "has compartido la película " + pelicula.get().getTitulo() +" con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
+                    /* Creamos el objeto Notificacion que albergará la información de que se ha compartido una película
+                     esta notificación va destinada al usuarioDestino y le llegará a este */
+                    Notificacion notificacion = new Notificacion();
+                    String nombreUsuarioOrigen = session.getAttribute("userName").toString();
+                    notificacion.setUserFrom(nombreUsuarioOrigen);
+                    notificacion.setUserTo(amigoDestino.getUsuarioOrigen().getNombre());
+                    notificacion.setEstado("pendiente");
+                    notificacion.setMensaje("El usuario " +nombreUsuarioOrigen  + " ha compartido la película " + pelicula.get().getTitulo() + " contigo");
+                    notificacion.setRutaImagenUserFrom(amigoDestino.getUsuarioDestino().getRutaImagen());
+                    notificacionService.saveEntity(notificacion);
+                    attributes.addFlashAttribute("success", "Has compartido la película " + pelicula.get().getTitulo() +" con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
                     return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=" + idPelicula +"&idSerie=&idAnime=&idLibro=&idVideojuegos=";
                 }else {
-                    attributes.addFlashAttribute("failed", "ya has compartido la película: " + pelicula.get().getTitulo() +" con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
+                    attributes.addFlashAttribute("failed", "Ya has compartido la película: " + pelicula.get().getTitulo() +" con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
                     return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=" + idPelicula +"&idSerie=&idAnime=&idLibro=&idVideojuegos=";
                 }
 
@@ -315,10 +327,20 @@ public class CompartirController {
                     amigoDestino.getElementoCompartidos().add(elementoCompartido);
                     compartirService.saveEntity(elementoCompartido);
                     amigoService.saveEntity(amigoDestino);
-                    attributes.addFlashAttribute("success", "has compartido la serie " + serie.get().getTitulo() +" con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
+                    /* Creamos el objeto Notificacion que albergará la información de que se ha compartido una película
+                     esta notificación va destinada al usuarioDestino y le llegará a este */
+                    Notificacion notificacion = new Notificacion();
+                    String nombreUsuarioOrigen = session.getAttribute("userName").toString();
+                    notificacion.setUserFrom(nombreUsuarioOrigen);
+                    notificacion.setUserTo(amigoDestino.getUsuarioOrigen().getNombre());
+                    notificacion.setEstado("pendiente");
+                    notificacion.setMensaje("El usuario " +nombreUsuarioOrigen  + " ha compartido la serie " + serie.get().getTitulo() + " contigo");
+                    notificacion.setRutaImagenUserFrom(amigoDestino.getUsuarioDestino().getRutaImagen());
+                    notificacionService.saveEntity(notificacion);
+                    attributes.addFlashAttribute("success", "Has compartido la serie " + serie.get().getTitulo() +" con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
                     return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=&idSerie=" + idSerie + "&idAnime=&idLibro=&idVideojuegos=";
                 }else {
-                    attributes.addFlashAttribute("failed", "ya has compartido la serie: " + serie.get().getTitulo() + " con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
+                    attributes.addFlashAttribute("failed", "Ya has compartido la serie: " + serie.get().getTitulo() + " con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
                     return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=&idSerie=" + idSerie + "&idAnime=&idLibro=&idVideojuegos=";
                 }
             } else if (idAnime != null) {
@@ -330,10 +352,18 @@ public class CompartirController {
                     amigoDestino.getElementoCompartidos().add(elementoCompartido);
                     compartirService.saveEntity(elementoCompartido);
                     amigoService.saveEntity(amigoDestino);
-                    attributes.addFlashAttribute("success", "has compartido el anime " + anime.get().getTitulo() +" con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
+                    Notificacion notificacion = new Notificacion();
+                    String nombreUsuarioOrigen = session.getAttribute("userName").toString();
+                    notificacion.setUserFrom(nombreUsuarioOrigen);
+                    notificacion.setUserTo(amigoDestino.getUsuarioOrigen().getNombre());
+                    notificacion.setEstado("pendiente");
+                    notificacion.setMensaje("El usuario " +nombreUsuarioOrigen  + " ha compartido el anime " + anime.get().getTitulo() + " contigo");
+                    notificacion.setRutaImagenUserFrom(amigoDestino.getUsuarioDestino().getRutaImagen());
+                    notificacionService.saveEntity(notificacion);
+                    attributes.addFlashAttribute("success", "Has compartido el anime " + anime.get().getTitulo() +" con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
                     return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=&idSerie=&idAnime="+ idAnime+"&idLibro=&idVideojuegos=";
                 }else {
-                    attributes.addFlashAttribute("failed", "ya has compartido el anime: " + anime.get().getTitulo() + " con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
+                    attributes.addFlashAttribute("failed", "Ya has compartido el anime: " + anime.get().getTitulo() + " con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
                     return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=&idSerie=&idAnime="+ idAnime+"&idLibro=&idVideojuegos=";
                 }
             } else if (idLibro != null) {
@@ -345,10 +375,18 @@ public class CompartirController {
                     amigoDestino.getElementoCompartidos().add(elementoCompartido);
                     compartirService.saveEntity(elementoCompartido);
                     amigoService.saveEntity(amigoDestino);
-                    attributes.addFlashAttribute("success", "has compartido el libro " + libro.get().getTitulo() +" con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
+                    Notificacion notificacion = new Notificacion();
+                    String nombreUsuarioOrigen = session.getAttribute("userName").toString();
+                    notificacion.setUserFrom(nombreUsuarioOrigen);
+                    notificacion.setUserTo(amigoDestino.getUsuarioOrigen().getNombre());
+                    notificacion.setEstado("pendiente");
+                    notificacion.setMensaje("El usuario " +nombreUsuarioOrigen  + " ha compartido el libro " + libro.get().getTitulo() + " contigo");
+                    notificacion.setRutaImagenUserFrom(amigoDestino.getUsuarioDestino().getRutaImagen());
+                    notificacionService.saveEntity(notificacion);
+                    attributes.addFlashAttribute("success", "Has compartido el libro " + libro.get().getTitulo() +" con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
                     return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=&idSerie=&idAnime=&idLibro="+ idLibro +"&idVideojuegos=";
                 }else {
-                    attributes.addFlashAttribute("failed", "ya has compartido el libro: " + libro.get().getTitulo() + " con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
+                    attributes.addFlashAttribute("failed", "Ya has compartido el libro: " + libro.get().getTitulo() + " con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
                     return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=&idSerie=&idAnime=&idLibro="+ idLibro +"&idVideojuegos=";
                 }
             } else if (idVideojuegos!=null) {
@@ -360,10 +398,18 @@ public class CompartirController {
                     amigoDestino.getElementoCompartidos().add(elementoCompartido);
                     compartirService.saveEntity(elementoCompartido);
                     amigoService.saveEntity(amigoDestino);
-                    attributes.addFlashAttribute("success", "has compartido el videojuego " + videojuego.get().getTitulo() +" con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
+                    Notificacion notificacion = new Notificacion();
+                    String nombreUsuarioOrigen = session.getAttribute("userName").toString();
+                    notificacion.setUserFrom(nombreUsuarioOrigen);
+                    notificacion.setUserTo(amigoDestino.getUsuarioOrigen().getNombre());
+                    notificacion.setEstado("pendiente");
+                    notificacion.setMensaje("El usuario " +nombreUsuarioOrigen  + " ha compartido el videojuego " + videojuego.get().getTitulo() + " contigo");
+                    notificacion.setRutaImagenUserFrom(amigoDestino.getUsuarioDestino().getRutaImagen());
+                    notificacionService.saveEntity(notificacion);
+                    attributes.addFlashAttribute("success", "Has compartido el videojuego " + videojuego.get().getTitulo() +" con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
                     return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=&idSerie=&idAnime=&idLibro=&idVideojuegos=" + idVideojuegos;
                 }else {
-                    attributes.addFlashAttribute("failed", "ya has compartido el videojuego: " + videojuego.get().getTitulo() + " con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
+                    attributes.addFlashAttribute("failed", "Ya has compartido el videojuego: " + videojuego.get().getTitulo() + " con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
                     return "redirect:/compartir/searchAmigos?nombreAmigo=&idPelicula=&idSerie=&idAnime=&idLibro=&idVideojuegos=" + idVideojuegos;
                 }
             }

@@ -15,7 +15,6 @@
 </head>
   <body>
     <div class="page-container">
-      <header>
         <header>
           <nav class="navbar sticky-top navbar-expand-lg bg-primary" >
             <div class="container">
@@ -61,7 +60,7 @@
                     </a>
                   </li>
                   <li class="nav-item mt-4 ms-lg-2 ms-xl-3 ">
-                    <a th:href="@{/leerNotificaciones}" role="button" class="position-relative" >
+                    <a th:href="@{/leerNotificaciones}" role="button" class="position-relative">
                       <span id="numeroNotifBadge" class="position-absolute top-0  start-100 translate-middle badge rounded-pill bg-danger"></span>
                       <i class="bi bi-bell fs-3 text-black"></i>
                       <span class="visually-hidden">Notificaciones no leidas</span>
@@ -72,7 +71,6 @@
             </div>
           </nav>
         </header>
-
         <!-- OffCanvas Perfil -->
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
           <div class="offcanvas-header">
@@ -91,58 +89,62 @@
         </div>
 
         <main class="content-wrap pt-5">
-          <div class="container">
-            <section class="row align-items-center ">
-              <article class="col-12 col-md-6">
-                <div class="card mx-auto mb-5 " style="width: 18rem;">
-                  <img th:src="@{/img/pelicula.png}" class=" img-card" alt="pelicula">
-                  <div class="card-body">
-                    <h5 class="card-title txt-naranja">Películas</h5>
-                    <p class="card-text">Guarda todas las películas que hayas visto</p>
-                    <a th:href="@{/peliculas}" class="btn btn-primary px-5 py-2">Ir</a>
+          <div class="container ">
+            <section class="row align-items-center d-flex justify-content-center" >
+              <div  class="col-12 col-md-6 pb-1  border border-dark-subtle rounded" >
+                <div class="row pb-1">
+                  <div class="col-12 ">
+                    <div th:if = "${size == 0}" class="text-center mt-5">
+                      <p>No hay notificaciones que mostrar</p>
+                    </div>
+                    <div th:if="${success}" class="text-center alert alert-success">
+                      <p th:text="${success}"></p>
+                    </div>
                   </div>
                 </div>
-              </article>
-              <article class="col-12 col-md-6">
-                <div class="card mx-auto mb-5" style="width: 18rem;">
-                  <img th:src="@{/img/videojuego.png}" class=" img-card" alt="videojuego">
-                  <div class="card-body">
-                    <h5 class="card-title txt-naranja">Videojuegos</h5>
-                    <p class="card-text">Guarda todas los videojuegos que hayas jugado</p>
-                    <a th:href="@{/videojuegos}" class="btn btn-primary px-5 py-2">Ir</a>
+
+                <div class="row" th:if ="${size > 0}">
+                  <article th:each="notificacion:${notificaciones}" class="col-12 border-bottom border-dark-subtle ">
+                    <div class="row">
+                      <div class="col-2 py-2 " >
+                        <img th:src="${notificacion.getRutaImagenUserFrom()}" alt="Imagen de perfil del usuario"  class="imgdrop-chat">
+                      </div>
+                      <div class="col-10 pt-3 ">
+                        <p th:text="${notificacion.getMensaje()}"></p>
+                      </div>
+                    </div>
+                  </article>
+                  <div class=" d-flex justify-content-end mt-5 mb-5">
+                    <a th:href="@{/eliminarNotificaciones}" class=" btn btn-primary ">Eliminar notificaciones</a>
                   </div>
                 </div>
-              </article>
-              <article class="col-12 col-md-6">
-                <div class="card mx-auto mb-5" style="width: 18rem;">
-                  <img th:src="@{/img/serie.png}" class=" img-card" alt="serie">
-                  <div class="card-body">
-                    <h5 class="card-title txt-naranja">Series</h5>
-                    <p class="card-text">Guarda todas las series que hayas visto</p>
-                    <a th:href="@{/series}" class="btn btn-primary px-5 py-2">Ir</a>
+
+
+
+                <!-- INICIO PAGINACION -->
+                <div class="row">
+                  <div class="col-12 d-flex justify-content-center mb-3">
+                    <nav aria-label="Page navigation example">
+                      <ul class="pagination">
+                        <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
+                          <a th:href="@{/leerNotificaciones(page=${currentPage - 1})}" class="page-link" >Previous</a>
+                        </li>
+                        <li th:each="pageNumber : ${pageNumbers}" class="page-item">
+                          <a th:href="@{leerNotificaciones(page=${pageNumber})}"
+                             th:text="${pageNumber}"
+                             th:classappend="${pageNumber==pagina.number + 1} ? active"
+                             class="page-link"></a>
+                        </li>
+                        <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
+                          <a th:href="@{leerNotificaciones(page=${currentPage + 1})}" class="page-link">Next</a>
+                        </li>
+                      </ul>
+                    </nav>
                   </div>
                 </div>
-              </article>
-              <article class="col-12 col-md-6">
-                <div class="card mx-auto mb-5" style="width: 18rem;">
-                  <img th:src="@{/img/libro.png}" class=" img-card" alt="libro">
-                  <div class="card-body">
-                    <h5 class="card-title txt-naranja">Libros</h5>
-                    <p class="card-text">Guarda todos los libros que hayas leído</p>
-                    <a th:href="@{/libros}" class="btn btn-primary px-5 py-2">Ir</a>
-                  </div>
-                </div>
-              </article>
-              <article class="col-12 col-md-6">
-                <div class="card mx-auto mb-5" style="width: 18rem;">
-                  <img th:src="@{/img/anime.png}" class=" img-card" alt="pelicula">
-                  <div class="card-body">
-                    <h5 class="card-title txt-naranja">Animes</h5>
-                    <p class="card-text">Guarda todos los animes que hayas visto</p>
-                    <a th:href="@{/animes}" class="btn btn-primary px-5 py-2">Ir</a>
-                  </div>
-                </div>
-              </article>
+                <!-- FIN PAGINACION -->
+              </div>
+
             </section>
             <div class="d-flex justify-content-end pb-5">
                 <a href="#">
@@ -152,7 +154,7 @@
           </div> 
         </main>
         <footer class="bg-primary "></footer>
-      <script type="text/javascript" th:src="@{/js/notificaciones.js}"></script>
+        <script type="text/javascript" th:src="@{/js/notificaciones.js}"></script>
       <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js}" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     </div>
   </body>

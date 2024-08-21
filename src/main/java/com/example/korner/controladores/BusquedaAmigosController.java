@@ -2,8 +2,10 @@ package com.example.korner.controladores;
 
 
 import com.example.korner.modelo.Amigo;
+import com.example.korner.modelo.Notificacion;
 import com.example.korner.modelo.Usuario;
 import com.example.korner.servicio.AmigoServiceImpl;
+import com.example.korner.servicio.NotificacionService;
 import com.example.korner.servicio.UsuarioSecurityService;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
@@ -28,10 +30,12 @@ public class BusquedaAmigosController {
 
     private final AmigoServiceImpl amigoService;
     private final UsuarioSecurityService usuarioService;
+    private final NotificacionService notificacionService;
 
-    public BusquedaAmigosController(AmigoServiceImpl amigoService, UsuarioSecurityService usuarioService) {
+    public BusquedaAmigosController(AmigoServiceImpl amigoService, UsuarioSecurityService usuarioService, NotificacionService notificacionService) {
         this.amigoService = amigoService;
         this.usuarioService = usuarioService;
+        this.notificacionService = notificacionService;
     }
     private final Logger logger = LoggerFactory.getLogger(BusquedaAmigosController.class);
 
@@ -98,6 +102,13 @@ public class BusquedaAmigosController {
         amigoOrigen.setUsuarioDestino(userDestino.get());
         amigoOrigen.setBloqueado(false);
         amigoService.saveEntity(amigoOrigen);
+        Notificacion notificacion = new Notificacion();
+        notificacion.setUserFrom(user.get().getNombre());
+        notificacion.setUserTo(userDestino.get().getNombre());
+        notificacion.setEstado("pendiente");
+        notificacion.setMensaje("El usuario " + user.get().getNombre() + " te ha enviado una solcitud de amistad");
+        notificacion.setRutaImagenUserFrom(user.get().getRutaImagen());
+        notificacionService.saveEntity(notificacion);
         attributes.addFlashAttribute("success","La solicitud ha sido enviada al usuario: "+userDestino.get().getNombre());
         return "redirect:/amigos/search?amigosBusqueda="+nombreUser;
 
