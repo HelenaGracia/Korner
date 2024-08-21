@@ -97,7 +97,7 @@ public class CuentaController {
                 usuario.setGeneros(usuarioNuevo.getGeneros());
                 usuario.setRole(role.get());
                 usuario.setAjustesInicioSesion("home");
-                usuario.setRutaImagen("/img/pacman.jpg");
+                usuario.setRutaImagen("/img/icon1.png");
                // usuario.setActiva(false);
                 usuarioService.saveEntity(usuario);
                 return "redirect:/home";

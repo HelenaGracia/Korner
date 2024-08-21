@@ -271,7 +271,7 @@ public class AjustesController {
                 String nombreExtension = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
                 if (nombreExtension.equals("png") || nombreExtension.equals("jpg")){
                     String nombreArchivo = "Usuario" + user.get().getId() + "ImagenPerfil." + FilenameUtils.getExtension(multipartFile.getOriginalFilename());
-                    if(!Objects.equals(user.get().getRutaImagen(), "/img/pacman.jpg")){
+                    if(!Objects.equals(user.get().getRutaImagen(), "/img/icon1.png")){
                         String nombreAntiguo = "Usuario" + user.get().getId() + "ImagenPerfil." + FilenameUtils.getExtension(user.get().getRutaImagen());
                         FileUtils.delete(new File(FILE_PATH_ROOT+ "/"+ nombreAntiguo));
                     }
