@@ -66,9 +66,7 @@ public class Usuario implements Serializable, UserDetails {
     @NotNull(message = "Debe seleccionar una opción")
     private Genero generos;
 
-    @OneToMany (fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
-    @JoinColumn (name = "id_usuarios", foreignKey = @ForeignKey(name = "fk_usuarios_notificaciones"))
-    private Set<Notificaciones> notificacion;
+
 
     @OneToMany (fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true, mappedBy = "usuarioAnime")
     private Set<Anime> animes;

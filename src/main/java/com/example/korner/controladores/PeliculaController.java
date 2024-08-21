@@ -247,7 +247,9 @@ public class PeliculaController {
 
             }
             peliculaService.deleteEntity(peliculaEliminar.get());
-            attributes.addFlashAttribute("success", "Pelicula borrada");
+
+            attributes.addFlashAttribute("success", "Película borrada");
+
         }catch (Exception e){
             logger.error("Error al eliminar la pelicula");
             attributes.addFlashAttribute("failed", "Error al eliminar");

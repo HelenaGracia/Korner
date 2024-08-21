@@ -193,10 +193,20 @@ nav li a img{
     height: auto;
     margin: 1rem auto;
 }
+/* Imagenes card Gestion */
+.img-card2{
+    width: 90%;
+    height: auto;
+    margin: 0.5rem auto;
+}
 
 /* texto color naranja */
 .txt-naranja{
     color: var(--second-color);
+}
+/* texto color rosa */
+.txt-rosa {
+    color: var(--firts-color);
 }
 /* Altura img carousel */
 .altura {

@@ -214,7 +214,7 @@ public class AnimeController {
 
 
     @PostMapping("/deleteAnime")
-    public String deleteAnime(Integer id, RedirectAttributes attributes){
+    public String deleteAnime(@RequestParam("id") Integer id, RedirectAttributes attributes){
         final String FILE_PATH_ROOT = "D:/ficheros";
         try {
             Optional<Anime> animeEliminar = animeService.getById(id);
@@ -222,14 +222,16 @@ public class AnimeController {
                 FileUtils.delete(new File(FILE_PATH_ROOT+ "/"+ "Anime" + animeEliminar.get().getId() + "Usuario" + animeEliminar.get().getUsuarioAnime().getId() +".jpg"));
             } else{
                 FileUtils.delete(new File(FILE_PATH_ROOT+ "/"+ "Anime" + animeEliminar.get().getId() + "Usuario" + animeEliminar.get().getUsuarioAnime().getId() +".png"));
+
             }
             animeService.deleteEntity(animeEliminar.get());
             attributes.addFlashAttribute("success", "Anime borrado");
         }catch (Exception e){
-            logger.error("Error al eliminar el anime");
-            attributes.addFlashAttribute("failed", "Error al eliminar anime");
+            logger.error("Error al eliminar la pelicula");
+            attributes.addFlashAttribute("failed", "Error al eliminar");
         }
-        return "redirect:/animes";
+
+        return "redirect:/peliculas";
     }
 
     @GetMapping("/search")
