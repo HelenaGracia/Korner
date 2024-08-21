@@ -46,5 +46,8 @@ public class Anime extends AbstractEntity{
     @JoinColumn (name = "id_anime_usuarios")
     private Usuario usuarioAnime;
 
+    @OneToMany (mappedBy = "anime", fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
+    private Set<ElementoCompartido> animesCompartidos;
+
 
 }
