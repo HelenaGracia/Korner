@@ -13,4 +13,5 @@ public interface NotificacionRepository extends JpaRepository<Notificacion, Inte
 
     Page<Notificacion> findAllByUserToAndEstado(String nombreUsuario, String estado, Pageable pageable);
     List<Notificacion> findAllByUserToAndEstado(String nombreUsuario, String estado);
+    List<Notificacion> findAllByUserToAndEstadoAndEstadoUsuario(String nombreUsuario, String estado, String estadoUsuario);
 }

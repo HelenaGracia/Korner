@@ -132,6 +132,8 @@ public class AmigosController {
         notificacion.setUserTo(userOrigen.get().getNombre());
         notificacion.setEstado("pendiente");
         notificacion.setMensaje("El usuario " + userDestino.get().getNombre() + " ha aceptado tu solicitud de amistad");
+        notificacion.setTipoElemento("solicitud");
+        notificacion.setIdTipoElemento(userDestino.get().getId());
         notificacion.setRutaImagenUserFrom(userDestino.get().getRutaImagen());
         notificacionService.saveEntity(notificacion);
         attributes.addFlashAttribute("success","La solicitud de amistad del usuario: " + userOrigen.get().getNombre() + " ha sido aceptada");

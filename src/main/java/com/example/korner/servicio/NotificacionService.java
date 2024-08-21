@@ -25,4 +25,7 @@ public class NotificacionService extends AbstractService<Notificacion, Integer, 
     public List<Notificacion> getAllNotificacionesByUserAndEstadoList(String nombreUsuario, String estado){
         return notificacionRepository.findAllByUserToAndEstado(nombreUsuario,estado);
     }
+    public List<Notificacion> getAllNotificacionesByUserAndEstadoListAndEstadoUsuario(String nombreUsuario, String estado, String estadoUsuario){
+        return notificacionRepository.findAllByUserToAndEstadoAndEstadoUsuario(nombreUsuario,estado, estadoUsuario);
+    }
 }

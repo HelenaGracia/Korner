@@ -34,6 +34,15 @@ public class Notificacion {
     @Column(name = "rutaImagen_From")
     private String rutaImagenUserFrom;
 
+    @Column(name = "tipoElemento")
+    private String tipoElemento;
+
+    @Column(name = "id_tipoElemento")
+    private Integer idTipoElemento;
+
+    @Column(name = "estadoUsuario")
+    private String estadoUsuario;
+
 
 
 }
