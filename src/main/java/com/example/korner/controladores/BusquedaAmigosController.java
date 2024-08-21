@@ -60,7 +60,7 @@ public class BusquedaAmigosController {
                 model.addAttribute("busquedaFallida","Debe introducir un nombre de usuario");
                 return "busquedaAmigos";
             }else {
-                pagina = usuarioService.getAllUsuariosSinListId(nombreUser,listIdAmigos,pageRequest);
+                pagina = usuarioService.getAllUsuariosSinListIdSinInactivos(nombreUser,listIdAmigos,pageRequest);
                 model.addAttribute("busquedaUsuarios",nombreUser);
                 if(pagina.getContent().isEmpty() ){
                     model.addAttribute("busquedaFallida","No se ha encontrado ningun usuario con ese nombre");

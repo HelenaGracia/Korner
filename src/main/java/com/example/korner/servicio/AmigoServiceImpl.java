@@ -21,23 +21,23 @@ public class AmigoServiceImpl extends AbstractService<Amigo,Integer, AmigosRepos
 
 
     public Page<Amigo> getAllAmigos (Usuario usuario, Pageable pageable) {
-        return amigosRepository.findAllByUsuarioOrigenAndBloqueadoFalseAndPendienteFalse(usuario,pageable);
+        return amigosRepository.findAllByUsuarioOrigenAndBloqueadoFalseAndPendienteFalseAndUsuarioDestino_ActivaTrue(usuario,pageable);
     }
 
     public Page<Amigo> getAllSolicitudesPendientes (Usuario usuario, Pageable pageable) {
-        return amigosRepository.findAllByUsuarioDestinoAndBloqueadoFalseAndPendienteTrue(usuario,pageable);
+        return amigosRepository.findAllByUsuarioDestinoAndBloqueadoFalseAndPendienteTrueAndUsuarioOrigen_ActivaTrue(usuario,pageable);
     }
 
     public Page<Amigo> getAllSolicitudesEnviadas (Usuario usuario, Pageable pageable) {
-        return amigosRepository.findAllByUsuarioOrigenAndBloqueadoFalseAndPendienteTrue(usuario,pageable);
+        return amigosRepository.findAllByUsuarioOrigenAndBloqueadoFalseAndPendienteTrueAndUsuarioDestino_ActivaTrue(usuario,pageable);
     }
 
     public Page<Amigo> getAllAmigosBloqueados (Usuario usuario, Pageable pageable) {
-        return amigosRepository.findAllByUsuarioOrigenAndBloqueadoTrue(usuario,pageable);
+        return amigosRepository.findAllByUsuarioOrigenAndBloqueadoTrueAndUsuarioDestino_ActivaTrue(usuario,pageable);
     }
 
     public Amigo getAmigo (Usuario usuarioDestino, Usuario usuarioOrigen) {
-        return amigosRepository.findAmigoByUsuarioDestinoAndUsuarioOrigen(usuarioDestino,usuarioOrigen);
+        return amigosRepository.findAmigoByUsuarioDestinoAndUsuarioOrigenAndUsuarioDestino_ActivaTrue(usuarioDestino,usuarioOrigen);
     }
 
     public List<Amigo> getAllAmigosList (Usuario usuarioOrigen) {
@@ -45,7 +45,7 @@ public class AmigoServiceImpl extends AbstractService<Amigo,Integer, AmigosRepos
     }
 
     public List<Amigo> getAllAmigosListNoBloqueadosNoPendientes (Usuario usuarioOrigen) {
-        return amigosRepository.findAllByUsuarioOrigenAndBloqueadoFalseAndPendienteFalse(usuarioOrigen);
+        return amigosRepository.findAllByUsuarioOrigenAndBloqueadoFalseAndPendienteFalseAndUsuarioDestino_ActivaTrue(usuarioOrigen);
     }
 
     public  Page<Amigo>getAllAmigosEnListaUsuarioDestino(Usuario usuarioOrigen,List<Usuario> listaUsuarioDestino, Pageable pageable){

@@ -48,7 +48,7 @@ public class Usuario implements Serializable, UserDetails {
 
     @Column (name = "correo" , length = 45)
     @NotBlank
-    @Email(message = "Introduzca un Email válido")
+    @Email(regexp = "^([0-9a-zA-Z]+[-._+&])*[0-9a-zA-Z]+@([-0-9a-zA-Z]+[.])+[a-zA-Z]{2,6}$" , message = "Introduzca un Email válido")
     private String correo;
 
     @Column (name = "imagen")

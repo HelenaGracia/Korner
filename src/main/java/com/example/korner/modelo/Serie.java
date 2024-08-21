@@ -38,7 +38,8 @@ public class Serie extends AbstractEntity{
 
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn (name = "id_serie_usuarios")
-
     private Usuario usuarioSerie;
 
+    @OneToMany (mappedBy = "serie", fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
+    private Set<ElementoCompartido> seriesCompartidas;
 }

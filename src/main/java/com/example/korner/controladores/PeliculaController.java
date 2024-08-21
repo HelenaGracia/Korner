@@ -137,7 +137,7 @@ public class PeliculaController {
                 pelicula.setImagenRuta( "/imagenes/leerImagen/" + nombreArchivo);
                 //Volvemos a guardar el objeto en la BBDD con los cambios
                 peliculaService.saveEntity(pelicula);
-                attributes.addFlashAttribute("success", "Elemento añadido correctamente");
+                attributes.addFlashAttribute("success", "Pelicula añadida correctamente");
             }catch (DataIntegrityViolationException e){
                 logger.error("Error al guardar la pelicula creada por nombres duplicados");
                 attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
@@ -220,7 +220,7 @@ public class PeliculaController {
 
                 //Volvemos a guardar el objeto en la BBDD con los cambios
                 peliculaService.saveEntity(pelicula);
-                attributes.addFlashAttribute("success","Elemento añadido correctamente");
+                attributes.addFlashAttribute("success","Pelicula modificada correctamente");
             } catch (DataIntegrityViolationException e){
                 logger.error("Error al guardar la pelicula modificada por nombres duplicados");
                 attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
@@ -247,7 +247,9 @@ public class PeliculaController {
 
             }
             peliculaService.deleteEntity(peliculaEliminar.get());
+
             attributes.addFlashAttribute("success", "Película borrada");
+
         }catch (Exception e){
             logger.error("Error al eliminar la pelicula");
             attributes.addFlashAttribute("failed", "Error al eliminar");

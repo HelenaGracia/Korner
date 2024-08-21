@@ -60,7 +60,7 @@ public class CompartidosController {
             model.addAttribute("peliculas",pagina.getContent());
         }else{
             model.addAttribute("nombreUsuario", nombreUsuario);
-            Optional<Usuario> usuarioBusqueda = usuarioService.getByName(nombreUsuario);
+            Optional<Usuario> usuarioBusqueda = usuarioService.getByNameUsuarioActivo(nombreUsuario);
             if(usuarioBusqueda.isPresent()){
                 pagina= peliculaService.getAllPeliculasCompartidosByListIdAndUsuario(listPeliculaId, usuarioBusqueda.get(), pageRequest);
                 Amigo amigoExiste = amigoService.getAmigo(usuarioBusqueda.get(),user.get());
@@ -120,7 +120,7 @@ public class CompartidosController {
             model.addAttribute("animes",pagina.getContent());
         }else{
             model.addAttribute("nombreUsuario", nombreUsuario);
-            Optional<Usuario> usuarioBusqueda = usuarioService.getByName(nombreUsuario);
+            Optional<Usuario> usuarioBusqueda = usuarioService.getByNameUsuarioActivo(nombreUsuario);
             if(usuarioBusqueda.isPresent()){
                 pagina= animeService.getAllAnimesCompartidosByListIdAndUsuario(listAnimeId, usuarioBusqueda.get(), pageRequest);
                 Amigo amigoExiste = amigoService.getAmigo(usuarioBusqueda.get(),user.get());
@@ -180,7 +180,7 @@ public class CompartidosController {
             model.addAttribute("videojuegos",pagina.getContent());
         }else{
             model.addAttribute("nombreUsuario", nombreUsuario);
-            Optional<Usuario> usuarioBusqueda = usuarioService.getByName(nombreUsuario);
+            Optional<Usuario> usuarioBusqueda = usuarioService.getByNameUsuarioActivo(nombreUsuario);
             if(usuarioBusqueda.isPresent()){
                 pagina = videojuegoService.getAllVideojuegosCompartidosByListIdAndUsuario(listVideojuegoId,usuarioBusqueda.get(), pageRequest);
                 Amigo amigoExiste = amigoService.getAmigo(usuarioBusqueda.get(),user.get());
@@ -240,7 +240,7 @@ public class CompartidosController {
             model.addAttribute("libros",pagina.getContent());
         }else{
             model.addAttribute("nombreUsuario", nombreUsuario);
-            Optional<Usuario> usuarioBusqueda = usuarioService.getByName(nombreUsuario);
+            Optional<Usuario> usuarioBusqueda = usuarioService.getByNameUsuarioActivo(nombreUsuario);
             if(usuarioBusqueda.isPresent()){
                 pagina = libroService.getAllLibroCompartidosByListIdAndUsuario(listlibroId,usuarioBusqueda.get(), pageRequest);
                 Amigo amigoExiste = amigoService.getAmigo(usuarioBusqueda.get(),user.get());
@@ -299,7 +299,7 @@ public class CompartidosController {
             model.addAttribute("series",pagina.getContent());
         }else{
             model.addAttribute("nombreUsuario", nombreUsuario);
-            Optional<Usuario> usuarioBusqueda = usuarioService.getByName(nombreUsuario);
+            Optional<Usuario> usuarioBusqueda = usuarioService.getByNameUsuarioActivo(nombreUsuario);
             if(usuarioBusqueda.isPresent()){
                 pagina= serieService.getAllSeriesCompartidosByListIdAndUsuario(listSerieId, usuarioBusqueda.get(), pageRequest);
                 Amigo amigoExiste = amigoService.getAmigo(usuarioBusqueda.get(),user.get());

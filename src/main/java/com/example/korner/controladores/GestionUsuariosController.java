@@ -61,4 +61,18 @@ public class GestionUsuariosController {
         attributes.addFlashAttribute("success","El usuario: " + usuarioEliminar.get().getNombre() + " ha sido eliminado");
         return "redirect:/gestionUsuarios";
     }
+
+    @GetMapping("/cambiarEstado/{id}")
+    public String cambiarEstadoUser(@PathVariable Integer id, RedirectAttributes attributes){
+        Optional<Usuario> usuarioInactivo = usuarioService.getById(id);
+        if(usuarioInactivo.get().getActiva()){
+            usuarioInactivo.get().setActiva(false);
+            attributes.addFlashAttribute("success","El usuario: " + usuarioInactivo.get().getNombre() + " ahora esta inactivo");
+            usuarioService.saveEntity(usuarioInactivo.get());
+            return "redirect:/gestionUsuarios";
+        }else usuarioInactivo.get().setActiva(true);
+        attributes.addFlashAttribute("success","El usuario: " + usuarioInactivo.get().getNombre() + " ahora esta activo");
+        usuarioService.saveEntity(usuarioInactivo.get());
+        return "redirect:/gestionUsuarios";
+    }
 }

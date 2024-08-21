@@ -33,4 +33,7 @@ public class Libro  extends AbstractEntity{
     @JoinColumn (name = "id_libro_usuarios")
     private Usuario usuarioLibro;
 
+    @OneToMany (mappedBy = "libro", fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
+    private Set<ElementoCompartido> librosCompartidos;
+
 }
