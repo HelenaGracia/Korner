@@ -306,6 +306,7 @@ public class CompartirController {
                     Notificacion notificacion = new Notificacion();
                     String nombreUsuarioOrigen = session.getAttribute("userName").toString();
                     notificacion.setUserFrom(nombreUsuarioOrigen);
+                    notificacion.setUserFromId(usuarioService.getByName(nombreUsuarioOrigen).get().getId());
                     notificacion.setUserTo(amigoDestino.getUsuarioOrigen().getNombre());
                     notificacion.setEstado("pendiente");
                     notificacion.setTipoElemento("pelicula");
@@ -334,6 +335,7 @@ public class CompartirController {
                     Notificacion notificacion = new Notificacion();
                     String nombreUsuarioOrigen = session.getAttribute("userName").toString();
                     notificacion.setUserFrom(nombreUsuarioOrigen);
+                    notificacion.setUserFromId(usuarioService.getByName(nombreUsuarioOrigen).get().getId());
                     notificacion.setUserTo(amigoDestino.getUsuarioOrigen().getNombre());
                     notificacion.setEstado("pendiente");
                     notificacion.setTipoElemento("serie");
@@ -359,6 +361,7 @@ public class CompartirController {
                     Notificacion notificacion = new Notificacion();
                     String nombreUsuarioOrigen = session.getAttribute("userName").toString();
                     notificacion.setUserFrom(nombreUsuarioOrigen);
+                    notificacion.setUserFromId(usuarioService.getByName(nombreUsuarioOrigen).get().getId());
                     notificacion.setUserTo(amigoDestino.getUsuarioOrigen().getNombre());
                     notificacion.setEstado("pendiente");
                     notificacion.setTipoElemento("anime");
@@ -384,6 +387,7 @@ public class CompartirController {
                     Notificacion notificacion = new Notificacion();
                     String nombreUsuarioOrigen = session.getAttribute("userName").toString();
                     notificacion.setUserFrom(nombreUsuarioOrigen);
+                    notificacion.setUserFromId(usuarioService.getByName(nombreUsuarioOrigen).get().getId());
                     notificacion.setUserTo(amigoDestino.getUsuarioOrigen().getNombre());
                     notificacion.setEstado("pendiente");
                     notificacion.setTipoElemento("libro");
@@ -409,6 +413,7 @@ public class CompartirController {
                     Notificacion notificacion = new Notificacion();
                     String nombreUsuarioOrigen = session.getAttribute("userName").toString();
                     notificacion.setUserFrom(nombreUsuarioOrigen);
+                    notificacion.setUserFromId(usuarioService.getByName(nombreUsuarioOrigen).get().getId());
                     notificacion.setUserTo(amigoDestino.getUsuarioOrigen().getNombre());
                     notificacion.setEstado("pendiente");
                     notificacion.setTipoElemento("videojuego");

@@ -89,9 +89,9 @@
         </div>
 
         <main class="content-wrap pt-5">
-          <div class="container ">
-            <section class="row align-items-center d-flex justify-content-center" >
-              <div  class="col-12 col-md-6 pb-1  border border-dark-subtle rounded" >
+          <div class="container  ">
+            <section class="row align-items-center d-flex justify-content-center " >
+              <div  class="col-8  pb-1  border border-dark-subtle rounded" >
                 <div class="row pb-1">
                   <div class="col-12 ">
                     <div th:if = "${size == 0}" class="text-center mt-5">
@@ -106,10 +106,10 @@
                 <div class="row" th:if ="${size > 0}">
                   <article th:each="notificacion:${notificaciones}" class="col-12 border-bottom border-dark-subtle ">
                     <div class="row">
-                      <div class="col-2 py-2 " >
-                        <img th:src="${notificacion.getRutaImagenUserFrom()}" alt="Imagen de perfil del usuario"  class="imgdrop-chat">
+                      <div class="col-2 py-2 d-flex justify-content-center " >
+                        <img th:src="${notificacion.getRutaImagenUserFrom()}" alt="Imagen de perfil del usuario"  class="imgdrop-noti">
                       </div>
-                      <div class="col-10 pt-3 ">
+                      <div class="col-10 pt-3">
                         <p th:text="${notificacion.getMensaje()}"></p>
                       </div>
                     </div>
@@ -146,11 +146,7 @@
               </div>
 
             </section>
-            <div class="d-flex justify-content-end pb-5">
-                <a href="#">
-                  <i class="bi bi-chat"></i>
-                </a>
-            </div>
+
           </div> 
         </main>
         <footer class="bg-primary "></footer>

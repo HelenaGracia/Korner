@@ -655,6 +655,15 @@ nav li a img{
     margin-bottom: 0.2rem;
 }
 
+.imgdrop-noti{
+    width: 3.5rem;
+    height:3.5rem;
+    clip-path: circle();
+
+
+
+}
+
 .clickchat:active{
     background-color: white;
     color: black;

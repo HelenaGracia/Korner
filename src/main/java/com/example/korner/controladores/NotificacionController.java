@@ -38,121 +38,261 @@ public class NotificacionController {
         this.usuarioSecurityService = usuarioSecurityService;
     }
 
+//    @GetMapping("/numeroNotificaciones")
+//    public ResponseEntity<String> contarNotificacionesPendientes(HttpSession session){
+//        String nombreUsuario = session.getAttribute("userName").toString();
+//        List<Notificacion> listaNotificaciones = notificacionService.getAllNotificacionesByUserAndEstadoList(nombreUsuario,"pendiente");
+//        listaNotificaciones.forEach(notificacion -> {
+//            switch (notificacion.getTipoElemento()){
+//                case "pelicula":
+//                    Optional<Pelicula> pelicula = peliculaService.getById(notificacion.getIdTipoElemento());
+//                    if (pelicula.isEmpty()){
+//                        notificacionService.deleteEntity(notificacion);
+//
+//                    }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isPresent()){
+//                        if (!usuarioSecurityService.getByName(notificacion.getUserFrom()).get().getActiva()){
+//                            notificacion.setEstadoUsuario("inactivo");
+//                            notificacionService.saveEntity(notificacion);
+//                        }
+//                        else {
+//                            notificacion.setEstadoUsuario("activo");
+//                            notificacion.setRutaImagenUserFrom(usuarioSecurityService.getById(notificacion.getUserFromId()).get().getRutaImagen());
+//                            notificacionService.saveEntity(notificacion);
+//
+//                        }
+//                    }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isEmpty()){
+//                        notificacionService.deleteEntity(notificacion);
+//                }
+//                    break;
+//                case "serie":
+//                    Optional<Serie> serie = serieService.getById(notificacion.getIdTipoElemento());
+//                    if (serie.isEmpty()){
+//                        notificacionService.deleteEntity(notificacion);
+//
+//                    }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isPresent()){
+//                        if (!usuarioSecurityService.getByName(notificacion.getUserFrom()).get().getActiva()){
+//                            notificacion.setEstadoUsuario("inactivo");
+//                            notificacionService.saveEntity(notificacion);
+//                        }
+//                        else {
+//                            notificacion.setEstadoUsuario("activo");
+//                            notificacion.setRutaImagenUserFrom(usuarioSecurityService.getById(notificacion.getUserFromId()).get().getRutaImagen());
+//                            notificacionService.saveEntity(notificacion);
+//
+//                        }
+//                    }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isEmpty()){
+//                        notificacionService.deleteEntity(notificacion);
+//                    }
+//                    break;
+//                case "libro":
+//                    Optional<Libro> libro = libroService.getById(notificacion.getIdTipoElemento());
+//                    if (libro.isEmpty()){
+//                        notificacionService.deleteEntity(notificacion);
+//
+//                    }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isPresent()){
+//                        if (!usuarioSecurityService.getByName(notificacion.getUserFrom()).get().getActiva()){
+//                            notificacion.setEstadoUsuario("inactivo");
+//                            notificacionService.saveEntity(notificacion);
+//                        }
+//                        else {
+//                            notificacion.setEstadoUsuario("activo");
+//                            notificacion.setRutaImagenUserFrom(usuarioSecurityService.getById(notificacion.getUserFromId()).get().getRutaImagen());
+//                            notificacionService.saveEntity(notificacion);
+//
+//                        }
+//                    }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isEmpty()){
+//                        notificacionService.deleteEntity(notificacion);
+//                    }
+//                    break;
+//                case "videojuego":
+//                    Optional<Videojuego> videojuego = videojuegoService.getById(notificacion.getIdTipoElemento());
+//                    if (videojuego.isEmpty()){
+//                        notificacionService.deleteEntity(notificacion);
+//
+//                    }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isPresent()){
+//                        if (!usuarioSecurityService.getByName(notificacion.getUserFrom()).get().getActiva()){
+//                            notificacion.setEstadoUsuario("inactivo");
+//                            notificacionService.saveEntity(notificacion);
+//                        }
+//                        else {
+//                            notificacion.setEstadoUsuario("activo");
+//                            notificacion.setRutaImagenUserFrom(usuarioSecurityService.getById(notificacion.getUserFromId()).get().getRutaImagen());
+//                            notificacionService.saveEntity(notificacion);
+//
+//                        }
+//                    }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isEmpty()){
+//                        notificacionService.deleteEntity(notificacion);
+//                    }
+//                    break;
+//                case "anime":
+//                    Optional<Anime> anime = animeService.getById(notificacion.getIdTipoElemento());
+//                    if (anime.isEmpty()){
+//                        notificacionService.deleteEntity(notificacion);
+//
+//                    }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isPresent()){
+//                        if (!usuarioSecurityService.getByName(notificacion.getUserFrom()).get().getActiva()){
+//                            notificacion.setEstadoUsuario("inactivo");
+//                            notificacionService.saveEntity(notificacion);
+//                        }
+//                        else {
+//                            notificacion.setEstadoUsuario("activo");
+//                            notificacion.setRutaImagenUserFrom(usuarioSecurityService.getById(notificacion.getUserFromId()).get().getRutaImagen());
+//                            notificacionService.saveEntity(notificacion);
+//
+//                        }
+//                    }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isEmpty()){
+//                        notificacionService.deleteEntity(notificacion);
+//                    }
+//                    break;
+//                case "solicitud":
+//                    Optional<Usuario> usuario = usuarioSecurityService.getById(notificacion.getUserFromId());
+//                    if (usuario.isEmpty()){
+//                        notificacionService.deleteEntity(notificacion);
+//                    }else {
+//                        if (!usuario.get().getActiva()){
+//                            notificacion.setEstadoUsuario("inactivo");
+//                            notificacionService.saveEntity(notificacion);
+//                        }
+//                        else {
+//                            notificacion.setEstadoUsuario("activo");
+//                            notificacion.setRutaImagenUserFrom(usuarioSecurityService.getById(notificacion.getUserFromId()).get().getRutaImagen());
+//                            notificacionService.saveEntity(notificacion);
+//                        }
+//                    }break;
+//            }
+//        });
+//        List<Notificacion> listaNotificacionesActualizada = notificacionService.getAllNotificacionesByUserAndEstadoListAndEstadoUsuario(nombreUsuario,"pendiente", "activo");
+//        return ResponseEntity.ok(String.valueOf(listaNotificacionesActualizada.size())) ;
+//    }
+
     @GetMapping("/numeroNotificaciones")
     public ResponseEntity<String> contarNotificacionesPendientes(HttpSession session){
         String nombreUsuario = session.getAttribute("userName").toString();
         List<Notificacion> listaNotificaciones = notificacionService.getAllNotificacionesByUserAndEstadoList(nombreUsuario,"pendiente");
-        listaNotificaciones.forEach(notificacion -> {
-            switch (notificacion.getTipoElemento()){
-                case "pelicula":
-                    Optional<Pelicula> pelicula = peliculaService.getById(notificacion.getIdTipoElemento());
-                    if (pelicula.isEmpty()){
-                        notificacionService.deleteEntity(notificacion);
+            for(Notificacion notificacion: listaNotificaciones){
+                switch (notificacion.getTipoElemento()){
+                    case "pelicula":
+                        Optional<Pelicula> pelicula = peliculaService.getById(notificacion.getIdTipoElemento());
+                        if (pelicula.isEmpty()){
+                            notificacionService.deleteEntity(notificacion);
 
-                    }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isPresent()){
-                        if (!usuarioSecurityService.getByName(notificacion.getUserFrom()).get().getActiva()){
-                            notificacion.setEstadoUsuario("inactivo");
-                            notificacionService.saveEntity(notificacion);
+                        }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isPresent()){
+                            if (!usuarioSecurityService.getByName(notificacion.getUserFrom()).get().getActiva()){
+                                notificacion.setEstadoUsuario("inactivo");
+                                notificacionService.saveEntity(notificacion);
+                            }
+                            else {
+                                notificacion.setEstadoUsuario("activo");
+                                notificacion.setRutaImagenUserFrom(usuarioSecurityService.getById(notificacion.getUserFromId()).get().getRutaImagen());
+                                notificacionService.saveEntity(notificacion);
+
+                            }
+                        }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isEmpty()){
+                            notificacionService.deleteEntity(notificacion);
                         }
-                        else {
-                            notificacion.setEstadoUsuario("activo");
-                            notificacionService.saveEntity(notificacion);
+                        break;
+                    case "serie":
+                        Optional<Serie> serie = serieService.getById(notificacion.getIdTipoElemento());
+                        if (serie.isEmpty()){
+                            notificacionService.deleteEntity(notificacion);
+
+                        }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isPresent()){
+                            if (!usuarioSecurityService.getByName(notificacion.getUserFrom()).get().getActiva()){
+                                notificacion.setEstadoUsuario("inactivo");
+                                notificacionService.saveEntity(notificacion);
+                            }
+                            else {
+                                notificacion.setEstadoUsuario("activo");
+                                notificacion.setRutaImagenUserFrom(usuarioSecurityService.getById(notificacion.getUserFromId()).get().getRutaImagen());
+                                notificacionService.saveEntity(notificacion);
+
+                            }
+                        }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isEmpty()){
+                            notificacionService.deleteEntity(notificacion);
                         }
-                    }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isEmpty()){
-                        notificacionService.deleteEntity(notificacion);
+                        break;
+                    case "libro":
+                        Optional<Libro> libro = libroService.getById(notificacion.getIdTipoElemento());
+                        if (libro.isEmpty()){
+                            notificacionService.deleteEntity(notificacion);
+
+                        }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isPresent()){
+                            if (!usuarioSecurityService.getByName(notificacion.getUserFrom()).get().getActiva()){
+                                notificacion.setEstadoUsuario("inactivo");
+                                notificacionService.saveEntity(notificacion);
+                            }
+                            else {
+                                notificacion.setEstadoUsuario("activo");
+                                notificacion.setRutaImagenUserFrom(usuarioSecurityService.getById(notificacion.getUserFromId()).get().getRutaImagen());
+                                notificacionService.saveEntity(notificacion);
+
+                            }
+                        }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isEmpty()){
+                            notificacionService.deleteEntity(notificacion);
+                        }
+                        break;
+                    case "videojuego":
+                        Optional<Videojuego> videojuego = videojuegoService.getById(notificacion.getIdTipoElemento());
+                        if (videojuego.isEmpty()){
+                            notificacionService.deleteEntity(notificacion);
+
+                        }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isPresent()){
+                            if (!usuarioSecurityService.getByName(notificacion.getUserFrom()).get().getActiva()){
+                                notificacion.setEstadoUsuario("inactivo");
+                                notificacionService.saveEntity(notificacion);
+                            }
+                            else {
+                                notificacion.setEstadoUsuario("activo");
+                                notificacion.setRutaImagenUserFrom(usuarioSecurityService.getById(notificacion.getUserFromId()).get().getRutaImagen());
+                                notificacionService.saveEntity(notificacion);
+
+                            }
+                        }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isEmpty()){
+                            notificacionService.deleteEntity(notificacion);
+                        }
+                        break;
+                    case "anime":
+                        Optional<Anime> anime = animeService.getById(notificacion.getIdTipoElemento());
+                        if (anime.isEmpty()){
+                            notificacionService.deleteEntity(notificacion);
+
+                        }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isPresent()){
+                            if (!usuarioSecurityService.getByName(notificacion.getUserFrom()).get().getActiva()){
+                                notificacion.setEstadoUsuario("inactivo");
+                                notificacionService.saveEntity(notificacion);
+                            }
+                            else {
+                                notificacion.setEstadoUsuario("activo");
+                                notificacion.setRutaImagenUserFrom(usuarioSecurityService.getById(notificacion.getUserFromId()).get().getRutaImagen());
+                                notificacionService.saveEntity(notificacion);
+
+                            }
+                        }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isEmpty()){
+                            notificacionService.deleteEntity(notificacion);
+                        }
+                        break;
+                    case "solicitud":
+                        Optional<Usuario> usuario = usuarioSecurityService.getById(notificacion.getUserFromId());
+                        if (usuario.isEmpty()){
+                            notificacionService.deleteEntity(notificacion);
+                        }else {
+                            if (!usuario.get().getActiva()){
+                                notificacion.setEstadoUsuario("inactivo");
+                                notificacionService.saveEntity(notificacion);
+                            }
+                            else {
+                                notificacion.setEstadoUsuario("activo");
+                                notificacion.setRutaImagenUserFrom(usuarioSecurityService.getById(notificacion.getUserFromId()).get().getRutaImagen());
+                                notificacionService.saveEntity(notificacion);
+                            }
+                        }break;
                 }
-                    break;
-                case "serie":
-                    Optional<Serie> serie = serieService.getById(notificacion.getIdTipoElemento());
-                    if (serie.isEmpty()){
-                        notificacionService.deleteEntity(notificacion);
-
-                    }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isPresent()){
-                        if (!usuarioSecurityService.getByName(notificacion.getUserFrom()).get().getActiva()){
-                            notificacion.setEstadoUsuario("inactivo");
-                            notificacionService.saveEntity(notificacion);
-                        }
-                        else {
-                            notificacion.setEstadoUsuario("activo");
-                            notificacionService.saveEntity(notificacion);
-                        }
-                    }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isEmpty()){
-                        notificacionService.deleteEntity(notificacion);
-                    }
-                    break;
-                case "libro":
-                    Optional<Libro> libro = libroService.getById(notificacion.getIdTipoElemento());
-                    if (libro.isEmpty()){
-                        notificacionService.deleteEntity(notificacion);
-
-                    }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isPresent()){
-                        if (!usuarioSecurityService.getByName(notificacion.getUserFrom()).get().getActiva()){
-                            notificacion.setEstadoUsuario("inactivo");
-                            notificacionService.saveEntity(notificacion);
-                        }
-                        else {
-                            notificacion.setEstadoUsuario("activo");
-                            notificacionService.saveEntity(notificacion);
-                        }
-                    }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isEmpty()){
-                        notificacionService.deleteEntity(notificacion);
-                    }
-                    break;
-                case "videojuego":
-                    Optional<Videojuego> videojuego = videojuegoService.getById(notificacion.getIdTipoElemento());
-                    if (videojuego.isEmpty()){
-                        notificacionService.deleteEntity(notificacion);
-
-                    }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isPresent()){
-                        if (!usuarioSecurityService.getByName(notificacion.getUserFrom()).get().getActiva()){
-                            notificacion.setEstadoUsuario("inactivo");
-                            notificacionService.saveEntity(notificacion);
-                        }
-                        else {
-                            notificacion.setEstadoUsuario("activo");
-                            notificacionService.saveEntity(notificacion);
-                        }
-                    }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isEmpty()){
-                        notificacionService.deleteEntity(notificacion);
-                    }
-                    break;
-                case "anime":
-                    Optional<Anime> anime = animeService.getById(notificacion.getIdTipoElemento());
-                    if (anime.isEmpty()){
-                        notificacionService.deleteEntity(notificacion);
-
-                    }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isPresent()){
-                        if (!usuarioSecurityService.getByName(notificacion.getUserFrom()).get().getActiva()){
-                            notificacion.setEstadoUsuario("inactivo");
-                            notificacionService.saveEntity(notificacion);
-                        }
-                        else {
-                            notificacion.setEstadoUsuario("activo");
-                            notificacionService.saveEntity(notificacion);
-                        }
-                    }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isEmpty()){
-                        notificacionService.deleteEntity(notificacion);
-                    }
-                    break;
-                case "solicitud":
-                    Optional<Usuario> usuario = usuarioSecurityService.getById(notificacion.getIdTipoElemento());
-                    if (usuario.isEmpty()){
-                        notificacionService.deleteEntity(notificacion);
-                    }else {
-                        if (!usuario.get().getActiva()){
-                            notificacion.setEstadoUsuario("inactivo");
-                            notificacionService.saveEntity(notificacion);
-                        }
-                        else {
-                            notificacion.setEstadoUsuario("activo");
-                            notificacionService.saveEntity(notificacion);
-                        }
-                    }break;
             }
-        });
         List<Notificacion> listaNotificacionesActualizada = notificacionService.getAllNotificacionesByUserAndEstadoListAndEstadoUsuario(nombreUsuario,"pendiente", "activo");
+
+
         return ResponseEntity.ok(String.valueOf(listaNotificacionesActualizada.size())) ;
-    }
+        }
 
 
     @GetMapping("/leerNotificaciones")
@@ -163,10 +303,59 @@ public class NotificacionController {
             notificacion.setEstado("leido");
             notificacionService.saveEntity(notificacion);
         });
+        List<Notificacion> listaNotificacionesLeidas = notificacionService.getAllNotificacionesByUserAndEstadoList(nombreUsuario,"leido");
+        for (Notificacion notificacion : listaNotificacionesLeidas){
+            Optional<Usuario> usuario = usuarioSecurityService.getById(notificacion.getUserFromId());
+            if (usuario.isEmpty()){
+                notificacionService.deleteEntity(notificacion);
+            }else {
+                if (usuario.get().getActiva()){
+                    notificacion.setEstadoUsuario("activo");
+                    notificacion.setRutaImagenUserFrom(usuario.get().getRutaImagen());
+                    notificacionService.saveEntity(notificacion);
+                    switch (notificacion.getTipoElemento()){
+                        case "pelicula":
+                            Optional<Pelicula> pelicula = peliculaService.getById(notificacion.getIdTipoElemento());
+                            if (pelicula.isEmpty()){
+                                notificacionService.deleteEntity(notificacion);
+                            }
+                            break;
+                        case "serie":
+                            Optional<Serie> serie = serieService.getById(notificacion.getIdTipoElemento());
+                            if (serie.isEmpty()){
+                                notificacionService.deleteEntity(notificacion);
+                            }
+                            break;
+                        case "anime":
+                            Optional<Anime> anime = animeService.getById(notificacion.getIdTipoElemento());
+                            if (anime.isEmpty()){
+                                notificacionService.deleteEntity(notificacion);
+                            }
+                            break;
+                        case "libro":
+                            Optional<Libro> libro = libroService.getById(notificacion.getIdTipoElemento());
+                            if (libro.isEmpty()){
+                                notificacionService.deleteEntity(notificacion);
+                            }
+                            break;
+                        case "videojuego":
+                            Optional<Videojuego> videojuego = videojuegoService.getById(notificacion.getIdTipoElemento());
+                            if (videojuego.isEmpty()){
+                                notificacionService.deleteEntity(notificacion);
+                            }
+                            break;
+                    }
+
+                }else{
+                    notificacion.setEstadoUsuario("inactivo");
+                    notificacionService.saveEntity(notificacion);
+                }
+            }
+        }
 
         int currentPage = page.orElse(1);
         PageRequest pageRequest = PageRequest.of(currentPage - 1, 4);;
-        Page<Notificacion> pagina = notificacionService.getAllNotificacionesByUserAndEstado(nombreUsuario, "leido", pageRequest);
+        Page<Notificacion> pagina = notificacionService.getAllNotificacionesByUserAndEstadoEstadoUsuarioPage(nombreUsuario, "leido","activo", pageRequest);
         model.addAttribute("pagina", pagina);
         int totalPages = pagina.getTotalPages();
         if (totalPages > 0) {

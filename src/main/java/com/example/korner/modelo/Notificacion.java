@@ -43,6 +43,9 @@ public class Notificacion {
     @Column(name = "estadoUsuario")
     private String estadoUsuario;
 
+    @Column(name = "id_userFrom")
+    private Integer userFromId;
+
 
 
 }

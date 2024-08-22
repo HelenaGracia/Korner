@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface NotificacionRepository extends JpaRepository<Notificacion, Integer> {
 
-    Page<Notificacion> findAllByUserToAndEstado(String nombreUsuario, String estado, Pageable pageable);
+    Page<Notificacion> findAllByUserToAndEstadoAndEstadoUsuario(String nombreUsuario, String estado, String estadoUsuario, Pageable pageable);
     List<Notificacion> findAllByUserToAndEstado(String nombreUsuario, String estado);
     List<Notificacion> findAllByUserToAndEstadoAndEstadoUsuario(String nombreUsuario, String estado, String estadoUsuario);
 }
