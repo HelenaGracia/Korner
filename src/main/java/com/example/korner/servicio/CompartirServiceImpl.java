@@ -19,7 +19,7 @@ public class CompartirServiceImpl extends AbstractService<ElementoCompartido,Int
     }
 
     public List<ElementoCompartido> getAllAmigosByAmigoOrigen(Usuario amigos_usuarioOrigen){
-        return compartirRepository.findAllByAmigos_UsuarioOrigen(amigos_usuarioOrigen);
+        return compartirRepository.findAllByAmigos_UsuarioOrigenAndAmigos_UsuarioDestino_ActivaTrue(amigos_usuarioOrigen);
     }
 
 }
