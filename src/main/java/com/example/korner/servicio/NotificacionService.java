@@ -18,11 +18,14 @@ public class NotificacionService extends AbstractService<Notificacion, Integer, 
         this.notificacionRepository = notificacionRepository1;
     }
 
-    public Page<Notificacion> getAllNotificacionesByUserAndEstado(String nombreUsuario, String estado, Pageable pageable){
-        return notificacionRepository.findAllByUserToAndEstado(nombreUsuario,estado, pageable);
+    public Page<Notificacion> getAllNotificacionesByUserAndEstadoEstadoUsuarioPage(String nombreUsuario, String estado,String estadoUsuario, Pageable pageable){
+        return notificacionRepository.findAllByUserToAndEstadoAndEstadoUsuario(nombreUsuario,estado,estadoUsuario, pageable);
     }
 
     public List<Notificacion> getAllNotificacionesByUserAndEstadoList(String nombreUsuario, String estado){
         return notificacionRepository.findAllByUserToAndEstado(nombreUsuario,estado);
+    }
+    public List<Notificacion> getAllNotificacionesByUserAndEstadoListAndEstadoUsuario(String nombreUsuario, String estado, String estadoUsuario){
+        return notificacionRepository.findAllByUserToAndEstadoAndEstadoUsuario(nombreUsuario,estado, estadoUsuario);
     }
 }
