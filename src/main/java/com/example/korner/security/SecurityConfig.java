@@ -52,6 +52,8 @@ public class SecurityConfig {
                     .requestMatchers("/fonts/**").permitAll()
                     .requestMatchers("/").permitAll()
                     .requestMatchers("/creacion").permitAll()
+                    .requestMatchers("/forgottenPasswordShow").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/forgottenPassword").permitAll()
                     .requestMatchers(HttpMethod.POST, "/creacion/**").permitAll()
                     .requestMatchers("/gestion",
                             "/gestionUsuarios",
