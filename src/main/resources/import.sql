@@ -22,7 +22,7 @@ INSERT INTO generos (id_generos, descripcion) VALUES ("3","No binario");
 INSERT INTO roles (id_rol,nombre_rol) VALUES ("1","ROLE_USER");
 INSERT INTO roles (id_rol,nombre_rol) VALUES ("2","ROLE_ADMIN");
 
-INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena,id_roles,ajustes_sesion,correo,id_generos, imagen,activa) VALUES ("99","user","1998","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","1","animes","prueba1@hotmail.com","3", "/img/icon1.png",true);
+INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena,id_roles,ajustes_sesion,correo,id_generos, imagen,activa) VALUES ("99","user","1998","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","1","animes","kornergestion@gmail.com","3", "/img/icon1.png",true);
 INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena, id_roles,ajustes_sesion,correo,id_generos, imagen,activa) VALUES ("98","useradmin","1990","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","2","home","prueba2@hotmail.com","3","/img/icon1.png",true);
 INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena, id_roles, ajustes_sesion,correo,id_generos,imagen,activa) VALUES ("100","user1","2004","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","1", "home","prueba3@hotmail.com","3","/img/icon1.png",true);
 INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena, id_roles, ajustes_sesion,correo,id_generos,imagen,activa) VALUES ("101","user2","1963","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","1", "home","prueba4@hotmail.com","3","/img/icon1.png",true);
