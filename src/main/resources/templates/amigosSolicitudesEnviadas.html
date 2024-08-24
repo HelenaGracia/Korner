@@ -126,17 +126,20 @@
                     </div>
                 </div>
                 <!-- FIN PAGINACION -->
-                <table class="table" th:if = "${size > 0}">
+                <div class="table-responsive">
+                    <table class="table" th:if = "${size > 0}">
 
-                    <tbody>
-                    <tr th:each="amigo:${amigos}">
-                        <th scope="row" ><img th:src="${amigo.getUsuarioDestino().getRutaImagen()}" alt="imagen perfil" class="imgdrop-chat" /></th>
-                        <td th:text="${amigo.getUsuarioDestino().getNombre()}"></td>
-                        <td>Pendiente de Aceptar</td>
-                        <td ><a role="button" class="btn btn-primary" th:href="@{/amigos/eliminarSolicitud/{id} (id=${amigo.getUsuarioDestino().id})}" >Eliminar</a></td>
-                    </tr>
-                    </tbody>
-                </table>
+                        <tbody>
+                        <tr th:each="amigo:${amigos}">
+                            <th scope="row" ><img th:src="${amigo.getUsuarioDestino().getRutaImagen()}" alt="imagen perfil" class="imgdrop-chat" /></th>
+                            <td th:text="${amigo.getUsuarioDestino().getNombre()}"></td>
+                            <td>Pendiente de Aceptar</td>
+                            <td ><a role="button" class="btn btn-primary" th:href="@{/amigos/eliminarSolicitud/{id} (id=${amigo.getUsuarioDestino().id})}" >Eliminar</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
 
                 <!-- INICIO PAGINACION 2-->
                 <div class="row">

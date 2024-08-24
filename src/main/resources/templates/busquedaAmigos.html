@@ -142,17 +142,20 @@
                     </div>
                 </div>
                 <!-- FIN PAGINACION -->
+                <div class="table-responsive">
+                    <table class="table" th:if = "${size > 0}">
 
-                <table class="table" th:if = "${size > 0}">
+                        <tbody>
+                        <tr th:each="usuario:${usuarios}">
+                            <th scope="row" ><img th:src="${usuario.getRutaImagen()}" alt="imagen perfil" class="imgdrop-chat" /></th>
+                            <td th:text="${usuario.nombre}"></td>
+                            <td ><a role="button" class="btn btn-primary" th:href="@{/amigos/enviarSolicitud/{id}/{nombreUser} (id=${usuario.id},nombreUser=${busquedaUsuarios})}" >Solicitar Amistad</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-                    <tbody>
-                    <tr th:each="usuario:${usuarios}">
-                        <th scope="row" ><img th:src="${usuario.getRutaImagen()}" alt="imagen perfil" class="imgdrop-chat" /></th>
-                        <td th:text="${usuario.nombre}"></td>
-                        <td ><a role="button" class="btn btn-primary" th:href="@{/amigos/enviarSolicitud/{id}/{nombreUser} (id=${usuario.id},nombreUser=${busquedaUsuarios})}" >Solicitar Amistad</a></td>
-                    </tr>
-                    </tbody>
-                </table>
+
 
                 <!-- INICIO PAGINACION 2-->
                 <div class="row">

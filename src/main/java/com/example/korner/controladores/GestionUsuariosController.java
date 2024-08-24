@@ -3,6 +3,8 @@ package com.example.korner.controladores;
 import com.example.korner.modelo.Usuario;
 import com.example.korner.servicio.UsuarioSecurityService;
 import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -28,6 +30,7 @@ public class GestionUsuariosController {
         this.usuarioService = usuarioService;
 
     }
+    private final Logger logger = LoggerFactory.getLogger(GestionUsuariosController.class);
 
     @GetMapping("")
     public String showUsuarios(@RequestParam("page") Optional<Integer> page, Model model, HttpSession session){
@@ -74,5 +77,47 @@ public class GestionUsuariosController {
         attributes.addFlashAttribute("success","El usuario: " + usuarioInactivo.get().getNombre() + " ahora esta activo");
         usuarioService.saveEntity(usuarioInactivo.get());
         return "redirect:/gestionUsuarios";
+    }
+
+    /**
+     * Metódo en el que se realiza una búsqueda de un usuario a través de su nombre o el email
+     * @param busqueda String recibido desde el input del formulario
+     * @param model Model
+     * @param session HttpSession
+     * @param attributes RedirectAttributes
+     * @return archivo html gestionUsuarios o redirect al endpoint /gestionUsuarios
+     */
+    @GetMapping("/search")
+    public String search(@RequestParam(name = "busqueda", required = false) String busqueda,
+                         Model model,
+                         HttpSession session, RedirectAttributes attributes){
+        try {
+            model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
+            model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
+
+            Optional<Usuario> userbyName = usuarioService.getByName(busqueda);
+            Optional<Usuario> userByEmail = usuarioService.getByCorreo(busqueda);
+
+            if (userbyName.isPresent()){
+                model.addAttribute("usuarioBusqueda", userbyName.get());
+
+            }else {
+                if (userByEmail.isPresent()){
+                    model.addAttribute("usuarioBusqueda", userByEmail.get());
+
+                }
+                else {
+                    attributes.addFlashAttribute("failed", "La búsqueda por correo o usuario no ha dado resultado" +
+                            " puede que el correo o usuario sea incorrecto o que el usuario esté eliminado");
+                    return "redirect:/gestionUsuarios";
+                }
+            }
+
+        }catch (Exception e){
+            logger.error("Error en la busqueda por correo o nombre de usuario");
+            model.addAttribute("failed", "Error en la búsqueda");
+            return "redirect:/gestionUsuarios";
+        }
+        return "gestionUsuarios";
     }
 }

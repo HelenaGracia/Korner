@@ -175,26 +175,28 @@
 
 
               <!-- FIN PAGINACION -->
+              <div class="table-responsive">
+                <table class="table" th:if = "${size > 0}">
+                  <thead class="table-light">
+                  <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Modificar</th>
+                    <th scope="col">Eliminar</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr th:each="formato:${formatos}">
+                    <th scope="row" th:text="${formato.id}"></th>
+                    <td th:text="${formato.nombre}"></td>
+                    <td ><a role="button" data-bs-toggle="modal" th:attr="data-bs-target='#modalFormatoModificar' +*{formato.id}"><i class="bi bi-pencil fs-4 ps-4"></i></a></td>
+                    <td ><a role="button" data-bs-toggle="modal" th:attr="data-bs-target='#modalFormatoDelete' +*{formato.id}"><i class="bi bi-trash3 fs-4 ps-4"></i></a></td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
 
 
-              <table class="table" th:if = "${size > 0}">
-                <thead class="table-light">
-                <tr>
-                  <th scope="col">Id</th>
-                  <th scope="col">Nombre</th>
-                  <th scope="col">Modificar</th>
-                  <th scope="col">Eliminar</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="formato:${formatos}">
-                  <th scope="row" th:text="${formato.id}"></th>
-                  <td th:text="${formato.nombre}"></td>
-                  <td ><a role="button" data-bs-toggle="modal" th:attr="data-bs-target='#modalFormatoModificar' +*{formato.id}"><i class="bi bi-pencil fs-4 ps-4"></i></a></td>
-                  <td ><a role="button" data-bs-toggle="modal" th:attr="data-bs-target='#modalFormatoDelete' +*{formato.id}"><i class="bi bi-trash3 fs-4 ps-4"></i></a></td>
-                </tr>
-                </tbody>
-              </table>
             </article>
           </section>
 
