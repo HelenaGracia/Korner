@@ -38,19 +38,18 @@ public class ContraseniaOlvidadaController {
         Optional<Usuario> usuario = usuarioService.getByCorreo(correo);
         if (usuario.isPresent()){
             StringBuilder passwordRandom = generarPassword(usuario);
-            //Todo Enviar correo con la nueva contraseña
             String mensaje = "Estimado/a " + usuario.get().getNombre() + " le proporcionamos la siguiente contraseña " +
                     "para que pueda acceder a su cuenta " + passwordRandom + " le recomendamos que la cambie por una" +
                     " personal en cuanto haya accedido en Ajustes -> cambiar contraseña. Muchas gracias por haces uso de" +
                     " nuestros servicios";
             emailService.sendEmail(usuario.get().getCorreo(),"Nueva contraseña", mensaje);
-            attributes.addFlashAttribute("success", "Se le ha enviado un correo a la " +
-                    "dirección proporcionada con la nueva contraseña, no se olvide de pulsar en click here");
+            attributes.addFlashAttribute("success", "Se le ha enviado un correo a " + usuario.get().getCorreo() +
+                    " con la nueva contraseña, no se olvide de pulsar en click here");
 
         }else {
             attributes.addFlashAttribute("failed", "La dirección de correo no es la correcta o " +
                     "su cuenta puede estar elminada o desactivada, para más información póngase en contacto con nosotros " +
-                    "en korneradministracion@gmail.com");
+                    "en kornergestion@gmail.com");
         }
         return "redirect:/forgottenPasswordShow";
     }
@@ -61,12 +60,14 @@ public class ContraseniaOlvidadaController {
     public String forgottenPasswordAutenticado(String correo, RedirectAttributes attributes){
         Optional<Usuario> usuario = usuarioService.getByCorreo(correo);
         if (usuario.isPresent()){
-            // Método para generar una contraseña alfanumérica aleatoria de una longitud específica
-            // Rango ASCII – alfanumérico (0-9, a-z, A-Z)
             StringBuilder passwordRandom = generarPassword(usuario);
-            //Todo Enviar correo con la nueva contraseña
-            attributes.addFlashAttribute("success", "Se le ha enviado un correo a la " +
-                    "dirección proporcionada con la nueva contraseña, no se olvide de pulsar en click here");
+            String mensaje = "Estimado/a " + usuario.get().getNombre() + " le proporcionamos la siguiente contraseña " +
+                    "para que pueda acceder a su cuenta " + passwordRandom + " le recomendamos que la cambie por una" +
+                    " personal en cuanto haya accedido en Ajustes -> cambiar contraseña. Muchas gracias por haces uso de" +
+                    " nuestros servicios";
+            emailService.sendEmail(usuario.get().getCorreo(),"Nueva contraseña", mensaje);
+            attributes.addFlashAttribute("success", "Se le ha enviado un correo a " + usuario.get().getCorreo() +
+                    " con la nueva contraseña, no se olvide de pulsar en click here");
 
         }else {
             attributes.addFlashAttribute("failed", "La dirección de correo no es la correcta o " +
