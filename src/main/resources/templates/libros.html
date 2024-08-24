@@ -90,16 +90,16 @@
     </div>
   </div>
   <!-- ESTRUCTURA BARRA DE BUSQUEDA -->
- <div class="container">
+ <div class="container-fluid">
    <div class="search-bar-container" >
      <div class="row">
        <!-- Botón "Añadir" -->
-       <div class="col-12 col-md-3 d-flex  mb-5 mb-md-0">
+       <div class="col-12 col-md-2 d-flex mb-5 mb-md-0 me-5">
          <button type="button" class="btn-section-add" data-bs-toggle="modal" data-bs-target="#modalLibroAñadir">AÑADIR</button>
        </div>
 
        <!-- Barra de Búsqueda-->
-       <div class="col-8 col-md-6 mb-3">
+       <div class="col-8  col-md-6 mb-3 ms-md-5 ms-md-0 ">
          <form th:action="@{/libros/search}" method="get">
            <div class="input-group">
              <input type="search" name="tituloLibroBusqueda" class="form-control search-input" aria-label="search" placeholder="Buscar...">
@@ -112,7 +112,7 @@
 
        </div>
        <!-- Botón Filtros -->
-       <div class="col-4 col-md-3">
+       <div class="col-12 col-sm-4 col-md-2">
          <div class="dropdown">
            <button type="button" class="btn-section-searchbar dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
              FILTROS

@@ -337,8 +337,6 @@ nav li a img{
     display: inline-block;
     border: solid transparent;
 
-    margin-right: 60px;
-    margin-top: 5px;
 }
 .btn-section-add:hover {
     background-color: var(--bs-white) ;
