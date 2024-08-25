@@ -28,7 +28,9 @@ public class NotificacionController {
     private final VideojuegoServiceImpl videojuegoService;
     private final UsuarioSecurityService usuarioSecurityService;
 
-    public NotificacionController(NotificacionService notificacionService, PeliculaServiceImpl peliculaService, SerieServiceImpl serieService, LibroServiceImpl libroService, AnimeServiceImpl animeService, VideojuegoServiceImpl videojuegoService, UsuarioSecurityService usuarioSecurityService) {
+    private final AmigoServiceImpl amigoService;
+
+    public NotificacionController(NotificacionService notificacionService, PeliculaServiceImpl peliculaService, SerieServiceImpl serieService, LibroServiceImpl libroService, AnimeServiceImpl animeService, VideojuegoServiceImpl videojuegoService, UsuarioSecurityService usuarioSecurityService, AmigoServiceImpl amigoService) {
         this.notificacionService = notificacionService;
         this.peliculaService = peliculaService;
         this.serieService = serieService;
@@ -36,134 +38,9 @@ public class NotificacionController {
         this.animeService = animeService;
         this.videojuegoService = videojuegoService;
         this.usuarioSecurityService = usuarioSecurityService;
+        this.amigoService = amigoService;
     }
 
-//    @GetMapping("/numeroNotificaciones")
-//    public ResponseEntity<String> contarNotificacionesPendientes(HttpSession session){
-//        String nombreUsuario = session.getAttribute("userName").toString();
-//        List<Notificacion> listaNotificaciones = notificacionService.getAllNotificacionesByUserAndEstadoList(nombreUsuario,"pendiente");
-//        listaNotificaciones.forEach(notificacion -> {
-//            switch (notificacion.getTipoElemento()){
-//                case "pelicula":
-//                    Optional<Pelicula> pelicula = peliculaService.getById(notificacion.getIdTipoElemento());
-//                    if (pelicula.isEmpty()){
-//                        notificacionService.deleteEntity(notificacion);
-//
-//                    }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isPresent()){
-//                        if (!usuarioSecurityService.getByName(notificacion.getUserFrom()).get().getActiva()){
-//                            notificacion.setEstadoUsuario("inactivo");
-//                            notificacionService.saveEntity(notificacion);
-//                        }
-//                        else {
-//                            notificacion.setEstadoUsuario("activo");
-//                            notificacion.setRutaImagenUserFrom(usuarioSecurityService.getById(notificacion.getUserFromId()).get().getRutaImagen());
-//                            notificacionService.saveEntity(notificacion);
-//
-//                        }
-//                    }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isEmpty()){
-//                        notificacionService.deleteEntity(notificacion);
-//                }
-//                    break;
-//                case "serie":
-//                    Optional<Serie> serie = serieService.getById(notificacion.getIdTipoElemento());
-//                    if (serie.isEmpty()){
-//                        notificacionService.deleteEntity(notificacion);
-//
-//                    }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isPresent()){
-//                        if (!usuarioSecurityService.getByName(notificacion.getUserFrom()).get().getActiva()){
-//                            notificacion.setEstadoUsuario("inactivo");
-//                            notificacionService.saveEntity(notificacion);
-//                        }
-//                        else {
-//                            notificacion.setEstadoUsuario("activo");
-//                            notificacion.setRutaImagenUserFrom(usuarioSecurityService.getById(notificacion.getUserFromId()).get().getRutaImagen());
-//                            notificacionService.saveEntity(notificacion);
-//
-//                        }
-//                    }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isEmpty()){
-//                        notificacionService.deleteEntity(notificacion);
-//                    }
-//                    break;
-//                case "libro":
-//                    Optional<Libro> libro = libroService.getById(notificacion.getIdTipoElemento());
-//                    if (libro.isEmpty()){
-//                        notificacionService.deleteEntity(notificacion);
-//
-//                    }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isPresent()){
-//                        if (!usuarioSecurityService.getByName(notificacion.getUserFrom()).get().getActiva()){
-//                            notificacion.setEstadoUsuario("inactivo");
-//                            notificacionService.saveEntity(notificacion);
-//                        }
-//                        else {
-//                            notificacion.setEstadoUsuario("activo");
-//                            notificacion.setRutaImagenUserFrom(usuarioSecurityService.getById(notificacion.getUserFromId()).get().getRutaImagen());
-//                            notificacionService.saveEntity(notificacion);
-//
-//                        }
-//                    }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isEmpty()){
-//                        notificacionService.deleteEntity(notificacion);
-//                    }
-//                    break;
-//                case "videojuego":
-//                    Optional<Videojuego> videojuego = videojuegoService.getById(notificacion.getIdTipoElemento());
-//                    if (videojuego.isEmpty()){
-//                        notificacionService.deleteEntity(notificacion);
-//
-//                    }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isPresent()){
-//                        if (!usuarioSecurityService.getByName(notificacion.getUserFrom()).get().getActiva()){
-//                            notificacion.setEstadoUsuario("inactivo");
-//                            notificacionService.saveEntity(notificacion);
-//                        }
-//                        else {
-//                            notificacion.setEstadoUsuario("activo");
-//                            notificacion.setRutaImagenUserFrom(usuarioSecurityService.getById(notificacion.getUserFromId()).get().getRutaImagen());
-//                            notificacionService.saveEntity(notificacion);
-//
-//                        }
-//                    }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isEmpty()){
-//                        notificacionService.deleteEntity(notificacion);
-//                    }
-//                    break;
-//                case "anime":
-//                    Optional<Anime> anime = animeService.getById(notificacion.getIdTipoElemento());
-//                    if (anime.isEmpty()){
-//                        notificacionService.deleteEntity(notificacion);
-//
-//                    }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isPresent()){
-//                        if (!usuarioSecurityService.getByName(notificacion.getUserFrom()).get().getActiva()){
-//                            notificacion.setEstadoUsuario("inactivo");
-//                            notificacionService.saveEntity(notificacion);
-//                        }
-//                        else {
-//                            notificacion.setEstadoUsuario("activo");
-//                            notificacion.setRutaImagenUserFrom(usuarioSecurityService.getById(notificacion.getUserFromId()).get().getRutaImagen());
-//                            notificacionService.saveEntity(notificacion);
-//
-//                        }
-//                    }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isEmpty()){
-//                        notificacionService.deleteEntity(notificacion);
-//                    }
-//                    break;
-//                case "solicitud":
-//                    Optional<Usuario> usuario = usuarioSecurityService.getById(notificacion.getUserFromId());
-//                    if (usuario.isEmpty()){
-//                        notificacionService.deleteEntity(notificacion);
-//                    }else {
-//                        if (!usuario.get().getActiva()){
-//                            notificacion.setEstadoUsuario("inactivo");
-//                            notificacionService.saveEntity(notificacion);
-//                        }
-//                        else {
-//                            notificacion.setEstadoUsuario("activo");
-//                            notificacion.setRutaImagenUserFrom(usuarioSecurityService.getById(notificacion.getUserFromId()).get().getRutaImagen());
-//                            notificacionService.saveEntity(notificacion);
-//                        }
-//                    }break;
-//            }
-//        });
-//        List<Notificacion> listaNotificacionesActualizada = notificacionService.getAllNotificacionesByUserAndEstadoListAndEstadoUsuario(nombreUsuario,"pendiente", "activo");
-//        return ResponseEntity.ok(String.valueOf(listaNotificacionesActualizada.size())) ;
-//    }
 
     @GetMapping("/numeroNotificaciones")
     public ResponseEntity<String> contarNotificacionesPendientes(HttpSession session){
@@ -271,7 +148,7 @@ public class NotificacionController {
                             notificacionService.deleteEntity(notificacion);
                         }
                         break;
-                    case "solicitud":
+                    case "solicitud Aceptada":
                         Optional<Usuario> usuario = usuarioSecurityService.getById(notificacion.getUserFromId());
                         if (usuario.isEmpty()){
                             notificacionService.deleteEntity(notificacion);
@@ -286,6 +163,25 @@ public class NotificacionController {
                                 notificacionService.saveEntity(notificacion);
                             }
                         }break;
+                    case "solicitud Enviada":
+                        Optional<Usuario> user = usuarioSecurityService.getById(notificacion.getUserFromId());
+                        if (user.isEmpty()){
+                            notificacionService.deleteEntity(notificacion);
+                        }else if(amigoService.getById(notificacion.getIdTipoElemento()).isPresent()){
+                            if (!user.get().getActiva()){
+                                notificacion.setEstadoUsuario("inactivo");
+                                notificacionService.saveEntity(notificacion);
+                            }
+                            else {
+                                notificacion.setEstadoUsuario("activo");
+                                notificacion.setRutaImagenUserFrom(usuarioSecurityService.getById(notificacion.getUserFromId()).get().getRutaImagen());
+                                notificacionService.saveEntity(notificacion);
+                            }
+
+                        }else {
+                            notificacionService.deleteEntity(notificacion);
+                        }
+                        break;
                 }
             }
         List<Notificacion> listaNotificacionesActualizada = notificacionService.getAllNotificacionesByUserAndEstadoListAndEstadoUsuario(nombreUsuario,"pendiente", "activo");
@@ -341,6 +237,12 @@ public class NotificacionController {
                         case "videojuego":
                             Optional<Videojuego> videojuego = videojuegoService.getById(notificacion.getIdTipoElemento());
                             if (videojuego.isEmpty()){
+                                notificacionService.deleteEntity(notificacion);
+                            }
+                            break;
+                        case "solicitud Enviada":
+                            Optional<Amigo> amigo = amigoService.getById(notificacion.getIdTipoElemento());
+                            if (amigo.isEmpty()){
                                 notificacionService.deleteEntity(notificacion);
                             }
                             break;

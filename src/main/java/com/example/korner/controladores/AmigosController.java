@@ -129,7 +129,6 @@ public class AmigosController {
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("size", pagina.getContent().size());
         model.addAttribute("amigos", pagina.getContent());
-        model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
         return "amigosPendientes";
     }
 
@@ -161,7 +160,7 @@ public class AmigosController {
         notificacion.setUserTo(userOrigen.get().getNombre());
         notificacion.setEstado("pendiente");
         notificacion.setMensaje("El usuario " + userDestino.get().getNombre() + " ha aceptado tu solicitud de amistad");
-        notificacion.setTipoElemento("solicitud");
+        notificacion.setTipoElemento("solicitud Aceptada");
         notificacion.setUserFromId(userDestino.get().getId());
         notificacion.setRutaImagenUserFrom(userDestino.get().getRutaImagen());
         notificacionService.saveEntity(notificacion);
@@ -170,6 +169,15 @@ public class AmigosController {
 
     }
 
+    /**
+     * Método que maneja el rechazo de una solicitud de amistad. Primero obtiene al usuario actual y al usuario cuya
+     * solicitud se va a rechazar. Obtiene y elimina la solcitud de amistad (Amigo amigoEliminar) y redirige al usuario
+     * a la página donde se pueden ver las solicitudes pendientes de amistad.
+     * @param id numero que representa el id de un usuario
+     * @param session Permite acceder a la sesión actual del usuario, en la que se almacena información sobre el usuario
+     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de exíto
+     * @return redirección al endpoint /amigos/solicitudesPendientes con mensaje
+     */
     @GetMapping("/rechazarSolicitud/{id}")
     public String rechazarSolicitud(@PathVariable Integer id , HttpSession session, RedirectAttributes attributes){
 
@@ -182,6 +190,16 @@ public class AmigosController {
         return "redirect:/amigos/solicitudesPendientes";
 
     }
+
+    /**
+     *Metódo el cual obtiene una lista paginada de solicitudes de amistad enviadas de un usuario y pasa
+     *la información a la vista asociada con el archivo html amigosSolicitudesEnviadas
+     * @param page número de página para la paginación
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param session permite acceder a la sesión actual del usuario, donde se almacenan atributos como el ID del usuario,
+     * la imagen de perfil, y el nombre de usuario
+     * @return String del nombre de la vista que debe ser renderizada
+     */
 
     @GetMapping("/solicitudesEnviadas")
     public String verSolicitudesEnviadas(@RequestParam("page") Optional<Integer> page,
@@ -209,6 +227,16 @@ public class AmigosController {
 
         return "amigosSolicitudesEnviadas";
     }
+
+    /**
+     * Método que maneja la eliminación de una solicitud de amistad enviada. Primero obtiene al usuario actual y al usuario al
+     * cual se le envia la solicitud. Obtiene y elimina la solcitud de amistad (Amigo amigoEliminar) y redirige al usuario
+     * a la página donde se pueden ver las solicitudes enviadas de amistad.
+     * @param id numero que representa el id de un usuario
+     * @param session Permite acceder a la sesión actual del usuario, en la que se almacena información sobre el usuario
+     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de exíto
+     * @return redirección al endpoint /amigos/solicitudesEnviadas con mensaje
+     */
 
     @GetMapping("/eliminarSolicitud/{id}")
     public String eliminarSolicitudEnviada(@PathVariable Integer id , HttpSession session, RedirectAttributes attributes){

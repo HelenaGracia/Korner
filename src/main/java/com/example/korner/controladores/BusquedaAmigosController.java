@@ -107,8 +107,9 @@ public class BusquedaAmigosController {
         notificacion.setUserTo(userDestino.get().getNombre());
         notificacion.setEstado("pendiente");
         notificacion.setMensaje("El usuario " + user.get().getNombre() + " te ha enviado una solcitud de amistad");
-        notificacion.setTipoElemento("solicitud");
+        notificacion.setTipoElemento("solicitud Enviada");
         notificacion.setUserFromId(user.get().getId());
+        notificacion.setIdTipoElemento(amigoOrigen.getId());
         notificacion.setRutaImagenUserFrom(user.get().getRutaImagen());
         notificacionService.saveEntity(notificacion);
         attributes.addFlashAttribute("success","La solicitud ha sido enviada al usuario: "+userDestino.get().getNombre());
