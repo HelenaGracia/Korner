@@ -36,6 +36,16 @@ public class AmigosController {
         this.notificacionService = notificacionService;
     }
 
+    /**
+     * Metódo el cual obtiene una lista paginada de amigos y otra lista paginada de amigos bloqueados del usuario y pasa
+     * la información a la vista asociada con el archivo html amigos
+     * @param page número de página para la paginación de amigos
+     * @param pagebloq número de página para la paginación de amigos bloqueados
+     * @param session  permite acceder a la sesión actual del usuario, donde se almacenan atributos como el ID del usuario,
+     * la imagen de perfil, y el nombre de usuario
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @return String del nombre de la vista que debe ser renderizada
+     */
 
     @GetMapping
     public String showAmigos(@RequestParam(value = "page",required = false) Optional<Integer> page,
@@ -87,6 +97,15 @@ public class AmigosController {
         return "amigos";
     }
 
+    /**
+     *Metódo el cual obtiene una lista paginada de solicitudes de amistad pendientes de un usuario y pasa
+     *la información a la vista asociada con el archivo html amigosPendientes
+     * @param page número de página para la paginación
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param session permite acceder a la sesión actual del usuario, donde se almacenan atributos como el ID del usuario,
+     * la imagen de perfil, y el nombre de usuario
+     * @return String del nombre de la vista que debe ser renderizada
+     */
     @GetMapping("/solicitudesPendientes")
     public String solicitudesPendientes(@RequestParam("page") Optional<Integer> page,
                                         Model model, HttpSession session) {
@@ -114,6 +133,16 @@ public class AmigosController {
         return "amigosPendientes";
     }
 
+    /**
+     * Método el cual maneja la aceptación de una solicitud de amistad. Primero obtiene los usuarios involucrados, actualiza
+     * la relación de amistad para marcarla como aceptada, crea una nueva relación inversa, genera una notificación
+     * para el usuario que envió la solicitud, y finalmente redirige al usuario a la página de solicitudes pendientes con un mensaje de éxito.
+     * @param id numero del id del usuario que envió la solicitud de amistad (usuario origen)
+     * @param session Permite acceder a la sesión actual del usuario, en la que se almacena información sobre el usuario
+     * que está aceptando la solicitud (usuario destino)
+     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso los mensaje de exíto o error
+     * @return redirección al endpoint /amigos/solicitudesPendientes con mensaje
+     */
     @GetMapping("/aceptarSolicitud/{id}")
     public String aceptarSolicitud(@PathVariable Integer id ,HttpSession session, RedirectAttributes attributes){
         Optional<Usuario> userDestino = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));

@@ -24,15 +24,32 @@ public class ContraseniaOlvidadaController {
         this.emailService = emailService;
     }
 
+    /**
+     * Método el cual  muestra la vista asociada al archivo html contraseniaOlvidadaAutenticado
+     * @return String del nombre de la vista que debe ser renderizada
+     */
     @GetMapping("/forgottenPasswordAutenticado")
     public String showPaginaAutenticado(){
         return "contraseniaOlvidadaAutenticado";
     }
+    /**
+     * Método el cual  muestra la vista asociada al archivo html contraseniaOlvidada
+     * @return String del nombre de la vista que debe ser renderizada
+     */
     @GetMapping("/forgottenPasswordShow")
     public String showPagina(){
         return "contraseniaOlvidada";
     }
 
+    /**
+     * Método el cual gestiona el proceso de recuperación de contraseña cuando un usuario ha olvidado su contraseña.
+     * Se busca a un usuario a través de su correo electrónico, se genera una contraseña aleatoria para
+     * este y se crea un correo electrónico el cual se envia a la dirección de correo electrónico del usuario proporcionándole
+     * la nueva contraseña. A este método se accede cuando el usuario no ha iniciado sesión en la aplicación
+     * @param correo String correo electrónico proporcionado por el usuario en el formulario de recuperación de contraseña
+     * @param attributes RedirectAttributes permite añadir atributos que se envían como parte de una redirección, en este caso los mensaje de exíto o error
+     * @return redirección a la endpoint /forgottenPasswordShow con un mensaje de éxito o error.
+     */
     @PostMapping("/forgottenPassword")
     public String forgottenPassword(String correo, RedirectAttributes attributes){
         Optional<Usuario> usuario = usuarioService.getByCorreo(correo);
@@ -55,7 +72,15 @@ public class ContraseniaOlvidadaController {
     }
 
 
-
+    /**
+     * Método el cual gestiona el proceso de recuperación de contraseña cuando un usuario ha olvidado su contraseña.
+     * Se genera una contraseña aleatoria para
+     * este y se crea un correo electrónico el cual se envia a la dirección de correo electrónico del usuario proporcionándole
+     * la nueva contraseña. A este método se accede cuando el usuario ha iniciado sesión en la aplicación
+     * @param correo String correo electrónico proporcionado por el usuario en el formulario de recuperación de contraseña
+     * @param attributes RedirectAttributes permite añadir atributos que se envían como parte de una redirección, en este caso los mensaje de exíto o error
+     * @return redirección al endpoint /forgottenPasswordAutenticado
+     */
     @PostMapping("/forgottenPasswordAutenticado")
     public String forgottenPasswordAutenticado(String correo, RedirectAttributes attributes){
         Optional<Usuario> usuario = usuarioService.getByCorreo(correo);
@@ -77,10 +102,10 @@ public class ContraseniaOlvidadaController {
         return "redirect:/forgottenPasswordAutenticado";
     }
 
-    /** Método para generar una contraseña alfanumérica aleatoria de una longitud específica
-     *
-     * @param usuario
-     * @return string con la contraseña generada
+    /**
+     *Método para generar una contraseña alfanumérica aleatoria de una longitud específica
+     * @param usuario Objeto de la clase Usuario
+     * @return String de la contraseña generada
      */
     private StringBuilder generarPassword(Optional<Usuario> usuario) {
 

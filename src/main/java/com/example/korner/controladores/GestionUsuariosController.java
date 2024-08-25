@@ -32,6 +32,14 @@ public class GestionUsuariosController {
     }
     private final Logger logger = LoggerFactory.getLogger(GestionUsuariosController.class);
 
+    /**
+     * Metéodo el cual obtiene una lista paginada de usuarios desde la BBDD excluyendo al usuario autenticado y pasa la
+     * información a la vista asociada con el archivo html gestionUsuarios
+     * @param page  Optional<Integer> parámetro de consulta, si no se proporciona el método utilizará un valor predeterminado
+     * @param model Model se utiliza para pasar datos desde el controlador a la vista
+     * @param session HttpSession permite acceder a la sesión HTTP actual, donde se pueden almacenar y recuperar atributos del usuario que inició sesión
+     * @return String del nombre de la vista que debe ser renderizada
+     */
     @GetMapping("")
     public String showUsuarios(@RequestParam("page") Optional<Integer> page, Model model, HttpSession session){
 
@@ -40,7 +48,6 @@ public class GestionUsuariosController {
 
         Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
         Page<Usuario> pagina = usuarioService.getAllUsuariosMenosEste(user.get().getId(),pageRequest);
-        //Envio la pagina creada a la vista para poder verla
         model.addAttribute("pagina", pagina);
         int totalPages = pagina.getTotalPages();
         if (totalPages > 0) {
@@ -57,6 +64,14 @@ public class GestionUsuariosController {
         return "gestionUsuarios";
     }
 
+    /**
+     * Métedo en el cual se busca a un usuario a través de su id y una vez obtendido al usuario se elimina a este de
+     * la BBDD
+     * @param id Integer número correspondiente al id de un usuario
+     * @param attributes RedirectAttributes permite añadir atributos que se envían como parte de una redirección, en este caso los mensaje de exíto o error
+     * @return redirección al endpoint /gestionUsuarios con un mensaje de éxito
+     */
+
     @GetMapping("/eliminarUsuario/{id}")
     public String deleteUser(@PathVariable Integer id, RedirectAttributes attributes){
         Optional<Usuario> usuarioEliminar = usuarioService.getById(id);
@@ -65,6 +80,13 @@ public class GestionUsuariosController {
         return "redirect:/gestionUsuarios";
     }
 
+    /**
+     * Método en el cual se busca a un usuario a través de su Id y se cambia su atributo Activa a true o false dependiendo
+     * del estado en el que se encuentre
+     * @param id Integer Integer número correspondiente al id de un usuario
+     * @param attributes RedirectAttributes permite añadir atributos que se envían como parte de una redirección, en este caso los mensaje de exíto o error
+     * @return redirección al endpoint /gestionUsuarios con un mensaje de éxito
+     */
     @GetMapping("/cambiarEstado/{id}")
     public String cambiarEstadoUser(@PathVariable Integer id, RedirectAttributes attributes){
         Optional<Usuario> usuarioInactivo = usuarioService.getById(id);
@@ -81,11 +103,11 @@ public class GestionUsuariosController {
 
     /**
      * Metódo en el que se realiza una búsqueda de un usuario a través de su nombre o el email
-     * @param busqueda String recibido desde el input del formulario
-     * @param model Model
-     * @param session HttpSession
-     * @param attributes RedirectAttributes
-     * @return archivo html gestionUsuarios o redirect al endpoint /gestionUsuarios
+     * @param busqueda String con el correo o nombre del usuario proporcionado por el usuario en el formulario
+     * @param model Model se utiliza para pasar datos desde el controlador a la vista
+     * @param session HttpSession permite acceder a la sesión HTTP actual, donde se pueden almacenar y recuperar atributos del usuario que inició sesión
+     * @param attributes RedirectAttributes permite añadir atributos que se envían como parte de una redirección, en este caso los mensaje de exíto o error
+     * @return String del nombre de la vista que debe ser renderizada o redirección al endpoint /gestionUsuarios
      */
     @GetMapping("/search")
     public String search(@RequestParam(name = "busqueda", required = false) String busqueda,
