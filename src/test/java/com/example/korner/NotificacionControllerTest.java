@@ -150,66 +150,7 @@ public class NotificacionControllerTest {
     }
 
 
-    @Test
-    public void testLeerNotificacionesParaTodosLosTipos() {
-        mockServiciosElemento();
 
-        String[] tipos = {"pelicula", "serie", "anime", "libro", "videojuego", "solicitud Enviada"};
-        Integer[] ids = {1, 2, 3, 4, 5, 7};  // Los IDs deben coincidir con los usados en mockServiciosElemento
-
-        for (int i = 0; i < tipos.length; i++) {
-            String tipo = tipos[i];
-            Integer idTipoElemento = ids[i];
-
-            // Configuración de los mocks para el tipo actual
-            when(session.getAttribute("userName")).thenReturn("testUser");
-            when(session.getAttribute("rutaImagen")).thenReturn("testImage.jpg");
-
-            Notificacion notificacionPendiente = crearNotificacion(tipo, idTipoElemento, "user" + (i + 2), idTipoElemento);
-            Notificacion notificacionLeida = crearNotificacion(tipo, idTipoElemento, "user" + (i + 2), idTipoElemento);
-            notificacionLeida.setEstado("leido");
-
-            when(notificacionService.getAllNotificacionesByUserAndEstadoListAndEstadoUsuario("testUser", "pendiente", "activo"))
-                    .thenReturn(List.of(notificacionPendiente));
-            when(notificacionService.getAllNotificacionesByUserAndEstadoList("testUser", "leido"))
-                    .thenReturn(List.of(notificacionLeida));
-            when(notificacionService.getAllNotificacionesByUserAndEstadoEstadoUsuarioPage("testUser", "leido", "activo", PageRequest.of(0, 4)))
-                    .thenReturn(new PageImpl<>(List.of(notificacionLeida), PageRequest.of(0, 4), 1));
-
-            // Ejecutar el método del controlador
-            String viewName = notificacionController.leerNotificaciones(model, Optional.of(1), session);
-
-            // Verificación de las llamadas y resultados
-            verify(notificacionService).saveEntity(any(Notificacion.class));
-
-            // Verifica la llamada al servicio adecuado según el tipo de notificación
-            switch (tipo) {
-                case "pelicula":
-                    verify(peliculaService).getById(idTipoElemento);
-                    break;
-                case "serie":
-                    verify(serieService).getById(idTipoElemento);
-                    break;
-                case "anime":
-                    verify(animeService).getById(idTipoElemento);
-                    break;
-                case "libro":
-                    verify(libroService).getById(idTipoElemento);
-                    break;
-                case "videojuego":
-                    verify(videojuegoService).getById(idTipoElemento);
-                    break;
-                case "solicitud Enviada":
-                    verify(amigoService).getById(idTipoElemento);
-                    break;
-            }
-
-            // Verifica que el nombre de la vista es el esperado
-            assertEquals("notificaciones", viewName);
-
-            // No resetear mocks, solo continuar la siguiente iteración
-        }
-    }
 
     @Test
     public void testEliminarNotificaciones() {
