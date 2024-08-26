@@ -236,4 +236,111 @@ public class AmigosControllerTest {
 
         assertEquals("amigosSolicitudesEnviadas", result);
     }
+
+    @Test
+    public void testEliminarSolicitudEnviada() {
+        // Simulación de datos
+        Usuario usuarioActual = new Usuario();
+        usuarioActual.setId(1);
+        usuarioActual.setNombre("Usuario Actual");
+
+        Usuario usuarioDestino = new Usuario();
+        usuarioDestino.setId(2);
+        usuarioDestino.setNombre("Usuario Destino");
+
+        Amigo amigo = new Amigo();
+        amigo.setUsuarioOrigen(usuarioActual);
+        amigo.setUsuarioDestino(usuarioDestino);
+
+        // Configurar mocks
+        when(session.getAttribute("idusuario")).thenReturn("1");
+        when(usuarioService.getById(1)).thenReturn(Optional.of(usuarioActual));
+        when(usuarioService.getById(2)).thenReturn(Optional.of(usuarioDestino));
+        when(amigoService.getAmigo(usuarioDestino, usuarioActual)).thenReturn(amigo);
+
+        // Ejecutar el método
+        String result = amigosController.eliminarSolicitudEnviada(2, session, redirectAttributes);
+
+        // Verificaciones
+        verify(amigoService).deleteEntity(amigo);
+        verify(redirectAttributes).addFlashAttribute("success", "La solicitud de amistad al usuario: " + usuarioDestino.getNombre() + " ha sido eliminada");
+        assertEquals("redirect:/amigos/solicitudesEnviadas", result);
+    }
+
+
+    @Test
+    public void testDeleteAmigo() {
+        // Simulación de datos
+        Integer amigoId = 1;
+
+        Usuario usuarioOrigen = new Usuario();
+        usuarioOrigen.setId(1);
+        usuarioOrigen.setNombre("Usuario Origen");
+
+        Usuario usuarioDestino = new Usuario();
+        usuarioDestino.setId(2);
+        usuarioDestino.setNombre("Usuario Destino");
+
+        Amigo amigoOrigen = new Amigo();
+        amigoOrigen.setId(amigoId);
+        amigoOrigen.setUsuarioOrigen(usuarioOrigen);
+        amigoOrigen.setUsuarioDestino(usuarioDestino);
+
+        Amigo amigoDestino = new Amigo();
+        amigoDestino.setId(2);
+        amigoDestino.setUsuarioOrigen(usuarioDestino);
+        amigoDestino.setUsuarioDestino(usuarioOrigen);
+
+        // Configurar mocks
+        when(amigoService.getById(amigoId)).thenReturn(Optional.of(amigoOrigen));
+        when(amigoService.getAmigo(usuarioOrigen, usuarioDestino)).thenReturn(amigoDestino);
+
+        // Ejecutar el método
+        String result = amigosController.deleteAmigo(amigoId);
+
+        // Verificaciones
+        verify(amigoService).deleteEntity(amigoOrigen); // Verifica que se eliminó la relación original
+        verify(amigoService).deleteEntity(amigoDestino); // Verifica que se eliminó la relación inversa
+        assertEquals("redirect:/amigos", result); // Verifica que la redirección es correcta
+    }
+
+    @Test
+    public void testBloquearAmigo() {
+        // Datos simulados
+        Integer id = 1;
+        Amigo amigo = new Amigo();
+        amigo.setId(id);
+        amigo.setBloqueado(false);
+
+        // Configurar mocks
+        when(amigoService.getById(id)).thenReturn(Optional.of(amigo));
+
+        // Ejecutar el método
+        String result = amigosController.bloquearAmigo(id);
+
+        // Verificaciones
+        assertEquals(true, amigo.getBloqueado()); // Verificar que el amigo está bloqueado
+        verify(amigoService).saveEntity(amigo);  // Verificar que se guardó el cambio
+        assertEquals("redirect:/amigos", result); // Verificar la redirección
+    }
+
+    @Test
+    public void testDesbloquearAmigo() {
+        // Datos simulados
+        Integer id = 1;
+        Amigo amigo = new Amigo();
+        amigo.setId(id);
+        amigo.setBloqueado(true); // Inicialmente bloqueado
+
+        // Configurar mocks
+        when(amigoService.getById(id)).thenReturn(Optional.of(amigo));
+
+        // Ejecutar el método
+        String result = amigosController.desbloquearAmigo(id);
+
+        // Verificaciones
+        assertEquals(false, amigo.getBloqueado()); // Verificar que el amigo ya no está bloqueado
+        verify(amigoService).saveEntity(amigo);   // Verificar que se guardó el cambio
+        assertEquals("redirect:/amigos", result); // Verificar la redirección
+    }
 }

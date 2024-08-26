@@ -230,8 +230,8 @@ public class AmigosController {
 
     /**
      * Método que maneja la eliminación de una solicitud de amistad enviada. Primero obtiene al usuario actual y al usuario al
-     * cual se le envia la solicitud. Obtiene y elimina la solcitud de amistad (Amigo amigoEliminar) y redirige al usuario
-     * a la página donde se pueden ver las solicitudes enviadas de amistad.
+     * cual se le envia la solicitud. Obtiene y elimina la solcitud de amistad (Amigo amigoEliminar,representa la relación de amistad)
+     * y redirige al usuario a la página donde se pueden ver las solicitudes enviadas de amistad.
      * @param id numero que representa el id de un usuario
      * @param session Permite acceder a la sesión actual del usuario, en la que se almacena información sobre el usuario
      * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de exíto
@@ -251,28 +251,45 @@ public class AmigosController {
 
     }
 
-
+    /**
+     * Este método se encarga de eliminar la relación de amistad entre dos usuarios (la directa y la inversa) eliminando
+     * ambas entradas de la BBDD
+     * @param id numero de id de la relacion de amistad (directa) que se desea eliminar
+     * @return redirección al endpoint /amigos
+     */
     @PostMapping("/delete")
-    public String deleteAmigo(Amigo amigos){
-        Optional<Amigo> amigoOrigen = amigoService.getById(amigos.getId());
+    public String deleteAmigo(Integer id){
+        Optional<Amigo> amigoOrigen = amigoService.getById(id);
         Amigo amigoDestino = amigoService.getAmigo(amigoOrigen.get().getUsuarioOrigen(),amigoOrigen.get().getUsuarioDestino());
         amigoService.deleteEntity(amigoOrigen.get());
         amigoService.deleteEntity(amigoDestino);
         return "redirect:/amigos";
     }
 
+    /**
+     * Este método se encarga de manejar el bloqueo de amigos en la aplicación. Cambia el estado del amigo (representación de
+     * la relación de amistada directa) a bloqueado.
+     * @param id numero del id del Objeto amigo que se desea bloquear
+     * @return redirección al endpoint /amigos
+     */
 
     @PostMapping("/bloquear")
-    public String bloquearAmigo(Amigo amigos){
-        Optional<Amigo> amigoBloqueado = amigoService.getById(amigos.getId());
+    public String bloquearAmigo(Integer id){
+        Optional<Amigo> amigoBloqueado = amigoService.getById(id);
         amigoBloqueado.get().setBloqueado(true);
         amigoService.saveEntity(amigoBloqueado.get());
         return "redirect:/amigos";
     }
 
+    /**
+     * Este método se encarga de manejar el desbloqueo de amigos en la aplicación. Cambia el estado del amigo (representación de
+     * la relación de amistada directa) a desbloqueado.
+     * @param id numero del id del Objeto amigo que se desea desbloquear
+     * @return redirección al endpoint /amigos
+     */
     @PostMapping("/desbloquear")
-    public String desbloquearAmigo(Amigo amigos){
-        Optional<Amigo> amigoDesbloqueado = amigoService.getById(amigos.getId());
+    public String desbloquearAmigo(Integer id){
+        Optional<Amigo> amigoDesbloqueado = amigoService.getById(id);
         amigoDesbloqueado.get().setBloqueado(false);
         amigoService.saveEntity(amigoDesbloqueado.get());
         return "redirect:/amigos";
