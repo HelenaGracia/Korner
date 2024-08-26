@@ -60,7 +60,17 @@ public class PeliculaController {
 
     private final Logger logger = LoggerFactory.getLogger(PeliculaController.class);
 
-    //Mostrar Peliculas
+    /**
+     * Este método es responsable de preparar los datos necesarios para la página que muestra una lista de películas.
+     * Gestiona la paginación, el ordenamiento, y proporciona al modelo de la vista las listas de géneros y plataformas,
+     * así como un objeto vacío de tipo Película. La vista renderiza estos datos para permitir al usuario ver  la lista de películas
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param page número de página para la paginación
+     * @param session permite acceder a la sesión actual del usuario, donde se almacenan atributos como el ID del usuario,
+     * la imagen de perfil, y el nombre de usuario
+     * @param orden tipo de ordenamiento
+     * @return  String del nombre de la vista que debe ser renderizada
+     */
     @GetMapping("")
     public String listAllPeliculas(Model model, @RequestParam("page") Optional<Integer> page,
                                    HttpSession session, @RequestParam(value = "orden", required = false) String orden){
@@ -80,12 +90,23 @@ public class PeliculaController {
     }
 
 
-    //Guardar Pelicula
+    /**
+     * Este método se encarga de la creacion de una película. Recibe de un formulario los datos, valida esos datos, gestiona la
+     * subida de la imagen asociada a la película, y guardar toda esta información en la base de datos. En caso de errores,
+     * gestiona esos errores mostrando mensajes informativos al usuario y evita guardar datos incorrectos.
+     * @param multipartFile recibe el archivo de imagen que el usuario sube a través del formulario.
+     * @param pelicula recibe y valida el objeto Película que se llena con los datos del formulario.
+     * @param bindingResult contiene los resultados de la validación, incluyendo posibles errores
+     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de éxito o error
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param page número de página para la paginación
+     * @param session permite acceder a la sesión actual del usuario, donde se almacenan atributos como el ID del usuario,
+     * la imagen de perfil, y el nombre de usuario
+     * @param orden tipo de orden para ordenar
+     * @return String del nombre de la vista que debe ser renderizada o redirección al endpoint /peliculas
+     */
 
     @PostMapping("/savePelicula")
-    /*Obtenemos del formulario el contenido del input imagen, que es un archivo de imagen y
-      se lo pasamos al parametro multipartFile
-     */
     public String savePelicula(@RequestParam("imagen") MultipartFile multipartFile,
                                @Validated @ModelAttribute(name = "datosPelicula") Pelicula pelicula,
                                BindingResult bindingResult, RedirectAttributes attributes,Model model,
@@ -151,6 +172,21 @@ public class PeliculaController {
     }
 
 
+    /**
+     * Este método se encarga de la modificación de una película. Recibe de un formulario los datos a modifcar, valida esos datos, gestiona la
+     * subida de la imagen asociada a la película, y guardar toda esta información en la base de datos. En caso de errores,
+     * gestiona esos errores mostrando mensajes informativos al usuario y evita guardar datos incorrectos.
+     * @param multipartFile recibe el archivo de imagen que el usuario sube a través del formulario.
+     * @param pelicula recibe y valida el objeto Película que se llena con los datos del formulario.
+     * @param bindingResult contiene los resultados de la validación, incluyendo posibles errores
+     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de éxito o error
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param page número de página para la paginación
+     * @param session permite acceder a la sesión actual del usuario, donde se almacenan atributos como el ID del usuario,
+     * la imagen de perfil, y el nombre de usuario
+     * @param orden tipo de orden para ordenar
+     * @return String del nombre de la vista que debe ser renderizada o redirección al endpoint /peliculas
+     */
     @PostMapping("/savePeliculaModificar")
     //Obtenemos del formulario el contenido del input imagen, que es un archivo de imagen y se lo pasamos al parametro multipartFile
     public String savePeliculaModificar(@RequestParam("imagen") MultipartFile multipartFile,
@@ -234,7 +270,14 @@ public class PeliculaController {
     }
 
 
-    //Eliminar Pelicula
+    /**
+     * Este método se encarga de eliminar una película específica de la BBDD y su imagen correspondiente del sistema de archivos
+     * @param id Recibe el parámetro id desde el formulario o la solicitud. Este parámetro corresponde al identificador
+     * de la Película que se desea eliminar
+     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de éxito o error
+     * @return se redirige al usuario a la vista de peliculas (/peliculas), mostrando el mensaje correspondiente
+     * (de éxito o de error) en función de cómo haya transcurrido el proceso.
+     */
     @PostMapping("/deletePelicula")
     public String deletePelicula(@RequestParam("id") Integer id, RedirectAttributes attributes){
         final String FILE_PATH_ROOT = "D:/ficheros";
@@ -258,6 +301,22 @@ public class PeliculaController {
         return "redirect:/peliculas";
     }
 
+    /**
+     * Este método se encarga de buscar películas en la base de datos usando varios filtros.
+     * También maneja la paginación y la ordenación de los resultados, y gestiona los posibles errores que puedan
+     * ocurrir durante la búsqueda, mostrando mensajes apropiados al usuario.
+     * @param tituloPeliculaBusqueda Cadena que contiene el título de la película para filtrar películas por su título recibido desde el formulario
+     * @param filtroPuntuacion Valor numérico para filtrar películas por su puntuación recibido desde el formulario
+     * @param generoId Valor numérico que representa el id de un objeto género para filtrar películas por género, recibido desde el formulario
+     * @param filtroYear Valor numérico para filtrar películas por su año de visualización recibido desde el formulario
+     * @param plataformaId Valor numérico que representa el id de un objeto plataforma para filtrar películas por plataforma, recibido desde el formulario
+     * @param filtrOrden Cadena con el criterio de ordenación para los resultados, recibido desde el formulario
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param page número de página para la paginación
+     * @param session Permite acceder a la sesión actual del usuario, en la que se almacena información sobre el usuario
+     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de error
+     * @return  retorna la vista peliculas, que es donde se mostrarán los resultados de la búsqueda.
+     */
     @GetMapping("/search")
     public String search(@RequestParam(value = "tituloPeliculaBusqueda", required = false) String tituloPeliculaBusqueda,
                          @RequestParam(value = "filtroPuntuacion", required = false) Integer filtroPuntuacion,
@@ -408,6 +467,15 @@ public class PeliculaController {
         return "peliculas";
     }
 
+    /**
+     * Este método se encarga de gestionar la paginación y la ordenación de la lista de películas del usuario de la sesión
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param page número de página para la paginación
+     * @param session permite acceder a la sesión actual del usuario, donde se almacenan atributos como el ID del usuario,
+     * la imagen de perfil, y el nombre de usuario
+     * @param orden tipo de ordenamiento
+     */
+
     private void paginacion(Model model, Optional<Integer> page, HttpSession session, String orden){
         Optional<Usuario> user = usuarioSecurityService.getById(Integer.valueOf((session.getAttribute("idusuario").toString())));
 
@@ -471,6 +539,11 @@ public class PeliculaController {
 
     }
 
+    /**
+     * Método en en el cual se obtiene una lista con los años desde que el usuario de la sesion nació hasta el año actual
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param user recibe todos los datos del usuario actual de la sesion
+     */
     private void calcularAniosUsuario(Model model, Optional<Usuario> user) {
         //Obneter Listado con los años desde que el usuario nació hasta el año actual
         Integer actualYear = Year.now().getValue();
