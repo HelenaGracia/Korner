@@ -139,7 +139,7 @@ public class AmigosController {
      * @param id numero del id del usuario que envió la solicitud de amistad (usuario origen)
      * @param session Permite acceder a la sesión actual del usuario, en la que se almacena información sobre el usuario
      * que está aceptando la solicitud (usuario destino)
-     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso los mensaje de exíto o error
+     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso los mensaje de éxito o error
      * @return redirección al endpoint /amigos/solicitudesPendientes con mensaje
      */
     @GetMapping("/aceptarSolicitud/{id}")
@@ -175,7 +175,7 @@ public class AmigosController {
      * a la página donde se pueden ver las solicitudes pendientes de amistad.
      * @param id numero que representa el id de un usuario
      * @param session Permite acceder a la sesión actual del usuario, en la que se almacena información sobre el usuario
-     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de exíto
+     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de éxito
      * @return redirección al endpoint /amigos/solicitudesPendientes con mensaje
      */
     @GetMapping("/rechazarSolicitud/{id}")
@@ -234,7 +234,7 @@ public class AmigosController {
      * y redirige al usuario a la página donde se pueden ver las solicitudes enviadas de amistad.
      * @param id numero que representa el id de un usuario
      * @param session Permite acceder a la sesión actual del usuario, en la que se almacena información sobre el usuario
-     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de exíto
+     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de éxito
      * @return redirección al endpoint /amigos/solicitudesEnviadas con mensaje
      */
 
