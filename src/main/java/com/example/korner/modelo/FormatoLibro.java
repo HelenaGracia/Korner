@@ -10,7 +10,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "formato_libros")
+@Table(name = "formato_libros",uniqueConstraints =@UniqueConstraint(columnNames = "nombre_formato_libro"))
 public class FormatoLibro  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
