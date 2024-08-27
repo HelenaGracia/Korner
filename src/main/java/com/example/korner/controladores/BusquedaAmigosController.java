@@ -41,7 +41,8 @@ public class BusquedaAmigosController {
 
     /**
      * Este método se encarga de buscar usuarios en la aplicación excluyendo al usuario que hace uso de la aplicación
-     * y a los usuarios que son amigos de este.  Los resultados se muestran paginados y, si no se encuentran coincidencias
+     * a los usuarios que son amigos de este y a los usuarios que han enviado una solicitud de amistad al usuario.
+     * Los resultados se muestran paginados y, si no se encuentran coincidencias
      * o hay un error, se muestran mensajes de error correspondientes.
      * @param nombreUser cadena que contiene el nombre del usuario que se desea buscar, recibido desde el formulario
      * @param page número de página para la paginación
@@ -55,12 +56,19 @@ public class BusquedaAmigosController {
         try{
             Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
             model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
-            model.addAttribute("nameUsuario",session.getAttribute("userName").toString());            //lista Amigos del usuario sin distincion de bloqueados o pendientes
+            model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
+            //lista Amigos del usuario sin distincion de bloqueados o pendientes
             List<Amigo> listAmigos = amigoService.getAllAmigosList(user.get());
+            //lista Amigos pendientes del usuario
+            List<Amigo> listAmigosPendientes = amigoService.getAllAmigosListPendientes(user.get());
             //lista de Id de esos amigos
             List<Integer> listIdAmigos= new java.util.ArrayList<>(listAmigos.stream().map(Amigo::getUsuarioDestino).map(Usuario::getId).toList());
+            //lista de Id de amigos pendientes
+            List<Integer> listIdAmigosPendientes= new java.util.ArrayList<>(listAmigosPendientes.stream().map(Amigo::getUsuarioOrigen).map(Usuario::getId).toList());
             //lista de id con amigos y el usuario actual
             listIdAmigos.add(user.get().getId());
+            //lista de id con amigos, el usuario actual y los amigos pendientes
+            listIdAmigos.addAll(listIdAmigosPendientes);
 
             int currentPage = page.orElse(1);
             Pageable pageRequest = PageRequest.of(currentPage - 1, 10);
