@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PeliculaServiceImpl extends AbstractService<Pelicula,Integer, PeliculaRepository>{
@@ -55,5 +56,9 @@ public class PeliculaServiceImpl extends AbstractService<Pelicula,Integer, Pelic
 
     public Page<Pelicula> getAllPeliculasCompartidosByListIdAndUsuario(List<Integer> listId, Usuario usuario, Pageable page){
         return peliculaRepository.findAllByIdInAndUsuarioPelicula(listId,usuario, page);
+    }
+
+    public Optional<Pelicula> getPeliculaByTituloAndUsuario(String titulo, Usuario usuario){
+        return peliculaRepository.findPeliculaByTituloAndUsuarioPelicula(titulo, usuario);
     }
 }

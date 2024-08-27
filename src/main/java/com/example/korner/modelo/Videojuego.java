@@ -40,12 +40,6 @@ public class Videojuego extends AbstractEntity{
     @JoinColumn (name = "id_videojuego_usuarios")
     private Usuario usuarioVideojuego;
 
-    @Override
-    public String toString() {
-        return "Videojuego{" +
-                "generosVideojuegos=" + generosVideojuegos +
-                ", plataformasVideojuego=" + plataformasVideojuego +
-                ", usuarioVideojuego=" + usuarioVideojuego +
-                '}' + super.toString();
-    }
+    @OneToMany (mappedBy = "videojuego", fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
+    private Set<ElementoCompartido> videojuegosCompartidos;
 }

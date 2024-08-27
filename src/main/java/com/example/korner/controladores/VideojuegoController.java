@@ -25,10 +25,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Year;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -37,9 +34,7 @@ import java.util.stream.IntStream;
 public class VideojuegoController {
 
     private final VideojuegoServiceImpl videojuegoService;
-
     private final GeneroElementoServiceImpl generoElementoService;
-
     private final PlataformaVideojuegoServiceImpl plataformaVideojuegoService;
     private final FileSystemStorageService fileSystemStorageService;
 
@@ -60,17 +55,23 @@ public class VideojuegoController {
 
     private final Logger logger = LoggerFactory.getLogger(VideojuegoController.class);
 
-    //Mostrar Peliculas
+    /**
+     * Este método es responsable de preparar los datos necesarios para la página que muestra una lista de videojuegos.
+     * Gestiona la paginación, el ordenamiento, y proporciona al modelo de la vista las listas de géneros y plataformasVideojuego,
+     * así como un objeto vacío de tipo Videojuego. La vista renderiza estos datos para permitir al usuario ver  la lista de videojuegos
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param page número de página para la paginación
+     * @param session permite acceder a la sesión actual del usuario, donde se almacenan atributos como el ID del usuario,
+     * la imagen de perfil, y el nombre de usuario
+     * @param orden tipo de ordenamiento
+     * @return  String del nombre de la vista que debe ser renderizada
+     */
     @GetMapping("")
     public String listAllVideojuegos(Model model, @RequestParam("page") Optional<Integer> page,
                                      HttpSession session, @RequestParam(value = "orden", required = false) String orden){
 
-
         paginacion(model, page, session, orden);
 
-
-
-        //List<Pelicula> listadoPeliculas = peliculaService.getAll();
         Videojuego videojuego = new Videojuego();
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
         List<PlataformaVideojuego> plataformasList = plataformaVideojuegoService.getAll();
@@ -82,7 +83,21 @@ public class VideojuegoController {
     }
 
 
-    //Guardar Pelicula
+    /**
+     * Este método se encarga de la creacion de un videojuego. Recibe de un formulario los datos, valida esos datos, gestiona la
+     * subida de la imagen asociada al videojuego, y guardar toda esta información en la base de datos. En caso de errores,
+     * gestiona esos errores mostrando mensajes informativos al usuario y evita guardar datos incorrectos.
+     * @param multipartFile recibe el archivo de imagen que el usuario sube a través del formulario.
+     * @param videojuego recibe y valida el objeto Videojuego que se llena con los datos del formulario.
+     * @param bindingResult contiene los resultados de la validación, incluyendo posibles errores
+     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de éxito o error
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param page número de página para la paginación
+     * @param session permite acceder a la sesión actual del usuario, donde se almacenan atributos como el ID del usuario,
+     * la imagen de perfil, y el nombre de usuario
+     * @param orden tipo de orden para ordenar
+     * @return String del nombre de la vista que debe ser renderizada o redirección al endpoint /videojuegos
+     */
 
     @PostMapping("/saveVideojuego")
     /*Obtenemos del formulario el contenido del input imagen, que es un archivo de imagen y
@@ -96,14 +111,11 @@ public class VideojuegoController {
 
         paginacion(model, page, session, orden);
 
-
-
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
-        Set<GeneroElementoCompartido> listadoGeneros = videojuego.getGenerosVideojuegos();
-        logger.info("listado de generos:{}", listadoGeneros);
         List<PlataformaVideojuego> plataformasList = plataformaVideojuegoService.getAll();
         model.addAttribute("listaPlataformas", plataformasList);
         model.addAttribute("listaGeneros", generoElementoCompartidoList);
+        Optional<Usuario> user = usuarioSecurityService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
 
 
         if (bindingResult.hasErrors() || multipartFile.isEmpty()){
@@ -118,31 +130,30 @@ public class VideojuegoController {
             model.addAttribute("videojuegoActual", -1);
             return "videojuegos";
 
-        }else {
+        } else if (videojuegoService.getVideojuegoByTituloAndUsuario(videojuego.getTitulo(), user.get()).isPresent()) {
+            model.addAttribute("tituloRepetido", "Ya tienes un videojuego con ese título");
+            return "videojuegos";
+        } else {
             try {
-                Optional<Usuario> user = usuarioSecurityService.getById(Integer.valueOf((session.getAttribute("idusuario").toString() )));
-
                 videojuego.setUsuarioVideojuego(user.get());
-                logger.info("este es el objeto videojuego recibido{}", videojuego);
-            /*guardamos en la BBDD  el objeto pelicula con el resto de la información que hemos obtenido
+            /*guardamos en la BBDD  el objeto Videojuego con el resto de la información que hemos obtenido
              del formulario para que genere un id al guardarse
              */
                 videojuegoService.saveEntity(videojuego);
 
-                logger.info("este es el objeto videojuego guardado{}", videojuego);
             /*Creamos nuestros proprios nombres que van a llevar los archivos de imagenes, compuestos por el id
-             del objeto pelicula y la extensión del archivo(jpg, png)
+             del objeto Videojuego y la extensión del archivo(jpg, png)
              */
                 String nombreArchivo = "Videojuego" + videojuego.getId() + "Usuario" + videojuego.getUsuarioVideojuego().getId() + "." + FilenameUtils.getExtension(multipartFile.getOriginalFilename());
                 //Llamamos al metodo y le pasamos los siguientes argumentos(el archivo de imagen, nombre de la imagen)
                 fileSystemStorageService.storeWithName(multipartFile, nombreArchivo);
-                //Modificamos el nombre del atributo imagenRuta del objeto pelicula con la url que genera el controlador ImagenesController
+                //Modificamos el nombre del atributo imagenRuta del objeto Videojuego con la url que genera el controlador ImagenesController
                 videojuego.setImagenRuta( "/imagenes/leerImagen/" + nombreArchivo);
                 //Volvemos a guardar el objeto en la BBDD con los cambios
                 videojuegoService.saveEntity(videojuego);
-                attributes.addFlashAttribute("success", "Elemento añadido correctamente");
+                attributes.addFlashAttribute("success", "Videojuego añadido correctamente");
             }catch (DataIntegrityViolationException e){
-                logger.error("Error al guardar el videojuego creado", e);
+                logger.error("Error al guardar el videojuego creado por nombres duplicados", e);
                 attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
             } catch (Exception e){
                 logger.error("Error al guardar el videojuego creado", e);
@@ -153,6 +164,21 @@ public class VideojuegoController {
 
     }
 
+    /**
+     * Este método se encarga de la modificación de un videojuego. Recibe de un formulario los datos a modificar, valida esos datos, gestiona la
+     * subida de la imagen asociada al videojuego, y guardar toda esta información en la base de datos. En caso de errores,
+     * gestiona esos errores mostrando mensajes informativos al usuario y evita guardar datos incorrectos.
+     * @param multipartFile recibe el archivo de imagen que el usuario sube a través del formulario.
+     * @param videojuego recibe y valida el objeto Videojuego que se llena con los datos del formulario.
+     * @param bindingResult contiene los resultados de la validación, incluyendo posibles errores
+     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de éxito o error
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param page número de página para la paginación
+     * @param session permite acceder a la sesión actual del usuario, donde se almacenan atributos como el ID del usuario,
+     * la imagen de perfil, y el nombre de usuario
+     * @param orden tipo de orden para ordenar
+     * @return String del nombre de la vista que debe ser renderizada o redirección al endpoint /videojuegos
+     */
 
     @PostMapping("/saveVideojuegoModificar")
     //Obtenemos del formulario el contenido del input imagen, que es un archivo de imagen y se lo pasamos al parametro multipartFile
@@ -164,8 +190,6 @@ public class VideojuegoController {
                                         @RequestParam(value = "orden", required = false) String orden){
 
         paginacion(model, page, session, orden);
-
-
 
 
         final String FILE_PATH_ROOT = "D:/ficheros";
@@ -183,6 +207,15 @@ public class VideojuegoController {
             model.addAttribute("videojuegoActual", videojuego.getId());
             return "videojuegos";
         }else {
+            Optional<Videojuego> videojuego2 = videojuegoService.getVideojuegoByTituloAndUsuario(videojuego.getTitulo(), user.get());
+            if (videojuego2.isPresent()){
+                if (!Objects.equals(videojuego.getId(), videojuego2.get().getId())){
+                    model.addAttribute("tituloRepetido2", "Ya tienes un videojuego con el título: " + videojuego.getTitulo());
+                    model.addAttribute("videojuegoRepetido", videojuego.getId());
+                    return "videojuegos";
+                }
+            }
+        }
             try {
                 if (multipartFile.isEmpty()){
 
@@ -196,7 +229,7 @@ public class VideojuegoController {
                     }
 
                 } else{
-                    //Creamos nuestros proprios nombres que van a llevar los archivos de imagenes, compuestos por String Pelicula el id del objeto pelicula el titulo del objeto pelicula y la extensión del archivo(jpg, png)
+                    //Creamos nuestros proprios nombres que van a llevar los archivos de imagenes, compuestos por String Videojuego el id del objeto Videojuego el titulo del objeto Videojuego y la extensión del archivo(jpg, png)
                     String nombreArchivo = "Videojuego" + videojuego.getId() + "Usuario" + videojuego.getUsuarioVideojuego().getId() + "." + FilenameUtils.getExtension(multipartFile.getOriginalFilename());
                     //Llamamos al metedos y le pasamos los siguientes argumentos(el archivo de imagen, nombre de la imagen)
 
@@ -208,34 +241,48 @@ public class VideojuegoController {
                     }
                     fileSystemStorageService.storeWithName(multipartFile, nombreArchivo);
 
-                    //Modificamos el nombre del atributo imagenRuta del objeto pelicula con la url que genera el controlador ImagenesController
+                    //Modificamos el nombre del atributo imagenRuta del objeto Videojuego con la url que genera el controlador ImagenesController
                     videojuego.setImagenRuta("/imagenes/leerImagen/" + nombreArchivo);
 
                 }
 
                 //Volvemos a guardar el objeto en la BBDD con los cambios
                 videojuegoService.saveEntity(videojuego);
-                attributes.addFlashAttribute("success","Elemento añadido correctamente");
+                attributes.addFlashAttribute("success","Videojuego modificado correctamente");
             } catch (DataIntegrityViolationException e){
-                logger.error("Error al guardar el videojuego modificado");
+                logger.error("Error al guardar el videojuego modificado por nombres duplicados");
                 attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
             } catch (Exception e){
                 logger.error("Error al guardar el videojuego modificado");
                 attributes.addFlashAttribute("failed", "Error");
             }
             return "redirect:/videojuegos";
-        }
+
 
     }
 
 
-    //Eliminar Pelicula
+    /**
+     * Este método se encarga de eliminar un videojuego específico de la BBDD y su imagen correspondiente del sistema de archivos
+     * @param id Recibe el parámetro id desde el formulario o la solicitud. Este parámetro corresponde al identificador
+     * del Videojuego que se desea eliminar
+     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de éxito o error
+     * @return se redirige al usuario a la vista de videojuegos (/videojuegos), mostrando el mensaje correspondiente
+     * (de éxito o de error) en función de cómo haya transcurrido el proceso.
+     */
     @PostMapping("/deleteVideojuego")
-    public String deleteVideojuego(Videojuego videojuego, RedirectAttributes attributes){
+    public String deleteVideojuego(@RequestParam("id") Integer id, RedirectAttributes attributes){
+        final String FILE_PATH_ROOT = "D:/ficheros";
         try {
-            logger.info("este es el objeto videojuego eliminado{}", videojuego);
-            videojuegoService.deleteEntity(videojuego);
-            attributes.addFlashAttribute("success", "Elemento borrado");
+            Optional<Videojuego>videojuegoEliminar = videojuegoService.getById(id);
+            if(Files.exists(Path.of(FILE_PATH_ROOT+"/" + ("Videojuego" + videojuegoEliminar.get().getId() + "Usuario" + videojuegoEliminar.get().getUsuarioVideojuego().getId() + ".jpg")))) {
+                FileUtils.delete(new File(FILE_PATH_ROOT+ "/"+ "Videojuego" + videojuegoEliminar.get().getId() + "Usuario" + videojuegoEliminar.get().getUsuarioVideojuego().getId() +".jpg"));
+            } else{
+                FileUtils.delete(new File(FILE_PATH_ROOT+ "/"+ "Videojuego" + videojuegoEliminar.get().getId() + "Usuario" + videojuegoEliminar.get().getUsuarioVideojuego().getId() +".png"));
+
+            }
+            videojuegoService.deleteEntity(videojuegoEliminar.get());
+            attributes.addFlashAttribute("success", "Videojuego borrado");
         }catch (Exception e){
             logger.error("Error al elminar videojuego", e);
             attributes.addFlashAttribute("failed", "Error al eliminar");
@@ -244,6 +291,22 @@ public class VideojuegoController {
         return "redirect:/videojuegos";
     }
 
+    /**
+     * Este método se encarga de buscar videojuegos en la base de datos usando varios filtros.
+     * También maneja la paginación y la ordenación de los resultados, y gestiona los posibles errores que puedan
+     * ocurrir durante la búsqueda, mostrando mensajes apropiados al usuario.
+     * @param tituloVideojuegoBusqueda Cadena que contiene el título del videojuego para filtrar videojuegos por su título recibido desde el formulario
+     * @param filtroPuntuacion Valor numérico para filtrar videojuegos por su puntuación recibido desde el formulario
+     * @param generoId Valor numérico que representa el id de un objeto género para filtrar videojuegos por género, recibido desde el formulario
+     * @param filtroYear Valor numérico para filtrar videojuegos por su año de visualización recibido desde el formulario
+     * @param plataformaId Valor numérico que representa el id de un objeto plataformaVideojuego para filtrar videojuegos por plataforma, recibido desde el formulario
+     * @param filtrOrden Cadena con el criterio de ordenación para los resultados, recibido desde el formulario
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param page número de página para la paginación
+     * @param session Permite acceder a la sesión actual del usuario, en la que se almacena información sobre el usuario
+     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de error
+     * @return  retorna la vista videojuegos, que es donde se mostrarán los resultados de la búsqueda.
+     */
     @GetMapping("/search")
     public String search(@RequestParam(value = "tituloVideojuegoBusqueda", required = false) String tituloVideojuegoBusqueda,
                          @RequestParam(value = "filtroPuntuacion", required = false) Integer filtroPuntuacion,
@@ -253,9 +316,6 @@ public class VideojuegoController {
                          @RequestParam(value = "filtroOrden",required = false) String filtrOrden,
                          Model model, @RequestParam("page") Optional<Integer> page,
                          HttpSession session, RedirectAttributes attributes) {
-        logger.info("Titulo del vieojuego: {}", tituloVideojuegoBusqueda);
-        logger.info("puntuacion recibida del filtro: {}", filtroPuntuacion);
-        logger.info("genero recibido del filtro:{}", generoId);
         Videojuego videojuego = new Videojuego();
         model.addAttribute("datosVideojuego", videojuego);
         List<GeneroElementoCompartido> generoElementoCompartidoList = generoElementoService.getAll();
@@ -362,7 +422,7 @@ public class VideojuegoController {
 
                 }else {
                     attributes.addFlashAttribute("failed", "Sólo se puede filtrar por título, género, año, valoración " +
-                            "plataforma de forma idividual o por género, año, valoración y plataforma juntos");
+                            "plataforma de forma individual o por género, año, valoración y plataforma juntos");
                     return "redirect:/videojuegos";
                 }
             }else {
@@ -387,6 +447,8 @@ public class VideojuegoController {
             model.addAttribute("currentPage", currentPage);
             model.addAttribute("size", pagina.getContent().size());
             model.addAttribute("videojuegos", pagina.getContent());
+            model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
+            model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
         }catch (Exception e){
             logger.error("Error en la busqueda",e);
             model.addAttribute("busquedaFallida", "Error al realizar la búsqueda");
@@ -394,6 +456,14 @@ public class VideojuegoController {
         return "videojuegos";
     }
 
+    /**
+     * Este método se encarga de gestionar la paginación y la ordenación de la lista de videojuegos del usuario de la sesión
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param page número de página para la paginación
+     * @param session permite acceder a la sesión actual del usuario, donde se almacenan atributos como el ID del usuario,
+     * la imagen de perfil, y el nombre de usuario
+     * @param orden tipo de ordenamiento
+     */
     private void paginacion(Model model, Optional<Integer> page, HttpSession session, String orden){
         Optional<Usuario> user = usuarioSecurityService.getById(Integer.valueOf((session.getAttribute("idusuario").toString())));
 
@@ -426,7 +496,7 @@ public class VideojuegoController {
 
         /*
          se crea un objeto page que es el encargado de rellenar en la pagina que le has indicado con la cantidad
-         que le has dicho todos los objetos pelicula almacenados, es decir, crea la pagina que visualizas con el contenido
+         que le has dicho todos los objetos Videojuego almacenados, es decir, crea la pagina que visualizas con el contenido
          */
         Page<Videojuego> pagina = videojuegoService.getAllVideojuegos(user.get(), pageRequest);
 
@@ -448,20 +518,19 @@ public class VideojuegoController {
         }
         //Envio a la vista la pagina en la que estoy
         model.addAttribute("currentPage", currentPage);
-
         //getContent() returns just that single page's data
-
         model.addAttribute("size", pagina.getContent().size());
-
         model.addAttribute("videojuegos", pagina.getContent());
-
-
-
-
-
+        model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
 
     }
 
+    /**
+     * Método en en el cual se obtiene una lista con los años desde que el usuario de la sesion nació hasta el año actual
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param user recibe todos los datos del usuario actual de la sesion
+     */
     private void calcularAniosUsuario(Model model, Optional<Usuario> user) {
         //Obneter Listado con los años desde que el usuario nació hasta el año actual
         Integer actualYear = Year.now().getValue();

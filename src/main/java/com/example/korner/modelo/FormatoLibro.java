@@ -10,12 +10,11 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Table(name = "formato_libros")
 public class FormatoLibro  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_tipo_formato", nullable = false)
+    @Column(name = "id_formato", nullable = false)
     private Integer id;
 
     @Column (name = "nombre_formato_libro" , length = 30)

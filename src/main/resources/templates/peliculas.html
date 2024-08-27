@@ -16,7 +16,6 @@
 </head>
 <body>
 <div class="page-container">
-    <header>
         <header>
             <nav class="navbar sticky-top navbar-expand-lg bg-primary" >
                 <div class="container">
@@ -29,7 +28,7 @@
                     <div class="collapse navbar-collapse  justify-content-evenly" id="navbarNav">
                         <ul class="navbar-nav">
                             <li class="nav-item mt-lg-3  me-xl-3 " >
-                                <a class="nav-link active" th:href="@{/peliculas}">Peliculas</a>
+                                <a class="nav-link active" th:href="@{/peliculas}">Películas</a>
                             </li>
                             <li class="nav-item mt-lg-3  me-xl-3 ">
                                 <a class="nav-link" th:href="@{/videojuegos}">Videojuegos</a>
@@ -46,7 +45,7 @@
                             <li class="nav-item  dropdown mt-lg-3  me-xl-3 ">
                                 <a class="nav-link dropdown-toggle " href="#"  role="button" data-bs-toggle="dropdown" aria-expanded="false">Compartidos</a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" th:href="@{/compartidos/peliculas}">Peliculas</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/compartidos/peliculas}">Películas</a></li>
                                     <li><a class="dropdown-item" th:href="@{/compartidos/animes}">Animes</a></li>
                                     <li><a class="dropdown-item" th:href="@{/compartidos/series}">Series</a></li>
                                     <li><a class="dropdown-item" th:href="@{/compartidos/videojuegos}">Videojuegos</a></li>
@@ -58,12 +57,12 @@
                             </li>
                             <li class="nav-item ms-lg-2 ms-xl-2 ">
                                 <a class="" href="#" role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                                    <img th:src="@{/img/Nevernight.jpg}" alt="imagen perfil" >
+                                    <img th:src="${imagenUsuario}" alt="imagen perfil" />
                                 </a>
                             </li>
-                            <li class="nav-item mt-lg-4 ms-lg-2 ms-xl-3 ">
-                                <a href="#" role="button" class="position-relative" data-bs-toggle="modal" data-bs-target="#modal-noti">
-                                    <span class="position-absolute top-0  start-100 translate-middle badge rounded-pill bg-danger">9</span>
+                            <li class="nav-item mt-4 ms-lg-2 ms-xl-3 ">
+                                <a th:href="@{/leerNotificaciones}" role="button" class="position-relative">
+                                    <span id="numeroNotifBadge" class="position-absolute top-0  start-100 translate-middle badge rounded-pill bg-danger"></span>
                                     <i class="bi bi-bell fs-3 text-black"></i>
                                     <span class="visually-hidden">Notificaciones no leidas</span>
                                 </a>
@@ -73,24 +72,7 @@
                 </div>
             </nav>
         </header>
-    <!-- Modal Notificaciones -->
-    <div class="modal fade" id="modal-noti" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel1">Notificaciones</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Understood</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <!-- OffCanvas Perfil -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
         <div class="offcanvas-header">
@@ -98,131 +80,135 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <img th:src="@{/img/Nevernight.jpg}" alt="imagen perfil" class="img-perfil" >
-            <a href="" class="nombre-perfil" >VictorMer</a>
-            <a th:href="@{/ajustes}" class="btn btn-primary boton-perfil" >Ajustes</a>
-            <a th:href="@{/amigos}" class="btn btn-primary boton-perfil" >Amigos</a>
-            <a th:href="@{/logout}"  class="btn btn-primary boton-perfil" >Cerrar sesión</a>
+            <div class="text-center">
+                <img th:src="${imagenUsuario}" alt="imagen perfil" class="img-perfil d-flex mb-2" >
+                <a th:href="@{/ajustes/nombre}" th:text="${nameUsuario}" class="nombre-perfil pt-3" ></a>
+                <a th:href="@{/ajustes}" class="btn btn-primary boton-perfil" >Ajustes</a>
+                <a th:href="@{/amigos}" class="btn btn-primary boton-perfil" >Amigos</a>
+                <a th:href="@{/logout}" class="btn btn-primary boton-perfil" >Cerrar sesión</a>
+            </div>
         </div>
     </div>
     <!-- ESTRUCTURA BARRA DE BUSQUEDA -->
-    <div class="search-bar-container" style="margin-top: 35px;">
-        <div class="row">
-            <!-- Botón "Añadir" -->
-            <div class="col-12 col-md-3 d-flex justify-content-center mb-5 mb-md-0">
-                <button type="button" class="btn-section-add" data-bs-toggle="modal" data-bs-target="#modalPeliculaAñadir">AÑADIR</button>
-            </div>
+   <div class="container-fluid">
+       <div class="search-bar-container" >
+           <div class="row">
+               <!-- Botón "Añadir" -->
+               <div class="col-12 col-md-2 d-flex mb-5 mb-md-0 me-5">
+                   <button type="button" class="btn-section-add" data-bs-toggle="modal" data-bs-target="#modalPeliculaAñadir">AÑADIR</button>
+               </div>
 
-            <!-- Barra de Búsqueda-->
-            <div class="col-8 col-md-6 mb-3">
-                <form th:action="@{/peliculas/search}" method="get">
-                    <div class="input-group">
-                        <input type="search" name="tituloPeliculaBusqueda" class="form-control search-input" aria-label="search" placeholder="Buscar...">
-                        <!-- Botón Buscar -->
-                        <div class="input-group-append">
-                            <button type="submit" class="btn-section-searchbar">BUSCAR</button>
-                        </div>
-                    </div>
-                </form>
+               <!-- Barra de Búsqueda-->
+               <div class="col-8  col-md-6 mb-3 ms-md-5 ms-md-0 ">
+                   <form th:action="@{/peliculas/search}" method="get">
+                       <div class="input-group">
+                           <input type="search" name="tituloPeliculaBusqueda" class="form-control search-input" aria-label="search" placeholder="Buscar...">
+                           <!-- Botón Buscar -->
+                           <div class="input-group-append">
+                               <button type="submit" class="btn-section-searchbar">BUSCAR</button>
+                           </div>
+                       </div>
+                   </form>
 
-            </div>
-            <!-- Botón Filtros -->
-            <div class="col-4 col-md-3">
-                <div class="dropdown">
-                    <button type="button" class="btn-section-searchbar dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        FILTROS
-                    </button>
-                    <div class="dropdown-menu p-4" aria-labelledby="dropdownMenuButton">
-                        <form th:action="@{/peliculas/search}" method="get">
-                            <!-- Filtro por Género -->
-                            <div class="form-group mb-3">
-                                <label><strong>Género</strong></label><br>
-                                <div class="form-check">
-                                    <select class="form-select" th:name="filtroGenero">
-                                        <option th:selected="selected" th:disabled="disabled">--Selecione Género--</option>
-                                        <option th:each="generoFiltroForm:${listaGeneros}" th:value="${generoFiltroForm.id}" th:text="${generoFiltroForm.nombre}"></option>
-                                    </select>
-                                </div>
-                            </div>
+               </div>
+               <!-- Botón Filtros -->
+               <div class="col-12 col-sm-4 col-md-2">
+                   <div class="dropdown">
+                       <button type="button" class="btn-section-searchbar dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           FILTROS
+                       </button>
+                       <div class="dropdown-menu p-4" aria-labelledby="dropdownMenuButton">
+                           <form th:action="@{/peliculas/search}" method="get">
+                               <!-- Filtro por Género -->
+                               <div class="form-group mb-3">
+                                   <label><strong>Género</strong></label><br>
+                                   <div class="form-check">
+                                       <select class="form-select" th:name="filtroGenero">
+                                           <option th:selected="selected" th:disabled="disabled">--Seleccione Género--</option>
+                                           <option th:each="generoFiltroForm:${listaGeneros}" th:value="${generoFiltroForm.id}" th:text="${generoFiltroForm.nombre}"></option>
+                                       </select>
+                                   </div>
+                               </div>
 
-                            <!-- Filtro por Año -->
-                            <div class="form-group mb-3">
-                                <label><strong>Año</strong></label><br>
-                                <div class="form-check" >
-                                    <select class="form-select" th:name="filtroYear">
-                                        <option th:selected="selected" th:disabled="disabled">--Seleccione Año--</option>
-                                        <option th:each="year:${listadoYears}"  th:value="${year}" th:text="${year}"></option>
-                                    </select>
-                                </div>
-                            </div>
+                               <!-- Filtro por Año -->
+                               <div class="form-group mb-3">
+                                   <label><strong>Año</strong></label><br>
+                                   <div class="form-check" >
+                                       <select class="form-select" th:name="filtroYear">
+                                           <option th:selected="selected" th:disabled="disabled">--Seleccione Año--</option>
+                                           <option th:each="year:${listadoYears}"  th:value="${year}" th:text="${year}"></option>
+                                       </select>
+                                   </div>
+                               </div>
 
-                            <!-- Filtro por Valoración -->
-                            <div class="form-group mb-3">
-                                 <label><strong>Valoración</strong></label><br>
-                                  <div class="form-check">
-                                     <input class="form-check-input" type="radio" id="rating5" value="5" name="filtroPuntuacion">
-                                     <label class="form-check-label" for="rating5">5</label>
-                                 </div>
-                                 <div class="form-check">
-                                     <input class="form-check-input" type="radio" id="rating4" value="4" name="filtroPuntuacion">
-                                     <label class="form-check-label" for="rating4">4</label>
-                                 </div>
-                                 <div class="form-check">
-                                     <input class="form-check-input" type="radio" id="rating3" value="3" name="filtroPuntuacion">
-                                     <label class="form-check-label" for="rating3">3</label>
-                                 </div>
-                                 <div class="form-check">
-                                     <input class="form-check-input" type="radio" id="rating2" value="2" name="filtroPuntuacion">
-                                     <label class="form-check-label" for="rating2">2</label>
-                                 </div>
-                                 <div class="form-check">
-                                     <input class="form-check-input" type="radio" id="rating1" value="1" name="filtroPuntuacion">
-                                     <label class="form-check-label" for="rating1">1</label>
-                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="rating0" value="0" name="filtroPuntuacion">
-                                    <label class="form-check-label" for="rating1">0</label>
-                                </div>
+                               <!-- Filtro por Valoración -->
+                               <div class="form-group mb-3">
+                                   <label><strong>Valoración</strong></label><br>
+                                   <div class="form-check">
+                                       <input class="form-check-input" type="radio" id="rating5" value="5" name="filtroPuntuacion">
+                                       <label class="form-check-label" for="rating5">5</label>
+                                   </div>
+                                   <div class="form-check">
+                                       <input class="form-check-input" type="radio" id="rating4" value="4" name="filtroPuntuacion">
+                                       <label class="form-check-label" for="rating4">4</label>
+                                   </div>
+                                   <div class="form-check">
+                                       <input class="form-check-input" type="radio" id="rating3" value="3" name="filtroPuntuacion">
+                                       <label class="form-check-label" for="rating3">3</label>
+                                   </div>
+                                   <div class="form-check">
+                                       <input class="form-check-input" type="radio" id="rating2" value="2" name="filtroPuntuacion">
+                                       <label class="form-check-label" for="rating2">2</label>
+                                   </div>
+                                   <div class="form-check">
+                                       <input class="form-check-input" type="radio" id="rating1" value="1" name="filtroPuntuacion">
+                                       <label class="form-check-label" for="rating1">1</label>
+                                   </div>
+                                   <div class="form-check">
+                                       <input class="form-check-input" type="radio" id="rating0" value="0" name="filtroPuntuacion">
+                                       <label class="form-check-label" for="rating1">0</label>
+                                   </div>
 
 
-                            </div>
+                               </div>
 
-                            <!-- Filtro por Plataforma -->
-                            <div class="form-group mb-3">
-                                <label><strong>Plataforma</strong></label><br>
-                                <div class="form-check">
-                                    <select class="form-select" th:name="filtroPlataforma">
-                                        <option th:selected="selected" th:disabled="disabled">--Selecione Plataforma--</option>
-                                        <option th:each="plataformaFiltroForm:${listaPlataformas}" th:value="${plataformaFiltroForm.id}" th:text="${plataformaFiltroForm.nombrePlataforma}"></option>
-                                    </select>
-                                </div>
-                            </div>
+                               <!-- Filtro por Plataforma -->
+                               <div class="form-group mb-3">
+                                   <label><strong>Plataforma</strong></label><br>
+                                   <div class="form-check">
+                                       <select class="form-select" th:name="filtroPlataforma">
+                                           <option th:selected="selected" th:disabled="disabled">--Seleccione Plataforma--</option>
+                                           <option th:each="plataformaFiltroForm:${listaPlataformas}" th:value="${plataformaFiltroForm.id}" th:text="${plataformaFiltroForm.nombrePlataforma}"></option>
+                                       </select>
+                                   </div>
+                               </div>
 
-                            <!-- Ordenacion -->
-                            <div class="form-group mb-3">
-                                <label><strong>Ordenar por:</strong></label><br>
-                                <div class="form-check">
-                                    <select class="form-select" th:name="filtroOrden">
-                                        <option th:selected="selected" th:disabled="disabled">--Ordenar por--</option>
-                                        <option value="ordenFiltroTituloAsc">Título asc</option>
-                                        <option value="ordenFiltroTituloDesc">Título desc</option>
-                                        <option value="ordenFiltroIdAsc">Creación asc</option>
-                                        <option value="ordenFiltroIdDesc">Creación desc</option>
-                                    </select>
-                                </div>
-                            </div>
+                               <!-- Ordenacion -->
+                               <div class="form-group mb-3">
+                                   <label><strong>Ordenar por:</strong></label><br>
+                                   <div class="form-check">
+                                       <select class="form-select" th:name="filtroOrden">
+                                           <option th:selected="selected" th:disabled="disabled">--Ordenar por--</option>
+                                           <option value="ordenFiltroTituloAsc">Título asc</option>
+                                           <option value="ordenFiltroTituloDesc">Título desc</option>
+                                           <option value="ordenFiltroIdAsc">Creación asc</option>
+                                           <option value="ordenFiltroIdDesc">Creación desc</option>
+                                       </select>
+                                   </div>
+                               </div>
 
-                            <div class="d-flex justify-content-center mt-3">
-                                <button type="submit" class="btn-section-primary">Aplicar Filtros</button>
-                            </div>
+                               <div class="d-flex justify-content-center mt-3">
+                                   <button type="submit" class="btn-section-primary">Aplicar Filtros</button>
+                               </div>
 
-                        </form>
-                    </div>
-                </div>
-            </div>
+                           </form>
+                       </div>
+                   </div>
+               </div>
 
-        </div>
-    </div>
+           </div>
+       </div>
+   </div>
 
     <!-- MODAL FORMULARIO AÑADIR PELICULA -->
     <div class="modal fade" id="modalPeliculaAñadir" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"  aria-hidden="true">
@@ -235,11 +221,12 @@
                 </div>
                 <div class="modal-body">
                     <form th:action="@{/peliculas/savePelicula}" method="post" enctype="multipart/form-data" th:object="${datosPelicula}">
-                        <script th:inline="javascript" th:if="${#fields.hasErrors('*')  and  peliculaActual == -1 }">/*<![CDATA[*/ $(document).ready(function () { $('#modalPeliculaAñadir').modal('show');}); /*]]>*/</script>
+                        <script th:inline="javascript" th:if="${#fields.hasErrors('*')  and  peliculaActual == -1 || tituloRepetido != null }">/*<![CDATA[*/ $(document).ready(function () { $('#modalPeliculaAñadir').modal('show');}); /*]]>*/</script>
                         <div class="mb-3">
                             <label for="titulo" class="form-label">Título</label>
                             <input type="text" class="form-control" id="titulo" name="titulo" th:field="*{titulo}" >
                             <p th:if="${#fields.hasErrors('titulo')}" th:errorclass="error" th:errors="*{titulo}" ></p>
+                            <p th:if="${tituloRepetido}" class="error" th:text="${tituloRepetido}"></p>
                         </div>
                         <div class="mb-3">
                             <label for="imagen" class="form-label">Imagen</label>
@@ -303,12 +290,12 @@
     <!-- ESTRUCTURA PELICULAS -->
 
     <main class="content-wrap pt-5">
-        <div class="container">
+        <div class="container ">
             <!-- Responsive -->
             <div class="row pb-1">
                 <div class="col-12">
                     <div th:if = "${size == 0}" class="text-center">
-                        <p>No hay añadida ningúna película</p>
+                        <p>No hay añadida ninguna película</p>
                     </div>
                     <div th:if="${success}" class="text-center alert alert-success">
                         <p th:text="${success}"></p>
@@ -353,16 +340,16 @@
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
-                                    <a th:href="@{/peliculas(page=${currentPage - 1}, orden=${orden})}" class="page-link" href="#">Previous</a>
+                                    <a th:href="@{/peliculas(page=${currentPage - 1}, orden=${orden})}" class="page-link" >Previous</a>
                                 </li>
                                 <li th:each="pageNumber : ${pageNumbers}" class="page-item">
                                     <a th:href="@{/peliculas(page=${pageNumber}, orden=${orden})}"
                                        th:text="${pageNumber}"
                                        th:classappend="${pageNumber==pagina.number + 1} ? active"
-                                       class="page-link" href="#"></a>
+                                       class="page-link" ></a>
                                 </li>
                                 <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
-                                    <a th:href="@{/peliculas(page=${currentPage + 1}, orden=${orden})}" class="page-link" href="#">Next</a>
+                                    <a th:href="@{/peliculas(page=${currentPage + 1}, orden=${orden})}" class="page-link" >Next</a>
                                 </li>
                             </ul>
                         </nav>
@@ -380,7 +367,7 @@
                                     <a th:href="@{/peliculas/search(page=${currentPage - 1}, tituloPeliculaBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
-                                    filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" href="#">Previous</a>
+                                    filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" >Previous</a>
                                 </li>
                                 <li th:each="pageNumber : ${pageNumbers}" class="page-item">
                                     <a th:href="@{/peliculas/search(page=${pageNumber}, tituloPeliculaBusqueda=${titulo},
@@ -395,7 +382,7 @@
                                     <a th:href="@{/peliculas/search(page=${currentPage + 1}, tituloPeliculaBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
-                                     filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" href="#">Next</a>
+                                     filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" >Next</a>
                                 </li>
                             </ul>
                         </nav>
@@ -418,7 +405,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <form th:action="@{/peliculas/savePeliculaModificar}" method="post" enctype="multipart/form-data" th:object="${datosPelicula}">
-                                        <script th:inline="javascript" th:if="${#fields.hasErrors('*') and peliculaActual == pelicula.id} ">/*<![CDATA[*/ $(document).ready(function () {
+                                        <script th:inline="javascript" th:if="${#fields.hasErrors('*') and peliculaActual == pelicula.id || peliculaRepetida == pelicula.id} ">/*<![CDATA[*/ $(document).ready(function () {
                                             let modalId = 'modalPeliculaUpdate' + /*[[${pelicula.id}]]*/'';
                                             $('#' + modalId).modal('show');}); /*]]>*/</script>
                                         <input type="hidden" name="id" th:value="${pelicula.id}">
@@ -426,6 +413,7 @@
                                             <label for="titulo" class="form-label">Título</label>
                                             <input type="text" class="form-control" id="titulo" th:name="titulo" th:value="${pelicula.titulo}">
                                             <p th:if="${#fields.hasErrors('titulo')}" th:errorclass="error" th:errors="*{titulo}" th:field="*{titulo}"></p>
+                                            <p th:if="${peliculaRepetida == pelicula.id}" class="error" th:text="${tituloRepetido2}"></p>
                                         </div>
                                         <div class="mb-3">
                                             <label for="imagen" class="form-label">Imagen</label>
@@ -506,7 +494,7 @@
                                         <input type="hidden" name="id" th:value="${pelicula.id}">
                                         <div class="mb-3">
                                             <label for="titulo" class="form-label">Eliminar la siguiente película:</label>
-                                            <h4 class="form-control" id="tituloAnimeDelete" th:text="${pelicula.titulo}"></h4>
+                                            <h4 class="form-control" id="tituloPeliculaDelete" th:text="${pelicula.titulo}"></h4>
                                         </div>
                                         <div class="d-flex justify-content-end ">
                                             <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cerrar</button>
@@ -589,11 +577,7 @@
                 </div>
 
             </div>
-            <div class="d-flex justify-content-end pb-5">
-                <a href="#">
-                    <i class="bi bi-chat"></i>
-                </a>
-            </div>
+
 
             <!-- INICIO PAGINACION -->
             <div class="row">
@@ -602,16 +586,16 @@
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
-                                    <a th:href="@{/peliculas(page=${currentPage - 1}, orden=${orden})}" class="page-link" href="#">Previous</a>
+                                    <a th:href="@{/peliculas(page=${currentPage - 1}, orden=${orden})}" class="page-link" >Previous</a>
                                 </li>
                                 <li th:each="pageNumber : ${pageNumbers}" class="page-item">
                                     <a th:href="@{/peliculas(page=${pageNumber}, orden=${orden})}"
                                        th:text="${pageNumber}"
                                        th:classappend="${pageNumber==pagina.number + 1} ? active"
-                                       class="page-link" href="#"></a>
+                                       class="page-link" ></a>
                                 </li>
                                 <li th:unless="${currentPage == pagina.totalPages || pagina.totalPages == 0}" class="page-item">
-                                    <a th:href="@{/peliculas(page=${currentPage + 1}, orden=${orden})}" class="page-link" href="#">Next</a>
+                                    <a th:href="@{/peliculas(page=${currentPage + 1}, orden=${orden})}" class="page-link">Next</a>
                                 </li>
                             </ul>
                         </nav>
@@ -626,7 +610,7 @@
                                     <a th:href="@{/peliculas/search(page=${currentPage - 1}, tituloPeliculaBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
-                                    filtroPlataforma=${plataformaFiltro},filtroOrden=${ordenFiltro})}" class="page-link" href="#">Previous</a>
+                                    filtroPlataforma=${plataformaFiltro},filtroOrden=${ordenFiltro})}" class="page-link" >Previous</a>
                                 </li>
                                 <li th:each="pageNumber : ${pageNumbers}" class="page-item">
                                     <a th:href="@{/peliculas/search(page=${pageNumber}, tituloPeliculaBusqueda=${titulo},
@@ -635,13 +619,13 @@
                                      filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}"
                                        th:text="${pageNumber}"
                                        th:classappend="${pageNumber==pagina.number + 1} ? active"
-                                       class="page-link" href="#"></a>
+                                       class="page-link" ></a>
                                 </li>
                                 <li th:unless="${currentPage == pagina.totalPages || pagina.totalPages == 0}" class="page-item">
                                     <a th:href="@{/peliculas/search(page=${currentPage + 1}, tituloPeliculaBusqueda=${titulo},
                                     filtroPuntuacion=${puntuacionFiltro},
                                     filtroGenero=${generoFiltro}, filtroYear=${yearFiltro},
-                                     filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" href="#">Next</a>
+                                     filtroPlataforma=${plataformaFiltro}, filtroOrden=${ordenFiltro})}" class="page-link" >Next</a>
                                 </li>
                             </ul>
                         </nav>
@@ -654,7 +638,7 @@
 
 
     <footer class="bg-primary"></footer>
-
+    <script type="text/javascript" th:src="@{/js/notificaciones.js}"></script>
     <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js}" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </div>
 </body>

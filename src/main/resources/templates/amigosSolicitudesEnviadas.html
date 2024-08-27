@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" lang="es">
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="es">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Korner</title>
+  <title>Solicitudes Enviadas</title>
   <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css}" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"/>
   <link rel="preconnect" th:href="@{https://fonts.googleapis.com}"/>
   <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css}"/>
@@ -16,80 +16,78 @@
 </head>
   <body>
     <div class="page-container">
-        <header>
-             <nav class="navbar sticky-top navbar-expand-lg bg-primary" >
-                <div class="container">
-                  <a class="navbar-brand" th:href="@{/home}">
-                    <img th:src="@{/img/LogoSinFondo.svg}" alt="logo Korner">
-                  </a>
-                  <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                  </button>
-                  <div class="collapse navbar-collapse  justify-content-evenly" id="navbarNav">
-                    <ul class="navbar-nav">
-                      <li class="nav-item mt-lg-3 me-lg-5 ">
-                        <a class="nav-link" th:href="@{/peliculas}">Peliculas</a>
-                      </li>
-                      <li class="nav-item mt-lg-3 me-lg-5">
-                        <a class="nav-link" th:href="@{/videojuegos}">Videojuegos</a>
-                      </li>
-                      <li class="nav-item mt-lg-3 me-lg-5">
-                        <a class="nav-link" th:href="@{/series}">Series</a>
-                      </li>
-                      <li class="nav-item mt-lg-3 me-lg-5">
-                        <a class="nav-link" th:href="@{/libros}">Libros</a>
-                      </li>
-                      <li class="nav-item mt-lg-3 me-lg-5 ">
-                        <a class="nav-link" th:href="@{/animes}">Animes</a>
-                      </li>
-                      <li class="nav-item ms-lg-5">
-                        <a class="" href="#" role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                            <img th:src="@{/img/Nevernight.jpg}" alt="imagen perfil" >
+            <header>
+                <nav class="navbar sticky-top navbar-expand-lg bg-primary" >
+                    <div class="container">
+                        <a class="navbar-brand" th:href="@{/home}">
+                            <img th:src="@{/img/LogoSinFondo.svg}" alt="logo Korner">
                         </a>
-                      </li>
-                      <li class="nav-item mt-lg-4 ms-lg-4">
-                          <a href="#" role="button" class="position-relative" data-bs-toggle="modal" data-bs-target="#modal-noti">
-                            <span class="position-absolute top-0  start-100 translate-middle badge rounded-pill bg-danger">9</span>
-                            <i class="bi bi-bell fs-3 text-black"></i>
-                            <span class="visually-hidden">Notificaciones no leidas</span>
-                          </a>    
-                      </li>
-                    </ul>   
-                  </div>
-                </div>
-             </nav>
-        </header>
-        <!-- Modal Notificaciones -->
-        <div class="modal fade" id="modal-noti" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="staticBackdropLabel">Notificaciones</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  ...
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Understood</button>
-                </div>
-              </div>
-            </div>
-          </div>
+                        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse  justify-content-evenly" id="navbarNav">
+                            <ul class="navbar-nav">
+                                <li class="nav-item mt-lg-3  me-xl-3 " >
+                                    <a class="nav-link " th:href="@{/peliculas}">Películas</a>
+                                </li>
+                                <li class="nav-item mt-lg-3  me-xl-3 ">
+                                    <a class="nav-link" th:href="@{/videojuegos}">Videojuegos</a>
+                                </li>
+                                <li class="nav-item mt-lg-3  me-xl-3 ">
+                                    <a class="nav-link" th:href="@{/series}">Series</a>
+                                </li>
+                                <li class="nav-item mt-lg-3 me-xl-3  ">
+                                    <a class="nav-link" th:href="@{/libros}">Libros</a>
+                                </li>
+                                <li class="nav-item mt-lg-3  me-xl-3 ">
+                                    <a class="nav-link" th:href="@{/animes}">Animes</a>
+                                </li>
+                                <li class="nav-item  dropdown mt-lg-3  me-xl-3 ">
+                                    <a class="nav-link dropdown-toggle " href="#"  role="button" data-bs-toggle="dropdown" aria-expanded="false">Compartidos</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" th:href="@{/compartidos/peliculas}">Películas</a></li>
+                                        <li><a class="dropdown-item" th:href="@{/compartidos/animes}">Animes</a></li>
+                                        <li><a class="dropdown-item" th:href="@{/compartidos/series}">Series</a></li>
+                                        <li><a class="dropdown-item" th:href="@{/compartidos/videojuegos}">Videojuegos</a></li>
+                                        <li><a class="dropdown-item" th:href="@{/compartidos/libros}">Libros</a></li>
+                                    </ul>
+                                </li>
+                                <li  class="nav-item mt-lg-3  me-xl-2"  >
+                                    <a sec:authorize="hasRole('ADMIN')" class="nav-link" th:href="@{/gestion}" >Gestión</a>
+                                </li>
+                                <li class="nav-item ms-lg-2 ms-xl-2 ">
+                                    <a class="" href="#" role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                                        <img th:src="${imagenUsuario}" alt="imagen perfil" />
+                                    </a>
+                                </li>
+                                <li class="nav-item mt-4 ms-lg-2 ms-xl-3 ">
+                                    <a th:href="@{/leerNotificaciones}" role="button" class="position-relative" >
+                                        <span id="numeroNotifBadge" class="position-absolute top-0  start-100 translate-middle badge rounded-pill bg-danger"></span>
+                                        <i class="bi bi-bell fs-3 text-black"></i>
+                                        <span class="visually-hidden">Notificaciones no leidas</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+
           <!-- OffCanvas Perfil -->
           <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
             <div class="offcanvas-header">
               <h5 class="offcanvas-title" id="offcanvasRightLabel">Perfil</h5>
               <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
-            <div class="offcanvas-body">
-                <img th:src="@{/img/Nevernight.jpg}" alt="imagen perfil" class="img-perfil" />
-                <a href="" class="nombre-perfil" >VictorMer</a>
-                <a th:href="@{/ajustes}"  class="btn btn-primary boton-perfil" >Ajustes</a>
-                <a th:href="@{/amigos}" class="btn btn-primary boton-perfil" >Amigos</a>
-                <a th:href="@{/logout}"  class="btn btn-primary boton-perfil" >Cerrar sesión</a>
-            </div>
+              <div class="offcanvas-body">
+                  <div class="text-center">
+                      <img th:src="${imagenUsuario}" alt="imagen perfil" class="img-perfil d-flex mb-2" >
+                      <a th:href="@{/ajustes/nombre}" th:text="${nameUsuario}" class="nombre-perfil pt-3" ></a>
+                      <a th:href="@{/ajustes}" class="btn btn-primary boton-perfil" >Ajustes</a>
+                      <a th:href="@{/amigos}" class="btn btn-primary boton-perfil" >Amigos</a>
+                      <a th:href="@{/logout}" class="btn btn-primary boton-perfil" >Cerrar sesión</a>
+                  </div>
+              </div>
           </div>
         <!-------Main Cuerpo----------->
         <main class="content-wrap pt-5">
@@ -128,18 +126,20 @@
                     </div>
                 </div>
                 <!-- FIN PAGINACION -->
-                <table class="table" th:if = "${size > 0}">
+                <div class="table-responsive">
+                    <table class="table" th:if = "${size > 0}">
 
-                    <tbody>
-                    <tr th:each="amigo:${amigos}">
-                        <!--<th scope="row" th:src="${usuario.getImagen()}"></th>-->
-                        <th scope="row" ><img src="../static/img/cca.jpg" alt="imagen perfil" class="imgdrop-chat" /></th>
-                        <td th:text="${amigo.getUsuarioDestino().getNombre()}"></td>
-                        <td>Pendiente de Aceptar</td>
-                        <td ><a role="button" class="btn btn-primary" th:href="@{/amigos/eliminarSolicitud/{id} (id=${amigo.getUsuarioDestino().id})}" >Eliminar</a></td>
-                    </tr>
-                    </tbody>
-                </table>
+                        <tbody>
+                        <tr th:each="amigo:${amigos}">
+                            <th scope="row" ><img th:src="${amigo.getUsuarioDestino().getRutaImagen()}" alt="imagen perfil" class="imgdrop-chat" /></th>
+                            <td th:text="${amigo.getUsuarioDestino().getNombre()}"></td>
+                            <td>Pendiente de Aceptar</td>
+                            <td ><a role="button" class="btn btn-primary" th:href="@{/amigos/eliminarSolicitud/{id} (id=${amigo.getUsuarioDestino().id})}" >Eliminar</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
 
                 <!-- INICIO PAGINACION 2-->
                 <div class="row">
@@ -167,7 +167,7 @@
           </div>
         </main>
         <footer class="bg-primary "></footer>
-        
+      <script type="text/javascript" th:src="@{/js/notificaciones.js}"></script>
       <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js}" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     </div>
    </body>

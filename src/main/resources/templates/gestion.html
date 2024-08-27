@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>Korner</title>
+    <title>Gestión</title>
     <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css}" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"/>
     <link rel="preconnect" th:href="@{https://fonts.googleapis.com}"/>
     <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css}"/>
@@ -18,78 +18,70 @@
   <body>
     <div class="page-container">
         <header>
-             <nav class="navbar sticky-top navbar-expand-lg bg-primary" >
+            <nav class="navbar sticky-top navbar-expand-lg bg-primary" >
                 <div class="container">
-                  <a class="navbar-brand" th:href="@{/home}">
-                    <img th:src="@{/img/LogoSinFondo.svg}" alt="logo Korner">
-                  </a>
-                  <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                  </button>
-                  <div class="collapse navbar-collapse  justify-content-evenly" id="navbarNav">
-                    <ul class="navbar-nav">
-                      <li class="nav-item mt-lg-3 me-lg-5 ">
-                        <a class="nav-link" th:href="@{/peliculas}">Peliculas</a>
-                      </li>
-                      <li class="nav-item mt-lg-3 me-lg-5">
-                        <a class="nav-link" th:href="@{/videojuegos}">Videojuegos</a>
-                      </li>
-                      <li class="nav-item mt-lg-3 me-lg-5">
-                        <a class="nav-link" th:href="@{/series}">Series</a>
-                      </li>
-                      <li class="nav-item mt-lg-3 me-lg-5">
-                        <a class="nav-link" th:href="@{/libros}">Libros</a>
-                      </li>
-                      <li class="nav-item mt-lg-3 me-lg-5 ">
-                        <a class="nav-link" th:href="@{/animes}">Animes</a>
-                      </li>
-                      <li class="nav-item  dropdown mt-lg-3 me-lg-5 ">
-                        <a class="nav-link dropdown-toggle" href="#"  role="button" data-bs-toggle="dropdown" aria-expanded="false">Admin gestión</a>
-                          <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" th:href="@{/usuarios}">Usuarios</a></li>
-                              <li><a class="dropdown-item" th:href="@{/generosElementos}">Géneros Elementos</a></li>
-                              <li><a class="dropdown-item" th:href="@{/plataformasElementos}">Plataformas Elementos</a></li>
-                              <li><a class="dropdown-item" href="#">Formatos Libros</a></li>
-                              <li><a class="dropdown-item" th:href="@{/plataformasVideojuegos}">Plataformas Videojuegos</a></li>
-                              <li><a class="dropdown-item" th:href="@{/generosUsuarios}">Géneros Usuarios</a></li>
-
-                          </ul>
-                      </li>
-                      <li class="nav-item ms-lg-5">
-                        <a class="" href="#" role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                            <img th:src="@{/img/Nevernight.jpg}" alt="imagen perfil" >
-                        </a>
-                      </li>
-                      <li class="nav-item mt-lg-4 ms-lg-4">
-                          <a href="#" role="button" class="position-relative" data-bs-toggle="modal" data-bs-target="#modal-noti">
-                            <span class="position-absolute top-0  start-100 translate-middle badge rounded-pill bg-danger">9</span>
-                            <i class="bi bi-bell fs-3 text-black"></i>
-                            <span class="visually-hidden">Notificaciones no leidas</span>
-                          </a>    
-                      </li>
-                    </ul>   
-                  </div>
+                    <a class="navbar-brand" th:href="@{/home}">
+                        <img th:src="@{/img/LogoSinFondo.svg}" alt="logo Korner">
+                    </a>
+                    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse  justify-content-evenly" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item mt-lg-3  me-xl-3  ">
+                                <a class="nav-link" th:href="@{/peliculas}">Películas</a>
+                            </li>
+                            <li class="nav-item mt-lg-3  me-xl-3 ">
+                                <a class="nav-link" th:href="@{/videojuegos}">Videojuegos</a>
+                            </li>
+                            <li class="nav-item mt-lg-3  me-xl-3 ">
+                                <a class="nav-link" th:href="@{/series}">Series</a>
+                            </li>
+                            <li class="nav-item mt-lg-3  me-xl-3 ">
+                                <a class="nav-link" th:href="@{/libros}">Libros</a>
+                            </li>
+                            <li class="nav-item mt-lg-3  me-xl-3  ">
+                                <a class="nav-link" th:href="@{/animes}">Animes</a>
+                            </li>
+                            <li class="nav-item  dropdown mt-lg-3  me-xl-3 ">
+                                <a class="nav-link dropdown-toggle " href="#"  role="button" data-bs-toggle="dropdown" aria-expanded="false">Compartidos</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" th:href="@{/compartidos/peliculas}">Películas</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/compartidos/animes}">Animes</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/compartidos/series}">Series</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/compartidos/videojuegos}">Videojuegos</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/compartidos/libros}">Libros</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item  dropdown mt-lg-3  me-xl-2 ">
+                                <a class="nav-link dropdown-toggle active" href="#"  role="button" data-bs-toggle="dropdown" aria-expanded="false">Gestión</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" th:href="@{/gestionUsuarios}">Usuarios</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/generosElementos}">Géneros Elementos</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/plataformasElementos}">Plataformas Elementos</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/formatosLibros}">Formatos Libros</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/plataformasVideojuegos}">Plataformas Videojuegos</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/generosUsuarios}">Géneros Usuarios</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item ms-lg-2 ms-xl-2">
+                                <a class="" href="#" role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                                    <img th:src="${imagenUsuario}" alt="imagen perfil" />
+                                </a>
+                            </li>
+                            <li class="nav-item mt-4 ms-lg-2 ms-xl-3">
+                                <a th:href="@{/leerNotificaciones}" role="button" class="position-relative" >
+                                    <span id="numeroNotifBadge" class="position-absolute top-0  start-100 translate-middle badge rounded-pill bg-danger"></span>
+                                    <i class="bi bi-bell fs-3 text-black"></i>
+                                    <span class="visually-hidden">Notificaciones no leidas</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-             </nav>
+            </nav>
         </header>
-        <!-- Modal Notificaciones -->
-        <div class="modal fade" id="modal-noti" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="staticBackdropLabel">Notificaciones</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  ...
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Understood</button>
-                </div>
-              </div>
-            </div>
-          </div>
+
         <!-- OffCanvas Perfil -->
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
             <div class="offcanvas-header">
@@ -97,30 +89,91 @@
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
-                <img th:src="@{/img/Nevernight.jpg}" alt="imagen perfil" class="img-perfil" >
-                <a href="" class="nombre-perfil" >VictorMer</a>
-                <a th:href="@{/ajustes}" class="btn btn-primary boton-perfil" >Ajustes</a>
-                <a th:href="@{/amigos}" class="btn btn-primary boton-perfil" >Amigos</a>
-                <a th:href="@{/logout}" class="btn btn-primary boton-perfil" >Cerrar sesión</a>
+                <div class="text-center">
+                    <img th:src="${imagenUsuario}" alt="imagen perfil" class="img-perfil d-flex mb-2" >
+                    <a th:href="@{/ajustes/nombre}" th:text="${nameUsuario}" class="nombre-perfil pt-3" ></a>
+                    <a th:href="@{/ajustes}" class="btn btn-primary boton-perfil" >Ajustes</a>
+                    <a th:href="@{/amigos}" class="btn btn-primary boton-perfil" >Amigos</a>
+                    <a th:href="@{/logout}" class="btn btn-primary boton-perfil" >Cerrar sesión</a>
+                </div>
             </div>
         </div>
         <main class="content-wrap ">
           <div class="container d-flex justify-content-center">
             <section class="row pb-5">
-                <article class="col-12">
-                   <h2>Bienvenido <span>Nombre admin</span> a la página de gestión de <span class="txt-naranja">Korner</span></h2>
+                <article class="col-12 text-center mt-5 pt-3">
+                   <h2>Bienvenido <span class="txt-rosa" th:text="${nameUsuario}"></span> a la página de gestión de <span class="txt-naranja">Korner</span></h2>
                    <div class="d-flex justify-content-center">
-                    <img class="pt-5" th:src="@{/img/LogoSinFondo.svg}" alt="Logo Korner">
+                    <img class="pt-3 pb-3" style="width: auto; height: 12rem" th:src="@{/img/LogoSinFondo.svg}" alt="Logo Korner">
                    </div>
-                   
+                </article>
+
+                <article class="col-12 col-md-6">
+                    <div class="card mx-auto mb-5" style="width: 18rem;">
+                        <img th:src="@{/img/plataformas.png}" class=" img-card2" alt="imagen de un conjunto de plataformas">
+                        <div class="card-body">
+                            <h5 class="card-title txt-naranja">Plataformas</h5>
+                            <p class="card-text">Gestiona las plataformas de las películas, series y animes</p>
+                            <a th:href="@{/plataformasElementos}" class="btn btn-primary px-5 py-2">Ir</a>
+                        </div>
+                    </div>
+                </article>
+                <article class="col-12 col-md-6">
+                    <div class="card mx-auto mb-5" style="width: 18rem;">
+                        <img th:src="@{/img/formato.png}" class=" img-card2" alt="formato libro">
+                        <div class="card-body">
+                            <h5 class="card-title txt-naranja">Formatos Libros</h5>
+                            <p class="card-text">Gestiona los formatos de los libros</p>
+                            <a th:href="@{/formatosLibros}" class="btn btn-primary px-5 py-2">Ir</a>
+                        </div>
+                    </div>
+                </article>
+                <article class="col-12 col-md-6">
+                    <div class="card mx-auto mb-5" style="width: 18rem;">
+                        <img th:src="@{/img/usuario.png}" class=" img-card" alt="usuario">
+                        <div class="card-body">
+                            <h5 class="card-title txt-naranja">Usuarios</h5>
+                            <p class="card-text">Gestiona las cuentas de los usuarios</p>
+                            <a th:href="@{/gestionUsuarios}" class="btn btn-primary px-5 py-2">Ir</a>
+                        </div>
+                    </div>
+                </article>
+                <article class="col-12 col-md-6">
+                    <div class="card mx-auto mb-5" style="width: 18rem;">
+                        <img th:src="@{/img/simboloGenero.png}" class=" img-card" alt="logo genero hombre y mujer">
+                        <div class="card-body">
+                            <h5 class="card-title txt-naranja">Géneros Usuarios</h5>
+                            <p class="card-text">Gestiona los géneros de los usuarios</p>
+                            <a th:href="@{/generosUsuarios}" class="btn btn-primary px-5 py-2">Ir</a>
+                        </div>
+                    </div>
+                </article>
+                <article class="col-12 col-md-6">
+                    <div class="card mx-auto mb-5" style="width: 18rem;">
+                        <img th:src="@{/img/pltaVideojuego.png}" class=" img-card2" alt="imagen conjunto de videoconsolas">
+                        <div class="card-body">
+                            <h5 class="card-title txt-naranja">Plataformas Videojuegos</h5>
+                            <p class="card-text">Gestiona las plataformas de los videojuegos</p>
+                            <a th:href="@{/plataformasVideojuegos}" class="btn btn-primary px-5 py-2">Ir</a>
+                        </div>
+                    </div>
+                </article>
+                <article class="col-12 col-md-6">
+                    <div class="card mx-auto mb-5 " style="width: 18rem;">
+                        <img th:src="@{/img/generos.png}" class=" img-card2" alt="imagen de un conjunto de géneros">
+                        <div class="card-body">
+                            <h5 class="card-title txt-naranja">Géneros</h5>
+                            <p class="card-text">Gestiona los géneros de los elementos</p>
+                            <a th:href="@{/generosElementos}" class="btn btn-primary px-5 py-2">Ir</a>
+                        </div>
+                    </div>
                 </article>
             </section>
 
-
-           
           </div>
         </main>
         <footer class="bg-primary "></footer>
+        <script type="text/javascript" th:src="@{/js/notificaciones.js}"></script>
         <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js}" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     </div>
   </body>

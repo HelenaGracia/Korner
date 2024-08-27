@@ -35,16 +35,8 @@ public class Pelicula  extends AbstractEntity{
 
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn (name = "id_pelicula_usuarios")
-
     private Usuario usuarioPelicula;
 
-
-    @Override
-    public String toString() {
-        return "Pelicula{" +
-                "trailerRuta='" + trailerRuta + '\'' +
-                ", plataformasPelicula=" + plataformasPelicula +
-                ", generoElementoCompartidoPelicula=" + generosPelicula +
-                '}'+ super.toString();
-    }
+    @OneToMany (mappedBy = "pelicula", fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
+    private Set<ElementoCompartido> peliculasCompartidas;
 }

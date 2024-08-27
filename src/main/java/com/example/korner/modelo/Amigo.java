@@ -39,15 +39,5 @@ public class Amigo {
     @OneToMany (mappedBy = "amigos", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<ElementoCompartido> elementoCompartidos;
 
-    @Override
-    public String toString() {
-        return "Amigo{" +
-                "id=" + id +
-                ", bloqueado=" + bloqueado +
-                ", pendiente=" + pendiente +
-                ", usuarioOrigen=" + usuarioOrigen +
-                ", usuarioDestino=" + usuarioDestino +
-                ", elementoCompartidos=" + elementoCompartidos +
-                '}';
-    }
+
 }

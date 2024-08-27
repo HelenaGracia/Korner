@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" lang="es">
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="es">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Korner</title>
+  <title>Amigos</title>
   <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css}" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"/>
   <link rel="preconnect" th:href="@{https://fonts.googleapis.com}"/>
   <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css}"/>
@@ -17,76 +17,62 @@
   <body>
     <div class="page-container">
         <header>
-             <nav class="navbar sticky-top navbar-expand-lg bg-primary" >
-                <div class="container">
-                  <a class="navbar-brand" th:href="@{/home.html}">
-                    <img th:src="@{/img/LogoSinFondo.svg}" alt="logo Korner">
-                  </a>
-                  <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                  </button>
-                  <div class="collapse navbar-collapse  justify-content-evenly" id="navbarNav">
-                    <ul class="navbar-nav">
-                      <li class="nav-item mt-lg-3 me-lg-5 ">
-                        <a class="nav-link" th:href="@{/peliculas}">Peliculas</a>
-                      </li>
-                      <li class="nav-item mt-lg-3 me-lg-5">
-                        <a class="nav-link" th:href="@{/videojuegos}">Videojuegos</a>
-                      </li>
-                      <li class="nav-item mt-lg-3 me-lg-5">
-                        <a class="nav-link" th:href="@{/series}">Series</a>
-                      </li>
-                      <li class="nav-item mt-lg-3 me-lg-5">
-                        <a class="nav-link" th:href="@{/libros}">Libros</a>
-                      </li>
-                      <li class="nav-item mt-lg-3 me-lg-5 ">
-                        <a class="nav-link" th:href="@{/animes}">Animes</a>
-                      </li>
-                      <li class="nav-item  dropdown mt-lg-3 me-lg-5 ">
-                        <a class="nav-link dropdown-toggle" href="#"  role="button" data-bs-toggle="dropdown" aria-expanded="false">Compartidos</a>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" th:href="@{/compartidos/peliculas}">Peliculas</a></li>
-                          <li><a class="dropdown-item" th:href="@{/compartidos/animes}">Animes</a></li>
-                          <li><a class="dropdown-item" th:href="@{/compartidos/series}">Series</a></li>
-                          <li><a class="dropdown-item" th:href="@{/compartidos/videojuegos}">Videojuegos</a></li>
-                          <li><a class="dropdown-item" th:href="@{/compartidos/libros}">Libros</a></li>
-                        </ul>
-                      </li>
-                      <li class="nav-item ms-lg-5">
-                        <a class="" href="#" role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                            <img th:src="@{/img/Nevernight.jpg}" alt="imagen perfil" >
-                        </a>
-                      </li>
-                      <li class="nav-item mt-lg-4 ms-lg-4">
-                          <a href="#" role="button" class="position-relative" data-bs-toggle="modal" data-bs-target="#modal-noti">
-                            <span class="position-absolute top-0  start-100 translate-middle badge rounded-pill bg-danger">9</span>
-                            <i class="bi bi-bell fs-3 text-black"></i>
-                            <span class="visually-hidden">Notificaciones no leidas</span>
-                          </a>    
-                      </li>
-                    </ul>   
-                  </div>
-                </div>
-             </nav>
-        </header>
-        <!-- Modal Notificaciones -->
-        <div class="modal fade" id="modal-noti" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="staticBackdropLabel">Notificaciones</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  ...
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Understood</button>
-                </div>
+          <nav class="navbar sticky-top navbar-expand-lg bg-primary" >
+            <div class="container">
+              <a class="navbar-brand" th:href="@{/home}">
+                <img th:src="@{/img/LogoSinFondo.svg}" alt="logo Korner">
+              </a>
+              <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse  justify-content-evenly" id="navbarNav">
+                <ul class="navbar-nav">
+                  <li class="nav-item mt-lg-3  me-xl-3 " >
+                    <a class="nav-link " th:href="@{/peliculas}">Películas</a>
+                  </li>
+                  <li class="nav-item mt-lg-3  me-xl-3 ">
+                    <a class="nav-link" th:href="@{/videojuegos}">Videojuegos</a>
+                  </li>
+                  <li class="nav-item mt-lg-3  me-xl-3 ">
+                    <a class="nav-link" th:href="@{/series}">Series</a>
+                  </li>
+                  <li class="nav-item mt-lg-3 me-xl-3  ">
+                    <a class="nav-link" th:href="@{/libros}">Libros</a>
+                  </li>
+                  <li class="nav-item mt-lg-3  me-xl-3 ">
+                    <a class="nav-link" th:href="@{/animes}">Animes</a>
+                  </li>
+                  <li class="nav-item  dropdown mt-lg-3  me-xl-3 ">
+                    <a class="nav-link dropdown-toggle " href="#"  role="button" data-bs-toggle="dropdown" aria-expanded="false">Compartidos</a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" th:href="@{/compartidos/peliculas}">Películas</a></li>
+                      <li><a class="dropdown-item" th:href="@{/compartidos/animes}">Animes</a></li>
+                      <li><a class="dropdown-item" th:href="@{/compartidos/series}">Series</a></li>
+                      <li><a class="dropdown-item" th:href="@{/compartidos/videojuegos}">Videojuegos</a></li>
+                      <li><a class="dropdown-item" th:href="@{/compartidos/libros}">Libros</a></li>
+                    </ul>
+                  </li>
+                  <li  class="nav-item mt-lg-3  me-xl-2"  >
+                    <a sec:authorize="hasRole('ADMIN')" class="nav-link" th:href="@{/gestion}" >Gestión</a>
+                  </li>
+                  <li class="nav-item ms-lg-2 ms-xl-2 ">
+                    <a class="" href="#" role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                      <img th:src="${imagenUsuario}" alt="imagen perfil" />
+                    </a>
+                  </li>
+                  <li class="nav-item mt-4 ms-lg-2 ms-xl-3 ">
+                    <a th:href="@{/leerNotificaciones}" role="button" class="position-relative" >
+                      <span id="numeroNotifBadge" class="position-absolute top-0  start-100 translate-middle badge rounded-pill bg-danger"></span>
+                      <i class="bi bi-bell fs-3 text-black"></i>
+                      <span class="visually-hidden">Notificaciones no leidas</span>
+                    </a>
+                  </li>
+                </ul>
               </div>
             </div>
-          </div>
+          </nav>
+        </header>
+
           <!-- OffCanvas Perfil -->
           <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
             <div class="offcanvas-header">
@@ -94,11 +80,13 @@
               <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
-                <img th:src="@{/img/Nevernight.jpg}" alt="imagen perfil" class="img-perfil" />
-                <a href="" class="nombre-perfil" >VictorMer</a>
+              <div class="text-center">
+                <img th:src="${imagenUsuario}" alt="imagen perfil" class="img-perfil d-flex mb-2" >
+                <a th:href="@{/ajustes/nombre}" th:text="${nameUsuario}" class="nombre-perfil pt-3" ></a>
                 <a th:href="@{/ajustes}" class="btn btn-primary boton-perfil" >Ajustes</a>
                 <a th:href="@{/amigos}" class="btn btn-primary boton-perfil" >Amigos</a>
                 <a th:href="@{/logout}" class="btn btn-primary boton-perfil" >Cerrar sesión</a>
+              </div>
             </div>
           </div>
         <!-------Main Cuerpo----------->
@@ -108,12 +96,12 @@
         
         <!-- Cuadro Buscar Amigos-->
 
-              <article class="caja1 col-12 col-sm-6">
+              <article class="caja1 col-12 col-md-6">
                 <h6 class="titulo-caja">Buscar Amigos</h6>
                 <form th:action="@{/amigos/search}" method="get">
                   <div class="row p-2 input-group">
                     <div class="col-8 col-sm-12 col-md-8">
-                      <input type="search" name="amigosBusqueda" class="form-control text-center mx-auto bordenombre" aria-label="search" placeholder="Escribir Nombre">
+                      <input type="search" name="amigosBusqueda" class="form-control text-center mx-auto bordenombre" aria-label="search" placeholder="Escribir Nombre" required="required">
                     </div>
                     <div class="col-4 col-sm-12 col-md-4">
                       <button type="submit" class="btn btn-primary btn-sm mx-auto">BUSCAR</button>
@@ -123,9 +111,14 @@
 
               </article>
 
+        <!-- boton bloqueados -->
+              <div class="d-flex justify-content-end col-6 col-md-3 pb-4">
+                <button id="botonbloq" class="btn btn-primary " onclick="ocultarbloq()">Bloquedos</button>
+              </div>
+
         <!-- DropDown Solicitudes -->
 
-              <div class="d-flex justify-content-end col-12 col-sm-6 pb-4">
+              <div class="d-flex justify-content-end col-6 col-md-3 pb-4">
                 <div class="dropdown">
                   <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Ver Solicitudes
@@ -138,10 +131,10 @@
               </div>
 
 
-              <!---------Seccion Conectados----------->
+              <!---------Seccion Amigos----------->
 
               <article class="caja-amigos"  >
-                <h6 class="titulo-caja">Conectados</h6>
+                <h6 class="titulo-caja">Amigos</h6>
                 <div class="row">
                   <div class="row pb-1">
                     <div class="col-12">
@@ -154,16 +147,16 @@
                     <nav aria-label="Page navigation example">
                       <ul class="pagination">
                         <li th:if="${pagina.totalPages > 1 && currentPage!=1}" class="page-item">
-                          <a th:href="@{/amigos(page=${currentPage - 1})}" class="page-link">Previous</a>
+                          <a th:href="@{/amigos(page=${currentPage - 1},pagebloq=${currentPageBloq})}" class="page-link">Previous</a>
                         </li>
                         <li th:each="pageNumber : ${pageNumbers}" class="page-item">
-                          <a th:href="@{/amigos(page=${pageNumber})}"
+                          <a th:href="@{/amigos(page=${pageNumber},pagebloq=${currentPageBloq})}"
                              th:text="${pageNumber}"
                              th:classappend="${pageNumber==pagina.number + 1} ? active"
                              class="page-link" ></a>
                         </li>
                         <li th:unless="${currentPage ==pagina.totalPages || pagina.totalPages == 0}" class="page-item">
-                          <a th:href="@{/amigos(page=${currentPage + 1})}" class="page-link" >Next</a>
+                          <a th:href="@{/amigos(page=${currentPage + 1},pagebloq=${currentPageBloq})}" class="page-link" >Next</a>
                         </li>
                       </ul>
                     </nav>
@@ -186,18 +179,13 @@
                             </li>
                           </ul>
                         </div>
-                        
-                        <a class= " caja-conectados-chat" href="#" >
-                          <img th:src="@{img/lilo.jpg}" class="card-img-top img-card-amigos" alt="imagenperfil">
+
+                        <div >
+                          <img th:src="${amigos.getUsuarioDestino().getRutaImagen()}" class=" img-card-amigos" alt="imagenperfil">
                           <div>
-                            <h6 class="card-title text-center" th:text="${amigos.getUsuarioDestino().getNombre()}">Juanma25</h6>
-                            <div class="caja-estado text-center">
-                              <span class="conectado"></span>
-                              <p class="text-center texto-estado" style="display: inline-block">Online</p>
-                              <p class="text-center texto-estado">Disponible</p>
-                            </div>
+                            <h6 class="card-title text-center" th:text="${amigos.getUsuarioDestino().getNombre()}"></h6>
                           </div>
-                        </a>
+                        </div>
 
                         <!-- MODAL ELIMINAR AMIGO -->
 
@@ -227,11 +215,11 @@
 
                         <!-- MODAL Bloquear AMIGO -->
 
-                        <div class="modal fade" th:id="modalAmigoBloquear + ${amigos.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel3" aria-hidden="true">
+                        <div class="modal fade" th:id="modalAmigoBloquear + ${amigos.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                           <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                             <div class="modal-content">
                               <div class="modal-header">
-                                <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel3">BLOQUEAR AMIGO</h1>
+                                <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel">BLOQUEAR AMIGO</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                               </div>
                               <div class="modal-body">
@@ -258,30 +246,6 @@
               </article>
 
 
-            
-
-              <!---------Seccion Desconectados----------->
-              <article class="caja-amigos">
-                  <h6 class="titulo-caja">Desconectados</h6>
-                  <div class="row">
-                                        
-                    <div class="col-6 col-sm-4 col-lg-2">
-                      <div class="card card-amigos mx-auto mb-3">
-                        <img src="../static/img/opm.png" class="card-img-top img-card-amigos" alt="imagenperfil">
-                        <div>
-                          <h6 class="card-title text-center" >Pedrito5</h6>
-                          <div class="caja-estado text-center">
-                            <span class="desconectado"></span>
-                            <p class="text-center texto-estado" style="display: inline-block">Desconectado</p>
-                            <p class="text-center texto-estado">Última conexión hace 2 horas</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-  
-                  </div>
-              </article>
-
               <!---------Seccion Bloqueados----------->
               <article id="seccionbloq" class="caja-amigos" style="display: none;">
                 <h6 class="titulo-caja">Bloqueados</h6>
@@ -297,16 +261,16 @@
                     <nav aria-label="Page navigation example">
                       <ul class="pagination">
                         <li th:if="${paginaBloq.totalPages > 1 && currentPageBloq!=1}" class="page-item">
-                          <a th:href="@{/amigos(pagebloq=${currentPageBloq - 1})}" class="page-link" >Previous</a>
+                          <a th:href="@{/amigos(pagebloq=${currentPageBloq - 1}, page=${currentPage})}" class="page-link" >Previous</a>
                         </li>
                         <li th:each="pageNumberBloq : ${pageNumbersBloq}" class="page-item">
-                          <a th:href="@{/amigos(pagebloq=${pageNumberBloq})}"
+                          <a th:href="@{/amigos(pagebloq=${pageNumberBloq}, page=${currentPage})}"
                              th:text="${pageNumberBloq}"
                              th:classappend="${pageNumberBloq==paginaBloq.number + 1} ? active"
                              class="page-link" ></a>
                         </li>
-                        <li th:unless="${currentPageBloq == paginaBloq.totalPages || pagina.totalPages == 0}" class="page-item">
-                          <a th:href="@{/amigos(pagebloq=${currentPageBloq + 1})}" class="page-link">Next</a>
+                        <li th:unless="${currentPageBloq == paginaBloq.totalPages || paginaBloq.totalPages == 0}" class="page-item">
+                          <a th:href="@{/amigos(pagebloq=${currentPageBloq + 1}, page=${currentPage})}" class="page-link">Next</a>
                         </li>
                       </ul>
                     </nav>
@@ -324,14 +288,9 @@
                           </li>
                         </ul>
                       </div>
-                      <img src="../static/img/animal1.png" class="card-img-top img-card-amigos" alt="imagenperfil">
+                      <img th:src="${bloqueado.getUsuarioDestino().getRutaImagen()}" class=" img-card-amigos" alt="imagenperfil">
                       <div>
-                        <h6 class="card-title text-center" th:text="${bloqueado.getUsuarioDestino().getNombre()}">Juan2</h6>
-                        <div class="caja-estado text-center">
-                          <span class="desconectado"></span>
-                          <p class="text-center texto-estado" style="display: inline-block">Desconectado</p>
-                          <p class="text-center texto-estado">Bloqueado hace 3 horas</p>
-                        </div>
+                        <h6 class="card-title text-center" th:text="${bloqueado.getUsuarioDestino().getNombre()}"></h6>
                       </div>
                     </div>
                     <!-- MODAL Desbloquear AMIGO -->
@@ -370,93 +329,6 @@
 
         </main>
         <footer class="bg-primary ">
-          <!---------Seccion Chat----------->
-          <div class="icono-chat">
-            <div class="dropup-center dropup container">
-              <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-chat"></i>
-              </a>
-              <ul class="dropdown-menu cajadrop-desplegable" >
-                <h6 class="text-center">Chats</h6>
-
-                <li><a class="dropdown-item clickchat" href="#" >
-                  <article class="row">
-
-                    <div class="row cajadrop-dentro p-0"  >
-                      <h6 class="text-center" style="margin-top: 0.2rem; margin-bottom: 0;">Juanma25</h6>
-                      <div class="col-4 p-0 ">
-                        <img src="../static/img/lilo.jpg" alt="imagen perfil" class="imgdrop-chat" />
-                      </div>
-                      <div class="col-8 p-0 ">
-                        <div class="cajadrop-chat text-center">
-                          <span style="font-size: 0.7rem;">sii esa serie es increible</span>
-                        </div>
-                      </div>
-                    </div>
-
-                  </article>
-                </a></li>
-
-                <li><a class="dropdown-item clickchat" href="#" >
-                  <article class="row">
-
-                    <div class="row cajadrop-dentro p-0" >
-                      <h6 class="text-center" style="margin-top: 0.2rem; margin-bottom: 0;">ManuWada</h6>
-                      <div class="col-4 p-0 ">
-                        <img src="../static/img/cca.jpg" alt="imagen perfil" class="imgdrop-chat" />
-                      </div>
-                      <div class="col-8 p-0 ">
-                        <div class="cajadrop-chat text-center">
-                          <span style="font-size: 0.7rem;">y tienes que ver death...</span>
-                        </div>
-                      </div>
-                    </div>
-
-                  </article>
-                </a></li>
-
-                <li><a class="dropdown-item clickchat" href="#" >
-                  <article class="row">
-
-                    <div class="row cajadrop-dentro p-0" >
-                      <h6 class="text-center" style="margin-top: 0.2rem; margin-bottom: 0;">Alvaro_37</h6>
-                      <div class="col-4 p-0 ">
-                        <img src="../static/img/3.jpg" alt="imagen perfil" class="imgdrop-chat" />
-                      </div>
-                      <div class="col-8 p-0 ">
-                        <div class="cajadrop-chat text-center">
-                          <span style="font-size: 0.7rem;">luego te comparto mi...</span>
-                        </div>
-                      </div>
-                    </div>
-
-                  </article>
-                </a></li>
-
-                <li><a class="dropdown-item clickchat" href="#" >
-                  <article class="row">
-
-                    <div class="row cajadrop-dentro p-0" >
-                      <h6 class="text-center" style="margin-top: 0.2rem; margin-bottom: 0;">NoeNayo</h6>
-                      <div class="col-4 p-0 ">
-                        <img src="../static/img/shi.jpg" alt="imagen perfil" class="imgdrop-chat" />
-                      </div>
-                      <div class="col-8 p-0 ">
-                        <div class="cajadrop-chat text-center">
-                          <span style="font-size: 0.7rem;">Ya termine la serie!!!</span>
-                        </div>
-                      </div>
-                    </div>
-
-                  </article>
-                </a></li>
-
-              </ul>
-            </div>
-          </div>
-          <div>
-            <button id="botonbloq" class="btn btn-primary btn-bloq" onclick="ocultarbloq()">Bloquedos</button>
-          </div>
         </footer>
         <script>
         function ocultarbloq(){
@@ -472,7 +344,8 @@
 
         }
         </script>
-        
+
+      <script type="text/javascript" th:src="@{/js/notificaciones.js}"></script>
       <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js}" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     </div>
    </body>

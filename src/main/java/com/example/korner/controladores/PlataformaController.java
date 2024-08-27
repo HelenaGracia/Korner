@@ -40,25 +40,44 @@ public class PlataformaController {
         this.plataformaService = plataformaService;
     }
 
+    /**
+     * Este método es responsable de preparar los datos necesarios para la página que muestra una lista de plataformas,
+     * gestiona la paginación y proporciona al modelo de la vista un objeto vacío de tipo Plataforma. La vista
+     * renderiza estos datos para permitir al usuario ver  la lista de plataformas
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param page número de página para la paginación
+     * @param session permite acceder a la sesión actual del usuario, donde se almacenan atributos como el ID del usuario,
+     * la imagen de perfil, y el nombre de usuario
+     * @return String del nombre de la vista que debe ser renderizada
+     */
     @GetMapping("")
-    public String showPlataformas(Model model, @RequestParam("page") Optional<Integer> page){
+    public String showPlataformas(Model model, @RequestParam("page") Optional<Integer> page, HttpSession session){
 
-        paginacion(model,page);
-
-        //List<Plataforma> listadoPlataformas = plataformaService.getAll();
+        paginacion(model,page, session);
         Plataforma plataforma = new Plataforma();
-        //model.addAttribute("size", listadoPlataformas.size());
-       // model.addAttribute("plataformas", listadoPlataformas);
         model.addAttribute("datosPlataforma", plataforma);
         return "plataformas";
     }
 
+    /**
+     * Este método se encarga de la creacion de una plataforma. Recibe de un formulario los datos, valida esos datos
+     * y guardar toda esta información en la base de datos. En caso de errores gestiona esos errores mostrando mensajes
+     * informativos al usuario y evita guardar datos incorrectos.
+     * @param plataforma recibe y valida el objeto Plataforma que se llena con los datos del formulario.
+     * @param bindingResult contiene los resultados de la validación, incluyendo posibles errores
+     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de éxito o error
+     * @param page número de página para la paginación
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param session permite acceder a la sesión actual del usuario, donde se almacenan atributos como el ID del usuario,
+     * la imagen de perfil, y el nombre de usuario
+     * @return String del nombre de la vista que debe ser renderizada o redirección al endpoint /plataformasElementos
+     */
     @PostMapping("/savePlataforma")
     public String savePlataforma(@Validated @ModelAttribute(name = "datosPlataforma") Plataforma plataforma,
                                BindingResult bindingResult, RedirectAttributes attributes,
                                  @RequestParam("page") Optional<Integer> page,
-                                 Model model){
-        paginacion(model,page);
+                                 Model model, HttpSession session){
+        paginacion(model,page, session);
 
         if (bindingResult.hasErrors()){
             model.addAttribute("plataformaActual", -1);
@@ -67,29 +86,39 @@ public class PlataformaController {
 
         }else {
             try {
-                logger.info("este es el objeto plataforma recibido{}", plataforma);
                 plataformaService.saveEntity(plataforma);
-                logger.info("este es el objeto plataforma guardado{}", plataforma);
                 attributes.addFlashAttribute("success", "Elemento añadido correctamente");
             }catch (DataIntegrityViolationException e){
-                e.printStackTrace();
+                logger.error("Error al guardar debido a nombres duplicados");
                 attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
             } catch (Exception e){
-                e.printStackTrace();
+                logger.error("Error al guardar", e);
                 attributes.addFlashAttribute("failed", "Error");
             }
             return "redirect:/plataformasElementos";
         }
 
     }
-
+    /**
+     * Este método se encarga de la modificación de una plataforma. Recibe de un formulario los datos a modificar, valida esos datos
+     * y guardar toda esta información en la base de datos. En caso de errores gestiona esos errores mostrando mensajes
+     * informativos al usuario y evita guardar datos incorrectos.
+     * @param plataforma recibe y valida el objeto Plataforma que se llena con los datos del formulario.
+     * @param bindingResult contiene los resultados de la validación, incluyendo posibles errores
+     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de éxito o error
+     * @param page número de página para la paginación
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param session permite acceder a la sesión actual del usuario, donde se almacenan atributos como el ID del usuario,
+     * la imagen de perfil, y el nombre de usuario
+     * @return String del nombre de la vista que debe ser renderizada o redirección al endpoint /plataformasElementos
+     */
 
     @PostMapping("/savePlataformaModificar")
     public String savePlataformaModificar(@Validated @ModelAttribute(name = "datosPlataforma") Plataforma plataforma,
                                  BindingResult bindingResult, RedirectAttributes attributes,
                                           @RequestParam("page") Optional<Integer> page,
-                                          Model model){
-        paginacion(model, page);
+                                          Model model, HttpSession session){
+        paginacion(model, page, session);
 
         if (bindingResult.hasErrors()){
             model.addAttribute("plataformaActual", plataforma.getId());
@@ -98,15 +127,13 @@ public class PlataformaController {
 
         }else {
             try {
-                logger.info("este es el objeto plataforma recibido{}", plataforma);
                 plataformaService.saveEntity(plataforma);
-                logger.info("este es el objeto plataforma guardado{}", plataforma);
                 attributes.addFlashAttribute("success", "Elemento añadido correctamente");
             }catch (DataIntegrityViolationException e){
-                e.printStackTrace();
+                logger.error("Error al modificar debido a nombres duplicados", e);
                 attributes.addFlashAttribute("failed", "Error debido a nombres duplicados");
             } catch (Exception e){
-                e.printStackTrace();
+                logger.error("Error al modificar", e);
                 attributes.addFlashAttribute("failed", "Error");
             }
             return "redirect:/plataformasElementos";
@@ -114,21 +141,34 @@ public class PlataformaController {
 
     }
 
-
+    /**
+     * Este método se encarga de eliminar una plataforma específica de la BBDD
+     * @param id Recibe el parámetro id desde el formulario o la solicitud. Este parámetro corresponde al identificador
+     * de la Plataforma que se desea eliminar
+     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de éxito o error
+     * @return se redirige al usuario a la vista de plataformasElementos (/plataformasElementos), mostrando el mensaje correspondiente
+     * (de éxito o de error) en función de cómo haya transcurrido el proceso.
+     */
     @PostMapping("/deletePlataforma")
-    public String deletePlataforma(Plataforma plataforma, RedirectAttributes attributes){
+    public String deletePlataforma(Integer id, RedirectAttributes attributes){
         try {
-            logger.info("este es el objeto plataforma eliminado{}", plataforma);
-
-            plataformaService.deleteEntity(plataforma);
+            plataformaService.deleteEntityById(id);
             attributes.addFlashAttribute("success", "Elemento borrado");
         }catch (Exception e){
+            logger.error("Error al eliminar", e);
             attributes.addFlashAttribute("failed", "Error al eliminar");
         }
         return "redirect:/plataformasElementos";
     }
 
-    private void paginacion(Model model, Optional<Integer> page){
+    /**
+     * Este método se encarga de gestionar la paginación de la lista de plataformas
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param page número de página para la paginación
+     * @param session permite acceder a la sesión actual del usuario, donde se almacenan atributos como el ID del usuario,
+     * la imagen de perfil, y el nombre de usuario
+     */
+    private void paginacion(Model model, Optional<Integer> page, HttpSession session){
         //Recibe la pagina en la que estoy si no recibe nada asigna la pagina 1
         int currentPage = page.orElse(1);
         //Guarda la pagina en la que estoy (Si es la pagina 1, la 2...) y la cantidad de elementos que quiero mostrar en ella
@@ -158,12 +198,11 @@ public class PlataformaController {
         }
         //Envio a la vista la pagina en la que estoy
         model.addAttribute("currentPage", currentPage);
-
         //getContent() returns just that single page's data
-
         model.addAttribute("size", pagina.getContent().size());
-
         model.addAttribute("plataformas", pagina.getContent());
+        model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
+        model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
 
     }
 

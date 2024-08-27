@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 
 @Entity
 @Getter
@@ -25,4 +27,6 @@ public class Genero {
     @Column (name = "descripcion" , length = 30)
     private String descripcion;
 
+    @OneToMany (mappedBy = "generos", fetch = FetchType.EAGER)
+    private Set<Usuario> usuario;
 }

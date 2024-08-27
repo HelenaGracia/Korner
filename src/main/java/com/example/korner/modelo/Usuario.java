@@ -16,7 +16,6 @@ import java.util.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Table(name = "usuarios",uniqueConstraints = {
         @UniqueConstraint(columnNames = {"nombre"}),
         @UniqueConstraint(columnNames = "correo")})
@@ -49,43 +48,45 @@ public class Usuario implements Serializable, UserDetails {
 
     @Column (name = "correo" , length = 45)
     @NotBlank
-    @Email(message = "Introduzca un Email válido")
+    @Email(regexp = "^([0-9a-zA-Z]+[-._+&])*[0-9a-zA-Z]+@([-0-9a-zA-Z]+[.])+[a-zA-Z]{2,6}$" , message = "Introduzca un Email válido")
     private String correo;
 
     @Column (name = "imagen")
     private String rutaImagen;
 
-    @Column (name = "ajustes")
-    private String ajustes;
+    @Column (name = "ajustes_sesion")
+    private String ajustesInicioSesion;
 
-    @ManyToOne (fetch = FetchType.EAGER)
+    @ManyToOne (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_roles", foreignKey = @ForeignKey(name = "fk_rol_usuario"))
     private Rol role;
 
-    @ManyToOne (fetch = FetchType.EAGER)
+    @ManyToOne (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_generos", foreignKey = @ForeignKey(name = "fk_genero_usuario"))
     @NotNull(message = "Debe seleccionar una opción")
     private Genero generos;
 
-    @OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn (name = "id_usuarios", foreignKey = @ForeignKey(name = "fk_usuarios_notificaciones"))
-    private Set<Notificaciones> notificacion;
 
-    @OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "usuarioAnime")
+
+    @OneToMany (fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true, mappedBy = "usuarioAnime")
     private Set<Anime> animes;
 
-    @OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "usuarioLibro")
+    @OneToMany (fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true, mappedBy = "usuarioLibro")
     private Set<Libro> libros;
 
-    @OneToMany( fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "usuarioVideojuego")
+    @OneToMany( fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true, mappedBy = "usuarioVideojuego")
     private Set<Videojuego> videojuegos;
 
-    @OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "usuarioPelicula")
+    @OneToMany (fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true, mappedBy = "usuarioPelicula")
     private Set<Pelicula> peliculas;
 
-    @OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn (name = "id_usuarios", foreignKey = @ForeignKey(name = "fk_usuarios_series"))
+    @OneToMany (fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true, mappedBy = "usuarioSerie")
     private Set<Serie> series;
+
+    @OneToMany (mappedBy = "usuarioOrigen", fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
+    private Set<Amigo> amigosOrigen;
+    @OneToMany (mappedBy = "usuarioDestino", fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
+    private Set<Amigo> amigosDestino;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
