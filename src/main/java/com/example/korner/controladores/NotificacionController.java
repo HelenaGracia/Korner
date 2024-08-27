@@ -41,7 +41,14 @@ public class NotificacionController {
         this.amigoService = amigoService;
     }
 
-
+    /**
+     * Este método se encarga de contar el número de notificaciones pendientes que tiene un usuario. Comprueba que
+     * las notificaiones estén actualizadas y sean relevantes antes de devolver un recuento. Actualiza las notificaciones
+     * basándose en la existencia del contenido y el estado de los usuarios relacionados, eliminando notificaciones obsoletas o
+     * no contando las que proceden de usuarios con la cuenta inactiva
+     * @param session Permite acceder a la sesión actual del usuario, en la que se almacena información sobre el usuario
+     * @return respuesta HTTP (ResponseEntity), donde el cuerpo de la respuesta es un string que representa el número de notificaciones
+     */
     @GetMapping("/numeroNotificaciones")
     public ResponseEntity<String> contarNotificacionesPendientes(HttpSession session){
         String nombreUsuario = session.getAttribute("userName").toString();
@@ -191,6 +198,16 @@ public class NotificacionController {
         }
 
 
+    /**
+     * Este método se encarga de mostrar en la vista las notificaciones de un usuario. Actualiza las notificaciones,
+     * marcándolas como léidas y basándose en la existencia del contenido y el estado de los usuarios relacionados,
+     * eliminando notificaciones obsoletas o no mostrando las que proceden de usuarios con la cuenta inactiva
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param page número de página para la paginación de notificaciones
+     * @param session permite acceder a la sesión actual del usuario, donde se almacenan atributos como el ID del usuario,
+     * la imagen de perfil, y el nombre de usuario
+     * @return String del nombre de la vista que debe ser renderizada
+     */
     @GetMapping("/leerNotificaciones")
     public String leerNotificaciones(Model model, @RequestParam("page") Optional<Integer> page, HttpSession session){
         String nombreUsuario = session.getAttribute("userName").toString();
@@ -274,6 +291,13 @@ public class NotificacionController {
 
         return "notificaciones";
     }
+
+    /**
+     * Este método se encarga de eliminar de la BBDD las notificaciones del usuario que esten en estado de leido
+     * @param session permite acceder a la sesión actual del usuario, en la que se almacena información sobre el usuario
+     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de exíto
+     * @return redirección al endpoint /leerNotificaciones
+     */
 
     @GetMapping("/eliminarNotificaciones")
     public String eliminarNotificaciones(HttpSession session, RedirectAttributes attributes){

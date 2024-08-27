@@ -36,6 +36,16 @@ public class FormatoLibroController {
         this.formatoLibroService = formatoLibroService;
     }
 
+    /**
+     * Este método es responsable de preparar los datos necesarios para la página que muestra una lista de formatos de libros,
+     * gestiona la paginación y proporciona al modelo de la vista un objeto vacío de tipo FormatoLibro. La vista
+     * renderiza estos datos para permitir al usuario ver  la lista de formatos de libros
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param page número de página para la paginación
+     * @param session permite acceder a la sesión actual del usuario, donde se almacenan atributos como el ID del usuario,
+     * la imagen de perfil, y el nombre de usuario
+     * @return String del nombre de la vista que debe ser renderizada
+     */
     @GetMapping("")
     public String showFormatosLibros(Model model, @RequestParam("page") Optional<Integer> page, HttpSession session){
 
@@ -45,6 +55,19 @@ public class FormatoLibroController {
         return "formatosLibros";
     }
 
+    /**
+     * Este método se encarga de la creacion de un formato de libro. Recibe de un formulario los datos, valida esos datos
+     * y guardar toda esta información en la base de datos. En caso de errores gestiona esos errores mostrando mensajes
+     * informativos al usuario y evita guardar datos incorrectos.
+     * @param formato recibe y valida el objeto FormatoLibro que se llena con los datos del formulario.
+     * @param bindingResult contiene los resultados de la validación, incluyendo posibles errores
+     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de éxito o error
+     * @param page número de página para la paginación
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param session permite acceder a la sesión actual del usuario, donde se almacenan atributos como el ID del usuario,
+     * la imagen de perfil, y el nombre de usuario
+     * @return String del nombre de la vista que debe ser renderizada o redirección al endpoint /formatosLibros
+     */
     @PostMapping("/saveFormato")
     public String saveFormato(@Validated @ModelAttribute(name = "datosFormato") FormatoLibro formato,
                                BindingResult bindingResult, RedirectAttributes attributes,
@@ -73,7 +96,19 @@ public class FormatoLibroController {
 
     }
 
-
+    /**
+     * Este método se encarga de la modificación de un formato de libro. Recibe de un formulario los datos a modificar, valida esos datos
+     * y guardar toda esta información en la base de datos. En caso de errores gestiona esos errores mostrando mensajes
+     * informativos al usuario y evita guardar datos incorrectos.
+     * @param formato recibe y valida el objeto FormatoLibro que se llena con los datos del formulario.
+     * @param bindingResult contiene los resultados de la validación, incluyendo posibles errores
+     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de éxito o error
+     * @param page número de página para la paginación
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param session permite acceder a la sesión actual del usuario, donde se almacenan atributos como el ID del usuario,
+     * la imagen de perfil, y el nombre de usuario
+     * @return String del nombre de la vista que debe ser renderizada o redirección al endpoint /formatosLibros
+     */
     @PostMapping("/saveFormatoModificar")
     public String saveFormatoModificar(@Validated @ModelAttribute(name = "datosFormato") FormatoLibro formato,
                                  BindingResult bindingResult, RedirectAttributes attributes,
@@ -102,11 +137,18 @@ public class FormatoLibroController {
 
     }
 
-
+    /**
+     * Este método se encarga de eliminar un formato de libro específico de la BBDD
+     * @param id Recibe el parámetro id desde el formulario o la solicitud. Este parámetro corresponde al identificador
+     * de la FormatoLibro que se desea eliminar
+     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de éxito o error
+     * @return se redirige al usuario a la vista de formatosLibros (/formatosLibros), mostrando el mensaje correspondiente
+     * (de éxito o de error) en función de cómo haya transcurrido el proceso.
+     */
     @PostMapping("/deleteFormato")
-    public String deleteFormato(FormatoLibro formato, RedirectAttributes attributes){
+    public String deleteFormato(Integer id, RedirectAttributes attributes){
         try {
-            formatoLibroService.deleteEntity(formato);
+            formatoLibroService.deleteEntityById(id);
             attributes.addFlashAttribute("success", "Elemento borrado");
         }catch (Exception e){
             attributes.addFlashAttribute("failed", "Error al eliminar");
@@ -115,6 +157,13 @@ public class FormatoLibroController {
         return "redirect:/formatosLibros";
     }
 
+    /**
+     * Este método se encarga de gestionar la paginación de la lista de formatos de libros
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param page número de página para la paginación
+     * @param session permite acceder a la sesión actual del usuario, donde se almacenan atributos como el ID del usuario,
+     * la imagen de perfil, y el nombre de usuario
+     */
     private void paginacion(Model model, Optional<Integer> page, HttpSession session){
         //Recibe la pagina en la que estoy si no recibe nada asigna la pagina 1
         int currentPage = page.orElse(1);

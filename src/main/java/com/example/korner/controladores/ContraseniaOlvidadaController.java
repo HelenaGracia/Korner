@@ -61,7 +61,7 @@ public class ContraseniaOlvidadaController {
                     " nuestros servicios";
             emailService.sendEmail(usuario.get().getCorreo(),"Nueva contraseña", mensaje);
             attributes.addFlashAttribute("success", "Se le ha enviado un correo a " + usuario.get().getCorreo() +
-                    " con la nueva contraseña, no se olvide de pulsar en click here");
+                    " con la nueva contraseña, puede que haya sido enviado a spam, no se olvide de pulsar en click here");
 
         }else {
             attributes.addFlashAttribute("failed", "La dirección de correo no es la correcta o " +
@@ -92,7 +92,7 @@ public class ContraseniaOlvidadaController {
                     " nuestros servicios";
             emailService.sendEmail(usuario.get().getCorreo(),"Nueva contraseña", mensaje);
             attributes.addFlashAttribute("success", "Se le ha enviado un correo a " + usuario.get().getCorreo() +
-                    " con la nueva contraseña, no se olvide de pulsar en click here");
+                    " con la nueva contraseña, puede que haya sido enviado a spam, no se olvide de pulsar en click here");
 
         }else {
             attributes.addFlashAttribute("failed", "La dirección de correo no es la correcta o " +

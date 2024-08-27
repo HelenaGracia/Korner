@@ -52,6 +52,17 @@ public class AnimeController {
 
     private final Logger logger = LoggerFactory.getLogger(AnimeController.class);
 
+    /**
+     * Este método es responsable de preparar los datos necesarios para la página que muestra una lista de animes.
+     * Gestiona la paginación, el ordenamiento, y proporciona al modelo de la vista las listas de géneros y plataformas,
+     * así como un objeto vacío de tipo Anime. La vista renderiza estos datos para permitir al usuario ver  la lista de animes
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param page número de página para la paginación
+     * @param session permite acceder a la sesión actual del usuario, donde se almacenan atributos como el ID del usuario,
+     * la imagen de perfil, y el nombre de usuario
+     * @param orden tipo de ordenamiento
+     * @return  String del nombre de la vista que debe ser renderizada
+     */
     @GetMapping
     public String listAllAnimes(Model model, @RequestParam("page") Optional<Integer> page, HttpSession session,
                                 @RequestParam(value = "orden", required = false) String orden){
@@ -68,7 +79,21 @@ public class AnimeController {
     }
 
 
-
+    /**
+     * Este método se encarga de la creacion de un anime. Recibe de un formulario los datos, valida esos datos, gestiona la
+     * subida de la imagen asociada al anime, y guardar toda esta información en la base de datos. En caso de errores,
+     * gestiona esos errores mostrando mensajes informativos al usuario y evita guardar datos incorrectos.
+     * @param multipartFile recibe el archivo de imagen que el usuario sube a través del formulario.
+     * @param anime recibe y valida el objeto Anime que se llena con los datos del formulario.
+     * @param bindingResult contiene los resultados de la validación, incluyendo posibles errores
+     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de éxito o error
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param page número de página para la paginación
+     * @param session permite acceder a la sesión actual del usuario, donde se almacenan atributos como el ID del usuario,
+     * la imagen de perfil, y el nombre de usuario
+     * @param orden tipo de orden para ordenar
+     * @return String del nombre de la vista que debe ser renderizada o redirección al endpoint /animes
+     */
     @PostMapping("/saveAnime")
     public String saveAnime(@RequestParam("imagen") MultipartFile multipartFile,
                                @Validated @ModelAttribute(name = "datosAnime") Anime anime,
@@ -129,6 +154,21 @@ public class AnimeController {
         }
 
     }
+    /**
+     * Este método se encarga de la modificacion de un anime. Recibe de un formulario los datos a modificar,
+     * valida esos datos, gestiona la subida de la imagen asociada al anime, y guardar toda esta información en la BBDD.
+     * En caso de errores, gestiona esos errores mostrando mensajes informativos al usuario y evita guardar datos incorrectos.
+     * @param multipartFile recibe el archivo de imagen que el usuario sube a través del formulario.
+     * @param anime recibe y valida el objeto Anime que se llena con los datos del formulario.
+     * @param bindingResult contiene los resultados de la validación, incluyendo posibles errores
+     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de éxito o error
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param page número de página para la paginación
+     * @param session permite acceder a la sesión actual del usuario, donde se almacenan atributos como el ID del usuario,
+     * la imagen de perfil, y el nombre de usuario
+     * @param orden tipo de orden para ordenar
+     * @return String del nombre de la vista que debe ser renderizada o redirección al endpoint /animes
+     */
 
     @PostMapping("/saveAnimeModificar")
     public String saveAnimeModificar(@RequestParam("imagen") MultipartFile multipartFile,
@@ -212,7 +252,14 @@ public class AnimeController {
 
     }
 
-
+    /**
+     * Este método se encarga de eliminar un anime específico de la BBDD y su imagen correspondiente del sistema de archivos
+     * @param id Recibe el parámetro id desde el formulario o la solicitud. Este parámetro corresponde al identificador
+     * del Anime que se desea eliminar
+     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de éxito o error
+     * @return se redirige al usuario a la vista de animes (/animes), mostrando el mensaje correspondiente
+     * (de éxito o de error) en función de cómo haya transcurrido el proceso.
+     */
     @PostMapping("/deleteAnime")
     public String deleteAnime(@RequestParam("id") Integer id, RedirectAttributes attributes){
         final String FILE_PATH_ROOT = "D:/ficheros";
@@ -227,13 +274,29 @@ public class AnimeController {
             animeService.deleteEntity(animeEliminar.get());
             attributes.addFlashAttribute("success", "Anime borrado");
         }catch (Exception e){
-            logger.error("Error al eliminar la pelicula");
+            logger.error("Error al eliminar el anime");
             attributes.addFlashAttribute("failed", "Error al eliminar");
         }
 
-        return "redirect:/peliculas";
+        return "redirect:/animes";
     }
 
+    /**
+     * Este método se encarga de buscar animes en la base de datos usando varios filtros.
+     * También maneja la paginación y la ordenación de los resultados, y gestiona los posibles errores que puedan
+     * ocurrir durante la búsqueda, mostrando mensajes apropiados al usuario.
+     * @param tituloAnimeBusqueda Cadena que contiene el título del anime para filtrar animes por su título recibido desde el formulario
+     * @param filtroPuntuacion Valor numérico para filtrar animes por su puntuación recibido desde el formulario
+     * @param generoId Valor numérico que representa el id de un objeto género para filtrar animes por género, recibido desde el formulario
+     * @param filtroYear Valor numérico para filtrar animes por su año de visualización recibido desde el formulario
+     * @param plataformaId Valor numérico que representa el id de un objeto plataforma para filtrar animes por plataforma, recibido desde el formulario
+     * @param filtrOrden Cadena con el criterio de ordenación para los resultados, recibido desde el formulario
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param page número de página para la paginación
+     * @param session Permite acceder a la sesión actual del usuario, en la que se almacena información sobre el usuario
+     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de error
+     * @return  retorna la vista animes, que es donde se mostrarán los resultados de la búsqueda.
+     */
     @GetMapping("/search")
     public String search(@RequestParam(value = "tituloAnimeBusqueda", required = false) String tituloAnimeBusqueda,
                          @RequestParam(value = "filtroPuntuacion", required = false) Integer filtroPuntuacion,
@@ -384,6 +447,14 @@ public class AnimeController {
     }
 
 
+    /**
+     * Este método se encarga de gestionar la paginación y la ordenación de la lista de animes del usuario de la sesión
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param page número de página para la paginación
+     * @param session permite acceder a la sesión actual del usuario, donde se almacenan atributos como el ID del usuario,
+     * la imagen de perfil, y el nombre de usuario
+     * @param orden tipo de ordenamiento
+     */
 
     private void paginacion(Model model, Optional<Integer> page, HttpSession session, String orden){
         Optional<Usuario> user = usuarioService.getById(Integer.valueOf((session.getAttribute("idusuario").toString())));
@@ -448,6 +519,12 @@ public class AnimeController {
         model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
 
     }
+
+    /**
+     * Método en en el cual se obtiene una lista con los años desde que el usuario de la sesion nació hasta el año actual
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param user recibe todos los datos del usuario actual de la sesion
+     */
 
     private void calcularAniosUsuario(Model model, Optional<Usuario> user) {
         //Obneter Listado con los años desde que el usuario nació hasta el año actual

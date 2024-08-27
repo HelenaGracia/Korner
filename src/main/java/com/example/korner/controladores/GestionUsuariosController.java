@@ -33,7 +33,7 @@ public class GestionUsuariosController {
     private final Logger logger = LoggerFactory.getLogger(GestionUsuariosController.class);
 
     /**
-     * Metéodo el cual obtiene una lista paginada de usuarios desde la BBDD excluyendo al usuario autenticado y pasa la
+     * Metódo el cual obtiene una lista paginada de usuarios desde la BBDD excluyendo al usuario autenticado y pasa la
      * información a la vista asociada con el archivo html gestionUsuarios
      * @param page  Optional<Integer> parámetro de consulta, si no se proporciona el método utilizará un valor predeterminado
      * @param model Model se utiliza para pasar datos desde el controlador a la vista
