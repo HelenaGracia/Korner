@@ -18,28 +18,18 @@
       <header>
         <nav class="navbar sticky-top navbar-expand-lg bg-white" >
           <div class="container">
-            <a class="navbar-brand" th:href="@{/index}">
+            <a class="navbar-brand" th:href="@{/}">
               <img th:src="@{/img/LogoSinFondo.svg}" alt="logo Korner">
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span class="hamburguesa"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-              <ul class="navbar-nav ms-lg-auto">
-                <li class="nav-item me-lg-5">
-                  <a class="index-link" th:href="@{/login}" role="button">Log in</a>
-                </li>
-                <li class="nav-item">
-                  <a class="btn btn-light" th:href="@{/creacion}" role="button">Empezar</a>
-                </li>
-              </ul>
-            </div>
           </div>
         </nav>
       </header>
-      <main class="content-wrap pt-2">
+      <main class="content-wrap pt-5">
 
-          <div class="center">
+          <div class="container center">
             <h1>Algo ha ido mal...</h1>
             <h2>Nuestros ingenieros ya estan en ello!!!</h2>
             <div>
@@ -49,6 +39,7 @@
               <span th:text="${msg}"></span>
               <br />
               <br />
+              <h6>Para más información contacte con nosotros en: kornergestion@gmail.com</h6>
             </div>
 
           </div>

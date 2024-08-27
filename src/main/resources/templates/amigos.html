@@ -16,7 +16,6 @@
 </head>
   <body>
     <div class="page-container">
-      <header>
         <header>
           <nav class="navbar sticky-top navbar-expand-lg bg-primary" >
             <div class="container">
@@ -97,7 +96,7 @@
         
         <!-- Cuadro Buscar Amigos-->
 
-              <article class="caja1 col-12 col-sm-6">
+              <article class="caja1 col-12 col-md-6">
                 <h6 class="titulo-caja">Buscar Amigos</h6>
                 <form th:action="@{/amigos/search}" method="get">
                   <div class="row p-2 input-group">
@@ -112,9 +111,14 @@
 
               </article>
 
+        <!-- boton bloqueados -->
+              <div class="d-flex justify-content-end col-6 col-md-3 pb-4">
+                <button id="botonbloq" class="btn btn-primary " onclick="ocultarbloq()">Bloquedos</button>
+              </div>
+
         <!-- DropDown Solicitudes -->
 
-              <div class="d-flex justify-content-end col-12 col-sm-6 pb-4">
+              <div class="d-flex justify-content-end col-6 col-md-3 pb-4">
                 <div class="dropdown">
                   <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Ver Solicitudes
@@ -127,7 +131,7 @@
               </div>
 
 
-              <!---------Seccion Conectados----------->
+              <!---------Seccion Amigos----------->
 
               <article class="caja-amigos"  >
                 <h6 class="titulo-caja">Amigos</h6>
@@ -211,11 +215,11 @@
 
                         <!-- MODAL Bloquear AMIGO -->
 
-                        <div class="modal fade" th:id="modalAmigoBloquear + ${amigos.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel3" aria-hidden="true">
+                        <div class="modal fade" th:id="modalAmigoBloquear + ${amigos.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                           <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                             <div class="modal-content">
                               <div class="modal-header">
-                                <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel3">BLOQUEAR AMIGO</h1>
+                                <h1 class="modal-title fs-5 text-center txt-naranja" id="staticBackdropLabel">BLOQUEAR AMIGO</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                               </div>
                               <div class="modal-body">
@@ -325,10 +329,6 @@
 
         </main>
         <footer class="bg-primary ">
-
-          <div>
-            <button id="botonbloq" class="btn btn-primary btn-bloq" onclick="ocultarbloq()">Bloquedos</button>
-          </div>
         </footer>
         <script>
         function ocultarbloq(){
