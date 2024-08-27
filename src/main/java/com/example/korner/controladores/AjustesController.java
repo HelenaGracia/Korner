@@ -37,7 +37,7 @@ public class AjustesController {
     }
 
     /**
-     * ajustes Es la pagina general de ajustes de la web, que enlaza con las otras opciones de ajsutes.
+     * ajustes Es la pagina general de ajustes de la web, que enlaza con las otras opciones de ajustes.
      *
      * @param session Lo usamos para traernos con nosotros el nombre y la foto de perfil del usuario que se han guarado previamente al hacer el login.
      * @param model Utilizamos el model para proporcionar los datos recogidos de la sesión al html ajustes.
@@ -75,7 +75,8 @@ public class AjustesController {
      * cambiar contraseña con la contraseña cambiada en la base de datos.
      *
      * @param nombre Es el objeto con los datos de los campos de la entidad NombreNuevo con los datos proporcionados por el usuario.
-     * @param bindingResult Comprueba que no haya datos incorrectos de los datos proporcionados con las restricciones de la entidad. Valida los datos de nombre de la entidad NombreNuevo.
+     * @param bindingResult Comprueba que no haya datos incorrectos de los datos proporcionados con las restricciones de la entidad.
+     * Valida los datos de nombre de la entidad NombreNuevo.
      * @param session Lo usamos para traernos con nosotros el id del usuario que usa la aplicación, asi como su nombre y su foto de perfil.
      * @param attributes Utilizamos el attributes para redireccionar con mensajes explicativos de errores o exito.
      * @param model Utilizamos el modelo para volver al html con mensajes explicativos de errores o exito.
@@ -118,10 +119,14 @@ public class AjustesController {
     }
 
     /**
+     * verAjustesInicioSesion Metódo el cual obtiene una pagina en la cual hay un formulario para cambiar la pagina principal que
+     * visualizas cuando inicias sesion a traves del login de la web
      *
-     * @param model
-     * @param session
-     * @return
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param session permite acceder a la sesión actual del usuario, donde se almacenan atributos
+     * la imagen de perfil, y el nombre de usuario
+     * @return String del nombre de la vista que debe ser renderizada, ajustesInicioSesion es el html
+     * para cambiar la configuracion de inicio de sesion
      */
 
     @GetMapping("/inicioSesion")
@@ -130,6 +135,19 @@ public class AjustesController {
         model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
         return "ajustesInicioSesion";
     }
+
+    /**
+     * modificarInicioSesion Metodo para cambiar el string asociado al campo AjustesInicioSesion en la entidad del usuario,
+     * primero se comprueba si ha elegido la misma configuración que ya tenia y si es asi se le retorna con un mensaje  de fallo,
+     * si elige un diferente, se cambia en BBDD, se guarda y se redirije con un mensaje de exito
+     *
+     * @param ajustes String que proviene del usuario a traves de un formulario
+     * @param session Permite acceder a la sesión actual del usuario, en la que se almacena información sobre el usuario
+     * que está cambiando su ajustes de inicio de sesion
+     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de exíto
+     * @param model permite añadir atributos que se envian como parte de un return, en este caso el mensaje de error
+     * @return En caso de fallo, return a ajustesInicioSesion, en caso de exito redirección al endpoint /ajustes/inicioSesion
+     */
 
     @PostMapping("/inicioSesion")
     public String modificarInicoSesion(@RequestParam(value = "ajustes") String ajustes,
@@ -148,6 +166,15 @@ public class AjustesController {
         return "redirect:/ajustes/inicioSesion";
     }
 
+    /**
+     * verAjustesPassword Metodo que nos permite obtener el html de ajustesContrasena para poder cambiar la contraseña del usuario
+     *
+     * @param model se utiliza para pasar datos desde el controlador a la vista, en este caso tambien se inicia un objeto new PasswordNueva
+     * para poder cambiar la contraseña del usuario con las validaciones correspondientes
+     * @param session permite acceder a la sesión actual del usuario donde se almacena la imagen de perfil, y el nombre de usuario
+     * @return Se retorna a ajustesContrasena html para cambiar la contraseña del usuario
+     */
+
     @GetMapping("/password")
     public String verAjustesPassword(Model model,HttpSession session) {
         model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
@@ -162,14 +189,14 @@ public class AjustesController {
      * cambiar contraseña con la contraseña cambiada en la base de datos.
      *
      * @param password Es el objeto con los datos de los campos de la entidad PasswordNueva con los datos proporcionados por el usuario.
-     * @param bindingResult Comprueba que no haya datos incorrectos de los datos proporcionados con las restricciones de la entidad. Valida los datos de password de la entidad PasswordNueva.
-     * @param session Lo usamos para traernos con nosotros el id del usuario que usa la aplicación, asi como su nombre y su foto de perfil.
+     * @param bindingResult Comprueba que no haya datos incorrectos de los datos proporcionados con las restricciones de la entidad.
+     * Valida los datos de password de la entidad PasswordNueva.
+     * @param session Permite acceder a la sesión actual del usuario, en la que se almacena información sobre el usuario
+     * que está cambiando su ajustes de inicio de sesion
      * @param attributes Utilizamos el attributes para redireccionar con mensajes explicativos de errores o exito.
      * @param model Utilizamos el modelo para volver al html con mensajes explicativos de errores o exito.
-     *
+     * @return se retorna al html ajustesContrasena o se redirije al endpoint /ajustes/password
      */
-
-
 
     @PostMapping("/password")
     public String modificarPassword(@Validated @ModelAttribute(value = "password") PasswordNueva password, BindingResult bindingResult,
@@ -212,6 +239,15 @@ public class AjustesController {
 
     }
 
+    /**
+     * verAjustesCorreo  Metodo que nos permite obtener el html de ajustesCorreo para poder cambiar el correo del usuario
+     *
+     * @param model se utiliza para pasar datos desde el controlador a la vista, en este caso tambien se inicia un objeto new CorreoNuevo
+     * para poder cambiar el correo del usuario con las validaciones correspondientes
+     * @param session permite acceder a la sesión actual del usuario donde se almacena la imagen de perfil, y el nombre de usuario
+     * @return Se retorna a ajustesCorreo html para cambiar el correo del usuario
+     */
+
     @GetMapping("/correo")
     public String verAjustesCorreo(Model model,HttpSession session) {
         model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
@@ -219,6 +255,21 @@ public class AjustesController {
         model.addAttribute("correo", new CorreoNuevo());
         return "ajustesCorreo";
     }
+
+    /**
+     * modificarCorreo se encarga de comprobar que el usuario haya proporcionado correctamente el correo que hay en base de datos y
+     * que el correo nuevo no sea igual que el correo en base de datos. Si todos los datos son correctos se devuelve a la pagina de
+     * cambiar correo con el correo cambiado en la base de datos.
+     *
+     * @param correo Es el objeto con los datos de los campos de la entidad CorreoNuevo con los datos proporcionados por el usuario.
+     * @param bindingResult Comprueba que no haya datos incorrectos de los datos proporcionados con las restricciones de la entidad.
+     * Valida los datos de password de la entidad CorreoNuevo.
+     * @param session Permite acceder a la sesión actual del usuario, en la que se almacena información sobre el usuario
+     * que está cambiando su ajustes de inicio de sesion
+     * @param model Utilizamos el modelo para volver al html con mensajes explicativos de errores o exito.
+     * @param attributes Utilizamos el attributes para redireccionar con mensajes explicativos de errores o exito.
+     * @return al html de ajustesCorreo o redirect al endpoint: /ajustes/correo
+     */
 
     @PostMapping("/correo")
     public String modificarCorreo(@Validated @ModelAttribute(value = "correo") CorreoNuevo correo,
@@ -249,12 +300,35 @@ public class AjustesController {
         return "ajustesCorreo";
     }
 
+    /**
+     * verAjustesFotoPerfil Metodo que nos permite obtener el html de ajustesFotoPerfil para poder cambiar la foto del usuario
+     *
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param session permite acceder a la sesión actual del usuario donde se almacena la imagen de perfil, y el nombre de usuario
+     * @return Se retorna a ajustesFotoPerfil html para cambiar la foto de perfil del usuario
+     */
+
     @GetMapping("/fotoPerfil")
     public String verAjustesFotoPerfil(HttpSession session,Model model) {
         model.addAttribute("imagenUsuario",session.getAttribute("rutaImagen").toString());
         model.addAttribute("nameUsuario",session.getAttribute("userName").toString());
         return "ajustesFotoPerfil";
     }
+
+    /**
+     * modificarFotoPerfil se encarga de comprobar que el usuario haya proporcionado correctamente la imagen para su foto de perfil.
+     * Primero se comprueba que haya enviado una imagen, despues se comprueba que tenga una extension valida, png o jpg.
+     * Si lo anterior es correcto, se comprueba si tiene en la BBDD una ruta de imagen propia o tiene la foto de perfil por defecto,
+     * si tiene una propia se elimina el archivo y se procede a guardar la nueva imagen con la ruta de imagen correspondientes
+     *
+     * @param multipartFile En el multipartFile recogemos la imagen que nos ha enviado el usuario, que en este caso es para
+     * cambiar su foto de perfil, la extension del archivo de la imagen debe ser png o jpg
+     * @param session Permite acceder a la sesión actual del usuario, en la que se almacena información sobre el usuario
+     * que está cambiando su ajustes de inicio de sesion
+     * @param model Utilizamos el modelo para volver al html con mensajes explicativos de errores o exito.
+     * @param attributes Utilizamos el attributes para redireccionar con mensajes explicativos de errores o exito.
+     * @return al html de ajustesFotoPerfil o redirect al endpoint: /ajustes/fotoPerfil
+     */
 
     @PostMapping("/fotoPerfil")
     public String modificarFotoPerfil(@RequestParam("imagen") MultipartFile multipartFile,

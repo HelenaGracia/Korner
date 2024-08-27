@@ -40,6 +40,15 @@ public class CuentaController {
         this.generoUsuarioService = generoUsuarioService;
     }
 
+    /**
+     * showCuenta Metódo el cual obtiene una pagina en la cual hay un formulario para que un usuario pueda crear una cuenta personal
+     *
+     * @param model model se utiliza para pasar datos desde el controlador a la vista. En este caso estamos enviando la lista
+     * de generos que existen, un listado de años desde 1900 hasta el año actual para que el usuario elija su año de nacimiento
+     * y la creación de un nuevo objeto new Usuario para recoger los datos del formulario
+     * @return se retorna al html cuenta donde se visualiza el formulario de creacion de usuario
+     */
+
     @GetMapping
     public String showCuenta(Model model) {
 
@@ -58,9 +67,24 @@ public class CuentaController {
         return "cuenta" ;
     }
 
+    /**
+     * saveUsuario Método por el cual se recibe los datos proporcionados por el usuario, se revisan que los datos cumplan
+     * las validaciones correspondientes y si no exite un usuario con ese nombreo o ese correo se procede a crear al usuario.
+     * Se crea el usuario con los datos proporcionados,además se le proporciona un rol de user, una foto de perfil por defecto,
+     * el inicio de sesion en la home por defecto y se activa la cuenta. La contraseña se guarda encriptada en BBDD.
+     *
+     * @param usuarioNuevo Recoge todos los datos proporcionados por el usuario en el formulario de creacion de cuenta
+     * @param bindingResult Comprueba que no haya datos incorrectos de los datos proporcionados con las restricciones de la entidad.
+     * Valida los datos de usuarioNuevo de la entidad UsuarioNuevo.
+     * @param model Utilizamos el modelo para volver al html con mensajes explicativos de errores o exito, y para volver a enviar
+     * los generos existentes y la lista de años de nacimiento.
+     * @param attributes Utilizamos el attributes para redireccionar con mensajes explicativos de errores o exito.
+     * @return al html cuenta o se redirecciona al endpoint /creacion o al endpoint /home si se ha creado con exito la cuenta
+     */
+
 
     @PostMapping("/save")
-    public String save(@Validated @ModelAttribute(name = "nuevoUsuario") UsuarioNuevo usuarioNuevo,
+    public String saveUsuario(@Validated @ModelAttribute(name = "nuevoUsuario") UsuarioNuevo usuarioNuevo,
                        BindingResult bindingResult, Model model, RedirectAttributes attributes){
         try {
             List<Integer> options = new ArrayList<>();
@@ -98,7 +122,7 @@ public class CuentaController {
                 usuario.setRole(role.get());
                 usuario.setAjustesInicioSesion("home");
                 usuario.setRutaImagen("/img/icon1.png");
-               // usuario.setActiva(false);
+                usuario.setActiva(true);
                 usuarioService.saveEntity(usuario);
                 return "redirect:/home";
             }

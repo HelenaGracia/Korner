@@ -175,18 +175,13 @@
                             </li>
                           </ul>
                         </div>
-                        
-                        <a class= " caja-conectados-chat" href="#" >
+
+                        <div >
                           <img th:src="${amigos.getUsuarioDestino().getRutaImagen()}" class=" img-card-amigos" alt="imagenperfil">
                           <div>
                             <h6 class="card-title text-center" th:text="${amigos.getUsuarioDestino().getNombre()}"></h6>
-                            <div class="caja-estado text-center">
-                              <span class="conectado"></span>
-                              <p class="text-center texto-estado" style="display: inline-block">Online</p>
-                              <p class="text-center texto-estado">Disponible</p>
-                            </div>
                           </div>
-                        </a>
+                        </div>
 
                         <!-- MODAL ELIMINAR AMIGO -->
 
@@ -292,11 +287,6 @@
                       <img th:src="${bloqueado.getUsuarioDestino().getRutaImagen()}" class=" img-card-amigos" alt="imagenperfil">
                       <div>
                         <h6 class="card-title text-center" th:text="${bloqueado.getUsuarioDestino().getNombre()}"></h6>
-                        <div class="caja-estado text-center">
-                          <span class="desconectado"></span>
-                          <p class="text-center texto-estado" style="display: inline-block">Desconectado</p>
-                          <p class="text-center texto-estado">Bloqueado hace 3 horas</p>
-                        </div>
                       </div>
                     </div>
                     <!-- MODAL Desbloquear AMIGO -->
@@ -335,90 +325,7 @@
 
         </main>
         <footer class="bg-primary ">
-          <!---------Seccion Chat----------->
-          <div class="icono-chat">
-            <div class="dropup-center dropup container">
-              <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-chat"></i>
-              </a>
-              <ul class="dropdown-menu cajadrop-desplegable" >
-                <h6 class="text-center">Chats</h6>
 
-                <li><a class="dropdown-item clickchat" href="#" >
-                  <article class="row">
-
-                    <div class="row cajadrop-dentro p-0"  >
-                      <h6 class="text-center" style="margin-top: 0.2rem; margin-bottom: 0;">Juanma25</h6>
-                      <div class="col-4 p-0 ">
-                        <img src="../static/img/lilo.jpg" alt="imagen perfil" class="imgdrop-chat" />
-                      </div>
-                      <div class="col-8 p-0 ">
-                        <div class="cajadrop-chat text-center">
-                          <span style="font-size: 0.7rem;">sii esa serie es increible</span>
-                        </div>
-                      </div>
-                    </div>
-
-                  </article>
-                </a></li>
-
-                <li><a class="dropdown-item clickchat" href="#" >
-                  <article class="row">
-
-                    <div class="row cajadrop-dentro p-0" >
-                      <h6 class="text-center" style="margin-top: 0.2rem; margin-bottom: 0;">ManuWada</h6>
-                      <div class="col-4 p-0 ">
-                        <img src="../static/img/cca.jpg" alt="imagen perfil" class="imgdrop-chat" />
-                      </div>
-                      <div class="col-8 p-0 ">
-                        <div class="cajadrop-chat text-center">
-                          <span style="font-size: 0.7rem;">y tienes que ver death...</span>
-                        </div>
-                      </div>
-                    </div>
-
-                  </article>
-                </a></li>
-
-                <li><a class="dropdown-item clickchat" href="#" >
-                  <article class="row">
-
-                    <div class="row cajadrop-dentro p-0" >
-                      <h6 class="text-center" style="margin-top: 0.2rem; margin-bottom: 0;">Alvaro_37</h6>
-                      <div class="col-4 p-0 ">
-                        <img src="../static/img/3.jpg" alt="imagen perfil" class="imgdrop-chat" />
-                      </div>
-                      <div class="col-8 p-0 ">
-                        <div class="cajadrop-chat text-center">
-                          <span style="font-size: 0.7rem;">luego te comparto mi...</span>
-                        </div>
-                      </div>
-                    </div>
-
-                  </article>
-                </a></li>
-
-                <li><a class="dropdown-item clickchat" href="#" >
-                  <article class="row">
-
-                    <div class="row cajadrop-dentro p-0" >
-                      <h6 class="text-center" style="margin-top: 0.2rem; margin-bottom: 0;">NoeNayo</h6>
-                      <div class="col-4 p-0 ">
-                        <img src="../static/img/shi.jpg" alt="imagen perfil" class="imgdrop-chat" />
-                      </div>
-                      <div class="col-8 p-0 ">
-                        <div class="cajadrop-chat text-center">
-                          <span style="font-size: 0.7rem;">Ya termine la serie!!!</span>
-                        </div>
-                      </div>
-                    </div>
-
-                  </article>
-                </a></li>
-
-              </ul>
-            </div>
-          </div>
           <div>
             <button id="botonbloq" class="btn btn-primary btn-bloq" onclick="ocultarbloq()">Bloquedos</button>
           </div>
