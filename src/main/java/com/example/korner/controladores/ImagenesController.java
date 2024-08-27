@@ -16,11 +16,12 @@ import java.io.IOException;
 //A través del controlador generamos la url para visualizar la imagen la cual es /imagenes/leerImagen/y el nombre de la imagen
 
 public class ImagenesController {
-    /*
-    Metodo por el cual obtenemos la ruta donde está almacenada la imagen y la transformamos a bytes para poder
-    visualizarla
+    /**
+     * Este método se encarga de devolver una imagen almacenada en el servidor en formato binario
+     * (como un arreglo de bytes) para que pueda ser mostrada en la página web o  o ser usada en una etiqueta HTML
+     * @param id  es el nombre del archivo de imagen
      */
-    @GetMapping(value = "/leerImagen/{id}") // id es el nombre que tiene la imagen
+    @GetMapping(value = "/leerImagen/{id}")
     public ResponseEntity <byte[]> leerImagen(@PathVariable("id") String id) {
         final String FILE_PATH_ROOT = "D:/ficheros";
         byte[] image = new byte[0];
@@ -38,7 +39,6 @@ public class ImagenesController {
             return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(image);
 
         }
-//
     }
 
 

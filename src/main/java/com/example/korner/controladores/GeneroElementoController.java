@@ -37,7 +37,16 @@ public class GeneroElementoController {
         this.generoElementoService = generoElementoService;
     }
 
-
+    /**
+     * Este método es responsable de preparar los datos necesarios para la página que muestra una lista de géneros,
+     * gestiona la paginación y proporciona al modelo de la vista un objeto vacío de tipo GeneroElemento. La vista
+     * renderiza estos datos para permitir al usuario ver  la lista de géneros
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param page número de página para la paginación
+     * @param session permite acceder a la sesión actual del usuario, donde se almacenan atributos como el ID del usuario,
+     * la imagen de perfil, y el nombre de usuario
+     * @return String del nombre de la vista que debe ser renderizada
+     */
     @GetMapping("")
     public String showGenerosElementos(Model model, @RequestParam("page") Optional<Integer> page, HttpSession session){
 
@@ -47,6 +56,19 @@ public class GeneroElementoController {
         return "generosElementos";
     }
 
+    /**
+     * Este método se encarga de la creacion de un género. Recibe de un formulario los datos, valida esos datos
+     * y guardar toda esta información en la base de datos. En caso de errores gestiona esos errores mostrando mensajes
+     * informativos al usuario y evita guardar datos incorrectos.
+     * @param generoElementoCompartido recibe y valida el objeto GeneroElemento que se llena con los datos del formulario.
+     * @param bindingResult contiene los resultados de la validación, incluyendo posibles errores
+     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de éxito o error
+     * @param page número de página para la paginación
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param session permite acceder a la sesión actual del usuario, donde se almacenan atributos como el ID del usuario,
+     * la imagen de perfil, y el nombre de usuario
+     * @return String del nombre de la vista que debe ser renderizada o redirección al endpoint /generosElementos
+     */
     @PostMapping("/saveGeneroElemento")
     public String saveGeneroElemento(@Validated @ModelAttribute(name = "datosGenero") GeneroElementoCompartido generoElementoCompartido,
                                  BindingResult bindingResult, RedirectAttributes attributes,
@@ -76,6 +98,19 @@ public class GeneroElementoController {
 
     }
 
+    /**
+     * Este método se encarga de la modificación de un género. Recibe de un formulario los datos a modificar, valida esos datos
+     * y guardar toda esta información en la base de datos. En caso de errores gestiona esos errores mostrando mensajes
+     * informativos al usuario y evita guardar datos incorrectos.
+     * @param generoElementoCompartido recibe y valida el objeto GeneroElemento que se llena con los datos del formulario.
+     * @param bindingResult contiene los resultados de la validación, incluyendo posibles errores
+     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de éxito o error
+     * @param page número de página para la paginación
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param session permite acceder a la sesión actual del usuario, donde se almacenan atributos como el ID del usuario,
+     * la imagen de perfil, y el nombre de usuario
+     * @return String del nombre de la vista que debe ser renderizada o redirección al endpoint /generosElementos
+     */
     @PostMapping("/saveGeneroElementoModificar")
     public String saveGeneroElementoModificar(@Validated @ModelAttribute(name = "datosGenero") GeneroElementoCompartido generoElementoCompartido,
                                      BindingResult bindingResult, RedirectAttributes attributes,
@@ -106,10 +141,18 @@ public class GeneroElementoController {
     }
 
 
+    /**
+     * Este método se encarga de eliminar un género específico de la BBDD
+     * @param id Recibe el parámetro id desde el formulario o la solicitud. Este parámetro corresponde al identificador
+     * del género que se desea eliminar
+     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de éxito o error
+     * @return se redirige al usuario a la vista de generosElementos (/generosElementos), mostrando el mensaje correspondiente
+     * (de éxito o de error) en función de cómo haya transcurrido el proceso.
+     */
     @PostMapping("/deleteGenero")
-    public String deleteGenero(GeneroElementoCompartido generoElementoCompartido, RedirectAttributes attributes){
+    public String deleteGenero(Integer id, RedirectAttributes attributes){
         try {
-            generoElementoService.deleteEntity(generoElementoCompartido);
+            generoElementoService.deleteEntityById(id);
             attributes.addFlashAttribute("success", "Elemento borrado");
         }catch (Exception e){
             attributes.addFlashAttribute("failed", "Error al eliminar");
@@ -118,6 +161,13 @@ public class GeneroElementoController {
         return "redirect:/generosElementos";
     }
 
+    /**
+     * Este método se encarga de gestionar la paginación de la lista de géneros
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @param page número de página para la paginación
+     * @param session permite acceder a la sesión actual del usuario, donde se almacenan atributos como el ID del usuario,
+     * la imagen de perfil, y el nombre de usuario
+     */
     private void paginacion(Model model, Optional<Integer> page, HttpSession session){
         //Recibe la pagina en la que estoy si no recibe nada asigna la pagina 1
         int currentPage = page.orElse(1);

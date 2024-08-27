@@ -30,7 +30,7 @@ public class FileSystemStorageService implements StorageService{
     private final Path rootLocation;
 
     /*Creación de la carpeta ficheros en la cual se van a guardar las imagenes que los usuarios suben a la aplicación
-    de momento la carpeta se está generando en la raiz del disco D (en el ordenador de Helena), depende de que ubicacion
+    de momento la carpeta se está generando en la raiz del disco D (en el ordenador en el que se está creando la apliacion), depende de que ubicacion
     considera rootLocation en cada ordenador
      */
     public FileSystemStorageService() {
