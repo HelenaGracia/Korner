@@ -39,7 +39,16 @@ public class BusquedaAmigosController {
     }
     private final Logger logger = LoggerFactory.getLogger(BusquedaAmigosController.class);
 
-
+    /**
+     * Este método se encarga de buscar usuarios en la aplicación excluyendo al usuario que hace uso de la aplicación
+     * y a los usuarios que son amigos de este.  Los resultados se muestran paginados y, si no se encuentran coincidencias
+     * o hay un error, se muestran mensajes de error correspondientes.
+     * @param nombreUser cadena que contiene el nombre del usuario que se desea buscar, recibido desde el formulario
+     * @param page número de página para la paginación
+     * @param session Permite acceder a la sesión actual del usuario, en la que se almacena información sobre el usuario
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @return String del nombre de la vista que debe ser renderizada dónde se mostrarán los resultados de la búsqueda
+     */
     @GetMapping("/search")
     public String search(@RequestParam(value = "amigosBusqueda",required = false) String nombreUser,
                          @RequestParam(value = "page") Optional<Integer> page,HttpSession session, Model model) {
@@ -90,6 +99,18 @@ public class BusquedaAmigosController {
         return "busquedaAmigos";
     }
 
+    /**
+     *Este método permite a un usuario enviar una solicitud de amistad a otro usuario en la aplicación. A
+     * demás de crear la solicitud en la base de datos, también se envía una notificación al destinatario de la
+     * solicitud informándole sobre la misma. Finalmente, se redirige al usuario a la página de búsqueda de amigos,
+     * mostrando un mensaje de éxito si la solicitud se envió correctamente.
+     * @param id  identificador del usuario al que se enviará la solicitud
+     * @param nombreUser nombre del usuario que se está buscando
+     * @param session permite acceder a la sesión actual del usuario, en la que se almacena información sobre el usuario
+     * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de éxito
+     * @return  redirige al usuario de vuelta a la página de búsqueda de amigos, con el nombre del usuario que se
+     * estaba buscando incluido en la URL como parámetro.
+     */
     @GetMapping("/enviarSolicitud/{id}/{nombreUser}")
     public String enviarSolicitud(@PathVariable Integer id ,
                                   @PathVariable String nombreUser,

@@ -39,6 +39,15 @@ public class CompartidosController {
     }
 
 
+    /**
+     * Este método se encarga de mostrar la lista de películas páginada que han sido comportidas al usuario por sus amigos.
+     * También permite filtrar las películas por el nombre de usuario de un amigo específico.
+     * @param nombreUsuario Permite filtrar las películas compartidas por un amigo específico cuyo nombre de usuario es proporcionado desde el formulario
+     * @param page número de página para la paginación
+     * @param session  permite acceder a la sesión actual del usuario, en la que se almacena información sobre el usuario
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @return String del nombre de la vista que debe ser renderizada
+     */
     @GetMapping("/compartidos/peliculas")
     public String compartidosPeliculas(@RequestParam(value = "nombreUsuario", required = false) String nombreUsuario,
                               @RequestParam(value = "page") Optional<Integer> page,
@@ -99,6 +108,15 @@ public class CompartidosController {
         return "peliculasCompartidas";
     }
 
+    /**
+     * Este método se encarga de mostrar la lista de animes páginada que han sido comportidos al usuario por sus amigos.
+     * También permite filtrar los animes por el nombre de usuario de un amigo específico.
+     * @param nombreUsuario Permite filtrar los animes compartidas por un amigo específico cuyo nombre de usuario es proporcionado desde el formulario
+     * @param page número de página para la paginación
+     * @param session  permite acceder a la sesión actual del usuario, en la que se almacena información sobre el usuario
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @return String del nombre de la vista que debe ser renderizada
+     */
     @GetMapping("/compartidos/animes")
     public String compartidosAnimes(@RequestParam(value = "nombreUsuario", required = false) String nombreUsuario,
                                        @RequestParam(value = "page") Optional<Integer> page,
@@ -158,7 +176,16 @@ public class CompartidosController {
         model.addAttribute("size", pagina.getContent().size());
         return "animesCompartidos";
     }
-  
+
+    /**
+     * Este método se encarga de mostrar la lista de videojuegos páginada que han sido comportidos al usuario por sus amigos.
+     * También permite filtrar los videojuegos por el nombre de usuario de un amigo específico.
+     * @param nombreUsuario Permite filtrar los videojuegos compartidas por un amigo específico cuyo nombre de usuario es proporcionado desde el formulario
+     * @param page número de página para la paginación
+     * @param session  permite acceder a la sesión actual del usuario, en la que se almacena información sobre el usuario
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @return String del nombre de la vista que debe ser renderizada
+     */
   @GetMapping("/compartidos/videojuegos")
     public String compartidosVideojuegos(@RequestParam(value = "nombreUsuario", required = false) String nombreUsuario,
                                        @RequestParam(value = "page") Optional<Integer> page,
@@ -219,6 +246,15 @@ public class CompartidosController {
         return "videojuegosCompartidos";
     }
 
+    /**
+     * Este método se encarga de mostrar la lista de libros páginada que han sido comportidos al usuario por sus amigos.
+     * También permite filtrar los libros por el nombre de usuario de un amigo específico.
+     * @param nombreUsuario Permite filtrar los libros compartidas por un amigo específico cuyo nombre de usuario es proporcionado desde el formulario
+     * @param page número de página para la paginación
+     * @param session  permite acceder a la sesión actual del usuario, en la que se almacena información sobre el usuario
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @return String del nombre de la vista que debe ser renderizada
+     */
     @GetMapping("/compartidos/libros")
     public String compartidosLibros(@RequestParam(value = "nombreUsuario", required = false) String nombreUsuario,
                                          @RequestParam(value = "page") Optional<Integer> page,
@@ -279,6 +315,15 @@ public class CompartidosController {
         return "librosCompartidos";
     }
 
+    /**
+     * Este método se encarga de mostrar la lista de series páginada que han sido comportidas al usuario por sus amigos.
+     * También permite filtrar las series por el nombre de usuario de un amigo específico.
+     * @param nombreUsuario Permite filtrar las series compartidas por un amigo específico cuyo nombre de usuario es proporcionado desde el formulario
+     * @param page número de página para la paginación
+     * @param session  permite acceder a la sesión actual del usuario, en la que se almacena información sobre el usuario
+     * @param model se utiliza para pasar datos desde el controlador a la vista
+     * @return String del nombre de la vista que debe ser renderizada
+     */
     @GetMapping("/compartidos/series")
     public String compartidosSeries(@RequestParam(value = "nombreUsuario", required = false) String nombreUsuario,
                                        @RequestParam(value = "page") Optional<Integer> page,
