@@ -100,7 +100,7 @@
                     <form th:action="@{/ajustes/nombre}" method="post" th:object="${nombre}">
                         <div class="mb-3">
                             <label class="form-label" for="nombre">Escribe tu nuevo nombre*</label>
-                            <input class="form-control" id="nombre" th:field="*{nombre}" placeholder="Nuevo correo" type="text"  minlength="2" maxlength="20" required="required">
+                            <input class="form-control" id="nombre" th:field="*{nombre}" placeholder="Nuevo nombre" type="text"  minlength="2" maxlength="20" required="required">
                             <p th:if="${#fields.hasErrors('nombre')}" th:errorclass="error" th:errors="*{nombre}" ></p>
                             <p th:if="${failed}" class="error" th:text="${failed}"></p>
                         </div>

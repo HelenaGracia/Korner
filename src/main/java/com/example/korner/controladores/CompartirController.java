@@ -308,7 +308,7 @@ public class CompartirController {
 
         //Paginación
         int currentPage = page.orElse(1);
-        Pageable pageRequest = PageRequest.of(currentPage - 1, 3);
+        Pageable pageRequest = PageRequest.of(currentPage - 1, 10);
         Page<Amigo> pagina = amigoService.getAllAmigos(user.get(), pageRequest);
 
         //Envio la pagina creada a la vista para poder verla
