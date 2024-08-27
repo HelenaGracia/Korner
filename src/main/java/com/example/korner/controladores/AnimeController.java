@@ -236,6 +236,8 @@ public class AnimeController {
                     anime.setImagenRuta("/imagenes/leerImagen/" + nombreArchivo);
 
                 }
+                Optional<Anime> animeAntiguo = animeService.getById(anime.getId());
+                anime.setAnimesCompartidos(animeAntiguo.get().getAnimesCompartidos());
 
                 //Volvemos a guardar el objeto en la BBDD con los cambios
                 animeService.saveEntity(anime);

@@ -138,7 +138,6 @@ INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1006", "1006");
 INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1007", "1005");
 INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1007", "1004");
 INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1008", "1002");
-INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1008", "1002");
 INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1002", "1009");
 INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1003", "1004");
 INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1003", "1007");
