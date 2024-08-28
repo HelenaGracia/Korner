@@ -25,13 +25,22 @@ Para que funcione hay que añadir en el pom la sieguiente dependencia
 		</dependency>
  */
 
+/**
+ * Es una clase de servicio que proporciona una implementación completa para gestionar el almacenamiento de archivos
+ * en un sistema de archivos local. Permite:
+ * - Guardar archivos: ya sea con su nombre original o un nombre personalizado.
+ * - Listar archivos: cargar todos los archivos disponibles o un archivo específico.
+ * - Borrar archivos: limpiar todos los archivos del directorio de almacenamiento.
+ * - Inicializar almacenamiento: asegurarse de que el directorio de almacenamiento esté preparado para el uso.
+ */
 @Service
 public class FileSystemStorageService implements StorageService{
     private final Path rootLocation;
 
-    /*Creación de la carpeta ficheros en la cual se van a guardar las imagenes que los usuarios suben a la aplicación
-    de momento la carpeta se está generando en la raiz del disco D (en el ordenador en el que se está creando la apliacion), depende de que ubicacion
-    considera rootLocation en cada ordenador
+    /**
+     * Creación de la carpeta ficheros en la cual se van a guardar las imagenes que los usuarios suben a la aplicación
+     * la carpeta se está generando en la raiz del disco D (en el ordenador en el que se está creando la apliacion),
+     * depende de que ubicacion considera rootLocation en cada ordenador
      */
     public FileSystemStorageService() {
         this.rootLocation = Paths.get("/ficheros");
@@ -44,7 +53,10 @@ public class FileSystemStorageService implements StorageService{
         }
     }
 
-
+    /**
+     * Este método se encarga de almacenar un archivo en la carpeta
+     * @param file representa el archivo que se va a almacenar
+     */
     @Override
     public void store(MultipartFile file) {
         try {
@@ -69,7 +81,13 @@ public class FileSystemStorageService implements StorageService{
         }
     }
 
-    //Metodo que utilizamos para guardar la imagen en la carpeta ficheros
+    /**
+     * Este método se encarga de almacenar un archivo en la carpeta pero permite especificar un nombre de
+     * archivo personalizado (nombreAchivo) para almacenar el archivo.
+     * @param file  representa el archivo que se va a almacenar
+     * @param nombreAchivo Cadena de texto que representa el nombre del archivo
+     */
+
     public void storeWithName(MultipartFile file, String nombreAchivo) {
         try {
             if (file.isEmpty()) {
@@ -93,6 +111,11 @@ public class FileSystemStorageService implements StorageService{
         }
     }
 
+    /**
+     * Este método devuelve una lista (Stream<Path>) de todos los archivos almacenados en el directorio rootLocation, excluyendo la carpeta raíz.
+     * @return devuelve una lista (Stream<Path>)
+     */
+
     @Override
     public Stream<Path> loadAll() {
         try {
@@ -106,11 +129,21 @@ public class FileSystemStorageService implements StorageService{
 
     }
 
+    /**
+     * Resuelve y devuelve la ruta completa de un archivo específico en rootLocation usando su nombre (filename).
+     * @param filename Cadena de texto que representa el nombre del archivo
+     * @return Devuelve la ruta completa del archivo
+     */
     @Override
     public Path load(String filename) {
         return rootLocation.resolve(filename);
     }
 
+    /**
+     * Este método carga un archivo como un recurso (Resource). Verifica si el archivo existe y es legible antes de devolverlo como un UrlResource.
+     * @param filename Cadena de texto que representa el nombre del archivo
+     * @return Devuleve el archivo como UrlResource
+     */
     @Override
     public Resource loadAsResource(String filename) {
         try {
@@ -130,11 +163,17 @@ public class FileSystemStorageService implements StorageService{
         }
     }
 
+    /**
+     * Borra recursivamente todos los archivos y directorios en rootLocation
+     */
     @Override
     public void deleteAll() {
         FileSystemUtils.deleteRecursively(rootLocation.toFile());
     }
 
+    /**
+     * Este método crea el directorio de almacenamiento (rootLocation) si no existe
+     */
     @Override
     public void init() {
         try {

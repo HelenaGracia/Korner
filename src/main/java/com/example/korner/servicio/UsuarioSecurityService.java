@@ -15,6 +15,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
+/**
+ * Es una clase de servicio que maneja las operaciones relacionadas con la entidad Usuario.
+ * Hereda operaciones CRUD y de paginación genéricas de AbstractService.
+ * Define métodos específicos para operaciones de consulta utilizando los métodos definidos en el repositorio.
+ */
+
 @Service
 public class UsuarioSecurityService extends AbstractService<Usuario,Integer, UsuarioRepository> implements UserDetailsService  {
 
@@ -29,6 +35,16 @@ public class UsuarioSecurityService extends AbstractService<Usuario,Integer, Usu
         this.session = session;
     }
 
+    /**
+     * Este método es parte de la interfaz UserDetailsService de Spring Security, que se utiliza para cargar detalles
+     * del usuario durante el proceso de autenticación. Esta implementación personalizada se encarga de buscar un
+     * usuario en la base de datos basándose en el nombre de usuario proporcionado y de preparar la información
+     * necesaria para el proceso de autenticación.Si el usuario está activo y se encuentra en la base de datos, se
+     * guarda información del usuario en la sesión y se retorna el usuario encontrado, que debe implementar UserDetails,
+     * esto permite que Spring Security utilice este objeto durante el proceso de autenticación y autorización.
+     * @param username Cadena de texto que representa el nombre del usuario que se está intentado autenticar
+     * @throws UsernameNotFoundException Excepción que se lanza si no se encuentra el usuario.
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -57,13 +73,10 @@ public class UsuarioSecurityService extends AbstractService<Usuario,Integer, Usu
         return usuarioRepository.findBynombreAndActivaTrue(nombre);
     }
 
-    public Optional<Usuario> getByCorreo(String nombre) {
-        return usuarioRepository.findByCorreo(nombre);
+    public Optional<Usuario> getByCorreo(String correo) {
+        return usuarioRepository.findByCorreo(correo);
     }
 
-    public Page<Usuario> getAllUsuarios(String username,Pageable pageable) {
-        return usuarioRepository.findAllByNombreContainingIgnoreCase(username, pageable);
-    }
 
     public Page<Usuario> getAllUsuariosSinListIdSinInactivos(String username, List<Integer> excludedId, Pageable pageble) {
         return usuarioRepository.findAllByNombreContainingIgnoreCaseAndIdNotInAndActivaTrue(username, excludedId,pageble);
