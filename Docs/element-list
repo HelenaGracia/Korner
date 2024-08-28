@@ -1,0 +1,9 @@
+com.example.korner
+com.example.korner.config
+com.example.korner.controladores
+com.example.korner.messages
+com.example.korner.modelo
+com.example.korner.modeloValidaciones
+com.example.korner.repositorios
+com.example.korner.security
+com.example.korner.servicio
