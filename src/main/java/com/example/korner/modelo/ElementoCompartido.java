@@ -6,7 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+
+
+/**
+ * Esta clase  representa cualquier elemento que se comparte entre amigos en la aplicación. Este elemento puede ser
+ * una película, serie, anime, libro o videojuego.
+ */
 
 @Entity
 @Getter

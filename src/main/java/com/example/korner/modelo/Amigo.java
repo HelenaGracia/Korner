@@ -8,6 +8,11 @@ import lombok.Setter;
 
 import java.util.Set;
 
+/**
+ * Esta clase representa una relación de amistad entre dos usuarios de la aplicación. Esta relación incluye atributos
+ * como si la relación está bloqueada o pendiente y también contiene una referencia a posibles elementos compartidos entre los amigos.
+ * Utiliza UniqueConstraint para que no pueda existir dos registros en la tabla de la BBDD con el mismo usuarioOrigen y el mismo usuarioDestino.
+ */
 @Entity
 @Getter
 @Setter

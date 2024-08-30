@@ -124,7 +124,7 @@
                  <label><strong>Género</strong></label><br>
                  <div class="form-check">
                    <select class="form-select" th:name="filtroGenero">
-                     <option th:selected="selected" th:disabled="disabled"></option>
+                     <option th:selected="selected" th:disabled="disabled">--Selecione Género--</option>
                      <option th:each="generoFiltroForm:${listaGeneros}" th:value="${generoFiltroForm.id}" th:text="${generoFiltroForm.nombre}"></option>
                    </select>
                  </div>
@@ -135,7 +135,7 @@
                  <label><strong>Año</strong></label><br>
                  <div class="form-check" >
                    <select class="form-select" th:name="filtroYear">
-                     <option th:selected="selected" th:disabled="disabled"></option>
+                     <option th:selected="selected" th:disabled="disabled">--Seleccione Año--</option>
                      <option th:each="year:${listadoYears}"  th:value="${year}" th:text="${year}"></option>
                    </select>
                  </div>
@@ -177,7 +177,7 @@
                  <label><strong>Formato</strong></label><br>
                  <div class="form-check">
                    <select class="form-select" th:name="filtroFormato">
-                     <option th:selected="selected" th:disabled="disabled"></option>
+                     <option th:selected="selected" th:disabled="disabled">--Seleccione Formato--</option>
                      <option th:each="formatoFiltroForm:${listaFormatos}" th:value="${formatoFiltroForm.id}" th:text="${formatoFiltroForm.nombre}"></option>
                    </select>
                  </div>
@@ -188,7 +188,7 @@
                  <label><strong>Ordenar por:</strong></label><br>
                  <div class="form-check">
                    <select class="form-select" th:name="filtroOrden">
-                     <option th:selected="selected" th:disabled="disabled"></option>
+                     <option th:selected="selected" th:disabled="disabled">--Ordenar por--</option>
                      <option value="ordenFiltroTituloAsc">Título asc</option>
                      <option value="ordenFiltroTituloDesc">Título desc</option>
                      <option value="ordenFiltroIdAsc">Creación asc</option>

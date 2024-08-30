@@ -250,7 +250,8 @@ public class LibroController {
                     libro.setImagenRuta("/imagenes/leerImagen/" + nombreArchivo);
 
                 }
-
+                Optional<Libro> libroAntiguo = libroService.getById(libro.getId());
+                libro.setLibrosCompartidos(libroAntiguo.get().getLibrosCompartidos());
                 //Volvemos a guardar el objeto en la BBDD con los cambios
                 libroService.saveEntity(libro);
                 attributes.addFlashAttribute("success","Libro modificado correctamente");

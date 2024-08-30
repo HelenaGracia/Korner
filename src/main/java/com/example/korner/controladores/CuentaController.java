@@ -124,7 +124,7 @@ public class CuentaController {
                 usuario.setRutaImagen("/img/icon1.png");
                 usuario.setActiva(true);
                 usuarioService.saveEntity(usuario);
-                return "redirect:/home";
+                return "redirect:/login";
             }
 
         } catch (Exception e){

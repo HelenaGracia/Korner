@@ -4,7 +4,11 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import java.io.Serializable;
-
+/**
+ * Esta clase representa un género (aventura, terror..) que se guarda en la aplicaión y que el usuario
+ * usará para indicar de que tipo era el libro, película, serie, videojuego o anime que quiere guardar en la aplicación.
+ * Utiliza UniqueConstraint para que no pueda existir dos registros en la tabla de la BBDD con el mismo nombre.
+ */
 @Getter
 @Setter
 @Entity

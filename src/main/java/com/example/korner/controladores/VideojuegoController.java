@@ -245,6 +245,8 @@ public class VideojuegoController {
                     videojuego.setImagenRuta("/imagenes/leerImagen/" + nombreArchivo);
 
                 }
+                Optional<Videojuego> videojuegoAntigua = videojuegoService.getById(videojuego.getId());
+                videojuego.setVideojuegosCompartidos(videojuegoAntigua.get().getVideojuegosCompartidos());
 
                 //Volvemos a guardar el objeto en la BBDD con los cambios
                 videojuegoService.saveEntity(videojuego);

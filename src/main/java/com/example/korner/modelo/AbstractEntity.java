@@ -9,12 +9,16 @@ import java.io.Serializable;
 
 
 
+/**
+ * Esta clase abstracta sirve como superclase para otras entidades, establece una base común para estas entidades
+ * definiendo los atributos que todas ellas comparten.
+ */
+
+
 @MappedSuperclass
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
-
 public abstract class AbstractEntity implements Serializable {
 
 

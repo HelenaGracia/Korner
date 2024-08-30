@@ -253,6 +253,8 @@ public class PeliculaController {
                     pelicula.setImagenRuta("/imagenes/leerImagen/" + nombreArchivo);
 
                 }
+                Optional<Pelicula> peliculaAntigua = peliculaService.getById(pelicula.getId());
+                pelicula.setPeliculasCompartidas(peliculaAntigua.get().getPeliculasCompartidas());
 
                 //Volvemos a guardar el objeto en la BBDD con los cambios
                 peliculaService.saveEntity(pelicula);

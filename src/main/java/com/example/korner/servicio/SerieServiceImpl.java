@@ -9,6 +9,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Es una clase de servicio que maneja las operaciones relacionadas con la entidad Serie.
+ * Hereda operaciones CRUD y de paginación genéricas de AbstractService.
+ * Define métodos específicos para operaciones de consulta utilizando los métodos definidos en el repositorio.
+ */
 @Service
 public class SerieServiceImpl extends AbstractService<Serie,Integer, SerieRepository>{
 

@@ -9,7 +9,11 @@ import lombok.Setter;
 
 import java.util.Set;
 
-
+/**
+ * Esta clase representa un género de una persona (hombre, mujer..) que se guarda en la aplicaión y que el usuario
+ * usará para indicar cual es el suyo a la hora de crear una cuenta en la aplicación.
+ * Utiliza UniqueConstraint para que no pueda existir dos registros en la tabla de la BBDD con el mismo nombre.
+ */
 @Entity
 @Getter
 @Setter

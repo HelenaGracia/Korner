@@ -233,6 +233,8 @@ public class SerieController {
                 serie.setImagenRuta("/imagenes/leerImagen/" + nombreArchivo);
 
             }
+            Optional<Serie> serieAntigua = serieService.getById(serie.getId());
+            serie.setSeriesCompartidas(serieAntigua.get().getSeriesCompartidas());
 
             //Volvemos a guardar el objeto en la BBDD con los cambios
             serieService.saveEntity(serie);
