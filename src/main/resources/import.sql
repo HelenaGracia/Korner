@@ -1,19 +1,21 @@
 
 
-INSERT INTO generos_elementos_compartidos (id_genero_elemt_compart,nombre_genero) VALUES ("1000","Romance");
-INSERT INTO generos_elementos_compartidos (id_genero_elemt_compart,nombre_genero) VALUES ("1001","Acción");
-INSERT INTO generos_elementos_compartidos (id_genero_elemt_compart,nombre_genero) VALUES ("1002","Fantasía");
-INSERT INTO generos_elementos_compartidos (id_genero_elemt_compart,nombre_genero) VALUES ("1003","Terror");
-INSERT INTO generos_elementos_compartidos (id_genero_elemt_compart,nombre_genero) VALUES ("1004","Animación");
-INSERT INTO generos_elementos_compartidos (id_genero_elemt_compart,nombre_genero) VALUES ("1005","Comedia");
-INSERT INTO generos_elementos_compartidos (id_genero_elemt_compart,nombre_genero) VALUES ("1006","Drama");
-INSERT INTO generos_elementos_compartidos (id_genero_elemt_compart,nombre_genero) VALUES ("1007","Thriller");
-INSERT INTO generos_elementos_compartidos (id_genero_elemt_compart,nombre_genero) VALUES ("1008","Aventura");
-INSERT INTO generos_elementos_compartidos (id_genero_elemt_compart,nombre_genero) VALUES ("1009","Musical");
-INSERT INTO generos_elementos_compartidos (id_genero_elemt_compart,nombre_genero) VALUES ("1010","Lucha");
+INSERT INTO generos_elementos_compartidos (id_genero_elemt_compart,nombre_genero) VALUES ("1","Romance");
+INSERT INTO generos_elementos_compartidos (id_genero_elemt_compart,nombre_genero) VALUES ("2","Acción");
+INSERT INTO generos_elementos_compartidos (id_genero_elemt_compart,nombre_genero) VALUES ("3","Fantasía");
+INSERT INTO generos_elementos_compartidos (id_genero_elemt_compart,nombre_genero) VALUES ("4","Terror");
+INSERT INTO generos_elementos_compartidos (id_genero_elemt_compart,nombre_genero) VALUES ("5","Animación");
+INSERT INTO generos_elementos_compartidos (id_genero_elemt_compart,nombre_genero) VALUES ("6","Comedia");
+INSERT INTO generos_elementos_compartidos (id_genero_elemt_compart,nombre_genero) VALUES ("7","Drama");
+INSERT INTO generos_elementos_compartidos (id_genero_elemt_compart,nombre_genero) VALUES ("8","Thriller");
+INSERT INTO generos_elementos_compartidos (id_genero_elemt_compart,nombre_genero) VALUES ("9","Aventura");
+INSERT INTO generos_elementos_compartidos (id_genero_elemt_compart,nombre_genero) VALUES ("10","Musical");
+INSERT INTO generos_elementos_compartidos (id_genero_elemt_compart,nombre_genero) VALUES ("11","Lucha");
+INSERT INTO generos_elementos_compartidos (id_genero_elemt_compart,nombre_genero) VALUES ("12","Magia");
 
-INSERT INTO plataformas (id_plataforma, nombre_plataforma) VALUES ("1000","Amazon");
-INSERT INTO plataformas (id_plataforma, nombre_plataforma) VALUES ("1001","Netflix");
+INSERT INTO plataformas (id_plataforma, nombre_plataforma) VALUES ("1","Amazon");
+INSERT INTO plataformas (id_plataforma, nombre_plataforma) VALUES ("2","Netflix");
+INSERT INTO plataformas (id_plataforma, nombre_plataforma) VALUES ("3","HBO");
 
 INSERT INTO generos (id_generos, descripcion) VALUES ("1","Hombre");
 INSERT INTO generos (id_generos, descripcion) VALUES ("2","Mujer");
@@ -22,7 +24,17 @@ INSERT INTO generos (id_generos, descripcion) VALUES ("3","No binario");
 INSERT INTO roles (id_rol,nombre_rol) VALUES ("1","ROLE_USER");
 INSERT INTO roles (id_rol,nombre_rol) VALUES ("2","ROLE_ADMIN");
 
-INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena,id_roles,ajustes_sesion,correo,id_generos, imagen,activa) VALUES ("99","user","1998","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","1","home","hel42002@gmail.com","3", "/img/icon1.png",true);
+INSERT INTO plataformas_videojuegos (id_plataforma_videojuego, nombre_plataforma_videojuego) VALUES ("1", "PS4");
+INSERT INTO plataformas_videojuegos (id_plataforma_videojuego, nombre_plataforma_videojuego) VALUES ("2", "PS3");
+INSERT INTO plataformas_videojuegos (id_plataforma_videojuego, nombre_plataforma_videojuego) VALUES ("3", "Xbox");
+INSERT INTO plataformas_videojuegos (id_plataforma_videojuego, nombre_plataforma_videojuego) VALUES ("4", "Switch");
+
+INSERT INTO formato_libros (id_formato, nombre_formato_libro) VALUES ("1", "Papel");
+INSERT INTO formato_libros (id_formato, nombre_formato_libro) VALUES ("2", "PDF");
+INSERT INTO formato_libros (id_formato, nombre_formato_libro) VALUES ("3", "Audio libro");
+INSERT INTO formato_libros (id_formato, nombre_formato_libro) VALUES ("4", "Epub");
+
+INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena,id_roles,ajustes_sesion,correo,id_generos, imagen,activa) VALUES ("99","user","1998","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","1","home","kornergestion@gmail.com","3", "/imagenes/leerImagen/Usuario99ImagenPerfil.jpg",true);
 INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena, id_roles,ajustes_sesion,correo,id_generos, imagen,activa) VALUES ("98","admin","1990","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","2","gestion","prueba2@hotmail.com","3","/img/icon1.png",true);
 INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena, id_roles, ajustes_sesion,correo,id_generos,imagen,activa) VALUES ("100","user1","2004","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","1", "home","prueba3@hotmail.com","3","/img/icon1.png",true);
 INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena, id_roles, ajustes_sesion,correo,id_generos,imagen,activa) VALUES ("101","user2","1963","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","1", "home","prueba4@hotmail.com","3","/img/icon1.png",true);
@@ -123,37 +135,27 @@ INSERT INTO peliculas (id,id_pelicula_usuarios,titulo, year, puntuacion, opinion
 
 INSERT INTO peliculas (id,id_pelicula_usuarios,titulo, year, puntuacion, opinion,trailer,imagen) VALUES ("1002","99","Mamma Mia","2020","5","La mejor película musical","https://www.youtube.com/embed/hcgSejNB9Bk?si=06_Avuubnn5G2spS", "/imagenes/leerImagen/Pelicula1002Usuario99.jpg");
 
-INSERT INTO peliculas (id,id_pelicula_usuarios,titulo, year, puntuacion, opinion,trailer) VALUES ("1003","98","prueba3","2020","4","opinion de prueba4","");
-
-INSERT INTO peliculas (id,id_pelicula_usuarios,titulo, year, puntuacion, opinion,trailer) VALUES ("1004","98","prueba4","2020","5","opinion de prueba3","");
-
-INSERT INTO peliculas (id,id_pelicula_usuarios,titulo, year, puntuacion, opinion,trailer) VALUES ("1005","98","prueba5","2020","2","opinion de prueba5","");
 
 
 
 
-INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1000", "1002");
-INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1006", "1000");
-INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1006", "1006");
-INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1007", "1005");
-INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1007", "1004");
-INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1008", "1002");
-INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1002", "1009");
-INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1003", "1004");
-INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1003", "1007");
-INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1004", "1004");
-INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1004", "1005");
-INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1005", "1003");
-INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1005", "1010");
-INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1005", "1006");
+INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1000", "3");
+INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1000", "12");
+INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1006", "1");
+INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1006", "7");
+INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1007", "6");
+INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1007", "5");
+INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1008", "3");
+INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1008", "12");
+INSERT INTO pelicula_genero(id, id_generos_elemt_comp) VALUES ("1002", "10");
 
-INSERT INTO pelicula_plataforma(id,id_plataforma) VALUES ("1000", "1000");
-INSERT INTO pelicula_plataforma(id,id_plataforma) VALUES ("1000", "1001");
-INSERT INTO pelicula_plataforma(id,id_plataforma) VALUES ("1006", "1001");
-INSERT INTO pelicula_plataforma(id,id_plataforma) VALUES ("1007", "1001");
-INSERT INTO pelicula_plataforma(id,id_plataforma) VALUES ("1008", "1000");
-INSERT INTO pelicula_plataforma(id,id_plataforma) VALUES ("1008", "1001");
-INSERT INTO pelicula_plataforma(id,id_plataforma) VALUES ("1002", "1001");
-INSERT INTO pelicula_plataforma(id,id_plataforma) VALUES ("1003", "1000");
-INSERT INTO pelicula_plataforma(id,id_plataforma) VALUES ("1004", "1001");
-INSERT INTO pelicula_plataforma(id,id_plataforma) VALUES ("1005", "1000");
+
+INSERT INTO pelicula_plataforma(id,id_plataforma) VALUES ("1000", "1");
+INSERT INTO pelicula_plataforma(id,id_plataforma) VALUES ("1000", "2");
+INSERT INTO pelicula_plataforma(id,id_plataforma) VALUES ("1006", "1");
+INSERT INTO pelicula_plataforma(id,id_plataforma) VALUES ("1007", "1");
+INSERT INTO pelicula_plataforma(id,id_plataforma) VALUES ("1008", "1");
+INSERT INTO pelicula_plataforma(id,id_plataforma) VALUES ("1008", "2");
+INSERT INTO pelicula_plataforma(id,id_plataforma) VALUES ("1002", "2");
+
+
