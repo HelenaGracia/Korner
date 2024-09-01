@@ -397,7 +397,7 @@ public class CompartirController {
                     notificacion.setEstado("pendiente");
                     notificacion.setTipoElemento("pelicula");
                     notificacion.setIdTipoElemento(pelicula.get().getId());
-                    notificacion.setMensaje("El usuario " +nombreUsuarioOrigen  + " ha compartido la película " + pelicula.get().getTitulo() + " contigo");
+                    notificacion.setMensaje("Ha compartido la película " + pelicula.get().getTitulo() + " contigo");
                     notificacion.setRutaImagenUserFrom(amigoDestino.getUsuarioDestino().getRutaImagen());
                     notificacionService.saveEntity(notificacion);
                     attributes.addFlashAttribute("success", "Has compartido la película " + pelicula.get().getTitulo() +" con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
@@ -426,7 +426,7 @@ public class CompartirController {
                     notificacion.setEstado("pendiente");
                     notificacion.setTipoElemento("serie");
                     notificacion.setIdTipoElemento(serie.get().getId());
-                    notificacion.setMensaje("El usuario " +nombreUsuarioOrigen  + " ha compartido la serie " + serie.get().getTitulo() + " contigo");
+                    notificacion.setMensaje("Ha compartido la serie " + serie.get().getTitulo() + " contigo");
                     notificacion.setRutaImagenUserFrom(amigoDestino.getUsuarioDestino().getRutaImagen());
                     notificacionService.saveEntity(notificacion);
                     attributes.addFlashAttribute("success", "Has compartido la serie " + serie.get().getTitulo() +" con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
@@ -452,7 +452,7 @@ public class CompartirController {
                     notificacion.setEstado("pendiente");
                     notificacion.setTipoElemento("anime");
                     notificacion.setIdTipoElemento(anime.get().getId());
-                    notificacion.setMensaje("El usuario " +nombreUsuarioOrigen  + " ha compartido el anime " + anime.get().getTitulo() + " contigo");
+                    notificacion.setMensaje("Ha compartido el anime " + anime.get().getTitulo() + " contigo");
                     notificacion.setRutaImagenUserFrom(amigoDestino.getUsuarioDestino().getRutaImagen());
                     notificacionService.saveEntity(notificacion);
                     attributes.addFlashAttribute("success", "Has compartido el anime " + anime.get().getTitulo() +" con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
@@ -478,7 +478,7 @@ public class CompartirController {
                     notificacion.setEstado("pendiente");
                     notificacion.setTipoElemento("libro");
                     notificacion.setIdTipoElemento(libro.get().getId());
-                    notificacion.setMensaje("El usuario " +nombreUsuarioOrigen  + " ha compartido el libro " + libro.get().getTitulo() + " contigo");
+                    notificacion.setMensaje("Ha compartido el libro " + libro.get().getTitulo() + " contigo");
                     notificacion.setRutaImagenUserFrom(amigoDestino.getUsuarioDestino().getRutaImagen());
                     notificacionService.saveEntity(notificacion);
                     attributes.addFlashAttribute("success", "Has compartido el libro " + libro.get().getTitulo() +" con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());
@@ -504,7 +504,7 @@ public class CompartirController {
                     notificacion.setEstado("pendiente");
                     notificacion.setTipoElemento("videojuego");
                     notificacion.setIdTipoElemento(videojuego.get().getId());
-                    notificacion.setMensaje("El usuario " +nombreUsuarioOrigen  + " ha compartido el videojuego " + videojuego.get().getTitulo() + " contigo");
+                    notificacion.setMensaje("Ha compartido el videojuego " + videojuego.get().getTitulo() + " contigo");
                     notificacion.setRutaImagenUserFrom(amigoDestino.getUsuarioDestino().getRutaImagen());
                     notificacionService.saveEntity(notificacion);
                     attributes.addFlashAttribute("success", "Has compartido el videojuego " + videojuego.get().getTitulo() +" con el usuario " + amigoOrigen.get().getUsuarioDestino().getNombre());

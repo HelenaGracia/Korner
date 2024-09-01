@@ -225,6 +225,7 @@ public class NotificacionController {
                 if (usuario.get().getActiva()){
                     notificacion.setEstadoUsuario("activo");
                     notificacion.setRutaImagenUserFrom(usuario.get().getRutaImagen());
+                    notificacion.setUserFrom(usuario.get().getNombre());
                     notificacionService.saveEntity(notificacion);
                     switch (notificacion.getTipoElemento()){
                         case "pelicula":

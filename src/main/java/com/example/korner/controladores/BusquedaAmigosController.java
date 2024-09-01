@@ -135,7 +135,7 @@ public class BusquedaAmigosController {
         notificacion.setUserFrom(user.get().getNombre());
         notificacion.setUserTo(userDestino.get().getNombre());
         notificacion.setEstado("pendiente");
-        notificacion.setMensaje("El usuario " + user.get().getNombre() + " te ha enviado una solcitud de amistad");
+        notificacion.setMensaje("Te ha enviado una solcitud de amistad");
         notificacion.setTipoElemento("solicitud Enviada");
         notificacion.setUserFromId(user.get().getId());
         notificacion.setIdTipoElemento(amigoOrigen.getId());

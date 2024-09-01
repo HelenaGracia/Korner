@@ -110,6 +110,7 @@
                         <img th:src="${notificacion.getRutaImagenUserFrom()}" alt="Imagen de perfil del usuario"  class="imgdrop-noti">
                       </div>
                       <div class="col-10 pt-3">
+                        <p th:text="${notificacion.getUserFrom()}" class="txt-naranja"></p>
                         <p th:text="${notificacion.getMensaje()}"></p>
                       </div>
                     </div>
