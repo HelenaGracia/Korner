@@ -34,8 +34,8 @@ INSERT INTO formato_libros (id_formato, nombre_formato_libro) VALUES ("2", "PDF"
 INSERT INTO formato_libros (id_formato, nombre_formato_libro) VALUES ("3", "Audio libro");
 INSERT INTO formato_libros (id_formato, nombre_formato_libro) VALUES ("4", "Epub");
 
-INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena,id_roles,ajustes_sesion,correo,id_generos, imagen,activa) VALUES ("99","user","1998","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","1","home","kornergestion@gmail.com","3", "/imagenes/leerImagen/Usuario99ImagenPerfil.jpg",true);
-INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena, id_roles,ajustes_sesion,correo,id_generos, imagen,activa) VALUES ("98","admin","1990","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","2","gestion","prueba2@hotmail.com","3","/img/icon1.png",true);
+INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena,id_roles,ajustes_sesion,correo,id_generos, imagen,activa) VALUES ("99","user","1998","$2a$12$tYSgvars.9rn/fnfDxj.4e8K4mCiuFGJuajq7fzloxdAQRlI.jTWO","1","home","kornergestion@gmail.com","3", "/imagenes/leerImagen/Usuario99ImagenPerfil.jpg",true);
+INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena, id_roles,ajustes_sesion,correo,id_generos, imagen,activa) VALUES ("98","admin","1990","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","2","gestion","prueba2@hotmail.com","3","/imagenes/leerImagen/Usuario98ImagenPerfil.png",true);
 INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena, id_roles, ajustes_sesion,correo,id_generos,imagen,activa) VALUES ("100","user1","2004","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","1", "home","prueba3@hotmail.com","3","/img/icon1.png",true);
 INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena, id_roles, ajustes_sesion,correo,id_generos,imagen,activa) VALUES ("101","user2","1963","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","1", "home","prueba4@hotmail.com","3","/img/icon1.png",true);
 INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena, id_roles, ajustes_sesion,correo,id_generos,imagen,activa) VALUES ("102","user3","1963","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","1", "home","prueba5@hotmail.com","3","/img/icon1.png",true);
@@ -57,7 +57,7 @@ INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena, id_roles, aj
 INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena, id_roles, ajustes_sesion,correo,id_generos,imagen,activa) VALUES ("118","user19","1963","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","1", "home","prueba21hotmail.com","3","/img/icon1.png",true);
 INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena, id_roles, ajustes_sesion,correo,id_generos,imagen,activa) VALUES ("119","user20","1963","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","1", "home","prueba22@hotmail.com","3","/img/icon1.png",true);
 INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena, id_roles, ajustes_sesion,correo,id_generos,imagen,activa) VALUES ("120","user21","1963","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","1", "home","prueba23@hotmail.com","3","/img/icon1.png",false);
-INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena, id_roles, ajustes_sesion,correo,id_generos,imagen,activa) VALUES ("121","user22","1963","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","1", "home","prueba24@hotmail.com","3","/img/icon1.png",false);
+INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena, id_roles, ajustes_sesion,correo,id_generos,imagen,activa) VALUES ("121","user22","1963","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","1", "home","prueba24@hotmail.com","3","/img/icon1.png",true);
 INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena, id_roles, ajustes_sesion,correo,id_generos,imagen,activa) VALUES ("122","user23","1963","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","1", "home","prueba25@hotmail.com","3","/img/icon1.png",false);
 INSERT INTO usuarios (id_usuario,nombre,anio_nacimiento,contrasena, id_roles, ajustes_sesion,correo,id_generos,imagen,activa) VALUES ("123","user24","1963","$2a$12$m8Z4FDXlPZtkX59jm0moieaj5hlPnLPvCahm.Xxd2PJrGWQNArFte","1", "home","prueba26@hotmail.com","3","/img/icon1.png",false);
 
@@ -79,6 +79,8 @@ INSERT INTO amigos (id_amigos,id_amigo_origen,id_amigo_destino,bloqueados,pendie
 
 INSERT INTO amigos (id_amigos,id_amigo_origen,id_amigo_destino,bloqueados,pendientes) VALUES ("105","101","107",false,true);
 INSERT INTO amigos (id_amigos,id_amigo_origen,id_amigo_destino,bloqueados,pendientes) VALUES ("106","101","108",false,true);
+
+INSERT INTO amigos (id_amigos,id_amigo_origen,id_amigo_destino,bloqueados,pendientes) VALUES ("145","121","99",false,true);
 
 INSERT INTO amigos (id_amigos,id_amigo_origen,id_amigo_destino,bloqueados,pendientes) VALUES ("108","101","110",false,false);
 INSERT INTO amigos (id_amigos,id_amigo_origen,id_amigo_destino,bloqueados,pendientes) VALUES ("130","110","101",false,false);

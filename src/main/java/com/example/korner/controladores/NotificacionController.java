@@ -60,8 +60,8 @@ public class NotificacionController {
                         if (pelicula.isEmpty()){
                             notificacionService.deleteEntity(notificacion);
 
-                        }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isPresent()){
-                            if (!usuarioSecurityService.getByName(notificacion.getUserFrom()).get().getActiva()){
+                        }else if (usuarioSecurityService.getById(notificacion.getUserFromId()).isPresent()){
+                            if (!usuarioSecurityService.getById(notificacion.getUserFromId()).get().getActiva()){
                                 notificacion.setEstadoUsuario("inactivo");
                                 notificacionService.saveEntity(notificacion);
                             }
@@ -71,7 +71,7 @@ public class NotificacionController {
                                 notificacionService.saveEntity(notificacion);
 
                             }
-                        }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isEmpty()){
+                        }else if (usuarioSecurityService.getById(notificacion.getUserFromId()).isEmpty()){
                             notificacionService.deleteEntity(notificacion);
                         }
                         break;
@@ -80,8 +80,8 @@ public class NotificacionController {
                         if (serie.isEmpty()){
                             notificacionService.deleteEntity(notificacion);
 
-                        }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isPresent()){
-                            if (!usuarioSecurityService.getByName(notificacion.getUserFrom()).get().getActiva()){
+                        }else if (usuarioSecurityService.getById(notificacion.getUserFromId()).isPresent()){
+                            if (!usuarioSecurityService.getById(notificacion.getUserFromId()).get().getActiva()){
                                 notificacion.setEstadoUsuario("inactivo");
                                 notificacionService.saveEntity(notificacion);
                             }
@@ -91,7 +91,7 @@ public class NotificacionController {
                                 notificacionService.saveEntity(notificacion);
 
                             }
-                        }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isEmpty()){
+                        }else if (usuarioSecurityService.getById(notificacion.getUserFromId()).isEmpty()){
                             notificacionService.deleteEntity(notificacion);
                         }
                         break;
@@ -100,8 +100,8 @@ public class NotificacionController {
                         if (libro.isEmpty()){
                             notificacionService.deleteEntity(notificacion);
 
-                        }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isPresent()){
-                            if (!usuarioSecurityService.getByName(notificacion.getUserFrom()).get().getActiva()){
+                        }else if (usuarioSecurityService.getById(notificacion.getUserFromId()).isPresent()){
+                            if (!usuarioSecurityService.getById(notificacion.getUserFromId()).get().getActiva()){
                                 notificacion.setEstadoUsuario("inactivo");
                                 notificacionService.saveEntity(notificacion);
                             }
@@ -111,7 +111,7 @@ public class NotificacionController {
                                 notificacionService.saveEntity(notificacion);
 
                             }
-                        }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isEmpty()){
+                        }else if (usuarioSecurityService.getById(notificacion.getUserFromId()).isEmpty()){
                             notificacionService.deleteEntity(notificacion);
                         }
                         break;
@@ -120,8 +120,8 @@ public class NotificacionController {
                         if (videojuego.isEmpty()){
                             notificacionService.deleteEntity(notificacion);
 
-                        }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isPresent()){
-                            if (!usuarioSecurityService.getByName(notificacion.getUserFrom()).get().getActiva()){
+                        }else if (usuarioSecurityService.getById(notificacion.getUserFromId()).isPresent()){
+                            if (!usuarioSecurityService.getById(notificacion.getUserFromId()).get().getActiva()){
                                 notificacion.setEstadoUsuario("inactivo");
                                 notificacionService.saveEntity(notificacion);
                             }
@@ -131,7 +131,7 @@ public class NotificacionController {
                                 notificacionService.saveEntity(notificacion);
 
                             }
-                        }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isEmpty()){
+                        }else if (usuarioSecurityService.getById(notificacion.getUserFromId()).isEmpty()){
                             notificacionService.deleteEntity(notificacion);
                         }
                         break;
@@ -140,8 +140,8 @@ public class NotificacionController {
                         if (anime.isEmpty()){
                             notificacionService.deleteEntity(notificacion);
 
-                        }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isPresent()){
-                            if (!usuarioSecurityService.getByName(notificacion.getUserFrom()).get().getActiva()){
+                        }else if (usuarioSecurityService.getById(notificacion.getUserFromId()).isPresent()){
+                            if (!usuarioSecurityService.getById(notificacion.getUserFromId()).get().getActiva()){
                                 notificacion.setEstadoUsuario("inactivo");
                                 notificacionService.saveEntity(notificacion);
                             }
@@ -151,7 +151,7 @@ public class NotificacionController {
                                 notificacionService.saveEntity(notificacion);
 
                             }
-                        }else if (usuarioSecurityService.getByName(notificacion.getUserFrom()).isEmpty()){
+                        }else if (usuarioSecurityService.getById(notificacion.getUserFromId()).isEmpty()){
                             notificacionService.deleteEntity(notificacion);
                         }
                         break;
