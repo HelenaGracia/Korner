@@ -1,6 +1,9 @@
 # Korner
 Korner es una aplicación web que actúa como un repositorio multimedia, donde puedes guardar las películas, series, videojuegos, libros y animes que hayas visto y consultarlo en cualquier momento. Pero no solo eso, también puedes compartir estos elementos que has guardado con otros usuarios de la aplicación.
+
 La aplicación se encuentra totalmente documentada y tiene generados javadocs, estos se enceuntran en la carpeta Docs.
+
+Este proyecto ha sido realizado en conjunto con Álvaro Carrión. Github: carri1608 
 
 # Funcionalidades
 * Autenticación y creación de usuarios.
