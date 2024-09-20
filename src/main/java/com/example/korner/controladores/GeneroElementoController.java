@@ -4,7 +4,10 @@ import com.example.korner.modelo.GeneroElementoCompartido;
 import com.example.korner.modelo.Pelicula;
 import com.example.korner.modelo.Plataforma;
 import com.example.korner.servicio.GeneroElementoServiceImpl;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +33,9 @@ public class GeneroElementoController {
 
 
     private final GeneroElementoServiceImpl generoElementoService;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     private final Logger logger = LoggerFactory.getLogger(GeneroElementoController.class);
 
@@ -142,7 +148,7 @@ public class GeneroElementoController {
 
 
     /**
-     * Este método se encarga de eliminar un género específico de la BBDD
+     * Este método se encarga de eliminar un género específico de la BBDD, primero elimina la referecia en la join table y luego la entidad en su tabla
      * @param id Recibe el parámetro id desde el formulario o la solicitud. Este parámetro corresponde al identificador
      * del género que se desea eliminar
      * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de éxito o error
@@ -150,8 +156,24 @@ public class GeneroElementoController {
      * (de éxito o de error) en función de cómo haya transcurrido el proceso.
      */
     @PostMapping("/deleteGenero")
+    @Transactional
     public String deleteGenero(Integer id, RedirectAttributes attributes){
         try {
+            entityManager.createNativeQuery("DELETE FROM videojuego_genero WHERE id_generos_elemt_comp = :generoId")
+                            .setParameter("generoId", id)
+                            .executeUpdate();
+            entityManager.createNativeQuery("DELETE FROM pelicula_genero WHERE id_generos_elemt_comp = :generoId")
+                            .setParameter("generoId", id)
+                            .executeUpdate();
+            entityManager.createNativeQuery("DELETE FROM serie_genero WHERE id_generos_elemt_comp = :generoId")
+                            .setParameter("generoId", id)
+                            .executeUpdate();
+            entityManager.createNativeQuery("DELETE FROM anime_genero WHERE id_generos_anime = :generoId")
+                            .setParameter("generoId", id)
+                            .executeUpdate();
+            entityManager.createNativeQuery("DELETE FROM libro_genero WHERE id_generos_elemt_comp = :generoId")
+                            .setParameter("generoId", id)
+                            .executeUpdate();
             generoElementoService.deleteEntityById(id);
             attributes.addFlashAttribute("success", "Elemento borrado");
         }catch (Exception e){

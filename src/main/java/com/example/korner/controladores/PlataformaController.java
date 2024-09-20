@@ -5,7 +5,10 @@ import com.example.korner.modelo.Pelicula;
 import com.example.korner.modelo.Plataforma;
 import com.example.korner.modelo.Usuario;
 import com.example.korner.servicio.PlataformaServiceImpl;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +36,9 @@ public class PlataformaController {
 
 
     private final PlataformaServiceImpl plataformaService;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     private final Logger logger = LoggerFactory.getLogger(PlataformaController.class);
 
@@ -142,7 +148,7 @@ public class PlataformaController {
     }
 
     /**
-     * Este método se encarga de eliminar una plataforma específica de la BBDD
+     * Este método se encarga de eliminar una plataforma específica de la BBDD, primero elimina la referecia en la join table y luego la entidad en su tabla
      * @param id Recibe el parámetro id desde el formulario o la solicitud. Este parámetro corresponde al identificador
      * de la Plataforma que se desea eliminar
      * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de éxito o error
@@ -150,8 +156,12 @@ public class PlataformaController {
      * (de éxito o de error) en función de cómo haya transcurrido el proceso.
      */
     @PostMapping("/deletePlataforma")
+    @Transactional
     public String deletePlataforma(Integer id, RedirectAttributes attributes){
         try {
+            entityManager.createNativeQuery("DELETE FROM pelicula_plataforma WHERE id_plataforma = :platformId")
+                    .setParameter("platformId", id)
+                    .executeUpdate();
             plataformaService.deleteEntityById(id);
             attributes.addFlashAttribute("success", "Elemento borrado");
         }catch (Exception e){

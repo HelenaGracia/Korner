@@ -4,7 +4,10 @@ import com.example.korner.modelo.FormatoLibro;
 import com.example.korner.modelo.PlataformaVideojuego;
 import com.example.korner.servicio.FormatoLibroServiceImpl;
 import com.example.korner.servicio.PlataformaVideojuegoServiceImpl;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -29,6 +32,9 @@ public class FormatoLibroController {
 
 
     private final FormatoLibroServiceImpl formatoLibroService;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     private final Logger logger = LoggerFactory.getLogger(FormatoLibroController.class);
 
@@ -138,7 +144,7 @@ public class FormatoLibroController {
     }
 
     /**
-     * Este método se encarga de eliminar un formato de libro específico de la BBDD
+     * Este método se encarga de eliminar un formato de libro específico de la BBDD, primero elimina la referecia en la join table y luego la entidad en su tabla
      * @param id Recibe el parámetro id desde el formulario o la solicitud. Este parámetro corresponde al identificador
      * de la FormatoLibro que se desea eliminar
      * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de éxito o error
@@ -146,8 +152,12 @@ public class FormatoLibroController {
      * (de éxito o de error) en función de cómo haya transcurrido el proceso.
      */
     @PostMapping("/deleteFormato")
+    @Transactional
     public String deleteFormato(Integer id, RedirectAttributes attributes){
         try {
+            entityManager.createNativeQuery("DELETE FROM libro_formato WHERE id_formato = :formatoId")
+                            .setParameter("formatoId", id)
+                            .executeUpdate();
             formatoLibroService.deleteEntityById(id);
             attributes.addFlashAttribute("success", "Elemento borrado");
         }catch (Exception e){

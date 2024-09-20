@@ -5,7 +5,10 @@ import com.example.korner.modelo.Plataforma;
 import com.example.korner.modelo.PlataformaVideojuego;
 import com.example.korner.servicio.PlataformaServiceImpl;
 import com.example.korner.servicio.PlataformaVideojuegoServiceImpl;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -30,6 +33,9 @@ public class PlataformaVideojuegoController {
 
 
     private final PlataformaVideojuegoServiceImpl plataformaVideojuegoService;
+
+    @PersistenceContext
+    private  EntityManager entityManager;
 
     private final Logger logger = LoggerFactory.getLogger(PlataformaVideojuegoController.class);
 
@@ -144,7 +150,7 @@ public class PlataformaVideojuegoController {
     }
 
     /**
-     * Este método se encarga de eliminar una plataforma de videojuegos específica de la BBDD
+     * Este método se encarga de eliminar una plataforma de videojuegos específica de la BBDD, primero elimina la referecia en la join table y luego la entidad en su tabla
      * @param id Recibe el parámetro id desde el formulario o la solicitud. Este parámetro corresponde al identificador
      * de la PlataformaVideojuego que se desea eliminar
      * @param attributes permite añadir atributos que se envían como parte de una redirección, en este caso el mensaje de éxito o error
@@ -152,8 +158,12 @@ public class PlataformaVideojuegoController {
      * (de éxito o de error) en función de cómo haya transcurrido el proceso.
      */
     @PostMapping("/deletePlataforma")
+    @Transactional
     public String deletePlataforma(Integer id, RedirectAttributes attributes){
         try {
+            entityManager.createNativeQuery("DELETE FROM videojuego_plataforma WHERE id_plataforma_videojuego = :plataformaId")
+                            .setParameter("plataformaId",id)
+                            .executeUpdate();
             plataformaVideojuegoService.deleteEntityById(id);
             attributes.addFlashAttribute("success", "Elemento borrado");
         }catch (Exception e){
